@@ -9,3 +9,7 @@ app.on("ready", function () {
     var win = new BrowserWindow({width: 1200, height: 800});
     win.loadURL("http://localhost:8080/prefs/alice");
 });
+
+app.on("window-all-closed", function () {
+    app.quit();
+});
