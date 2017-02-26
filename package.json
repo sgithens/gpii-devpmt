@@ -1,0 +1,47 @@
+{
+    "name": "gpii-devpmt",
+    "productName": "devpmt",
+    "version": "1.0.0",
+    "description": "Developers Preference Testing Tool",
+    "main": "standalone.js",
+    "scripts": {
+        "start": "electron standalone.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sgithens/gpii-devpmt"
+    },
+    "author": "Steven Githens <sgithens@raisingthefloor.org>",
+    "license": "BSD-3-Clause",
+    "bugs": {
+        "url": "https://issues.gpii.net/"
+    },
+    "homepage": "https://github.com/sgithens/gpii-devpmt",
+    "dependencies": {
+        "foundation-sites": "6.3.0",
+        "gpii-express": "1.0.2",
+        "gpii-handlebars": "1.0.0-dev.20170127T160953Z.4d15347",
+        "infusion": "3.0.0-dev.20170127T130413Z.103de6e",
+        "universal": "GPII/universal",
+        "json5": "0.5.1",
+        "marked": "0.3.6",
+        "electron": "1.4.1",
+        "pagedown": "1.1.0"
+    },
+    "devDependencies": {
+        "electron-packager": "8.5.2",
+        "eslint": "3.14.1",
+        "eslint-config-fluid": "1.1.0",
+        "fluid-grunt-eslint": "18.1.2",
+        "gpii-webdriver": "1.0.0-dev.20170127T135806Z.aa30519",
+        "grunt": "1.0.1",
+        "grunt-jsonlint": "1.1.0",
+        "grunt-shell": "1.3.0",
+        "shelljs": "0.3.0",
+        "istanbul": "0.4.5",
+        "jsonlint": "1.6.2",
+        "kettle": "1.3.1",
+        "node-jqunit": "1.1.4",
+        "rimraf": "2.5.4"
+    }
+}

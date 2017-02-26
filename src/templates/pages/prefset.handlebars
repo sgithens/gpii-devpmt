@@ -1,0 +1,106 @@
+<div class="off-canvas position-left reveal-for-medium" id="offCanvas" data-off-canvas>
+    <h3>GPII Demo Sets</h3>
+    <ul>
+        {{#each npsetList}}
+            <li><a href="/prefs/{{this}}">{{this}}</a></li>
+        {{/each}}
+    </ul>
+</div>
+<div class="off-canvas-content" data-off-canvas-content>
+    <button type="button" class="button" data-toggle="offCanvas">Demo Sets List</button>
+    <h2 id="top">Preference Set: {{npset.options.npsetName}}</h2>
+    <h3>Contents</h3>
+    <ul class="no-bullet">
+        {{#if npset.options.docs}}
+        <li><a href="#docs">Description</a></li>
+        {{/if}}
+        <li><a href="#generic-prefs">Generic Preferences</a></li>
+        {{#each npset.npsetApplications}}
+            <li><a href="#{{this.appId}}">{{this.appId}}</a></li>
+        {{/each}}
+        <li><a href="#rawTransformedFlatPrefs">Raw Transformed Flat Prefs <em>(Debug)</em></a></li>
+    </ul>
+    {{#if npset.options.docs}}
+    <div id="docs">
+        <a href="#docs"></a>{{{md npset.options.docs}}}
+    </div>
+    {{/if}}
+
+    <h2 id="title">Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
+    </h2>
+    <p>
+    Generic preference settings are universal settings stored in GPII that are 
+    not particular to specific products. They can potentially be applied to a wide
+    range of products automatically.
+    </p>
+    <div class="row expanded">
+        <div class="small-8 columns">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        {{#each npset.contextNames}}
+                            <th>{{this}}</th>
+                        {{/each}} 
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each commonTerms}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            {{#each ../npset.contextNames}}
+                                <td>
+                                    {{#with (lookup (lookup (lookup ../../npset.options.flatPrefs.contexts this) "preferences") ../term) }}
+                                        {{this}}
+                                    {{else}}
+                                        --
+                                    {{/with}}
+                                </td>
+                            {{/each}} 
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{#each npset.npsetApplications}}
+        <h3>{{this.appId}} <a id="{{this.appId}}" href="#top"><small>top</small></a></h3>
+
+         <div class="row expanded">
+            <div class="small-8 columns">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Setting</th>
+                            {{#each ../npset.contextNames}}
+                                <th>{{this}}</th>
+                            {{/each}} 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each this.settingKeys}}
+                            <tr>
+                                <td>{{this}}</td>
+                                {{#each ../../npset.contextNames}}
+                                    <td>
+                                    {{#with (lookup (lookup (lookup (lookup ../../../npset.options.flatPrefs.contexts this) "preferences") ../../this.uri) ../this) }}
+                                        {{this}}
+                                    {{else}}
+                                        --
+                                    {{/with}}
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {{/each}}
+
+    <h3>Raw Transformed Flat Preferences <a id="rawTransformedFlatPrefs" href="#top"><small>top</small></a></h3>
+<pre>
+{{npset.prettyPrintFlatPrefs}}
+</pre>
+</div> <!-- off-canvas-content -->
