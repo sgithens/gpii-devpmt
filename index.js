@@ -13,16 +13,18 @@ fluid.registerNamespace("gpii.handlebars");
 
 fluid.module.register("gpii-devpmt", __dirname, require);
 
+/** gpii.handlebars.requestFuncTransform
+ *  This component is sort of a facsimile of the functions available
+ *  in many web frameworks that take a request instance or URL parameter
+ *  and return something for the response. In this case what is returned
+ *  will be assigned to the variable in the transform.
+ */
 fluid.defaults("gpii.handlebars.requestFuncTransform", {
     gradeNames: ["fluid.standardTransformFunction"]
 });
 
 gpii.handlebars.requestFuncTransform = function (value, transformSpec) {
     return fluid.invokeGlobalFunction(transformSpec.func, value);
-};
-
-gpii.devpmt.requestNPSet = function (request) {
-    return gpii.devpmt.npset({ npsetName: request.params.npset });
 };
 
 /**
@@ -72,6 +74,7 @@ fluid.defaults("gpii.devpmt.npset", {
         }
     }
 });
+
 
 /**
  * npsetApplications - Goes through all the contexts in a flat prefs set
@@ -147,7 +150,10 @@ gpii.devpmt.loadNPSetDocs = function (prefsetName) {
     return docs;
 };
 
-
+/**
+ * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
+ * NP Sets.
+ */
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express"],
     port: 8080,
@@ -225,6 +231,18 @@ fluid.defaults("gpii.devpmt", {
         expander: { funcName: "gpii.devpmt.loadTestDataNPSets" }
     }
 });
+
+/**
+ * gpii.devpmt.requestNPSet
+ * Grabs the npset from the URL parameter :npset, builds an npset
+ * component with that name, and returns it.
+ *
+ * @param (Object) request - GPII Express Request Instance
+ * @returns (Object) The NP Set component
+ */
+gpii.devpmt.requestNPSet = function (request) {
+    return gpii.devpmt.npset({ npsetName: request.params.npset });
+};
 
 /**
  * loadCommonTerms - A function to fetch the current list of common terms
