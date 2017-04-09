@@ -1,0 +1,57 @@
+        <h3>
+            {{#with (lookup (lookup allSolutions appId) "name")}}
+                {{this}}
+            {{else}}
+                {{appId}}
+            {{/with}}
+            <a id="{{appId}}" href="#top"><small>top</small></a>
+        </h3>
+        <ul class="no-bullet">
+            <li>AppID: <code>{{appId}}</code></li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    {{#each contextNames}}
+                        <th>{{this}}</th>
+                    {{/each}} 
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Application Enabled</td>
+                    {{#each contextNames}}
+                        <td>
+                            <div class="switch">
+                                {{#if (lookup (lookup (lookup ../flatPrefs.contexts this) "preferences") ../this.uri) }}
+                                    <input checked="true" class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../appId}}" type="checkbox" name="enabled-{{this}}-{{../appId}}" data-context="{{this}}" data-product="{{../appURI}}" />
+                                {{else}}
+                                    <input class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../appId}}" type="checkbox" name="enabled-{{this}}-{{../appId}}" data-context="{{this}}" data-product="{{../appURI}}" />
+                                {{/if}}
+                                <label class="switch-paddle" for="enabled-{{this}}-{{../appId}}">
+                                    <span class="show-for-sr">Enable/Disable Solution</span>
+                                    <span class="switch-active" aria-hidden="true">On</span>
+                                    <span class="switch-inactive" aria-hidden="true">Off</span>
+                                </label>
+                            </div>
+                        </td>
+                    {{/each}}
+                </tr>
+                {{#each settingKeys}}
+                    <tr>
+                        <td>{{this}}</td>
+                        {{#each ../contextNames}}
+                            <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../uri}}" data-term="{{../this}}"
+                                {{#with (lookup (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../../this.uri) ../this) }}
+                                data-value="{{this}}"><span>{{this}}</span>
+                                {{else}}
+                                data-value=""><span> -- </span>
+                                {{/with}}
+                            </td>
+                        {{/each}}
+                    </tr>                            
+                {{/each}}
+            </tbody>
+        </table>
+

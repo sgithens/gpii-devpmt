@@ -26,7 +26,8 @@
         "json5": "0.5.1",
         "marked": "0.3.6",
         "electron": "1.4.1",
-        "pagedown": "1.1.0"
+        "pagedown": "1.1.0",
+        "handlebars-helpers": "0.8.0"
     },
     "devDependencies": {
         "electron-packager": "8.5.2",

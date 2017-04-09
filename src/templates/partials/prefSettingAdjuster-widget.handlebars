@@ -1,0 +1,49 @@
+<div class="callout">
+    {{#if active}}
+    <h5>{{metadata.name}}</h5>
+    <input id="blank-value" type="checkbox" /><label for="blank-value">Blank</label>
+    {{!-- Currently we only handle very very simple JSON Schema, increasing
+          the complexity of this may be the target of future work --}}
+    <div>
+        {{#compare metadata.schema.type "===" "string"}}
+            <label>Value
+                <input id="new-value" type="text" placeholder="value" value="{{current.value}}"/>
+            </label>
+        {{else}}
+            {{#compare metadata.schema.type "===" "number"}}
+                <label>Value
+                    <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/> 
+                </label>
+            {{else}}
+                {{#compare metadata.schema.type "===" "integer"}}
+                    <label>Value
+                        <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/> 
+                    </label>
+                {{else}}
+                    {{#compare metadata.schema.type "===" "boolean"}}
+                        <div class="switch">
+                            {{#if current.value}}
+                                <input checked="true" class="switch-input" id="new-value" type="checkbox" name="new-value" />
+                            {{else}}
+                                <input class="switch-input" id="new-value" type="checkbox" name="new-value" />
+                            {{/if}}
+                            <label class="switch-paddle" for="new-value">
+                                <span class="show-for-sr">Value 1</span>
+                                <span class="switch-active" aria-hidden="true">On</span>
+                                <span class="switch-inactive" aria-hidden="true">Off</span>
+                            </label>
+                        </div>
+                    {{/compare}}
+                {{/compare}}
+            {{/compare}}
+        {{/compare}}
+    </div>
+    <button type="button" class="ok-button button secondary hollow">OK</button>
+    {{else}}
+        <h3>Setting Information</h3>
+        <p>
+            <em>Click a cell and it's information will appear here.</em>
+        </p>
+    {{/if}}
+</div>
+

@@ -1,0 +1,99 @@
+<nav aria-label="You are here:" role="navigation">
+    <ul class="breadcrumbs">
+        <li><a href="/">Home</a></li>
+        <li>
+        <span class="show-for-sr">Current: </span> Editing {{npsetName}}
+        </li>
+    </ul>
+</nav>
+
+<h2 id="top">Preference Set: {{npsetName}}</h2>
+<h3>Contents</h3>
+<ul class="no-bullet">
+    {{#if docs}}
+    <li><a href="#docs">Description</a></li>
+    {{/if}}
+    <li><a href="#generic-prefs">Generic Preferences</a></li>
+    {{#each npsetApplications}}
+        <li><a href="#{{this.appId}}">{{this.appId}}</a></li>
+    {{/each}}
+    <li><a href="#rawTransformedFlatPrefs">Raw Transformed Flat Prefs <em>(Debug)</em></a></li>
+</ul>
+
+
+{{#if docs}}
+<div id="docs">
+    <a href="#docs"></a>{{{md docs}}}
+</div>
+{{/if}}
+
+<h2 id="title">Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
+</h2>
+<p>
+Generic preference settings are universal settings stored in GPII that are 
+not particular to specific products. They can potentially be applied to a wide
+range of products automatically.
+</p>
+
+<div class="row expanded" id="all-prefs">
+    <div id="settings-divs" class="small-8 columns">
+        <table>
+            <thead>
+                <tr>
+                    <th>Setting</th>
+                    {{#each contextNames}}
+                        <th>{{this}}</th>
+                    {{/each}} 
+                    <th><button type="button" class="hollow button small" onclick="alert('Not yet implemented');">Add Pref. Set</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each commonTerms}}
+                    <tr>
+                        <td><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.name}}&nbsp;{{this.description}}&nbsp;{{jsonify this.schema}}">{{this.name}}</span></td>
+                        {{#each ../contextNames}}
+                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-term="{{@../key}}"
+                                {{#with (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") @../key) }}
+                                data-value="{{this}}"><span>{{this}}</span>
+                                {{else}}
+                                data-value=""><span>--</span>
+                                {{/with}}
+                            </td>
+                        {{/each}} 
+                        <td></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{#each npsetApplications}} {{! <-- Is npsetApplications actually dynamic? }}
+            {{> productSettingsTable-widget appURI=this.uri appId=this.appId settingsKeys=this.settingsKeys allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
+        {{/each}} {{! end npsetApplications }}
+        <hr/>
+        {{#each allSolutions }}
+            {{#unless (checkForApp ../npsetApplications @key)}}  
+                {{> productSettingsTable-widget appURI=(appURIfromID @key) appId=@key allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
+            {{/unless}}
+        {{/each}}
+
+        <h3>Raw Transformed Flat Preferences <a id="rawTransformedFlatPrefs" href="#top"><small>top</small></a></h3>
+        <pre>
+            {{{jsonify flatPrefs}}}
+        </pre>
+    </div>
+    <div class="small-4 columns right" data-sticky-container>
+        <div class="sticky" data-sticky data-top-anchor="all-prefs">
+            <div id="prefs-adjuster-container">
+                <div id="prefs-adjuster">
+                </div>
+            </div>
+            <div>
+                <p>Not Changed</p>
+                <button type="button" class="button pmt-save-button" >Save Changes</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    $(document).foundation();
+</script>

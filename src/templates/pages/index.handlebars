@@ -1,0 +1,24 @@
+<h1>Developers Preference Test Tool</h1>
+<h2><em>The Home Screen!</em></h2>
+<div class="row">
+    <div class="small-12 medium-6 columns">
+        <h3>Settings Reference</h3> 
+        <p>
+        Click below to view the reference of all generic settings and
+        product specific settings for the GPII
+        </p>
+        <a href="/all-settings" class="button">Settings Reference</a>
+        <h3>Create and Edit Preference Sets</h3>
+        <p>
+        Below you can create a New NP Set <em>(under construction)</em>,
+        or view and edit one of the existing Test Personas that are part 
+        of the GPII Development and Test Data.
+        </p>
+        <a href="#" class="button disabled" aria-disabled>Create NP Set</a> 
+        <ul>
+            {{#each npsetList}}
+            <li><a href="/editprefs/{{this}}">{{this}}</a></li>    
+            {{/each}}
+        </ul>
+    </div>
+</div>
