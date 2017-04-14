@@ -33,6 +33,13 @@
                                 <span class="switch-inactive" aria-hidden="true">Off</span>
                             </label>
                         </div>
+                    {{else}}
+                        {{! Assuming there is no schema information, or nothing we know how to handle. }}
+                        <label>Value
+                            <input id="new-value" type="text" placeholder="value" value="{{current.value}}"/>
+                        </label>
+                        <p>This setting is either lacking a schema, or using a schema not currently supported,
+                        defaulting to type 'string'</p>
                     {{/compare}}
                 {{/compare}}
             {{/compare}}
