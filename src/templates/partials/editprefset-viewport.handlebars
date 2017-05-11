@@ -7,36 +7,67 @@
     </ul>
 </nav>
 
+<div class="reveal" id="pmt-add-context-modal" data-reveal>
+<!-- <div id="pmt-add-context-modal" > -->
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h2>Add preference set</h2>
+    <p><strong>Give the Preference Set a different name, picture, or sound effect (optional)</strong></p>
+    <p>For example: Tired, Working, Bright, Noisy, School</p>
+    <label>Name
+        <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
+    </label>
+    <div>
+        <button type="button" class="button">Change Picture</button>
+    </div>
+    <div>
+        <button type="button" class="button">Change Sound</button>
+    </div>
+    <div>
+        <button id="pmt-add-context-button" type="button" class="button">Create Preference Set</button>
+    </div>
+</div>
+
 <h2 id="top">Preference Set: {{npsetName}}</h2>
-<h3>Contents</h3>
-<ul class="no-bullet">
-    {{#if docs}}
-    <li><a href="#docs">Description</a></li>
-    {{/if}}
-    <li><a href="#generic-prefs">Generic Preferences</a></li>
-    {{#each npsetApplications}}
-        <li><a href="#{{this.appId}}">{{this.appId}}</a></li>
-    {{/each}}
-    <li><a href="#rawTransformedFlatPrefs">Raw Transformed Flat Prefs <em>(Debug)</em></a></li>
-</ul>
+<!-- <h3>Contents</h3> -->
+<!-- <ul class="no-bullet"> -->
+<!--     {{#if docs}} -->
+<!--     <li><a href="#docs">Description</a></li> -->
+<!--     {{/if}} -->
+<!--     <li><a href="#generic-prefs">Generic Preferences</a></li> -->
+<!--     {{#each npsetApplications}} -->
+<!--         <li><a href="#{{this.appId}}">{{this.appId}}</a></li> -->
+<!--     {{/each}} -->
+<!--     <li><a href="#rawTransformedFlatPrefs">Raw Transformed Flat Prefs <em>(Debug)</em></a></li> -->
+<!-- </ul> -->
 
 
 {{#if docs}}
-<div id="docs">
-    <a href="#docs"></a>{{{md docs}}}
+<div class="row expanded">
+    <div class="medium-7 columns">
+        <div id="docs">
+            <a href="#docs"></a>{{{md docs}}}
+        </div>
+    </div>
 </div>
 {{/if}}
 
-<h2 id="title">Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
-</h2>
-<p>
-Generic preference settings are universal settings stored in GPII that are 
-not particular to specific products. They can potentially be applied to a wide
-range of products automatically.
-</p>
 
 <div class="row expanded" id="all-prefs">
-    <div id="settings-divs" class="small-8 columns">
+    <div class="medium-2 columns">
+        {{> all-generic-product-settings-list commonTerms=commonTerms allSolutions=allSolutionsSorted }}
+    </div>
+    <div id="settings-divs" class="medium-7 columns">
+        <div class="pmt-generic-prefs-area" data-appId="{{appId}}">
+        <h2 id="title">
+            Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
+        </h2>
+        <p>
+        Generic preference settings are universal settings stored in GPII that are 
+        not particular to specific products. They can potentially be applied to a wide
+        range of products automatically.
+        </p>
         <table>
             <thead>
                 <tr>
@@ -44,16 +75,16 @@ range of products automatically.
                     {{#each contextNames}}
                         <th>{{this}}</th>
                     {{/each}} 
-                    <th><button type="button" class="hollow button small" onclick="alert('Not yet implemented');">Add Pref. Set</button></th>
+                    <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Pref. Set</a></th>
                 </tr>
             </thead>
             <tbody>
-                {{#each commonTerms}}
-                    <tr>
-                        <td><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.name}}&nbsp;{{this.description}}&nbsp;{{jsonify this.schema}}">{{this.name}}</span></td>
+                {{#each commonTermsSorted}}
+                    <tr class="pmt-commonterm-row" data-term="{{this.id}}">
+                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.name}}&nbsp;{{this.description}}&nbsp;{{jsonify this.schema}}">{{this.name}}</span></td>
                         {{#each ../contextNames}}
-                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-term="{{@../key}}"
-                                {{#with (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") @../key) }}
+                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-term="{{../id}}"
+                                {{#with (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../id) }}
                                 data-value="{{this}}"><span>{{this}}</span>
                                 {{else}}
                                 data-value=""><span>--</span>
@@ -65,13 +96,14 @@ range of products automatically.
                 {{/each}}
             </tbody>
         </table>
+        </div>
         {{#each npsetApplications}} {{! <-- Is npsetApplications actually dynamic? }}
             {{> productSettingsTable-widget appURI=this.uri appId=this.appId settingsKeys=this.settingsKeys allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
         {{/each}} {{! end npsetApplications }}
         <hr/>
-        {{#each allSolutions }}
-            {{#unless (checkForApp ../npsetApplications @key)}}  
-                {{> productSettingsTable-widget appURI=(appURIfromID @key) appId=@key allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
+        {{#each allSolutionsSorted }}
+            {{#unless (checkForApp ../npsetApplications this.id)}}  
+                {{> productSettingsTable-widget appURI=(appURIfromID this.id) appId=this.id allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
             {{/unless}}
         {{/each}}
 
@@ -80,16 +112,21 @@ range of products automatically.
             {{{jsonify flatPrefs}}}
         </pre>
     </div>
-    <div class="small-4 columns right" data-sticky-container>
+    <div class="medium-3 columns right" data-sticky-container>
         <div class="sticky" data-sticky data-top-anchor="all-prefs">
             <div id="prefs-adjuster-container">
                 <div id="prefs-adjuster">
                 </div>
             </div>
             <div>
-                <p>Not Changed</p>
+                {{#if unsavedChangesExist }}
+                    <p>Changed</p>
+                {{else}}
+                    <p>Not Changed</p>
+                {{/if}}
                 <button type="button" class="button pmt-save-button" >Save Changes</button>
             </div>
+            {{> editprefset-prefsFilter-widget }}
         </div>
     </div>
     </div>

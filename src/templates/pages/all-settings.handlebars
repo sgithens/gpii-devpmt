@@ -1,42 +1,70 @@
-<h1>All Settings</h1>
+<nav aria-label="You are here:" role="navigation">
+    <ul class="breadcrumbs">
+        <li><a href="/">Home</a></li>
+        <li>
+        <span class="show-for-sr">Current: </span> All Settings Reference
+        </li>
+    </ul>
+</nav>
+
+<h1>All Settings Reference</h1>
 <p>
 Below is an in progress listing of all the generic preferences
 and application specific settings as their metadata is being
 assembled.
 </p>
-<h2>Generic Preferences</h2>
-{{#each commonTerms}}
-<div class="callout">
-    <h5>{{this.name}}</h5>
-    <p>{{@key}}</p>
-    <p>{{this.description}}</p>
-    <div>
-        <h6>JSON Schema</h6>
-        <code>
-            {{{jsonify this.schema}}}
-        </code>
+<div class="row">
+    <div class="medium-2 columns">
+        {{> all-generic-product-settings-list commonTerms=commonTerms allSolutions=allSolutions }}
+    </div>
+    <div class="medium-9 columns">
+        <h2>Generic Preferences</h2>
+        {{#each commonTerms}}
+        <div id="a-{{@key}}" class="callout">
+            <h5>{{this.name}}</h5>
+            <p>{{@key}}</p>
+            <p>{{this.description}}</p>
+            <div>
+                <h6>JSON Schema</h6>
+                <code>
+                    {{{jsonify this.schema}}}
+                </code>
+            </div>
+        </div>
+        {{/each}}
+        <h2>Product Settings</h2>
+        {{#each allSolutions}}
+        <div class="callout">
+        <h3 id="a-{{@key}}">{{this.name}}</h3>
+            <p>{{@key}}</p>
+            <h4>Supported Generic Preferences</h4>
+            <ul>
+            {{#each this.settingsHandlers}}
+                {{#each this.capabilities}}
+                    <li>{{this}}</li>
+                {{/each}}
+                {{#each this.inverseCapabilitiesTransformations}}
+                    <li>{{@key}}</li> 
+                {{/each}}
+            {{/each}}
+            </ul> 
+            <h4>Application Specific Settings</h4>
+            {{#each this.settingsHandlers}}
+                {{#each this.supportedSettings}}
+                <div class="callout">
+                    <h5 id="a-{{@../../key}}-{{@key}}">{{@key}}</h5>
+                    <p>{{@key}}</p>
+                    <p>{{this.description}}</p>
+                    <div>
+                        <h6>JSON Schema</h6>
+                        <code>
+                            {{{jsonify this.schema}}}
+                        </code>
+                    </div>
+                </div>
+                {{/each}} 
+            {{/each}}
+        </div>
+        {{/each}}
     </div>
 </div>
-{{/each}}
-<h2>Product Settings</h2>
-{{#each allSolutions}}
-<h3>{{this.name}}</h3>
-    <p>{{@key}}</p>
-    <h4>Supported Generic Preferences</h4>
-    <ul>
-    {{#each this.settingsHandlers}}
-        {{#each this.capabilities}}
-            <li>{{this}}</li>
-        {{/each}}
-        {{#each this.inverseCapabilitiesTransformations}}
-            <li>{{@key}}</li> 
-        {{/each}}
-    {{/each}}
-    </ul> 
-    <h4>Application Specific Settings</h4>
-    {{#each this.settingsHandlers}}
-        {{#each this.supportedSettings}}
-            <h5>{{@key}}</h5>
-        {{/each}} 
-    {{/each}}
-{{/each}}

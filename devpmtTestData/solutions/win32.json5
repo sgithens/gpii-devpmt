@@ -15,12 +15,48 @@
                     "filename": "${{environment}.APPDATA}\\Freedom Scientific\\JAWS\\17.0\\Settings\\enu\\DEFAULT.JCF"
                 },
                 "supportedSettings": {
-                    "Voice Profiles.ActiveVoiceProfileName": {},
-                    "options.SayAllIndicateCaps": {},
-                    "options.TypingEcho": {},
-                    "options.SayAllMode": {},
-                    "Braille.BrailleMode": {},
-                    "options.SayAllIgnoreShiftKeys": {}
+                    "Voice Profiles.ActiveVoiceProfileName": {
+                        "name": "ActiveVoiceProfileName",
+                        "description": "JAWS ActiveVoiceProfileName",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "options.SayAllIndicateCaps": {
+                        "name": "SayAllIndicateCaps",
+                        "description": "JAWS SayAllIndicateCaps",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "options.TypingEcho": {
+                        "name": "TypingEcho",
+                        "description": "JAWS TypingEcho",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "options.SayAllMode": {
+                        "name": "SayAllMode",
+                        "description": "JAWS SayAllMode",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "Braille.BrailleMode": {
+                        "name": "BrailleMode",
+                        "description": "JAWS BrailleMode",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "options.SayAllIgnoreShiftKeys": {
+                        "name": "SayAllIgnoreShiftKeys",
+                        "description": "JAWS SayAllIgnoreShiftKeys",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
                 },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/screenReaderTTSEnabled"
@@ -156,37 +192,223 @@
                     "filename": "${{environment}.APPDATA}\\Freedom Scientific\\JAWS\\17.0\\Settings\\VoiceProfiles\\GPII.VPF"
                 },
                 "supportedSettings": {
-                    "Options.PrimarySynthesizer": {},
-                    "ENU-Global.Rate": {},
-                    "ENU-JAWSCursor.Rate": {},
-                    "ENU-Keyboard.Rate": {},
-                    "ENU-MenuAndDialog.Rate": {},
-                    "ENU-Message.Rate": {},
-                    "ENU-PCCursor.Rate": {},
-                    "ENU-Global.Pitch": {},
-                    "ENU-JAWSCursor.Pitch": {},
-                    "ENU-Keyboard.Pitch": {},
-                    "ENU-MenuAndDialog.Pitch": {},
-                    "ENU-Message.Pitch": {},
-                    "ENU-PCCursor.Pitch": {},
-                    "ENU-Global.Volume": {},
-                    "ENU-JAWSCursor.Volume": {},
-                    "ENU-Keyboard.Volume": {},
-                    "ENU-MenuAndDialog.Volume": {},
-                    "ENU-Message.Volume": {},
-                    "ENU-PCCursor.Volume": {},
-                    "ENU-Global.Punctuation": {},
-                    "ENU-JAWSCursor.Punctuation": {},
-                    "ENU-Keyboard.Punctuation": {},
-                    "ENU-MenuAndDialog.Punctuation": {},
-                    "ENU-Message.Punctuation": {},
-                    "ENU-PCCursor.Punctuation": {},
-                    "ENU-Global.SynthLangString": {},
-                    "ENU-JAWSCursor.SynthLangString": {},
-                    "ENU-Keyboard.SynthLangString": {},
-                    "ENU-MenuAndDialog.SynthLangString": {},
-                    "ENU-Message.SynthLangString": {},
-                    "ENU-PCCursor.SynthLangString": {}
+                    "Options.PrimarySynthesizer": {
+                        "name": "PrimarySynthesizer",
+                        "description": "JAWS PrimarySynthesizer",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ENU-Global.Rate": {
+                        "name": "Global Rate",
+                        "description": "JAWS Global Rate",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-JAWSCursor.Rate": {
+                        "name": "Cursor Rate",
+                        "description": "JAWS Cursor Rate",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Keyboard.Rate": {
+                        "name": "Keyboard Rate",
+                        "description": "JAWS Keyboard Rate",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-MenuAndDialog.Rate": {
+                        "name": "Menu and Dialog Rate",
+                        "description": "JAWS Menu and Dialog Rate",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Message.Rate": {
+                        "name": "Message Rate",
+                        "description": "JAWS Message Rate",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-PCCursor.Rate": {
+                        "name": "PC Cursor Rate",
+                        "description": "JAWS PC Cursor Rate",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Global.Pitch": {
+                        "name": "Global Pitch",
+                        "description": "JAWS Global Pitch",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-JAWSCursor.Pitch": {
+                        "name": "Cursor Pitch",
+                        "description": "JAWS Cursor Pitch",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Keyboard.Pitch": {
+                        "name": "Keyboard Pitch",
+                        "description": "JAWS Keyboard Pitch",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-MenuAndDialog.Pitch": {
+                        "name": "Menu and Dialog Pitch",
+                        "description": "JAWS Menu and Dialog Pitch",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Message.Pitch": {
+                        "name": "Message Pitch",
+                        "description": "JAWS Message Pitch",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-PCCursor.Pitch": {
+                        "name": "PC Cursor Pitch",
+                        "description": "JAWS PC Cursor Pitch",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Global.Volume": {
+                        "name": "Global Volume",
+                        "description": "JAWS Global Volume",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-JAWSCursor.Volume": {
+                        "name": "Cursor Volume",
+                        "description": "JAWS Cursor Volume",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Keyboard.Volume": {
+                        "name": "Keyboard Volume",
+                        "description": "JAWS Keyboard Volume",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-MenuAndDialog.Volume": {
+                        "name": "Menu and Dialog Volume",
+                        "description": "JAWS Menu and Dialog Volume",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Message.Volume": {
+                        "name": "Message Volume",
+                        "description": "JAWS Message Volume",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-PCCursor.Volume": {
+                        "name": "PC Cursor Volume",
+                        "description": "JAWS PC Cursor Volume",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Global.Punctuation": {
+                        "name": "Global Punctuation",
+                        "description": "JAWS Global Punctuation",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-JAWSCursor.Punctuation": {
+                        "name": "Cursor Punctuation",
+                        "description": "JAWS Cursor Punctuation",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Keyboard.Punctuation": {
+                        "name": "Keyboard Punctuation",
+                        "description": "JAWS Keyboard Punctuation",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-MenuAndDialog.Punctuation": {
+                        "name": "Menu and Dialog Punctuation",
+                        "description": "JAWS Menu and Dialog Punctuation",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Message.Punctuation": {
+                        "name": "Message Punctuation",
+                        "description": "JAWS Message Punctuation",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-PCCursor.Punctuation": {
+                        "name": "PC Cursor Punctuation",
+                        "description": "JAWS PC Cursor Punctuation",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ENU-Global.SynthLangString": {
+                        "name": "Global SynthLangString",
+                        "description": "JAWS Global SynthLangString",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ENU-JAWSCursor.SynthLangString": {
+                        "name": "Cursor SynthLangString",
+                        "description": "JAWS Cursor SynthLangString",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ENU-Keyboard.SynthLangString": {
+                        "name": "Keyboard SynthLangString",
+                        "description": "JAWS Keyboard SynthLangString",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ENU-MenuAndDialog.SynthLangString": {
+                        "name": "Menu and Dialog SynthLangString",
+                        "description": "JAWS Menu and Dialog SynthLangString",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ENU-Message.SynthLangString": {
+                        "name": "Message SynthLangString",
+                        "description": "JAWS Message SynthLangString",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ENU-PCCursor.SynthLangString": {
+                        "name": "PC Cursor SynthLangString",
+                        "description": "JAWS PC Cursor SynthLangString",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "capabilities": [],
                 "capabilitiesTransformations": {
@@ -609,6 +831,15 @@
                     "filename": "${{environment}.APPDATA}\\Texthelp\\ReadAndWrite\\11\\RWSettings11.xml",
                     "encoding": "utf-8",
                     "xml-tag": "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                },
+                "supportedSettings": {
+                    "ApplicationSettings.AppBar.optToolbarIconSet.$t": {
+                        "name": "Toolbar Icon Set",
+                        "description": "Theme for the toolbar, can be 'Fun' or 'Professional'",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }    
                 },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/languageAssistance"
@@ -2438,5 +2669,46 @@
         "start": [],
         "stop": [],
         "isInstalled": [] // always reported as not installed. Should be changed once GPII-1998 is fixed
-    }
+    },
+
+"com.microsoft.windows.screenDPI": {
+    "name": "Windows DPI",
+    "contexts": {
+        "OS": [
+            {
+                "id": "win32",
+                "version": ">=6.2"
+            }
+        ]
+    },
+    "settingsHandlers": {
+        "configure": {
+            "type": "gpii.windows.displaySettingsHandler",
+            "capabilities": [
+                "display.screenEnhancement.screenScale",
+                "applications.com\\.microsoft\\.windows\\.screenDPI.id"
+            ],
+            "supportedSettings": {
+                "screen-dpi": {
+                    "name": "Screen DPI",
+                    "description": "DPI has a percentage/100 value. 1.25 would make the screen a quarter larger.",
+                    "schema": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    },
+    "configure": [
+        "settings.configure"
+    ],
+    "restore": [
+        "settings.configure"
+    ],
+    "isInstalled": [
+        {
+            "type": "gpii.deviceReporter.alwaysInstalled"
+        }
+    ]
+}
 }

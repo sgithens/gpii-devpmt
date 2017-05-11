@@ -22,6 +22,18 @@ Handlebars.registerHelper("checkForApp", function (npsetApplications, appId) {
     });
 });
 
+Handlebars.registerHelper("checkForSupportedSetting", function(solution, settingKey) {
+    var togo = false;
+    fluid.each(solution.settingsHandlers, function(i, ikey) {
+        fluid.each(i.supportedSettings, function(j, jkey) {
+            if (jkey === settingKey) {
+                togo = true;
+            }    
+        });
+    });
+    return togo;
+});
+
 // TODO Temporarily including this until I figure out how to include it.
 /**
  * Render a block when a comparison of the first and third

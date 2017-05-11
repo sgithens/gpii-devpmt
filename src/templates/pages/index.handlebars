@@ -14,7 +14,10 @@
         or view and edit one of the existing Test Personas that are part 
         of the GPII Development and Test Data.
         </p>
-        <a href="#" class="button disabled" aria-disabled>Create NP Set</a> 
+        <form action="/add-prefset" method="POST">
+            <input name="prefset-name" type="text" placeholder="New Prefset Name" />
+            <input type="submit" href="#" class="button" value="Create NP Set" />
+        </form>
         <ul>
             {{#each npsetList}}
             <li><a href="/editprefs/{{this}}">{{this}}</a></li>    

@@ -1,4 +1,5 @@
-        <h3>
+<div class="pmt-single-product-area" data-appId="{{appId}}">
+        <h3 id="a-{{appId}}">
             {{#with (lookup (lookup allSolutions appId) "name")}}
                 {{this}}
             {{else}}
@@ -16,6 +17,7 @@
                     {{#each contextNames}}
                         <th>{{this}}</th>
                     {{/each}} 
+                    <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Pref. Set</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -38,9 +40,28 @@
                         </td>
                     {{/each}}
                 </tr>
+                {{#with (lookup allSolutions appId)}} 
+                    {{#each this.settingsHandlers}}
+                        {{#each this.supportedSettings}}
+                        <tr>
+                            <td id="a-{{../../../appId}}-{{@key}}">{{this.name}}</td>
+                            {{#each ../../../contextNames}}
+                            <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../../../uri}}" data-term="{{@../key}}"
+                                {{#with (lookup (lookup (lookup (lookup ../../../../flatPrefs.contexts this) "preferences") ../../../../this.uri) @../key) }}
+                                data-value="{{this}}"><span>{{this}}</span>
+                                {{else}}
+                                data-value=""><span> -- </span>
+                                {{/with}}
+                            </td>
+                            {{/each}}
+                        </tr> 
+                        {{/each}}
+                    {{/each}}
+                {{/with}}
                 {{#each settingKeys}}
+                    {{#unless (checkForSupportedSetting (lookup ../allSolutions ../appId) this)}}
                     <tr>
-                        <td>{{this}}</td>
+                        <td>!! {{this}}</td>
                         {{#each ../contextNames}}
                             <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../uri}}" data-term="{{../this}}"
                                 {{#with (lookup (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../../this.uri) ../this) }}
@@ -50,8 +71,10 @@
                                 {{/with}}
                             </td>
                         {{/each}}
+                        <td></td>
                     </tr>                            
+                    {{/unless}}
                 {{/each}}
             </tbody>
         </table>
-
+</div>

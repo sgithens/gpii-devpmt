@@ -1,12 +1,12 @@
 <script src="/src/js/client/helpers.js"></script>
 <script src="/src/js/client/editwidgets.js"></script>
+<script src="/src/js/client/editprefset-prefsFilter-widget.js"></script>
 <script src="/src/js/client/editprefset.js"></script>
 <script id="transformed-prefs">
 var transformedPrefs = {{{jsonify npset.options.flatPrefs}}};
 </script>
 
-<div class="row">
+
     <div id="editprefset-viewport" class="column" />
-</div>
 
 {{{initBlock "gpii.devpmt.editPrefs"}}}

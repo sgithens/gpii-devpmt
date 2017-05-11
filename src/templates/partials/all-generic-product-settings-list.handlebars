@@ -1,0 +1,30 @@
+{{! 
+Template for rendering a list of all the generic preference names,
+and product specific names. Primarily used as a sidebar for various pages
+to allow jumping to the setting in the page.
+
+Each list item will made into a link to jump to a target id formatted such as:
+a-settingname - for generic preferences
+a-productname - to jump to a product
+a-productname-settingname - to jump to a products setting
+
+@param
+@param
+}}
+<h4 class="pmt-sidebar-toc-product"><a href="#a-">Generic Preferences</a></h4>
+<!-- <ul> -->
+<!--     {{#each commonTerms}} -->
+<!--     <li><a href="#a-{{@key}}">{{this.name}}</a></li> -->
+<!--     {{/each}} -->
+<!-- </ul> -->
+{{#each allSolutions}}
+<!-- <h4><a href="#a-{{@key}}">{{this.name}}</a></h4> -->
+<h4 class="pmt-sidebar-toc-product"><a href="#a-{{this.id}}">{{this.name}}</a></h4>
+<!-- <ul> -->
+<!--     {{#each this.settingsHandlers}} -->
+<!--         {{#each this.supportedSettings}} -->
+<!--             <li><a href="#a-{{@../../key}}-{{@key}}">{{@key}}</a></li> -->
+<!--         {{/each}} --> 
+<!--     {{/each}} -->
+<!-- </ul> -->
+{{/each}}

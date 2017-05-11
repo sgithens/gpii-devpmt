@@ -1,0 +1,22 @@
+.pmt-value-display:hover {
+    border: thin solid #cb4b16; 
+}
+
+.pmt-sidebar-toc-product {
+    font-size: 1.2em;
+}
+
+.pmt-generic-prefs-area, .pmt-single-product-area {
+    border: thin solid #eee8d5;
+    padding: 5px;
+}
+
+#doc  h2 {
+    font-size: 1em;
+}
+
+.pmt-active-button {
+}
+
+.pmt-inactive-button {
+}
