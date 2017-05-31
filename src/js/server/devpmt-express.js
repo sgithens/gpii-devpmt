@@ -79,10 +79,39 @@ gpii.devpmt.addNPSet = function (prefsetDir, npsetName) {
  * has common features such as our templates.
  */
 fluid.defaults("gpii.devpmt.baseDispather", {
-    gradeNames: ["gpii.handlebars.dispatcherMiddleware"],
+    gradeNames: ["gpii.express.middleware.requestAware", "gpii.handlebars.dispatcherMiddleware"],
     method: "get",
     templateDirs: [__dirname + "/../../../src/templates"],
     defaultLayout: "main"
+});
+
+fluid.defaults("gpii.devpmt.editPrefSetHandler", {
+    gradeNames: ["gpii.devpmt.baseDispather"],
+    path: ["/editprefs/:npset"],
+    defaultTemplate: "editprefset",
+    rules: {
+        contextToExpose: {
+            commonTerms: { literalValue: "{devpmt}.options.commonTermMetadata" },
+            allSolutions: { literalValue: "{devpmt}.options.allSolutions" },
+            theRealNpsetParam: { literalValue: "{that}.request" }, //{ literalValue: "{that}.options.request.npset" },
+            npset: {
+                "transform": {
+                    type: "gpii.handlebars.requestFuncTransform",
+                    func: "gpii.devpmt.requestNPSet",
+                    inputPath: "req",
+                    that: "{devpmt}"
+                }
+            }
+        }
+    },
+    listeners: {
+        "onCreate": [
+            {
+                "funcName": "console.log",
+                args: ["On create!!", "{that}.options.gradeNames"]
+            },
+        ]
+    }
 });
 
 /**
@@ -151,25 +180,26 @@ fluid.defaults("gpii.devpmt", {
             }
         },
         editPrefSetHandler: {
-            type: "gpii.devpmt.baseDispather",
-            options: {
-                path: ["/editprefs/:npset"],
-                defaultTemplate: "editprefset",
-                rules: {
-                    contextToExpose: {
-                        commonTerms: { literalValue: "{devpmt}.options.commonTermMetadata" },
-                        allSolutions: { literalValue: "{devpmt}.options.allSolutions" },
-                        npset: {
-                            "transform": {
-                                type: "gpii.handlebars.requestFuncTransform",
-                                func: "gpii.devpmt.requestNPSet",
-                                inputPath: "req",
-                                that: "{devpmt}"
-                            }
-                        }
-                    }
-                }
-            }
+            type: "gpii.devpmt.editPrefSetHandler"
+            // options: {
+            //     path: ["/editprefs/:npset"],
+            //     defaultTemplate: "editprefset",
+            //     rules: {
+            //         contextToExpose: {
+            //             commonTerms: { literalValue: "{devpmt}.options.commonTermMetadata" },
+            //             allSolutions: { literalValue: "{devpmt}.options.allSolutions" },
+            //             theRealNpsetParam: { literalValue: "{that}.request" }, //{ literalValue: "{that}.options.request.npset" },
+            //             npset: {
+            //                 "transform": {
+            //                     type: "gpii.handlebars.requestFuncTransform",
+            //                     func: "gpii.devpmt.requestNPSet",
+            //                     inputPath: "req",
+            //                     that: "{devpmt}"
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
         },
         savePrefsetHandler: {
             type: "gpii.devpmt.savePrefsetHandler",
