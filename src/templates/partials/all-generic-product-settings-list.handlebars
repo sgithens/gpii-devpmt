@@ -11,7 +11,8 @@ a-productname-settingname - to jump to a products setting
 @param
 @param
 }}
-<h4 class="pmt-sidebar-toc-product"><a href="#a-">Generic Preferences</a></h4>
+<ul>
+    <li class="pmt-sidebar-toc-product"><a href="#a-">Generic Preferences</a></li>
 <!-- <ul> -->
 <!--     {{#each commonTerms}} -->
 <!--     <li><a href="#a-{{@key}}">{{this.name}}</a></li> -->
@@ -19,7 +20,7 @@ a-productname-settingname - to jump to a products setting
 <!-- </ul> -->
 {{#each allSolutions}}
 <!-- <h4><a href="#a-{{@key}}">{{this.name}}</a></h4> -->
-<h4 class="pmt-sidebar-toc-product"><a href="#a-{{this.id}}">{{this.name}}</a></h4>
+    <li class="pmt-sidebar-toc-product"><a href="#a-{{this.id}}">{{this.name}}</a></li>
 <!-- <ul> -->
 <!--     {{#each this.settingsHandlers}} -->
 <!--         {{#each this.supportedSettings}} -->
@@ -28,3 +29,4 @@ a-productname-settingname - to jump to a products setting
 <!--     {{/each}} -->
 <!-- </ul> -->
 {{/each}}
+</ul>

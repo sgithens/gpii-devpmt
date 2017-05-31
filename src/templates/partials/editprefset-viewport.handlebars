@@ -12,37 +12,22 @@
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h2>Add preference set</h2>
-    <p><strong>Give the Preference Set a different name, picture, or sound effect (optional)</strong></p>
+    <h2>Add Context</h2>
+    <p><strong>Give the context a different name.</strong></p>
     <p>For example: Tired, Working, Bright, Noisy, School</p>
     <label>Name
         <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
     </label>
     <div>
-        <button type="button" class="button">Change Picture</button>
-    </div>
-    <div>
-        <button type="button" class="button">Change Sound</button>
-    </div>
-    <div>
-        <button id="pmt-add-context-button" type="button" class="button">Create Preference Set</button>
+        <button id="pmt-add-context-button" type="button" class="button">Create Context</button>
     </div>
 </div>
 
 <h2 id="top">Preference Set: {{npsetName}}</h2>
-<!-- <h3>Contents</h3> -->
-<!-- <ul class="no-bullet"> -->
-<!--     {{#if docs}} -->
-<!--     <li><a href="#docs">Description</a></li> -->
-<!--     {{/if}} -->
-<!--     <li><a href="#generic-prefs">Generic Preferences</a></li> -->
-<!--     {{#each npsetApplications}} -->
-<!--         <li><a href="#{{this.appId}}">{{this.appId}}</a></li> -->
-<!--     {{/each}} -->
-<!--     <li><a href="#rawTransformedFlatPrefs">Raw Transformed Flat Prefs <em>(Debug)</em></a></li> -->
-<!-- </ul> -->
 
-
+{{!-- We are not going to render this for now, so there is no confusion that we are collecting and 
+      displaying this type of information about clients. May re-enable this in a strict developer
+      mode.
 {{#if docs}}
 <div class="row expanded">
     <div class="medium-7 columns">
@@ -52,6 +37,7 @@
     </div>
 </div>
 {{/if}}
+--}}
 
 
 <div class="row expanded" id="all-prefs">
@@ -75,7 +61,7 @@
                     {{#each contextNames}}
                         <th>{{this}}</th>
                     {{/each}} 
-                    <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Pref. Set</a></th>
+                    <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Context</a></th>
                 </tr>
             </thead>
             <tbody>
