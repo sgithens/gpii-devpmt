@@ -28,6 +28,19 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         productsSearch: ""
     },
     components: {
+        productList: {
+            type: "gpii.devpmt.productListWidget",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.productListContainer",
+            options: {
+                selectors: {
+                    initial: "#productList-widget"
+                },
+                model: {
+                    allSolutionsSorted: "{gpii.devpmt.editPrefs}.model.allSolutionsSorted"
+                }
+            }
+        },
         prefsAdjuster: {
             type: "gpii.devpmt.prefSettingAdjuster",
             createOnEvent: "onMarkupRendered",
@@ -47,6 +60,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     selectors: {
         initial: "#editprefset-viewport",
         editWidgetSidebar: "#editwidget-sidebar",
+        productListContainer: "#productList-container",
         prefsAdjusterContainer: "#prefs-adjuster-container",
         valueDisplayCell: ".pmt-value-display",
         enabledBooleanInputs: ".pmt-enabled-boolean",
@@ -385,11 +399,12 @@ gpii.devpmt.npsetInit = function (that) {
     that.model.allSolutions = that.options.allSolutions;
 
     // Add sorted solutions
-    that.model.allSolutionsSorted = [];
+    var allSolutionsSorted = []
+    // that.model.allSolutionsSorted = [];
     fluid.each(that.model.allSolutions, function (item, key) {
         var flatItem = fluid.copy(item);
         flatItem.id = key;
-        that.model.allSolutionsSorted.push(flatItem);
+        allSolutionsSorted.push(flatItem);
     });
 
     var sortName = function (a, b) {
@@ -404,7 +419,8 @@ gpii.devpmt.npsetInit = function (that) {
         }
     };
 
-    fluid.stableSort(that.model.allSolutionsSorted, sortName);
+    fluid.stableSort(allSolutionsSorted, sortName);
+    that.applier.change("allSolutionsSorted", allSolutionsSorted);
 
     // Add sorted commonTerms
     that.model.commonTermsSorted = [];

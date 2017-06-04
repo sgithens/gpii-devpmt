@@ -11,6 +11,7 @@ a-productname-settingname - to jump to a products setting
 @param
 @param
 }}
+<input id="product-list-filter" type="text" value="" placeholder="Product Filter" />
 <ul>
     <li class="pmt-sidebar-toc-product"><a href="#a-">Generic Preferences</a></li>
 <!-- <ul> -->
@@ -18,9 +19,10 @@ a-productname-settingname - to jump to a products setting
 <!--     <li><a href="#a-{{@key}}">{{this.name}}</a></li> -->
 <!--     {{/each}} -->
 <!-- </ul> -->
-{{#each allSolutions}}
-<!-- <h4><a href="#a-{{@key}}">{{this.name}}</a></h4> -->
-    <li class="pmt-sidebar-toc-product"><a href="#a-{{this.id}}">{{this.name}}</a></li>
+
+{{#each allSolutionsSorted}}
+    <li data-appid="{{this.id}}" class="pmt-sidebar-toc-product"><a href="#a-{{this.id}}">{{this.name}}</a></li>
+
 <!-- <ul> -->
 <!--     {{#each this.settingsHandlers}} -->
 <!--         {{#each this.supportedSettings}} -->

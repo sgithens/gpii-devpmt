@@ -42,7 +42,9 @@
 
 <div class="row expanded" id="all-prefs">
     <div class="medium-2 columns">
-        {{> all-generic-product-settings-list commonTerms=commonTerms allSolutions=allSolutionsSorted }}
+        <div id="productList-container">
+            <div id="productList-widget"></div>
+        </div>
     </div>
     <div id="settings-divs" class="medium-7 columns">
         <div class="pmt-generic-prefs-area" data-appId="{{appId}}">
