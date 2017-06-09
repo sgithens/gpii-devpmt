@@ -1,0 +1,13 @@
+@charset 'utf-8';
+
+@import 'settings';
+@import 'foundation';
+
+$random-stuff:  #444;
+
+.myclazz {
+    color: $random-stuff;
+}
+
+@include foundation-everything;
+
