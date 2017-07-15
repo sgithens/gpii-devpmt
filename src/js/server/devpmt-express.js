@@ -6,7 +6,6 @@ var gpii  = fluid.registerNamespace("gpii");
 var JSON5 = require("json5");
 fluid.require("gpii-express");
 fluid.require("gpii-handlebars");
-var fs = require("fs");
 require("universal");
 
 fluid.registerNamespace("gpii.devpmt");
@@ -62,18 +61,6 @@ fluid.defaults("gpii.devpmt.npset", {
     }
 });
 
-gpii.devpmt.addNPSet = function (prefsetDir, npsetName) {
-    var data = {
-        "contexts": {
-            "gpii-default": {
-                "name": "Default preferences",
-                "preferences": {}
-            }
-        }
-    };
-    gpii.devpmt.saveNPSet(prefsetDir, npsetName, JSON.stringify(data, null, 4));
-};
-
 /**
  * gpii.devpmt.basicDispath - The simplest base dispatcher that
  * has common features such as our templates.
@@ -87,13 +74,13 @@ fluid.defaults("gpii.devpmt.baseDispather", {
 
 fluid.defaults("gpii.devpmt.editPrefSetHandler", {
     gradeNames: ["gpii.devpmt.baseDispather"],
+    handlerGrades: [],
     path: ["/editprefs/:npset"],
     defaultTemplate: "editprefset",
     rules: {
         contextToExpose: {
             commonTerms: { literalValue: "{devpmt}.options.commonTermMetadata" },
             allSolutions: { literalValue: "{devpmt}.options.allSolutions" },
-            theRealNpsetParam: { literalValue: "{that}.request" }, //{ literalValue: "{that}.options.request.npset" },
             npset: {
                 "transform": {
                     type: "gpii.handlebars.requestFuncTransform",
@@ -109,7 +96,7 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
             {
                 "funcName": "console.log",
                 args: ["On create!!", "{that}.options.gradeNames"]
-            },
+            }
         ]
     }
 });
@@ -124,6 +111,14 @@ fluid.defaults("gpii.devpmt", {
     // prefsetDirectory: "/node_modules/universal/testData/preferences/",
     prefsetDirectory: "/../../../devpmtTestData/preferences/",
     solutionsDirectory: "/../../../devpmtTestData/solutions/",
+    events: {
+        onFsChange: null
+    },
+    listeners: {
+        "onFsChange.reloadInlineTemplates": {
+            func: "{inlineMiddleware}.events.loadTemplates.fire"
+        }
+    },
     components: {
         ontologyHandler: {
             type: "gpii.ontologyHandler"
@@ -149,9 +144,14 @@ fluid.defaults("gpii.devpmt", {
             }
         },
         hb: {
-            type: "gpii.express.hb",
+            type: "gpii.express.hb.live",
             options: {
-                templateDirs: [__dirname + "/../../../src/templates"]
+                templateDirs: [__dirname + "/../../../src/templates"],
+                listeners: {
+                    "onFsChange.notifyExpress": {
+                        func: "{gpii.devpmt}.events.onFsChange.fire"
+                    }
+                }
             }
         },
         indexHandler: {
@@ -213,7 +213,7 @@ fluid.defaults("gpii.devpmt", {
                 path: ["/add-prefset"]
             }
         },
-        inline: {
+        inlineMiddleware: {
             type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
             options: {
                 path: "/hbs",

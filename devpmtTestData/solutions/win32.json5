@@ -839,7 +839,49 @@
                         "schema": {
                             "type": "string"
                         }
-                    }    
+                    },
+                    "ApplicationSettings.AppBar.optToolbarButtonGroupNameCurrent.$t": {
+                        "name": "Current Group Name",
+                        "description": "Reading Features",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "ApplicationSettings.AppBar.DocType.$t": {
+                        "name": "Doc Type",
+                        "description": "Doc Type",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ApplicationSettings.AppBar.Width.$t": {
+                        "name": "App Bar Width",
+                        "description": "App Bar Width",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "ApplicationSettings.AppBar.ShowText.$t": {
+                        "name": "Show Text",
+                        "description": "Show Text",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "ApplicationSettings.AppBar.optToolbarShowText.$t": {
+                        "name": "Show Toolbar Text",
+                        "description": "Show Toolbar Text",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "ApplicationSettings.AppBar.sgithens.$t": {
+                        "name": "Sgithens Not Real Setting",
+                        "description": "Sgithens test for filtering",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
                 },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/languageAssistance"

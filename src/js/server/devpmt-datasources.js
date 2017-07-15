@@ -21,8 +21,29 @@ gpii.devpmt.loadNPSetDocs = function (prefsetDir, prefsetName) {
     return docs;
 };
 
+/**
+ * If the NP Set does not exist yet, creates a blank one,
+ * otherwise does nothing.
+ */
+gpii.devpmt.addNPSet = function (prefsetDir, npsetName) {
+    var filename = prefsetDir + npsetName + ".json";
+    if (fs.existsSync(filename)) {
+        return;
+    }
+
+    var data = {
+        "contexts": {
+            "gpii-default": {
+                "name": "Default preferences",
+                "preferences": {}
+            }
+        }
+    };
+    gpii.devpmt.saveNPSet(prefsetDir, npsetName, JSON.stringify(data, null, 4));
+};
+
 gpii.devpmt.saveNPSet = function (prefsetDir, npsetName, data) {
-    var filename = prefsetDir + npsetName + ".json"; 
+    var filename = prefsetDir + npsetName + ".json";
     console.log("About to writte to: ", filename);
     fs.writeFileSync(filename, data);
 };

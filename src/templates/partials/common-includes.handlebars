@@ -1,4 +1,13 @@
+<!-- So we can run inside of an Electron renderer process -->
+<script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+</script>
+
 <script type="text/javascript" src="/modules/jquery/dist/jquery.js"></script>
+
 <script type="text/javascript" src="/modules/infusion/src/lib/jquery/ui/js/jquery-ui.js "></script>
 
 
@@ -131,6 +140,7 @@
 
 <!-- <link rel="stylesheet" href="/modules/foundation-sites/dist/css/foundation.css"> -->
 <link rel="stylesheet" href="/src/css/app.css" />
+<link rel="stylesheet" href="/src/css/foundation-icons/foundation-icons.css" />
 
 <script src="/modules/lunr/lunr.js"></script>
 

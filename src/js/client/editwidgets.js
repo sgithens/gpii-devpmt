@@ -59,11 +59,14 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         }
     },
     listeners: {
-        onMarkupRendered: {
+        onMarkupRendered: [{
             "this": "{that}.dom.okButton",
             "method": "click",
             args: ["{that}.saveUpdateValue"]
-        }
+        }, {
+            funcName: "fluid.focus",
+            args: ["{that}.dom.valueInput"]
+        }]
     },
     modelListeners: {
         "active": [{
@@ -91,14 +94,26 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
     // to delete this key, rather than update it.
     if (that.dom.locate("blankCheckbox").prop("checked")) {
         devpmt.applier.change(path, false, "DELETE");
+        devpmt.addEditToUnsavedList("Removed setting " + that.model.metadata.name +
+                " in context " + that.model.current.context);
     }
     else {
+        var newValue = "";
         if (that.model.metadata.schema.type === "boolean") {
-            devpmt.applier.change(path, that.dom.locate("valueInput").prop("checked"));
+            var checkboxValue = that.dom.locate("valueInput").prop("checked");
+            if (checkboxValue === true) {
+                newValue = true;
+            }
+            else {
+                newValue = false;
+            }
         }
         else {
-            devpmt.applier.change(path, that.dom.locate("valueInput").val());
+            newValue = that.dom.locate("valueInput").val();
         }
+        devpmt.applier.change(path, newValue);
+        devpmt.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
+                " in context " + that.model.current.context + " to " + newValue);
     }
     devpmt.renderInitialMarkup();
 };

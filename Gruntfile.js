@@ -7,7 +7,7 @@ module.exports = function (grunt) {
             all: ["*.js", "src/**/*.js", "tests/**/*.js"]
         },
         jsonlint: {
-            all: [".eslintrc.json", "package.json", "configs/**/*.json", "src/**/*.json", "tests/**/*.json"]
+            all: [".eslintrc.json", "package.json", "configs/**/*.json", "src/**/*.json", "tests/**/*.json", "devpmtTestData/**/*.json"]
         },
         shell: {
             options: {

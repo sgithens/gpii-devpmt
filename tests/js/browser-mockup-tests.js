@@ -18,7 +18,7 @@ fluid.defaults("gpii.tests.devpmt.caseHolder.hello", {
                 sequence: [
                     {
                         func: "{testEnvironment}.webdriver.get",
-                        args: "http://localhost:8080/mockup.html"
+                        args: "http://localhost:8080/src/templates/pages/mockup.html"
                     },
                     {
                         event: "{testEnvironment}.webdriver.events.onGetComplete",
@@ -29,6 +29,26 @@ fluid.defaults("gpii.tests.devpmt.caseHolder.hello", {
                         event: "{testEnvironment}.webdriver.events.onFindElementComplete",
                         listener: "gpii.test.webdriver.inspectElement",
                         args: ["Testing the title", "{arguments}.0", "getText", "Generic Preference Settings"]
+                    }
+                ]
+            },
+            {
+                name: "Prefs Editor Smoketest using Alice",
+                type: "test",
+                sequence: [
+                    {
+                        func: "{testEnvironment}.webdriver.get",
+                        args: "http://localhost:8080/editprefs/alice"
+                    },
+                    {
+                        event: "{testEnvironment}.webdriver.events.onGetComplete",
+                        listener: "{testEnvironment}.webdriver.findElement",
+                        args: [{ id: "top" }]
+                    },
+                    {
+                        event: "{testEnvironment}.webdriver.events.onFindElementComplete",
+                        listener: "gpii.test.webdriver.inspectElement",
+                        args: ["Testing the title", "{arguments}.0", "getText", "Preference Set: alice"]
                     }
                 ]
             }

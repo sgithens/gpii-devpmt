@@ -1,0 +1,103 @@
+<div class="pmt-single-product-area callout" data-appId="{{options.appId}}">
+    <div class="row expanded">
+        <div class="medium-6 columns">
+            <h2 id="a-{{options.appId}}">
+                {{#if options.solution.name}}
+                    {{options.solution.name}}
+                {{else}}
+                    {{options.appId}}
+                {{/if}}
+                <a id="{{options.appId}}" href="#top"><small>top</small></a>
+            </h2>
+            <ul class="no-bullet">
+                <li>AppID: <code>{{options.appId}}</code></li>
+            </ul>
+        </div>
+        <div class="medium-6 columns">
+            <div>
+                <input name= "all-settings-switch-{{options.appId}}" id="all-settings-switch-{{options.appId}}" checked="false" class=" all-settings-switch switch-input" type="checkbox" value="mysettings" />
+                <label class="switch-paddle" for="all-settings-switch-{{options.appId}}">
+                    <span class="show-for-sr">Enable/Disable Solution</span>
+                    <span class="switch-active" aria-hidden="true">Mine</span>
+                    <span class="switch-inactive" aria-hidden="true">All</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-label"><i class="fi-filter"></i></span>
+                    <input class="settings-list-filter input-group-field" type="text" value="" placeholder="Filter" />
+                </div>
+            </div>
+        </div>
+    </div> 
+    <table class="scroll">
+        <thead>
+            <tr>
+                <th class="pmt-settingstable-name">Setting</th>
+                <th class="pmt-settingstable-value">Product Default</th>
+                {{#each model.contextNames}}
+                    <th class="pmt-settingstable-value">{{this}} context</th>
+                {{/each}} 
+                <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Context</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Application Enabled</td>
+                <td><!-- Space for product default column --></td>
+                {{#each model.contextNames}}
+                    <td>
+                        <div class="switch">
+                            {{#if (lookup (lookup (lookup ../model.flatPrefs.contexts this) "preferences") ../options.appUri) }}
+                                <input checked="true" class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../options.appId}}" type="checkbox" name="enabled-{{this}}-{{../options.appId}}" data-context="{{this}}" data-product="{{../options.appUri}}" />
+                            {{else}}
+                                <input class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../options.appId}}" type="checkbox" name="enabled-{{this}}-{{../options.appId}}" data-context="{{this}}" data-product="{{../options.appUri}}" />
+                            {{/if}}
+                            <label class="switch-paddle" for="enabled-{{this}}-{{../options.appId}}">
+                                <span class="show-for-sr">Enable/Disable Solution</span>
+                                <span class="switch-active" aria-hidden="true">On</span>
+                                <span class="switch-inactive" aria-hidden="true">Off</span>
+                            </label>
+                        </div>
+                    </td>
+                {{/each}}
+            </tr>
+            {{#with options.solution}} 
+                {{#each this.settingsHandlers}}
+                    {{#each this.supportedSettings}}
+                    <tr class="pmt-settings-table-row" data-term="{{@key}}">
+                        <td id="a-{{../../../options.appId}}-{{@key}}">{{this.name}}</td>
+                        <td><!-- Space for product default column --></td>
+                        {{#each ../../../model.contextNames}}
+                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
+                            {{#with (lookup (lookup (lookup (lookup ../../../../model.flatPrefs.contexts this) "preferences") ../../../../options.appUri) @../key) }}
+                            data-value="{{this}}"><span>{{this}}</span>
+                            {{else}}
+                            data-value=""><span> -- </span>
+                            {{/with}}
+                        </td>
+                        {{/each}}
+                    </tr> 
+                    {{/each}}
+                {{/each}}
+            {{/with}}
+            {{! TODO This area needs to be fixed. Find a component level way to pull out all the settings keys across contexts
+                for a user, similar to gpii.devpmt.npsetApplications, but just on a per product component level. }}
+            {{#each options.solution.settingKeys}}
+                {{#unless (checkForSupportedSetting ../options.solution this)}}
+                <tr>
+                    <td>!! {{this}}</td>
+                    {{#each ../contextNames}}
+                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../uri}}" data-term="{{../this}}"
+                            {{#with (lookup (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../../this.uri) ../this) }}
+                            data-value="{{this}}"><span>{{this}}</span>
+                            {{else}}
+                            data-value=""><span> -- </span>
+                            {{/with}}
+                        </td>
+                    {{/each}}
+                    <td></td>
+                </tr>                            
+                {{/unless}}
+            {{/each}}
+        </tbody>
+    </table>
+</div>

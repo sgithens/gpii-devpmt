@@ -8,7 +8,7 @@ fluid.registerNamespace("gpii.devpmt");
  * a preference set.
  */
 fluid.defaults("gpii.devpmt.editPrefs", {
-    gradeNames: ["gpii.handlebars.templateAware"],
+    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
     mergePolicy: {
         allSolutions: "noexpand",
         commonTerms: "noexpand"
@@ -22,10 +22,16 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         unsavedChangesExist: false,
         unsavedChanges: [],
 
-        settingsFilter: "allsettings",
+        settingsFilter: "mysettings",
         settingsSearch: "",
-        productsFilter: "allproducts",
-        productsSearch: ""
+
+        devModeOn: false
+    },
+    events: {
+        createSettingsTable: null
+    },
+    bindings: {
+        "settingsSearchInput": "settingsSearch"
     },
     components: {
         productList: {
@@ -54,7 +60,31 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         prefsFilter: {
             type: "gpii.devpmt.prefsFilter",
             createOnEvent: "onMarkupRendered",
-            container: "{that}.dom.prefsFilter"
+            container: "{that}.dom.prefsFilter",
+            options: {
+                model: {
+                    settingsFilter: "{gpii.devpmt.editPrefs}.model.settingsSearch"
+                }
+            }
+        }
+    },
+    dynamicComponents: {
+        settingsTables: {
+            createOnEvent: "createSettingsTable",
+            type: "gpii.devpmt.settingsTableWidget",
+            container: "{arguments}.0",
+            options: {
+                selectors: {
+                    initial: ".settings-table-div"
+                },
+                appId: "{arguments}.1",
+                solution: "{arguments}.2",
+                appUri: "{arguments}.3",
+                model: {
+                    flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
+                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                }
+            }
         }
     },
     selectors: {
@@ -63,22 +93,35 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         productListContainer: "#productList-container",
         prefsAdjusterContainer: "#prefs-adjuster-container",
         valueDisplayCell: ".pmt-value-display",
-        enabledBooleanInputs: ".pmt-enabled-boolean",
         saveButton: ".pmt-save-button",
         // This might be nice as a separate component
         addContextDialog: "#pmt-add-context-modal",
+        confirmSaveDialog: "#pmt-confirm-save-modal",
         addContextNameInput: "#pmt-add-context-name-input",
         addContextButton: "#pmt-add-context-button",
         prefsFilter: "#pmt-settings-filters",
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
-        commonTermRow: ".pmt-commonterm-row"
+        commonTermRow: ".pmt-commonterm-row",
+        topbarSaveButton: "#pmt-topbar-save-button", // Button on topbar to open Preview/Confirm Save Dialog
+        // List of unsaved changes in the save/confirm dialog
+        unsavedChangeList: "#pmt-unsaved-change-list",
+        addProductModal: "#pmt-add-product-modal",
+        addProductRender: "#pmt-add-product-render",
+        addProductConfirmButton: "#pmt-confirm-addproduct-button",
+        addProductAppId: "#pmt-add-product-appId",
+        devModeIcon: "#pmt-topbar-devmode-button",
+        settingsSearchInput: "#pmt-settings-search-input"
     },
     templates: {
         initial: "editprefset-viewport",
         editPrefWidget: "editpref-widget"
     },
     invokers: {
+        addEditToUnsavedList: {
+            funcName: "gpii.devpmt.addEditToUnsavedList",
+            args: ["{that}", "{arguments}.0"]
+        },
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}.model"]
@@ -93,7 +136,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         editProductEnabled: {
             funcName: "gpii.devpmt.editProductEnabled",
-            args: ["{that}", "{arguments}.0"]
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
         },
         savePrefset: {
             funcName: "gpii.devpmt.savePrefset",
@@ -111,9 +154,25 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.updateSettingsFilter",
             args: ["{that}", "{that}.dom.commonTermRow", "{that}.model.settingsFilter", "{that}.model.settingsSearch"]
         },
-        updateProductsFilter: {
-            funcName: "gpii.devpmt.updateProductsFilter",
-            args: ["{that}", "{that}.dom.eachProductArea", "{that}.model.productsFilter", "{that}.model.productsSearch"]
+        initSettingTableWidgets: {
+            funcName: "gpii.devpmt.initSettingTableWidgets",
+            args: ["{that}"]
+        },
+        openSaveConfirmDialog: {
+            funcName: "gpii.devpmt.openSaveConfirmDialog",
+            args: ["{that}"]
+        },
+        openAddProductDialog: {
+            funcName: "gpii.devpmt.openAddProductDialog",
+            args: ["{that}", "{arguments}.0"] // appId
+        },
+        confirmAddProductDialog: {
+            funcName: "gpii.devpmt.confirmAddProductDialog",
+            args: ["{that}", "{arguments}.0"]
+        },
+        toggleDevModeView: {
+            funcName: "gpii.devpmt.toggleDevModeView",
+            args: ["{that}", "{that}.model.devModeOn"]
         }
     },
     listeners: {
@@ -128,9 +187,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 args: ["{that}.editValueEvent"]
             },
             {
-                "this": "{that}.dom.enabledBooleanInputs",
+                "this": "{that}.dom.addProductConfirmButton",
                 "method": "click",
-                args: ["{that}.editProductEnabled"]
+                args: ["{that}.confirmAddProductDialog"]
             },
             {
                 "this": "{that}.dom.saveButton",
@@ -143,14 +202,24 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 args: ["{that}.processAddContextDialog"]
             },
             {
-                func: "{that}.updateSettingsFilter"
+                "this": "{that}.dom.topbarSaveButton",
+                "method": "click",
+                args: ["{that}.openSaveConfirmDialog"]
             },
             {
-                func: "{that}.updateProductsFilter"
+                "this": "{that}.dom.devModeIcon",
+                "method": "click",
+                args: ["{that}.toggleDevModeView"]
+            },
+            {
+                func: "{that}.updateSettingsFilter"
             },
             {
                 funcName: "gpii.devpmt.updateFoundationSticky",
                 args: []
+            },
+            {
+                func: "{that}.initSettingTableWidgets"
             }
         ]
     },
@@ -158,23 +227,38 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         "flatPrefs": [{
             func: "{that}.updateMetadataFromPrefs",
             args: ["{that}"]
-        }]
-        // {
-            // funcName: "gpii.devpmt.addEditToUnsavedList",
-            // args: ["{that}", "{change}.path", "{change}.value", "{change.oldValue}"]
-        // }]
+        }],
+        "settingsSearch": {
+            func: "{that}.renderInitialMarkup",
+            excludeSource: ["init"]
+        }
     }
 });
 
-gpii.devpmt.addEditToUnsavedList = function (that, path, newValue, oldValue) {
-    that.applier.change("unsavedChangesExist", true);
+gpii.devpmt.initSettingTableWidgets = function (that) {
+    var existingTables = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.settingsTableWidget");
+    fluid.each(existingTables, function (item) {
+        item.destroy();
+    });
+    fluid.each(that.model.npsetApplications, function (item) {
+        var sel = "#test-comp-" + item.appId;
+        sel = sel.replace(/\./g, "\\.");
+        var appUri = "http://registry.gpii.net/applications/" + item.appId;
+        that.events.createSettingsTable.fire(sel, item.appId, that.model.allSolutions[item.appId], appUri);
+    });
+};
+
+gpii.devpmt.addEditToUnsavedList = function (that, description) { // that, path, newValue, oldValue) {
+    // console.log("Making change: "+path+" : "+JSON.stringify(newValue)+" : "+JSON.stringify(oldValue));
+    //that.applier.change("unsavedChangesExist", true);
     // TODO use change applier
     that.model.unsavedChanges.push({
-        path: path,
-        newValue: newValue,
-        oldValue: oldValue
+        // path: path,
+        // newValue: newValue,
+        // oldValue: oldValue
+        description: description
     });
-    that.renderInitialMarkup();
+    // that.renderInitialMarkup();
 };
 
 gpii.devpmt.updateFoundationSticky = function () {
@@ -235,56 +319,6 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
     }
 };
 
-gpii.devpmt.updateProductsFilter = function (that, productAreas, filters, search) {
-
-    if (filters === "allproducts") {
-        productAreas.show();
-    }
-    else {
-        productAreas.hide();
-        fluid.each(productAreas, function (product) {
-            // TODO Use/fix ontology support for this tool
-            var isoName = "http://registry.gpii.net/applications/" + product.dataset.appid;
-            fluid.each(that.model.flatPrefs.contexts, function (item) {
-                fluid.each(item.preferences, function (pref, key) {
-                    if (key === isoName) {
-                        $(product).show();
-                    }
-                });
-            });
-        });
-    }
-
-    var lunrIndex = lunr(function () {
-        var idx = this;
-        this.ref("id");
-        this.field("name");
-        this.field("appId");
-        this.b(0.01);
-
-        fluid.each(that.model.allSolutions, function (sol, key) {
-            idx.add({
-                "id": key,
-                "name": sol.name,
-                "appId": key
-            });
-        });
-    });
-
-    if (search) {
-        var results = lunrIndex.search("*" + search + "*");
-        productAreas.hide();
-        fluid.each(productAreas, function (product) {
-            var isoName = product.dataset.appid;
-            fluid.each(results, function (result) {
-                if (result.ref === isoName) {
-                    $(product).show();
-                }
-            });
-        });
-    }
-};
-
 /**
  * When the prefs are updated we need to usually update
  * some of the metadata that makes rendering easier, from
@@ -315,6 +349,26 @@ gpii.devpmt.processAddContextDialog = function (that) {
     that.dom.locate("addContextDialog").foundation("close");
 };
 
+gpii.devpmt.openSaveConfirmDialog = function (that) {
+    that.renderer.html(that.dom.locate("unsavedChangeList"), "editprefset-unsavedChanges-list", that.model);
+    that.dom.locate("confirmSaveDialog").foundation("open");
+};
+
+gpii.devpmt.openAddProductDialog = function (that, appId) {
+    that.renderer.html(that.dom.locate("addProductRender"), "editprefset-addProduct-dialog", {
+        appId: appId,
+        name: that.model.allSolutions[appId].name
+    });
+    that.dom.locate("addProductModal").foundation("open");
+};
+
+gpii.devpmt.confirmAddProductDialog = function (that) {
+    // TODO Ontology!!!
+    var appUrl = "http://registry.gpii.net/applications/" + $(that.dom.locate("addProductAppId")).val();
+    that.editProductEnabled(true, "gpii-default",  appUrl);
+    that.dom.locate("addProductModal").foundation("close");
+};
+
 gpii.devpmt.savePrefset = function (that /*, event */) {
     var options = {
         method: "POST",
@@ -324,14 +378,22 @@ gpii.devpmt.savePrefset = function (that /*, event */) {
     };
     $.ajax(options);
     that.applier.change("unsavedChangesExist", false);
+    that.applier.change("unsavedChanges", []);
+    that.dom.locate("confirmSaveDialog").foundation("close");
     that.renderInitialMarkup();
 };
 
-gpii.devpmt.editProductEnabled = function (that, event) {
-    var checked = event.currentTarget.checked;
-    var context = event.currentTarget.dataset.context;
-    var product = event.currentTarget.dataset.product;
+gpii.devpmt.toggleDevModeView = function (that, status) {
+    if (status) {
+        that.applier.change("devModeOn", false);
+    }
+    else {
+        that.applier.change("devModeOn", true);
+    };
+    that.renderInitialMarkup();
+};
 
+gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
     // TODO generalize these 4 lines with copied code in editwidgets.js:saveUpdateValue
     var segs = ["contexts", context, "preferences", product.replace(/\./g, "\\.")];
     var path = "flatPrefs";
@@ -340,9 +402,11 @@ gpii.devpmt.editProductEnabled = function (that, event) {
     if (checked) {
         // Add a check in case it's already enabled
         that.applier.change(path, {});
+        that.addEditToUnsavedList("Enabled Product for Context: " + product);
     }
     else {
         that.applier.change(path, false, "DELETE");
+        that.addEditToUnsavedList("Un-enabled Product for Context: " + product);
     }
     that.applier.change("npsetApplications", gpii.devpmt.npsetApplications(that.model.flatPrefs));
     that.applier.change("unsavedChangesExist", true);
@@ -399,7 +463,7 @@ gpii.devpmt.npsetInit = function (that) {
     that.model.allSolutions = that.options.allSolutions;
 
     // Add sorted solutions
-    var allSolutionsSorted = []
+    var allSolutionsSorted = [];
     // that.model.allSolutionsSorted = [];
     fluid.each(that.model.allSolutions, function (item, key) {
         var flatItem = fluid.copy(item);
@@ -436,7 +500,7 @@ gpii.devpmt.npsetInit = function (that) {
     var editPrefs = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.editPrefs")[0];
     fluid.setGlobalValue("editPrefs", editPrefs);
 
-    setInterval( function () { 
+    setInterval( function () {
         gpii.devpmt.updateFoundationSticky();
     }, 250);
 

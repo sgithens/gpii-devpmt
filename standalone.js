@@ -7,7 +7,8 @@ var BrowserWindow = require("electron").BrowserWindow;
 
 app.on("ready", function () {
     var win = new BrowserWindow({width: 1200, height: 800});
-    win.loadURL("http://localhost:8080/prefs/alice");
+    win.loadURL("http://localhost:8080/editprefs/alice");
+    win.webContents.openDevTools();
 });
 
 app.on("window-all-closed", function () {

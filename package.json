@@ -5,7 +5,9 @@
     "description": "Developers Preference Testing Tool",
     "main": "standalone.js",
     "scripts": {
-        "start": "electron standalone.js"
+        "start": "electron standalone.js",
+        "watch-sass": "gulp",
+        "build-sass": "gulp sass"
     },
     "repository": {
         "type": "git",
@@ -18,17 +20,18 @@
     },
     "homepage": "https://github.com/sgithens/gpii-devpmt",
     "dependencies": {
+        "electron": "1.4.1",
         "foundation-sites": "6.3.0",
         "gpii-express": "1.0.2",
-        "gpii-handlebars": "1.0.0-dev.20170127T160953Z.4d15347",
-        "infusion": "3.0.0-dev.20170127T130413Z.103de6e",
-        "universal": "GPII/universal",
-        "json5": "0.5.1",
-        "marked": "0.3.6",
-        "electron": "1.4.1",
-        "pagedown": "1.1.0",
+        "gpii-handlebars": "the-t-in-rtf/gpii-handlebars#GPII-2474",
+        "gulp-autoprefixer": "^3.1.0",
         "handlebars-helpers": "0.8.0",
-        "lunr": "2.0.3"
+        "infusion": "3.0.0-dev.20170127T130413Z.103de6e",
+        "json5": "0.5.1",
+        "lunr": "2.0.3",
+        "marked": "0.3.6",
+        "pagedown": "1.1.0",
+        "universal": "GPII/universal"
     },
     "devDependencies": {
         "electron-packager": "8.5.2",
@@ -39,11 +42,15 @@
         "grunt": "1.0.1",
         "grunt-jsonlint": "1.1.0",
         "grunt-shell": "1.3.0",
-        "shelljs": "0.3.0",
+        "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^3.1.0",
+        "gulp-load-plugins": "^1.1.0",
+        "gulp-sass": "^2.1.0",
         "istanbul": "0.4.5",
         "jsonlint": "1.6.2",
         "kettle": "1.3.1",
         "node-jqunit": "1.1.4",
-        "rimraf": "2.5.4"
+        "rimraf": "2.5.4",
+        "shelljs": "0.3.0"
     }
 }

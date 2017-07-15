@@ -3,11 +3,31 @@
 @import 'settings';
 @import 'foundation';
 
-$random-stuff:  #444;
-
-.myclazz {
-    color: $random-stuff;
-}
-
 @include foundation-everything;
 
+.pmt-value-display:hover {
+    border: medium solid $success-color;
+    background: $medium-gray;
+}
+
+/* Top-nav bar */
+.pmt-topnav-icon {
+    font-size: rem-calc(30);
+    color: black;
+}
+
+/* Used for active icons. Such as changing the save icon,
+   to show there are pending changes to be saved, or
+   turning on debug mode.
+ */
+.pmt-topnav-icon-active {
+    font-size: rem-calc(40);
+}
+
+.pmt-settingstable-name {
+    width: rem-calc(300);
+}
+
+.pmt-settingstable-value {
+    width: rem-calc(90);
+}

@@ -11,24 +11,18 @@ a-productname-settingname - to jump to a products setting
 @param
 @param
 }}
-<input id="product-list-filter" type="text" value="" placeholder="Product Filter" />
-<ul>
-    <li class="pmt-sidebar-toc-product"><a href="#a-">Generic Preferences</a></li>
-<!-- <ul> -->
-<!--     {{#each commonTerms}} -->
-<!--     <li><a href="#a-{{@key}}">{{this.name}}</a></li> -->
-<!--     {{/each}} -->
-<!-- </ul> -->
-
-{{#each allSolutionsSorted}}
-    <li data-appid="{{this.id}}" class="pmt-sidebar-toc-product"><a href="#a-{{this.id}}">{{this.name}}</a></li>
-
-<!-- <ul> -->
-<!--     {{#each this.settingsHandlers}} -->
-<!--         {{#each this.supportedSettings}} -->
-<!--             <li><a href="#a-{{@../../key}}-{{@key}}">{{@key}}</a></li> -->
-<!--         {{/each}} --> 
-<!--     {{/each}} -->
-<!-- </ul> -->
-{{/each}}
-</ul>
+<div class="callout small">
+    <h2 class="small">Products</h2>
+    <div class="input-group">
+        <span class="input-group-label"><i class="fi-filter"></i></span>
+        <input class="input-group-field" id="product-list-filter" type="text" value="" placeholder="Filter" />
+    </div>
+    <ul>
+        <li class="pmt-sidebar-toc-product no-bullet"><a href="#a-">Generic Preferences</a></li>
+        {{#each allSolutionsSorted}}
+            <li data-appid="{{this.id}}" class="pmt-sidebar-toc-product no-bullet">
+                <a data-appid="{{this.id}}" class="pmt-sidebar-product-link" href="#a-{{this.id}}">{{this.name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>

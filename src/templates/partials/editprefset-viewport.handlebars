@@ -1,12 +1,77 @@
-<nav aria-label="You are here:" role="navigation">
-    <ul class="breadcrumbs">
-        <li><a href="/">Home</a></li>
-        <li>
-        <span class="show-for-sr">Current: </span> Editing {{npsetName}}
-        </li>
-    </ul>
-</nav>
+<div class="top-bar">
+    <div class="top-bar-left">
+        <ul class="menu">
+            <li>
+                <a href="/"><i class="pmt-topnav-icon fi-home"></i></a>
+            </li>
+            <li>
+                <h2 id="top">Preference Set: {{npsetName}}</h2>
+            </li>
+        </ul>
+    </div>
+    <div class="top-bar-right">
+        <ul class="menu">
+            <li>
+                {{#if devModeOn}}
+                    <a class="pmt-topnav-icon-active" id="pmt-topbar-devmode-button"><i class="fi-wrench"></i></a>
+                {{else}}
+                    <a class="pmt-topnav-icon" id="pmt-topbar-devmode-button"><i class="fi-wrench"></i></a>
+                {{/if}}
+            </li>
+            <li>
+                {{#if unsavedChangesExist }}
+                    <a class="pmt-topnav-icon-active" id="pmt-topbar-save-button"><i class="fi-save large"></i></a>
+                {{else}}
+                    <a class="pmt-topnav-icon" id="pmt-topbar-save-button"><i class="fi-save large"></i></a>
+                {{/if}}
+            </li>
+            <li>
+                <form action="/add-prefset" method="POST">
+                    <div class="input-group">
+                        <input class="input-group-field" name="prefset-name" type="text" placeholder="Prefset Name" />
+                        <div class="input-group-button">
+                            <input type="submit" href="#" class="button" value="Add/Edit NP Set" />
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
 
+<!--
+    Render location for add/view product information dialog.
+-->
+<div class="reveal" id="pmt-add-product-modal" data-reveal>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div id="pmt-add-product-render">
+    </div>
+    <div>
+        <button id="pmt-confirm-addproduct-button" type="button" class="button pmt-addproduct-button">Add Product to NP Set</button>
+    </div>
+</div>
+
+<!--
+    View Changes and Confirm Save Dialog
+-->
+<div class="reveal" id="pmt-confirm-save-modal" data-reveal>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h2>View Changes and Confirm Save</h2>
+    <div id="pmt-unsaved-change-list">
+
+    </div>
+    <div>
+        <button id="pmt-confirm-save-button" type="button" class="button pmt-save-button">Confirm Save NP Set</button>
+    </div>
+</div>
+
+<!--
+    Add Context Modal Dialog
+-->
 <div class="reveal" id="pmt-add-context-modal" data-reveal>
 <!-- <div id="pmt-add-context-modal" > -->
     <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -23,9 +88,8 @@
     </div>
 </div>
 
-<h2 id="top">Preference Set: {{npsetName}}</h2>
 
-{{!-- We are not going to render this for now, so there is no confusion that we are collecting and 
+{{!-- We are not going to render this for now, so there is no confusion that we are collecting and
       displaying this type of information about clients. May re-enable this in a strict developer
       mode.
 {{#if docs}}
@@ -39,7 +103,7 @@
 {{/if}}
 --}}
 
-
+<br/>
 <div class="row expanded" id="all-prefs">
     <div class="medium-2 columns">
         <div id="productList-container">
@@ -47,29 +111,51 @@
         </div>
     </div>
     <div id="settings-divs" class="medium-7 columns">
-        <div class="pmt-generic-prefs-area" data-appId="{{appId}}">
-        <h2 id="title">
-            Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
-        </h2>
-        <p>
-        Generic preference settings are universal settings stored in GPII that are 
-        not particular to specific products. They can potentially be applied to a wide
-        range of products automatically.
-        </p>
-        <table>
+        <div class="pmt-generic-prefs-area callout" data-appId="{{appId}}">
+            <div class="row expanded">
+                <div class="medium-6 columns">
+                    <h2 id="title">
+                        Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
+                    </h2>
+                    <p>
+                    Generic preference settings are universal settings stored in GPII that are
+                    not particular to specific products. They can potentially be applied to a wide
+                    range of products automatically.
+                    </p>
+                </div>
+                <div class="medium-6 columns">
+                    <div id="pmt-settings-filters">
+                        <div class="button-group">
+                            {{#compare settingsFilter "===" "mysettings" }}
+                            <button id="pmt-mysettings-button" class="button primary" type="button" >My Settings</button>
+                            <button id="pmt-allsettings-button" class="button secondary hollow" type="button" >All Settings</button>
+                            {{else}}
+                            <button id="pmt-mysettings-button" class="button secondary hollow" type="button" >My Settings</button>
+                            <button id="pmt-allsettings-button" class="button primary" type="button" >All Settings</button>
+                            {{/compare}}
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-label"><i class="fi-filter"></i></span>
+                            <input id="pmt-settings-search-input" value="{{settingsSearch}}" class="input-group-field" type="text" placeholder="Filter" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <table class="scroll">
             <thead>
                 <tr>
-                    <th>Setting</th>
+                    <th class="pmt-settingstable-name">Setting</th>
                     {{#each contextNames}}
-                        <th>{{this}}</th>
-                    {{/each}} 
+                        <th class="pmt-settingstable-value">{{this}} context</th>
+                    {{/each}}
                     <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Context</a></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each commonTermsSorted}}
                     <tr class="pmt-commonterm-row" data-term="{{this.id}}">
-                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.name}}&nbsp;{{this.description}}&nbsp;{{jsonify this.schema}}">{{this.name}}</span></td>
+                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.name}}&nbsp;{{this.description}}&nbsp;{{jsonify this.schema}}"><i class="fi-info"></i></span> <span>{{this.name}}</span></td>
                         {{#each ../contextNames}}
                         <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-term="{{../id}}"
                                 {{#with (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../id) }}
@@ -78,7 +164,7 @@
                                 data-value=""><span>--</span>
                                 {{/with}}
                             </td>
-                        {{/each}} 
+                        {{/each}}
                         <td></td>
                     </tr>
                 {{/each}}
@@ -86,19 +172,29 @@
         </table>
         </div>
         {{#each npsetApplications}} {{! <-- Is npsetApplications actually dynamic? }}
-            {{> productSettingsTable-widget appURI=this.uri appId=this.appId settingsKeys=this.settingsKeys allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
+           <!--
+            {{> productSettingsTable-widget appURI=this.uri appId=this.appId allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
+           -->
+            <div id="test-comp-{{this.appId}}">
+                <div class="settings-table-div"></div>
+            </div>
+
         {{/each}} {{! end npsetApplications }}
-        <hr/>
+        <!--
         {{#each allSolutionsSorted }}
-            {{#unless (checkForApp ../npsetApplications this.id)}}  
+            {{#unless (checkForApp ../npsetApplications this.id)}}
                 {{> productSettingsTable-widget appURI=(appURIfromID this.id) appId=this.id allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
             {{/unless}}
         {{/each}}
+        -->
 
+        {{#if devModeOn}}
+        <hr/>
         <h3>Raw Transformed Flat Preferences <a id="rawTransformedFlatPrefs" href="#top"><small>top</small></a></h3>
         <pre>
             {{{jsonify flatPrefs}}}
         </pre>
+        {{/if}}
     </div>
     <div class="medium-3 columns right" data-sticky-container>
         <div class="sticky" data-sticky data-top-anchor="all-prefs">
@@ -107,12 +203,6 @@
                 </div>
             </div>
             <div>
-                {{#if unsavedChangesExist }}
-                    <p>Changed</p>
-                {{else}}
-                    <p>Not Changed</p>
-                {{/if}}
-                <button type="button" class="button pmt-save-button" >Save Changes</button>
             </div>
             {{> editprefset-prefsFilter-widget }}
         </div>

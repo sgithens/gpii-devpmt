@@ -30,7 +30,8 @@ fluid.defaults("gpii.devpmt.productListWidget", {
     },
     selectors: {
         productListFilter: "#product-list-filter",
-        productListItems: ".pmt-sidebar-toc-product"
+        productListItems: ".pmt-sidebar-toc-product",
+        productListLinks: ".pmt-sidebar-product-link"
     },
     bindings: {
         "productListFilter": "productListFilter"
@@ -51,9 +52,42 @@ fluid.defaults("gpii.devpmt.productListWidget", {
         filterProductList: {
             funcName: "gpii.devpmt.productList.filterProductList",
             args: ["{that}", "{that}.dom.productListItems", "{that}.model.productListFilter"]
+        },
+        // Used when clicking on the product, or otherwise activating it from the list.
+        selectProduct: {
+            funcName: "gpii.devpmt.productList.selectProduct",
+            args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
+        }
+    },
+    events: {
+        activateProduct: null
+    },
+    listeners: {
+        "onMarkupRendered": [
+            {
+                "this": "{that}.dom.productListLinks",
+                "method": "click",
+                args: ["{that}.selectProduct"]
+            }
+        ],
+        activateProduct: {
+            funcName: "console.log",
+            args: ["Listener to it: ", "{arguments}.0"]
         }
     }
 });
+
+gpii.devpmt.productList.selectProduct = function (that, devpmt, event) {
+    var appid = event.currentTarget.dataset.appid;
+    console.log("Activated Product: " + event.currentTarget.dataset.appid);
+    that.events.activateProduct.fire(appid);
+    console.log("Fired event");
+    // TODO Fix up the create order or figure out how to add a delayed listener,
+    // such that devpmt can listen for this, since it can't create a listener, since
+    // this component is created after it is finished being created.
+    console.log("Going to use: ", $(that.dom.addProductAppId).val());
+    devpmt.openAddProductDialog(appid);
+};
 
 /**
  * Filters the products in the list, usually runs on a model listener for when
@@ -69,7 +103,14 @@ gpii.devpmt.productList.filterProductList = function (that, productListItems, pr
     }
     productListItems.hide();
 
-    var results = that.lunrIndex.search("*" + productListFilter + "*");
+    // var results = that.lunrIndex.search("*" + productListFilter + "*");
+    var results = that.lunrIndex.query(function (q) {
+        console.log(q);
+        q.term(productListFilter);
+        q.term("*" + productListFilter);
+        q.term("*" + productListFilter + "*");
+    });
+
     // TODO Remove this double loop
     fluid.each(productListItems, function (product) {
         fluid.each(results, function (result) {
