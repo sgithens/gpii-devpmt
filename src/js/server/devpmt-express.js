@@ -166,19 +166,6 @@ fluid.defaults("gpii.devpmt", {
                 }
             }
         },
-        allSettingsPageHandler: {
-            type: "gpii.devpmt.baseDispather",
-            options: {
-                path: ["/all-settings"],
-                defaultTemplate: "all-settings",
-                rules: {
-                    contextToExpose: {
-                        commonTerms: { literalValue: "{devpmt}.options.commonTermMetadata" },
-                        allSolutions: { literalValue: "{devpmt}.options.allSolutions" }
-                    }
-                }
-            }
-        },
         editPrefSetHandler: {
             type: "gpii.devpmt.editPrefSetHandler"
             // options: {
