@@ -103,13 +103,7 @@ gpii.devpmt.productList.filterProductList = function (that, productListItems, pr
     }
     productListItems.hide();
 
-    // var results = that.lunrIndex.search("*" + productListFilter + "*");
-    var results = that.lunrIndex.query(function (q) {
-        console.log(q);
-        q.term(productListFilter);
-        q.term("*" + productListFilter);
-        q.term("*" + productListFilter + "*");
-    });
+    var results = gpii.devpmt.lunrListFilterSearch(that.lunrIndex, productListFilter);
 
     // TODO Remove this double loop
     fluid.each(productListItems, function (product) {

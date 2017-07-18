@@ -61,3 +61,26 @@ gpii.devpmt.npsetApplications = function (prefs) {
     });
     return fluid.values(apps);
 };
+
+/**
+ * Query a lunr index in our case insensitive, match anything style that
+ * is used for the various list/API filter boxes that are typically rendered
+ * at the top of a list or table. This routine is meant to encapsulate
+ * any of the oddities of lunr search strings, and necessary usage of
+ * various wildcards for list filtering use cases.
+ *
+ * @param {Object} lunrIndex The existing lunr index to query.
+ * @param {String} filterString The string used to filter the results.
+ * @return {Array} The matching lunr results.
+ */
+gpii.devpmt.lunrListFilterSearch = function (lunrIndex, filterString) {
+    // TODO escape entire string so search keywords like 'not' can be used
+    return lunrIndex.query(function (q) {
+        // The lunr querystring documentation isn't great, but apparently
+        // lowercasing the terms does a case insensitive search.
+        var lowerFilterString = filterString.toLowerCase();
+        q.term(lowerFilterString);
+        q.term("*" + lowerFilterString);
+        q.term("*" + lowerFilterString + "*");
+    });
+};

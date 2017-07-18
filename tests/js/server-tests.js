@@ -3,6 +3,7 @@
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
 var jqUnit = require("node-jqunit");
+var lunr = require("lunr");
 require("../../index.js");
 fluid.registerNamespace("gpii.tests.devpmt.server");
 
@@ -34,7 +35,8 @@ fluid.defaults("gpii.tests.devpmt.server.caseHolder", {
                     type: "test",
                     sequence: [
                         { funcName: "gpii.tests.devpmt.server.loadCommonTermsMetadataTest" },
-                        { funcName: "gpii.tests.devpmt.server.loadTestDataNPSetsTest" }
+                        { funcName: "gpii.tests.devpmt.server.loadTestDataNPSetsTest" },
+                        { funcName: "gpii.tests.devpmt.server.lunrCaseInsesitiveTest" }
                         // { funcName: "gpii.tests.devpmt.server.npsetLoadTest" },
                         // { funcName: "gpii.tests.devpmt.server.npsetApplicationsTest" }
                     ]
@@ -56,7 +58,6 @@ fluid.defaults("gpii.tests.devpmt.server.environment", {
 fluid.test.runTests("gpii.tests.devpmt.server.environment");
 
 /* Tests for NP Sets */
-
 gpii.tests.devpmt.server.npsetLoadTest = function () {
     var comp = gpii.devpmt.npset({
         npsetName: "elod"
@@ -78,4 +79,53 @@ gpii.tests.devpmt.server.npsetApplicationsTest = function () {
 
     var andreiApps = andrei.npsetApplications();
     jqUnit.assertEquals("Andrei should have 6 apps right now", 6, andreiApps.length);
+};
+
+/**
+ * Tests for Searching, Lunr, etc.
+ */
+
+gpii.tests.devpmt.server.makeTestProductIndex = function () {
+    var entries = [
+        {
+            id: "com.freedomscientific.jaws",
+            "name": "JAWS",
+        }, {
+            id: "org.nvda-project",
+            "name": "NVDA Screen Reader"
+        }, {
+            id: "com.microsoft.windows.onscreenKeyboard",
+            "name": "Windows Built-in Onscreen Keyboard"
+        }
+    ];
+
+    var lunrIndex = lunr(function () {
+        var idx = this;
+        this.ref("id");
+        this.field("name");
+        this.field("appId");
+        this.b(0.01);
+
+        fluid.each(entries, function (sol) {
+            idx.add({
+                "id": sol.id,
+                "name": sol.name,
+                "appId": sol.id
+            });
+        });
+    });
+
+    return lunrIndex;
+}
+
+gpii.tests.devpmt.server.lunrCaseInsesitiveTest = function () {
+    var index = gpii.tests.devpmt.server.makeTestProductIndex();
+
+    var jawsResults = gpii.devpmt.lunrListFilterSearch(index, "jaws");
+    jqUnit.assertEquals("lcase: There should be 1 result for jaws", jawsResults.length, 1);
+    jqUnit.assertEquals("lcase: The ref should be the jaws ID", jawsResults[0].ref, "com.freedomscientific.jaws");
+
+    jawsResults = gpii.devpmt.lunrListFilterSearch(index, "JAWS");
+    jqUnit.assertEquals("ucase: There should be 1 result for JAWS", jawsResults.length, 1);
+    jqUnit.assertEquals("ucase: The ref should be the JAWS ID", jawsResults[0].ref, "com.freedomscientific.jaws");
 };

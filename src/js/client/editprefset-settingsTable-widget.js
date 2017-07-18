@@ -130,12 +130,8 @@ gpii.devpmt.settingsTable.filterSettings = function (that, settingsRows, lunrInd
 
     // TODO Refactor with gpii.devpmt.productList.filterProductList
     settingsRows.hide();
-    // TODO escape entire string so search keywords like 'not' can be used
-    var results = lunrIndex.query(function (q) {
-        q.term(filterText);
-        q.term("*" + filterText);
-        q.term("*" + filterText + "*");
-    });
+
+    var results = gpii.devpmt.lunrListFilterSearch(lunrIndex, filterText);
     console.log(results);
 
     // TODO Remove this double loop

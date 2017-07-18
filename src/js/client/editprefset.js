@@ -306,7 +306,7 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
     });
 
     if (search) {
-        var results = lunrIndex.search("*" + search + "*");
+        var results = gpii.devpmt.lunrListFilterSearch(lunrIndex, search);
         commonTermRows.hide();
         fluid.each(commonTermRows, function (row) {
             var term = row.dataset.term;
