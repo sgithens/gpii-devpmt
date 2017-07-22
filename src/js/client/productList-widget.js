@@ -69,23 +69,16 @@ fluid.defaults("gpii.devpmt.productListWidget", {
                 "method": "click",
                 args: ["{that}.selectProduct"]
             }
-        ],
-        activateProduct: {
-            funcName: "console.log",
-            args: ["Listener to it: ", "{arguments}.0"]
-        }
+        ]
     }
 });
 
 gpii.devpmt.productList.selectProduct = function (that, devpmt, event) {
     var appid = event.currentTarget.dataset.appid;
-    console.log("Activated Product: " + event.currentTarget.dataset.appid);
     that.events.activateProduct.fire(appid);
-    console.log("Fired event");
     // TODO Fix up the create order or figure out how to add a delayed listener,
     // such that devpmt can listen for this, since it can't create a listener, since
     // this component is created after it is finished being created.
-    console.log("Going to use: ", $(that.dom.addProductAppId).val());
     devpmt.openAddProductDialog(appid);
 };
 

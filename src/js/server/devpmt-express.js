@@ -93,10 +93,6 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
     },
     listeners: {
         "onCreate": [
-            {
-                "funcName": "console.log",
-                args: ["On create!!", "{that}.options.gradeNames"]
-            }
         ]
     }
 });

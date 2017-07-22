@@ -112,7 +112,6 @@ gpii.devpmt.settingsTable.filterSettings = function (that, settingsRows, lunrInd
 
     var showBasedOnAllFilter = function (settingId) {
         var togo = false;
-        console.log(that.model.allSettingsEnabled);
         if (that.model.allSettingsEnabled.length === 0) {
             togo = true;
         }
@@ -132,7 +131,6 @@ gpii.devpmt.settingsTable.filterSettings = function (that, settingsRows, lunrInd
     settingsRows.hide();
 
     var results = gpii.devpmt.lunrListFilterSearch(lunrIndex, filterText);
-    console.log(results);
 
     // TODO Remove this double loop
     fluid.each(settingsRows, function (setting) {

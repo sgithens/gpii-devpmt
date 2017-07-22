@@ -180,6 +180,13 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.npsetInit",
             args: ["{that}"] //"onCreate listener"]
         },
+        "onMarkupRendered.firstPageRender": [
+            {
+                "this": "{that}.dom.addContextButton",
+                "method": "click",
+                args: ["{that}.processAddContextDialog"],
+            }
+        ],
         "onMarkupRendered": [
             {
                 "this": "{that}.dom.valueDisplayCell",
@@ -195,11 +202,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 "this": "{that}.dom.saveButton",
                 "method": "click",
                 args: ["{that}.savePrefset"]
-            },
-            {
-                "this": "{that}.dom.addContextButton",
-                "method": "click",
-                args: ["{that}.processAddContextDialog"]
             },
             {
                 "this": "{that}.dom.topbarSaveButton",
@@ -249,16 +251,12 @@ gpii.devpmt.initSettingTableWidgets = function (that) {
 };
 
 gpii.devpmt.addEditToUnsavedList = function (that, description) { // that, path, newValue, oldValue) {
-    // console.log("Making change: "+path+" : "+JSON.stringify(newValue)+" : "+JSON.stringify(oldValue));
-    //that.applier.change("unsavedChangesExist", true);
-    // TODO use change applier
     that.model.unsavedChanges.push({
         // path: path,
         // newValue: newValue,
         // oldValue: oldValue
         description: description
     });
-    // that.renderInitialMarkup();
 };
 
 gpii.devpmt.updateFoundationSticky = function () {
@@ -337,6 +335,12 @@ gpii.devpmt.updateMetadataFromPrefs = function (that) {
  */
 gpii.devpmt.processAddContextDialog = function (that) {
     var contextName = that.dom.locate("addContextNameInput").val();
+    // TODO Refactor dialogs into components, or determine what is
+    // triggering this a second time with a blank string.
+    if (contextName === "") {
+        return;
+    }
+
     // TODO validation to see if already exists, and determining
     // the valid set of strings a context ID can take
     var path = "flatPrefs.contexts." + contextName;
@@ -345,8 +349,8 @@ gpii.devpmt.processAddContextDialog = function (that) {
         "preferences": {}
     }, "ADD");
     that.dom.locate("addContextNameInput").val("");
-    that.renderInitialMarkup();
     that.dom.locate("addContextDialog").foundation("close");
+    that.renderInitialMarkup();
 };
 
 gpii.devpmt.openSaveConfirmDialog = function (that) {

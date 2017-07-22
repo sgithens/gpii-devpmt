@@ -49,10 +49,6 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}.model"]
         },
-        okButtonClicked: {
-            funcName: "console.log",
-            args: ["Ok Button Clicked", "{that}.model.metadata.name"]
-        },
         saveUpdateValue: {
             funcName: "gpii.devpmt.saveUpdateValue",
             args: ["{that}", "{editPrefs}"]
@@ -69,10 +65,6 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         }]
     },
     modelListeners: {
-        "active": [{
-            funcName: "console.log",
-            args: ["Changed active: ", "{that}.model.active"]
-        }]
     }
 });
 
