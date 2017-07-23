@@ -56,16 +56,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#prefs-adjuster"
                 }
             }
-        },
-        prefsFilter: {
-            type: "gpii.devpmt.prefsFilter",
-            createOnEvent: "onMarkupRendered",
-            container: "{that}.dom.prefsFilter",
-            options: {
-                model: {
-                    settingsFilter: "{gpii.devpmt.editPrefs}.model.settingsSearch"
-                }
-            }
         }
     },
     dynamicComponents: {
@@ -183,11 +173,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         // Generic Prefs Table
         setSettingsFilter: {
-            funcName: "gpii.devpmt.prefsFilter.setSettingsFilter",
+            funcName: "gpii.devpmt.setSettingsFilter",
             args: ["{that}", "{editPrefs}", "{arguments}.0"]
         },
         searchSettings: {
-            funcName: "gpii.devpmt.prefsFilter.searchSettings",
+            funcName: "gpii.devpmt.searchSettings",
             args: ["{that}", "{that}.dom.settingsSearchInput", "{editPrefs}"]
         }
     },
@@ -275,12 +265,12 @@ fluid.defaults("gpii.devpmt.editPrefs", {
 });
 
 /* Generic Prefs Table Filters */
-gpii.devpmt.prefsFilter.searchSettings = function (that, searchInput, editPrefs) {
+gpii.devpmt.searchSettings = function (that, searchInput, editPrefs) {
     editPrefs.applier.change("settingsSearch", searchInput);
     editPrefs.reRender();
 };
 
-gpii.devpmt.prefsFilter.setSettingsFilter = function (that, editPrefs, event) {
+gpii.devpmt.setSettingsFilter = function (that, editPrefs, event) {
     editPrefs.applier.change("settingsFilter", event.data);
     editPrefs.reRender();
 };
@@ -555,4 +545,9 @@ gpii.devpmt.npsetInit = function (that) {
         gpii.devpmt.updateFoundationSticky();
     }, 250);
 
+    $(window).bind('beforeunload', function (e) {
+        return that.model.unsavedChangesExist ? true : undefined;
+    });
+
 };
+
