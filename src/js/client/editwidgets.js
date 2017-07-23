@@ -107,5 +107,4 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
         devpmt.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context + " to " + newValue);
     }
-    devpmt.renderInitialMarkup();
 };
