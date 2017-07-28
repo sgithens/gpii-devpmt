@@ -42,7 +42,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         blankCheckbox: "#blank-value"
     },
     templates: {
-        initial: "prefSettingAdjuster-widget"
+        initial: "editprefset-prefSettingAdjuster-widget"
     },
     invokers: {
         renderInitialMarkup: {
