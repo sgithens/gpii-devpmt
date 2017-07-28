@@ -1,5 +1,5 @@
 /*
- * productList-widget
+ * editprefset-productList-widget
  *
  * A component that renders a list of all the applications/products, as well
  * as including Generic Settings at the top of the list. Typically used on
@@ -37,7 +37,7 @@ fluid.defaults("gpii.devpmt.productListWidget", {
         "productListFilter": "productListFilter"
     },
     templates: {
-        initial: "productList-widget"
+        initial: "editprefset-productList-widget"
     },
     lunrIndex: null,
     invokers: {
