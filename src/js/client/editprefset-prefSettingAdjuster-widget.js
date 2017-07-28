@@ -52,6 +52,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         saveUpdateValue: {
             funcName: "gpii.devpmt.saveUpdateValue",
             args: ["{that}", "{editPrefs}"]
+        },
+        watchInputKeys: {
+            funcName: "gpii.devpmt.watchInputKeys",
+            args: ["{that}", "{arguments}.0"]
         }
     },
     listeners: {
@@ -59,7 +63,13 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             "this": "{that}.dom.okButton",
             "method": "click",
             args: ["{that}.saveUpdateValue"]
-        }, {
+        },
+        {
+            "this": "{that}.dom.valueInput",
+            "method": "keypress",
+            args: ["{that}.watchInputKeys"]
+        },
+        {
             funcName: "fluid.focus",
             args: ["{that}.dom.valueInput"]
         }]
@@ -67,6 +77,20 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
     modelListeners: {
     }
 });
+
+/**
+ * watchInputKeys - Watches value input and saves
+ * on Enter.
+ *
+ * @param (Object) that - prefSettingAdjuster
+ * @param (Object) e - jQuery Event
+ */
+gpii.devpmt.watchInputKeys = function (that, e) {
+    // Save the value when the enter key is pressed
+    if (e.keyCode === 13) {
+        that.saveUpdateValue();
+    };
+};
 
 /**
  * Save/Update using the value the user has input. This is
