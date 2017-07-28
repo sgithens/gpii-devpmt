@@ -172,21 +172,11 @@
         </table>
         </div>
         {{#each npsetApplications}} {{! <-- Is npsetApplications actually dynamic? }}
-           <!--
-            {{> productSettingsTable-widget appURI=this.uri appId=this.appId allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
-           -->
             <div id="test-comp-{{this.appId}}">
                 <div class="settings-table-div"></div>
             </div>
 
         {{/each}} {{! end npsetApplications }}
-        <!--
-        {{#each allSolutionsSorted }}
-            {{#unless (checkForApp ../npsetApplications this.id)}}
-                {{> productSettingsTable-widget appURI=(appURIfromID this.id) appId=this.id allSolutions=../allSolutions contextNames=../contextNames flatPrefs=../flatPrefs}}
-            {{/unless}}
-        {{/each}}
-        -->
 
         {{#if devModeOn}}
         <hr/>
