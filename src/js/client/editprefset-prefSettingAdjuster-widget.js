@@ -73,8 +73,6 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             funcName: "fluid.focus",
             args: ["{that}.dom.valueInput"]
         }]
-    },
-    modelListeners: {
     }
 });
 
