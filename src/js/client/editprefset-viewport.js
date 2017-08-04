@@ -25,6 +25,13 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         settingsFilter: "mysettings",
         settingsSearch: "",
 
+        // A hash which could include an entry for each
+        // settingsTables dynamicComponent that contains
+        // it's local display options (such as mine/all settings),
+        // kept here in case we need to rerender the entire page
+        // for a major prefset change.
+        productTableFilters: {},
+
         devModeOn: false
     },
     events: {
@@ -73,6 +80,28 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 model: {
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
                     contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                },
+                modelRelay: {
+                    settingsFilter: {
+                        source: {
+                            context: "gpii.devpmt.editPrefs",
+                            segs: ["productTableFilters", "{that}.options.appId", "settingsFilter"]
+                        },
+                        target: "settingsFilter",
+                        singleTransform: {
+                            type: "fluid.transforms.identity"
+                        }
+                    },
+                    allSettingsEnabled: {
+                        source: {
+                            context: "gpii.devpmt.editPrefs",
+                            segs: ["productTableFilters", "{that}.options.appId", "allSettingsEnabled"]
+                        },
+                        target: "allSettingsEnabled",
+                        singleTransform: {
+                            type: "fluid.transforms.identity"
+                        }
+                    }
                 }
             }
         }

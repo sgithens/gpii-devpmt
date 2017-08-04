@@ -24,8 +24,8 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     model: {
         flatPrefs: null, // Model Relay to EditPrefs
         contextNames: null, // Model Relay to EditPrefs
-        settingsFilter: "", // Bound to the text box for filtering/searching
-        allSettingsEnabled: ["mysettings"] // For some reason this defaults to an array from binder
+        settingsFilter: null, // Bound to the text box for filtering/searching
+        allSettingsEnabled: null, // For some reason this defaults to an array from binder
     },
     modelListeners: {
         settingsFilter: {
@@ -50,6 +50,10 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         initial: "editprefset-settingsTable-widget"
     },
     invokers: {
+        filterInit: {
+            funcName: "gpii.devpmt.settingsTable.filterInit",
+            args: ["{that}"]
+        },
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}"]
@@ -71,6 +75,9 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         "onCreate": [
             {
                 "func": "{that}.updateLunrIndex"
+            },
+            {
+                "func": "{that}.filterInit"
             }
         ],
         "onMarkupRendered": [
@@ -91,6 +98,24 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     },
     lunrIndex: null
 });
+
+/**
+ * gpii.devpmt.settingsTable.filterInit - The users current filter options
+ * will be stored on the parent component and updated via model relay, such
+ * that they are saved if this component is destroyed and recreated.
+ * The first time it is created though, we want to set the default values,
+ * and trigger them via change applier so they are set on the parent.
+ *
+ * @param (Object) that
+ */
+gpii.devpmt.settingsTable.filterInit = function (that) {
+    if (that.model.settingsFilter === null) {
+        that.applier.change("settingsFilter", "");
+    }
+    if (that.model.allSettingsEnabled === null) {
+        that.applier.change("allSettingsEnabled", ["mysettings"]);
+    }
+};
 
 gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event) {
     var checked = event.currentTarget.checked;
