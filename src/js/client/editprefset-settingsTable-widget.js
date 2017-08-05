@@ -25,7 +25,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         flatPrefs: null, // Model Relay to EditPrefs
         contextNames: null, // Model Relay to EditPrefs
         settingsFilter: null, // Bound to the text box for filtering/searching
-        allSettingsEnabled: null, // For some reason this defaults to an array from binder
+        allSettingsEnabled: null // For some reason this defaults to an array from binder
     },
     modelListeners: {
         settingsFilter: {

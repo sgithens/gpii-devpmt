@@ -574,7 +574,7 @@ gpii.devpmt.npsetInit = function (that) {
         gpii.devpmt.updateFoundationSticky();
     }, 250);
 
-    $(window).bind('beforeunload', function (e) {
+    $(window).bind("beforeunload", function () {
         return that.model.unsavedChangesExist ? true : undefined;
     });
 

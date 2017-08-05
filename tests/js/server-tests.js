@@ -89,7 +89,7 @@ gpii.tests.devpmt.server.makeTestProductIndex = function () {
     var entries = [
         {
             id: "com.freedomscientific.jaws",
-            "name": "JAWS",
+            "name": "JAWS"
         }, {
             id: "org.nvda-project",
             "name": "NVDA Screen Reader"
@@ -116,7 +116,7 @@ gpii.tests.devpmt.server.makeTestProductIndex = function () {
     });
 
     return lunrIndex;
-}
+};
 
 gpii.tests.devpmt.server.lunrCaseInsesitiveTest = function () {
     var index = gpii.tests.devpmt.server.makeTestProductIndex();
