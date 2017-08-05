@@ -1,4 +1,4 @@
-# Developers Preferences Testing Tool
+# Development Preferences Test Tool and other Management Tools
 
 This project is the foundation for the DPTT and other comprehensive preferences
 management tools for the GPII.
