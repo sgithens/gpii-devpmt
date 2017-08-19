@@ -1,3 +1,4 @@
+/* global lunr */
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");

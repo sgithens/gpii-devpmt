@@ -5,6 +5,7 @@
  * as including Generic Settings at the top of the list. Typically used on
  * the left hand side for navigation and adding new products to an NP Set.
  */
+/* global lunr */
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");

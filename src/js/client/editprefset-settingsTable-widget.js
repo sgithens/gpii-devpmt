@@ -7,6 +7,7 @@
  * filter to show only settings the user has, or all available settings.
  * Clicking on a setting will launch a widget to edit the setting.
  */
+/* global lunr */
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");
