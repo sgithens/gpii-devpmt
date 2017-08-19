@@ -179,11 +179,13 @@ gpii.devpmt.settingsTable.updateLunrIndex = function (that) {
 
         fluid.each(that.options.solution.settingsHandlers, function (settingsHandler) {
             fluid.each(settingsHandler.supportedSettings, function (setting, key) {
-                idx.add({
-                    "id": key,
-                    "name": setting.name,
-                    "description": setting.description
-                });
+                if (setting.schema) {
+                    idx.add({
+                        "id": key,
+                        "name": setting.schema.title,
+                        "description": setting.schema.description
+                    });
+                }
             });
         });
     });

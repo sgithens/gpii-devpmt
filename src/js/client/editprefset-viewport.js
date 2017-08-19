@@ -366,7 +366,7 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
         fluid.each(that.model.commonTerms, function (commonTerm, term) {
             idx.add({
                 "id": term,
-                "name": commonTerm.name,
+                "name": commonTerm.schema.title,
                 "term": term
             });
         });
@@ -565,7 +565,17 @@ gpii.devpmt.npsetInit = function (that) {
         that.model.commonTermsSorted.push(flatTerm);
     });
 
-    fluid.stableSort(that.model.commonTermsSorted, sortName);
+    fluid.stableSort(that.model.commonTermsSorted, function (a, b) {
+        if (a.schema.title > b.schema.title) {
+            return 1;
+        }
+        else if (a.schema.title < b.schema.title) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    });
 
     // Debugging so this component is available in the console
     var editPrefs = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.editPrefs")[0];

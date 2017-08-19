@@ -21,7 +21,7 @@ gpii.tests.devpmt.server.loadTestDataNPSetsTest = function () {
 gpii.tests.devpmt.server.loadCommonTermsMetadataTest = function () {
     var terms = gpii.devpmt.loadCommonTermsMetadata();
     var fontSize = terms["http://registry.gpii.net/common/fontSize"];
-    jqUnit.assertEquals("Font Size should have a name", "Font Size", fontSize.name);
+    jqUnit.assertEquals("Font Size should have a name", "Font Size", fontSize.schema.title);
 };
 
 fluid.defaults("gpii.tests.devpmt.server.caseHolder", {

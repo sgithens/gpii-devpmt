@@ -64,10 +64,10 @@
                 {{#each this.settingsHandlers}}
                     {{#each this.supportedSettings}}
                     <tr class="pmt-settings-table-row" data-term="{{@key}}">
-                        <td id="a-{{../../../options.appId}}-{{@key}}">{{this.name}}</td>
+                        <td id="a-{{../../../options.appId}}-{{@key}}">{{this.schema.title}}</td>
                         <td><!-- Space for product default column --></td>
                         {{#each ../../../model.contextNames}}
-                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
+                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
                             {{#with (lookup (lookup (lookup (lookup ../../../../model.flatPrefs.contexts this) "preferences") ../../../../options.appUri) @../key) }}
                             data-value="{{this}}"><span>{{this}}</span>
                             {{else}}
@@ -86,7 +86,7 @@
                 <tr>
                     <td>!! {{this}}</td>
                     {{#each ../contextNames}}
-                        <td class="pmt-value-display" data-name="{{../name}}" data-context="{{this}}" data-product="{{../../uri}}" data-term="{{../this}}"
+                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-product="{{../../uri}}" data-term="{{../this}}"
                             {{#with (lookup (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../../this.uri) ../this) }}
                             data-value="{{this}}"><span>{{this}}</span>
                             {{else}}

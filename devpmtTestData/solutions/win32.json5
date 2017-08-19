@@ -14,47 +14,62 @@
                 "options": {
                     "filename": "${{environment}.APPDATA}\\Freedom Scientific\\JAWS\\17.0\\Settings\\enu\\DEFAULT.JCF"
                 },
-                "supportedSettings": {
-                    "Voice Profiles.ActiveVoiceProfileName": {
-                        "name": "ActiveVoiceProfileName",
-                        "description": "JAWS ActiveVoiceProfileName",
+                "supportedSettings": { // Full description of settings in JAWS: https://github.com/gloob/gpii-settings/blob/master/AT-Tools/JAWS/Default.jcf.csv
+                    "Voice Profiles.ActiveVoiceProfileName": { // I don't think this is something that the user should change since we always store the voice settings into our own profile name "GPII"
                         "schema": {
-                            "type": "string"
+                            "title": "Active Voice Profile Name",
+                            "description": "The active voice profile",
+                            "type": "string",
+                            "default": "GPII"
                         }
                     },
-                    "options.SayAllIndicateCaps": {
-                        "name": "SayAllIndicateCaps",
-                        "description": "JAWS SayAllIndicateCaps",
+                    "options.SayAllIndicateCaps": { // The same as http://registry.gpii.net/common/announceCapitals. We should just reuse it and override with custom values
                         "schema": {
-                            "type": "boolean"
+                            "title": "Announce capitals",
+                            "description": "During SayAll, indicate initial cap or capitalized word",
+                            "type": "boolean",
+                            "default": 0
                         }
                     },
                     "options.TypingEcho": {
-                        "name": "TypingEcho",
-                        "description": "JAWS TypingEcho",
                         "schema": {
-                            "type": "integer"
+                            "title": "Typing echo",
+                            "description": "Typing echo mode, its value can be either character, word, char&Word or none",
+                            "type": "number",
+                            "default": 0,
+                            "enum": [0, 1, 2, 3]
+                            // TODO: We should present the value to the user in a human readable format
+                            // 0: "off", 1: "character", 2: "words", 3: "character and words"
                         }
                     },
                     "options.SayAllMode": {
-                        "name": "SayAllMode",
-                        "description": "JAWS SayAllMode",
                         "schema": {
-                            "type": "integer"
+                            "title": "SayAllMode",
+                            "description": "Sets the amount of text which SayAll sends to the synthesizer as a single unit",
+                            "type": "number",
+                            "default": 0,
+                            "enum": [0, 1, 2]
+                            // TODO: We should present the value to the user in a human readable format
+                            // 0: "line", 1: "sentence", 2: "paragraph"
                         }
                     },
                     "Braille.BrailleMode": {
-                        "name": "BrailleMode",
-                        "description": "JAWS BrailleMode",
                         "schema": {
-                            "type": "integer"
+                            "title": "Braille mode",
+                            "description": "",
+                            "type": "number",
+                            "default": 1,
+                            "enum": [0, 1, 2, 3]
+                            // TODO: We should present the value to the user in a human readable format
+                            // 0: "line", 1: "structured", 2: "speech output", 3: "attribute indicators"
                         }
                     },
                     "options.SayAllIgnoreShiftKeys": {
-                        "name": "SayAllIgnoreShiftKeys",
-                        "description": "JAWS SayAllIgnoreShiftKeys",
                         "schema": {
-                            "type": "boolean"
+                            "title": "SayAll Ignore Shift Keys",
+                            "description": "Allows sticky keys to be used, i.e.: ignores shift keys during SayAll. User can use left/right arrow to do same functions",
+                            "type": "boolean",
+                            "default": 0
                         }
                     }
                 },
@@ -192,223 +207,37 @@
                     "filename": "${{environment}.APPDATA}\\Freedom Scientific\\JAWS\\17.0\\Settings\\VoiceProfiles\\GPII.VPF"
                 },
                 "supportedSettings": {
-                    "Options.PrimarySynthesizer": {
-                        "name": "PrimarySynthesizer",
-                        "description": "JAWS PrimarySynthesizer",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ENU-Global.Rate": {
-                        "name": "Global Rate",
-                        "description": "JAWS Global Rate",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-JAWSCursor.Rate": {
-                        "name": "Cursor Rate",
-                        "description": "JAWS Cursor Rate",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Keyboard.Rate": {
-                        "name": "Keyboard Rate",
-                        "description": "JAWS Keyboard Rate",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-MenuAndDialog.Rate": {
-                        "name": "Menu and Dialog Rate",
-                        "description": "JAWS Menu and Dialog Rate",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Message.Rate": {
-                        "name": "Message Rate",
-                        "description": "JAWS Message Rate",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-PCCursor.Rate": {
-                        "name": "PC Cursor Rate",
-                        "description": "JAWS PC Cursor Rate",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Global.Pitch": {
-                        "name": "Global Pitch",
-                        "description": "JAWS Global Pitch",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-JAWSCursor.Pitch": {
-                        "name": "Cursor Pitch",
-                        "description": "JAWS Cursor Pitch",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Keyboard.Pitch": {
-                        "name": "Keyboard Pitch",
-                        "description": "JAWS Keyboard Pitch",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-MenuAndDialog.Pitch": {
-                        "name": "Menu and Dialog Pitch",
-                        "description": "JAWS Menu and Dialog Pitch",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Message.Pitch": {
-                        "name": "Message Pitch",
-                        "description": "JAWS Message Pitch",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-PCCursor.Pitch": {
-                        "name": "PC Cursor Pitch",
-                        "description": "JAWS PC Cursor Pitch",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Global.Volume": {
-                        "name": "Global Volume",
-                        "description": "JAWS Global Volume",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-JAWSCursor.Volume": {
-                        "name": "Cursor Volume",
-                        "description": "JAWS Cursor Volume",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Keyboard.Volume": {
-                        "name": "Keyboard Volume",
-                        "description": "JAWS Keyboard Volume",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-MenuAndDialog.Volume": {
-                        "name": "Menu and Dialog Volume",
-                        "description": "JAWS Menu and Dialog Volume",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Message.Volume": {
-                        "name": "Message Volume",
-                        "description": "JAWS Message Volume",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-PCCursor.Volume": {
-                        "name": "PC Cursor Volume",
-                        "description": "JAWS PC Cursor Volume",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Global.Punctuation": {
-                        "name": "Global Punctuation",
-                        "description": "JAWS Global Punctuation",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-JAWSCursor.Punctuation": {
-                        "name": "Cursor Punctuation",
-                        "description": "JAWS Cursor Punctuation",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Keyboard.Punctuation": {
-                        "name": "Keyboard Punctuation",
-                        "description": "JAWS Keyboard Punctuation",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-MenuAndDialog.Punctuation": {
-                        "name": "Menu and Dialog Punctuation",
-                        "description": "JAWS Menu and Dialog Punctuation",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Message.Punctuation": {
-                        "name": "Message Punctuation",
-                        "description": "JAWS Message Punctuation",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-PCCursor.Punctuation": {
-                        "name": "PC Cursor Punctuation",
-                        "description": "JAWS PC Cursor Punctuation",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ENU-Global.SynthLangString": {
-                        "name": "Global SynthLangString",
-                        "description": "JAWS Global SynthLangString",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ENU-JAWSCursor.SynthLangString": {
-                        "name": "Cursor SynthLangString",
-                        "description": "JAWS Cursor SynthLangString",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ENU-Keyboard.SynthLangString": {
-                        "name": "Keyboard SynthLangString",
-                        "description": "JAWS Keyboard SynthLangString",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ENU-MenuAndDialog.SynthLangString": {
-                        "name": "Menu and Dialog SynthLangString",
-                        "description": "JAWS Menu and Dialog SynthLangString",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ENU-Message.SynthLangString": {
-                        "name": "Message SynthLangString",
-                        "description": "JAWS Message SynthLangString",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ENU-PCCursor.SynthLangString": {
-                        "name": "PC Cursor SynthLangString",
-                        "description": "JAWS PC Cursor SynthLangString",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
+                    "Options.PrimarySynthesizer": {},
+                    "ENU-Global.Rate": {},
+                    "ENU-JAWSCursor.Rate": {},
+                    "ENU-Keyboard.Rate": {},
+                    "ENU-MenuAndDialog.Rate": {},
+                    "ENU-Message.Rate": {},
+                    "ENU-PCCursor.Rate": {},
+                    "ENU-Global.Pitch": {},
+                    "ENU-JAWSCursor.Pitch": {},
+                    "ENU-Keyboard.Pitch": {},
+                    "ENU-MenuAndDialog.Pitch": {},
+                    "ENU-Message.Pitch": {},
+                    "ENU-PCCursor.Pitch": {},
+                    "ENU-Global.Volume": {},
+                    "ENU-JAWSCursor.Volume": {},
+                    "ENU-Keyboard.Volume": {},
+                    "ENU-MenuAndDialog.Volume": {},
+                    "ENU-Message.Volume": {},
+                    "ENU-PCCursor.Volume": {},
+                    "ENU-Global.Punctuation": {},
+                    "ENU-JAWSCursor.Punctuation": {},
+                    "ENU-Keyboard.Punctuation": {},
+                    "ENU-MenuAndDialog.Punctuation": {},
+                    "ENU-Message.Punctuation": {},
+                    "ENU-PCCursor.Punctuation": {},
+                    "ENU-Global.SynthLangString": {},
+                    "ENU-JAWSCursor.SynthLangString": {},
+                    "ENU-Keyboard.SynthLangString": {},
+                    "ENU-MenuAndDialog.SynthLangString": {},
+                    "ENU-Message.SynthLangString": {},
+                    "ENU-PCCursor.SynthLangString": {}
                 },
                 "capabilities": [],
                 "capabilitiesTransformations": {
@@ -832,57 +661,6 @@
                     "encoding": "utf-8",
                     "xml-tag": "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                 },
-                "supportedSettings": {
-                    "ApplicationSettings.AppBar.optToolbarIconSet.$t": {
-                        "name": "Toolbar Icon Set",
-                        "description": "Theme for the toolbar, can be 'Fun' or 'Professional'",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ApplicationSettings.AppBar.optToolbarButtonGroupNameCurrent.$t": {
-                        "name": "Current Group Name",
-                        "description": "Reading Features",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "ApplicationSettings.AppBar.DocType.$t": {
-                        "name": "Doc Type",
-                        "description": "Doc Type",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ApplicationSettings.AppBar.Width.$t": {
-                        "name": "App Bar Width",
-                        "description": "App Bar Width",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "ApplicationSettings.AppBar.ShowText.$t": {
-                        "name": "Show Text",
-                        "description": "Show Text",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    "ApplicationSettings.AppBar.optToolbarShowText.$t": {
-                        "name": "Show Toolbar Text",
-                        "description": "Show Toolbar Text",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    "ApplicationSettings.AppBar.sgithens.$t": {
-                        "name": "Sgithens Not Real Setting",
-                        "description": "Sgithens test for filtering",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    }
-                },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/languageAssistance"
                 ],
@@ -944,6 +722,62 @@
                         "FollowMouse": "REG_DWORD",
                         "MagnificationMode": "REG_DWORD",
                         "ZoomIncrement": "REG_DWORD"
+                    }
+                },
+                "supportedSettings": {
+                    "Invert": { // I don't think this is something that the user should change since we always store the voice settings into our own profile name "GPII"
+                        "schema": {
+                            "title": "Invert Colours",
+                            "description": "Enable colour inversion for Magnifier",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "Magnification": {
+                        "schema": {
+                            "title": "Magnification",
+                            "description": "Set up magnification level",
+                            "type": "number",
+                            "default": 200,
+                            "min": 100,
+                            "max": 1600,
+                            "divisibleBy": 1
+                        }
+                    },
+                    "FollowFocus": {
+                        "schema": {
+                            "title": "Magnifier follows focus",
+                            "description": "Magnifier follows the keyboard focus",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "FollowCaret": {
+                        "schema": {
+                            "title": "Magnifier follows caret",
+                            "description": "Magnifier follows the text insertion point",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "FollowMouse": {
+                        "schema": {
+                            "title": "Magnifier follows mouse",
+                            "description": "Magnifier follows the mouse pointer",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "MagnificationMode": {
+                        "schema": {
+                            "title": "Magnifier position",
+                            "description": "Position of the magnified area",
+                            "type": "number",
+                            "default": 2,
+                            "enum": [1, 2, 3]
+                            // TODO: We must present these values in a human readable form
+                            // 1: "TopHalf", 2: "FullScreen", 3: "Lens"
+                        }
                     }
                 },
                 "capabilities": [],
@@ -1076,6 +910,16 @@
                         "NavigationMode": "REG_DWORD"
                     }
                 },
+                "supportedSettings": {
+                    "NavigationMode": { // TODO: Weird supported setting - How do we provide such use case?
+                        "schema": {
+                            "title": "On-Screen Keyboard",
+                            "description": "Enable/Disable On-Screen Keyboard",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/onScreenKeyboardEnabled"
                 ],
@@ -1103,6 +947,278 @@
             {
                 "type": "gpii.windows.enableRegisteredAT",
                 "name": "osk",
+                "enable": false
+            }
+        ],
+        "isInstalled": [
+            {
+                "type": "gpii.deviceReporter.alwaysInstalled"
+            }
+        ]
+    },
+
+
+    "com.microsoft.windows.narrator": {
+        "name": "Windows Built-in Narrator",
+        "contexts": {
+            "OS": [
+                {
+                    "id": "win32",
+                    "version": ">=5.0"
+                }
+            ]
+        },
+        "settingsHandlers": {
+            "configure": {
+                "type": "gpii.windows.registrySettingsHandler",
+                "options": {
+                    "hKey": "HKEY_CURRENT_USER",
+                    "path": "Software\\Microsoft\\Narrator",
+                    "dataTypes": {
+                        "SpeechSpeed": "REG_DWORD",
+                        "SpeechPitch": "REG_DWORD",
+                        "InteractionMouse": "REG_DWORD",
+                        "CoupleNarratorCursorKeyboard": "REG_DWORD",
+                        "FollowInsertion": "REG_DWORD",
+                        "EchoChars": "REG_DWORD",
+                        "EchoWords": "REG_DWORD"
+                    }
+                },
+                "supportedSettings": {
+                    "SpeechSpeed": {},
+                    "SpeechPitch": {},
+                    "CoupleNarratorCursorKeyboard": {},
+                    "FollowInsertion": {},
+                    "InteractionMouse": {},
+                    "EchoChars": {},
+                    "EchoWords": {}
+                },
+                "capabilities": [
+                    "http://registry\\.gpii\\.net/common/screenReaderTTSEnabled",
+                    "http://registry\\.gpii\\.net/common/speechRate",
+                    "http://registry\\.gpii\\.net/common/trackingTTS",
+                    "http://registry\\.gpii\\.net/common/keyEcho",
+                    "http://registry\\.gpii\\.net/common/wordEcho",
+                    "http://registry\\.gpii\\.net/common/pitch"
+                ],
+                "capabilitiesTransformations": {
+                    "SpeechSpeed": {
+                        "transform": {
+                            "type": "fluid.transforms.round",
+                            "input": {
+                                "transform": {
+                                    "type": "fluid.transforms.quantize",
+                                    "inputPath": "http://registry\\.gpii\\.net/common/speechRate",
+                                    /* https://msdn.microsoft.com/library/ee431826
+                                     * The speed range is -10 to +10. 0 being normal, -10 is a third of normal and +10
+                                     * is three times normal. The registry value is actually 0 to 20.
+                                     * So this maps values between (default-speechRate / 3) and (default-speechRage * 3)
+                                     * into values between 0 and 20.
+                                     */
+                                    "ranges": [
+                                        {
+                                            "upperBound": 50,
+                                            "output": 0
+                                        },
+                                        {
+                                            "upperBound": 150,
+                                            "output": {
+                                                "transform": {
+                                                    "type": "fluid.transforms.linearScale",
+                                                    "inputPath": "http://registry\\.gpii\\.net/common/speechRate",
+                                                    "factor": 0.1,
+                                                    "offset": -5
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "upperBound": 450,
+                                            "output": {
+                                                "transform": {
+                                                    "type": "fluid.transforms.linearScale",
+                                                    "inputPath": "http://registry\\.gpii\\.net/common/speechRate",
+                                                    "factor": 0.033333333333,
+                                                    "offset": -5
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "output": 20
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "SpeechPitch": {
+                        "transform": {
+                            "type": "fluid.transforms.linearScale",
+                            "inputPath": "http://registry\\.gpii\\.net/common/pitch",
+                            "factor": 20,
+                            "offset": 0
+                        }
+                    },
+                    "transform": [{
+                        "type": "fluid.transforms.arrayToSetMembership",
+                        "inputPath": "http://registry\\.gpii\\.net/common/trackingTTS",
+                        "outputPath": "",
+                        "presentValue": 1,
+                        "missingValue": 0,
+                        "options": {
+                            "focus": "CoupleNarratorCursorKeyboard",
+                            "caret": "FollowInsertion",
+                            "mouse": "InteractionMouse"
+                        }
+                    }],
+                    "EchoChars": {
+                        "transform": {
+                            "type": "fluid.transforms.condition",
+                            "false": 0,
+                            "true": 1,
+                            "conditionPath": "http://registry\\.gpii\\.net/common/keyEcho"
+                        }
+                    },
+                    "EchoWords": {
+                        "transform": {
+                            "type": "fluid.transforms.condition",
+                            "false": 0,
+                            "true": 1,
+                            "conditionPath": "http://registry\\.gpii\\.net/common/wordEcho"
+                        }
+                    }
+                },
+                "inverseCapabilitiesTransformations": {
+                    "http://registry\\.gpii\\.net/common/speechRate": {
+                        "transform": {
+                            "type": "fluid.transforms.condition",
+                            "condition": {
+                                "transform": {
+                                    "type": "fluid.transforms.binaryOp",
+                                    "leftPath": "SpeechSpeed",
+                                    "right": 10,
+                                    "operator": "<"
+                                }
+                            },
+                            "true": {
+                                "transform": {
+                                    "type": "fluid.transforms.linearScale",
+                                    "inputPath": "SpeechSpeed",
+                                    "factor": 10,
+                                    "offset": 50
+                                }
+                            },
+                            "false": {
+                                "transform": {
+                                    "type": "fluid.transforms.linearScale",
+                                    "inputPath": "SpeechSpeed",
+                                    "factor": 30,
+                                    "offset": -150
+                                }
+                            }
+                        }
+                    },
+                    "http://registry\\.gpii\\.net/common/pitch": {
+                        "transform": {
+                            "type": "fluid.transforms.linearScale",
+                            "inputPath": "SpeechPitch",
+                            "factor": 0.05,
+                            "offset": 0
+                        }
+                    },
+                    "transform": [{
+                        "type": "fluid.transforms.setMembershipToArray",
+                        "inputPath": "",
+                        "outputPath": "http://registry\\.gpii\\.net/common/trackingTTS",
+                        "presentValue": 1,
+                        "missingValue": 0,
+                        "options": {
+                            "CoupleNarratorCursorKeyboard": "focus",
+                            "FollowInsertion": "caret",
+                            "InteractionMouse": "mouse"
+                        }
+                    }],
+                    "http://registry\\.gpii\\.net/common/keyEcho": {
+                        "transform": {
+                            "type": "fluid.transforms.binaryOp",
+                            "leftPath": "EchoChars",
+                            "right": 0,
+                            "operator": "!=="
+                        }
+                    },
+                    "http://registry\\.gpii\\.net/common/wordEcho": {
+                        "transform": {
+                            "type": "fluid.transforms.binaryOp",
+                            "leftPath": "EchoWords",
+                            "right": 0,
+                            "operator": "!=="
+                        }
+                    }
+                }
+            },
+            "configureNoRoam": {
+                "type": "gpii.windows.registrySettingsHandler",
+                "options": {
+                    "hKey": "HKEY_CURRENT_USER",
+                    "path": "Software\\Microsoft\\Narrator\\NoRoam",
+                    "dataTypes": {
+                        "SpeechVolume": "REG_DWORD",
+                        "ShowKeyboardIntroduction": "REG_DWORD",
+                        "ShowBrowserSelection": "REG_DWORD"
+                    }
+                },
+                "supportedSettings": {
+                    "SpeechVolume": {},
+                    "ShowKeyboardIntroduction": {},
+                    "ShowBrowserSelection": {}
+                },
+                "capabilities": [
+                    "http://registry\\.gpii\\.net/common/volumeTTS"
+                ],
+                "capabilitiesTransformations": {
+                    "SpeechVolume": {
+                        "transform": {
+                            "type": "fluid.transforms.linearScale",
+                            "inputPath": "http://registry\\.gpii\\.net/common/volumeTTS",
+                            "factor": 100,
+                            "offset": 0
+                        }
+                    },
+                    "ShowKeyboardIntroduction": {
+                        "transform": {
+                            "type": "fluid.transforms.condition",
+                            "false": 0,
+                            "true": 1,
+                            "conditionPath": "http://registry\\.gpii\\.net/common/speakTutorialMessages"
+                        }
+                    },
+                    "ShowBrowserSelection": {
+                        "transform": {
+                            "type": "fluid.transforms.literalValue",
+                            "input": 0
+                        }
+                    }
+                }
+            }
+        },
+        "configure": [
+            "settings.configure",
+            "settings.configureNoRoam"
+        ],
+        "restore": [
+            "settings.configure",
+            "settings.configureNoRoam"
+        ],
+        "start": [
+            {
+                "type": "gpii.windows.enableRegisteredAT",
+                "name": "Narrator",
+                "enable": true
+            }
+        ],
+        "stop": [
+            {
+                "type": "gpii.windows.enableRegisteredAT",
+                "name": "Narrator",
                 "enable": false
             }
         ],
@@ -1544,7 +1660,7 @@
         "start": [
             {
                 "type": "gpii.launch.exec",
-                "command": "\"${{registry}.HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe\\}\" http://easy123.org/user/${{userToken}}"
+                "command": "\"${{registry}.HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe\\}\" http://easyone.gpii.net/user/${{userToken}}"
             }
         ],
         "stop": [
@@ -1581,7 +1697,7 @@
         "start": [
             {
                 "type": "gpii.launch.exec",
-                "command": "\"${{registry}.HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe\\}\" http://easy123.org/sudan"
+                "command": "\"${{registry}.HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\firefox.exe\\}\" http://easyone.gpii.net/sudan"
             }
         ],
         "stop": [
@@ -1750,7 +1866,14 @@
                     "verifySettings": true
                 },
                 "supportedSettings": {
-                    "HighContrastOn": {}
+                    "HighContrastOn": {
+                        "schema": {
+                            "title": "High Contrast",
+                            "description": "Whether to enable/disable High Contrast",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
                 },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/highContrastEnabled"
@@ -1784,7 +1907,19 @@
                     }
                 },
                 "supportedSettings": {
-                    "LastHighContrastTheme": {}
+                    "LastHighContrastTheme": {
+                        "schema": {
+                            "title": "High Contrast theme",
+                            "description": "High Contrast Theme",
+                            "type": "string",
+                            "default": "%SystemRoot%\\resources\\Ease of Access Themes\\hcwhite.theme",
+                            "enum": [
+                                "%SystemRoot%\\resources\\Ease of Access Themes\\hcwhite.theme",
+                                "%SystemRoot%\\resources\\Ease of Access Themes\\hcblack.theme",
+                                "%SystemRoot%\\resources\\Ease of Access Themes\\hc1.theme",
+                                "%SystemRoot%\\resources\\Ease of Access Themes\\hc1.theme"]
+                        }
+                    }
                 },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/highContrastTheme"
@@ -1844,6 +1979,16 @@
                     },
                     "verifySettings": true
                 },
+                "supportedSettings": {
+                    "StickyKeysOn": {
+                        "schema": {
+                            "title": "Sticky keys",
+                            "description": "Whether to enable/disable sticky keys",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
                 "capabilities": [],
                 "capabilitiesTransformations": {
                     "StickyKeysOn": {
@@ -1897,6 +2042,34 @@
                         "name": "FILTERKEYS"
                     },
                     "verifySettings": false
+                },
+                "supportedSettings": {
+                    "FilterKeysEnable": {
+                        "schema": {
+                            "title": "Filter keys",
+                            "description": "Enable/Disable filter keys",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "SlowKeysInterval": {
+                        "schema": {
+                            "title": "Slow keys interval",
+                            "description": "Slow keys interval time in milliseconds",
+                            "type": "number",
+                            "default": 0,  // 0 means no interval time
+                            "divisibleBy": 1
+                        }
+                    },
+                    "BounceKeysInterval": {
+                        "schema": {
+                            "title": "Bounce keys interval",
+                            "description": "Bounce keys interval time in milliseconds",
+                            "type": "number",
+                            "default": 0,
+                            "divisibleBy": 1
+                        }
+                    }
                 },
                 "capabilities": [],
                 "capabilitiesTransformations": {
@@ -2084,6 +2257,33 @@
                     },
                     "verifySettings": true
                 },
+                "supportedSettings": {
+                    "MouseKeysOn": {
+                        "schema": {
+                            "title": "Mouse keys",
+                            "description": "Enable/Disable mouse keys",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "MaxSpeed": {
+                        "schema": {
+                            "title": "Mouse keys speed",
+                            "description": "Speed of mouse keys",
+                            "type": "number",
+                            "divisibleBy": 10
+                        }
+                    },
+                    "Acceleration": {
+                        "schema": {
+                            "title": "Mouse keys acceleration",
+                            "description": "Acceleration of mouse keys",
+                            "type": "number",
+                            "min": -1000, // TODO: Not clear how to describe this setting
+                            "max": 1000
+                        }
+                    }
+                },
                 "capabilities": [],
                 "capabilitiesTransformations": {
                     "MouseKeysOn": {
@@ -2198,6 +2398,18 @@
                     },
                     "verifySettings": true
                 },
+                "supportedSettings": {
+                    "MouseTrails": {
+                        "schema": { // Exactly the same schema as mouseTrailing common term
+                            "title": "Mouse trails",
+                            "description": "Amount of mouse trailing",
+                            "type": "number",
+                            "min": 0,
+                            "max": 10,
+                            "divisibleBy": 1
+                        }
+                    }
+                },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/mouseTrailing"
                 ],
@@ -2250,7 +2462,17 @@
                 "capabilities": [
                     "display.screenEnhancement.screenResolution",
                     "applications.com\\.microsoft\\.windows\\.screenResolution.id"
-                ]
+                ],
+                "supportedSettings": {
+                    "screenResolution": {
+                        "schema": {
+                            "title": "Screen resolution",
+                            "description": "Screen resolution of the default display",
+                            "type": "array", // TODO: Not sure about this type
+                            "enum": [] // TODO: This must be filled in on the fly with available screen resolutions
+                        }
+                    }
+                }
             }
         },
         "configure": [
@@ -2298,6 +2520,9 @@
                         "Wait": "REG_SZ"
                     },
                     "verifySettings": true
+                },
+                "supportedSettings": {
+                    // TODO: How can we deal with this particular set of settings, all related to cursorSize?
                 },
                 "capabilities": [
                     "http://registry\\.gpii\\.net/common/cursorSize"
@@ -2711,46 +2936,5 @@
         "start": [],
         "stop": [],
         "isInstalled": [] // always reported as not installed. Should be changed once GPII-1998 is fixed
-    },
-
-"com.microsoft.windows.screenDPI": {
-    "name": "Windows DPI",
-    "contexts": {
-        "OS": [
-            {
-                "id": "win32",
-                "version": ">=6.2"
-            }
-        ]
-    },
-    "settingsHandlers": {
-        "configure": {
-            "type": "gpii.windows.displaySettingsHandler",
-            "capabilities": [
-                "display.screenEnhancement.screenScale",
-                "applications.com\\.microsoft\\.windows\\.screenDPI.id"
-            ],
-            "supportedSettings": {
-                "screen-dpi": {
-                    "name": "Screen DPI",
-                    "description": "DPI has a percentage/100 value. 1.25 would make the screen a quarter larger.",
-                    "schema": {
-                        "type": "number"
-                    }
-                }
-            }
-        }
-    },
-    "configure": [
-        "settings.configure"
-    ],
-    "restore": [
-        "settings.configure"
-    ],
-    "isInstalled": [
-        {
-            "type": "gpii.deviceReporter.alwaysInstalled"
-        }
-    ]
-}
+    }
 }
