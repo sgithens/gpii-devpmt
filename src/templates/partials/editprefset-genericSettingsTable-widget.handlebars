@@ -1,0 +1,61 @@
+        <div class="pmt-generic-prefs-area callout" data-appId="{{appId}}">
+            <div class="row expanded">
+                <div class="medium-6 columns">
+                    <h2 id="title">
+                        Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
+                    </h2>
+                    <p>
+                    Generic preference settings are universal settings stored in GPII that are
+                    not particular to specific products. They can potentially be applied to a wide
+                    range of products automatically.
+                    </p>
+                </div>
+                <div class="medium-6 columns">
+                    <div id="pmt-settings-filters">
+                        <div class="button-group">
+                            {{#compare settingsFilter "===" "mysettings" }}
+                            <button id="pmt-mysettings-button" class="button primary" type="button" >My Settings</button>
+                            <button id="pmt-allsettings-button" class="button secondary hollow" type="button" >All Settings</button>
+                            {{else}}
+                            <button id="pmt-mysettings-button" class="button secondary hollow" type="button" >My Settings</button>
+                            <button id="pmt-allsettings-button" class="button primary" type="button" >All Settings</button>
+                            {{/compare}}
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-label"><i class="fi-filter"></i></span>
+                            <input id="pmt-settings-search-input" value="{{settingsSearch}}" class="input-group-field" type="text" placeholder="Filter" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <table class="scroll">
+            <thead>
+                <tr>
+                    <th class="pmt-settingstable-name">Setting</th>
+                    {{#each contextNames}}
+                        <th class="pmt-settingstable-value">{{this}} context</th>
+                    {{/each}}
+                    <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Context</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each commonTermsSorted}}
+                    <tr class="pmt-commonterm-row" data-term="{{this.id}}">
+                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.schema.title}}&nbsp;{{this.schema.description}}&nbsp;{{jsonify this.schema}}"><i class="fi-info"></i></span> <span>{{this.schema.title}}</span></td>
+                        {{#each ../contextNames}}
+                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-term="{{../id}}"
+                                {{#with (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../id) }}
+                                data-value="{{this}}"><span>{{this}}</span>
+                                {{else}}
+                                data-value=""><span>--</span>
+                                {{/with}}
+                            </td>
+                        {{/each}}
+                        <td></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        </div>
+

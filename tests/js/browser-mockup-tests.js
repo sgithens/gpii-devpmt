@@ -51,6 +51,26 @@ fluid.defaults("gpii.tests.devpmt.caseHolder.hello", {
                         args: ["Testing the title", "{arguments}.0", "getText", "Preference Set: alice"]
                     }
                 ]
+            },
+            {
+                name: "Generec Prefs Table Smoketest",
+                type: "test",
+                sequence: [
+                    {
+                        func: "{testEnvironment}.webdriver.get",
+                        args: "http://localhost:8080/editprefs/alice"
+                    },
+                    {
+                        event: "{testEnvironment}.webdriver.events.onGetComplete",
+                        listener: "{testEnvironment}.webdriver.findElement",
+                        args: [{ id: "generic-prefs" }]
+                    },
+                    {
+                        event: "{testEnvironment}.webdriver.events.onFindElementComplete",
+                        listener: "gpii.test.webdriver.inspectElement",
+                        args: ["Testing the anchor", "{arguments}.0", "getText", "top"]
+                    }
+                ]
             }
         ]
     }],
