@@ -23,6 +23,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         unsavedChangesExist: false,
         unsavedChanges: [],
 
+        // Generic Prefs Filters
         settingsFilter: "mysettings",
         settingsSearch: "",
 
@@ -76,7 +77,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
                     contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
                     commonTermsSorted: "{gpii.devpmt.editPrefs}.model.commonTermsSorted",
-                    commonTerms: "{gpii.devpmt.editPrefs}.model.commonTerms"
+                    commonTerms: "{gpii.devpmt.editPrefs}.model.commonTerms",
+                    settingsFilter: "{gpii.devpmt.editPrefs}.model.settingsFilter",
+                    settingsSearch: "{gpii.devpmt.editPrefs}.model.settingsSearch"
                 }
             }
         }
