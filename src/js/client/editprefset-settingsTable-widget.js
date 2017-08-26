@@ -37,18 +37,32 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         }
     },
     bindings: { // Binding selectors to model paths
-        "settingsFilter": "settingsFilter",
         "allSettingsEnabledSwitch": "allSettingsEnabled"
     },
     selectors: {
         valueDisplayCell: ".pmt-value-display",
         enabledBooleanInputs: ".pmt-enabled-boolean",
-        settingsFilter: ".settings-list-filter",
+        settingsFilter: "#filter-container",
         settingsRows: ".pmt-settings-table-row",
         allSettingsEnabledSwitch: ".all-settings-switch"
     },
     templates: {
         initial: "editprefset-settingsTable-widget"
+    },
+    components: {
+        filter: {
+            type: "gpii.devpmt.filterWidget",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.settingsFilter",
+            options: {
+                selectors: {
+                    initial: "#common-filter-area"
+                },
+                model: {
+                    filterText: "{settingsTableWidget}.model.settingsFilter"
+                }
+            }
+        }
     },
     invokers: {
         filterInit: {

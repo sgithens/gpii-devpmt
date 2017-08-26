@@ -41,17 +41,31 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         }
     },
     bindings: {
-        "settingsSearchInput": "settingsSearch"
     },
     selectors: {
         commonTermRow: ".pmt-commonterm-row",
-        prefsFilter: "#pmt-settings-filters",
+        prefsFilter: "#filter-container",
         valueDisplayCell: ".pmt-value-display",
 
         // Generic Prefs Filters
         mySettingsButton: "#pmt-mysettings-button",
         allSettingsButton: "#pmt-allsettings-button",
         settingsSearchInput: "#pmt-settings-search-input"
+    },
+    components: {
+        filter: {
+            type: "gpii.devpmt.filterWidget",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.prefsFilter",
+            options: {
+                selectors: {
+                    initial: "#common-filter-area"
+                },
+                model: {
+                    filterText: "{genericSettingsTableWidget}.model.settingsSearch"
+                }
+            }
+        }
     },
     listeners: {
         "onCreate": [
