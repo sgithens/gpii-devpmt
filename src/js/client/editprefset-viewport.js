@@ -34,7 +34,25 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // for a major prefset change.
         productTableFilters: {},
 
-        devModeOn: false
+        devModeOn: false,
+
+        // Information for if we are currently editing a setting,
+        // and if so, which context/term/product it's for and a
+        // copy of the metadata.
+        currentlyEditing: {
+            active: false,
+            current: {
+                context: "",
+                term: "",
+                value: "",
+                product: ""
+            },
+            metadata: {
+                name: "",
+                description: "",
+                schema: {}
+            }
+        }
     },
     events: {
         createSettingsTable: null
@@ -62,6 +80,12 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             options: {
                 selectors: {
                     initial: "#prefs-adjuster"
+                },
+                model: {
+                    active: "{gpii.devpmt.editPrefs}.model.currentlyEditing.active",
+                    current: "{gpii.devpmt.editPrefs}.model.currentlyEditing.current",
+                    metadata: "{gpii.devpmt.editPrefs}.model.currentlyEditing.metadata",
+                    devModeOn: "{gpii.devpmt.editPrefs}.model.devModeOn"
                 }
             }
         },
@@ -207,6 +231,14 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         toggleDevModeView: {
             funcName: "gpii.devpmt.toggleDevModeView",
             args: ["{that}", "{that}.model.devModeOn"]
+        },
+        lookupGenericPrefValue: {
+            funcName: "gpii.devpmt.lookupGenericPrefValue",
+            args: ["{that}", "{arguments}.0", "{arguments}.1"] // context, commonTerm
+        },
+        lookupProductPrefValue: {
+            funcName: "gpii.devpmt.lookupProductPrefValue",
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
         }
     },
     listeners: {
@@ -270,6 +302,36 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     }
 });
 
+/**
+ * Lookup Generic Preference Setting.
+ *
+ * Using the context and commonTerm lookup the generic preference
+ * value. If the preference set does not contain the value, we
+ * return `undefined` to make this known, as `undefined` is not
+ * a valid JSON value. Theoretically, and preference setting maybe
+ * set as `null`.
+ */
+gpii.devpmt.lookupGenericPrefValue = function (that, context, commonTerm) {
+    if (that.model.flatPrefs.contexts[context].preferences[commonTerm] !== undefined) {
+        return that.model.flatPrefs.contexts[context].preferences[commonTerm];
+    }
+    else {
+        return undefined;
+    }
+};
+
+/**
+ * Lookup Application Specific Setting. Similar to `lookupGenericPrefValue` lookups
+ * in regard to return values, but takes an extra argument for the product.
+ */
+gpii.devpmt.lookupProductPrefValue = function (that, context, product, settingTerm) {
+    if (that.model.flatPrefs.contexts[context].preferences[product][settingTerm] !== undefined) {
+        return that.model.flatPrefs.contexts[context].preferences[product][settingTerm];
+    }
+    else {
+        return undefined;
+    }
+};
 
 gpii.devpmt.initSettingTableWidgets = function (that) {
     var existingTables = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.settingsTableWidget");
@@ -401,15 +463,18 @@ gpii.devpmt.editValueEvent = function (that, event) {
     var newCurrent = {
         context: event.currentTarget.dataset.context,
         term: event.currentTarget.dataset.term,
-        value: event.currentTarget.dataset.value,
+        //value: event.currentTarget.dataset.value,
         product: event.currentTarget.dataset.product
     };
-    that.prefsAdjuster.applier.change("current", newCurrent);
 
     var newMetadata = {};
     if (!newCurrent.product) {
         // Application Specific
         newMetadata = that.options.commonTerms[newCurrent.term];
+        newMetadata.name = newMetadata.schema.title;
+        newMetadata.description = newMetadata.schema.description;
+        newCurrent.value = that.lookupGenericPrefValue(newCurrent.context, newCurrent.term);
+        newCurrent.blank = newCurrent.value === undefined ? ["on"] : [];
     }
     else {
         // Common Term
@@ -420,9 +485,12 @@ gpii.devpmt.editValueEvent = function (that, event) {
                 type: "string"
             }
         };
+        newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
+        newCurrent.blank = newCurrent.value === undefined ? ["on"] : [];
     }
-    that.prefsAdjuster.applier.change("metadata", newMetadata);
-    that.prefsAdjuster.applier.change("active", true);
+    that.applier.change("currentlyEditing.current", newCurrent);
+    that.applier.change("currentlyEditing.metadata", newMetadata);
+    that.applier.change("currentlyEditing.active", true);
     that.applier.change("unsavedChangesExist", true);
     that.prefsAdjuster.renderInitialMarkup();
     // $(document).foundation();

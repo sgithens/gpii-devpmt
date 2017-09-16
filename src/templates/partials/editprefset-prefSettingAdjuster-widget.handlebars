@@ -1,7 +1,7 @@
 <div class="callout">
     {{#if active}}
-    <h5>{{metadata.name}}</h5>
-    <input id="blank-value" type="checkbox" /><label for="blank-value">Blank</label>
+    <h5>{{metadata.schema.title}}</h5>
+    <input name="blank-value" id="blank-value" type="checkbox" /><label for="blank-value">Blank</label>
     {{!-- Currently we only handle very very simple JSON Schema, increasing
           the complexity of this may be the target of future work --}}
     <div>
@@ -46,6 +46,14 @@
         {{/compare}}
     </div>
     <button type="button" class="ok-button button secondary hollow">OK</button>
+    <p>{{metadata.schema.description}}</p>
+    {{#if devModeOn}}
+    <p>
+        <pre>
+{{{jsonify metadata.schema}}}
+        </pre>
+    </p>
+    {{/if}}
     {{else}}
         <h3>Setting Information</h3>
         <p>

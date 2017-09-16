@@ -45,12 +45,12 @@
                         <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.schema.title}}&nbsp;{{this.schema.description}}&nbsp;{{jsonify this.schema}}"><i class="fi-info"></i></span> <span>{{this.schema.title}}</span></td>
                         {{#each ../contextNames}}
                         <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-term="{{../id}}"
-                                {{#with (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../id) }}
-                                data-value="{{this}}"><span>{{this}}</span>
-                                {{else}}
+                            {{#compare (lookupGenericPrefValue this ../id) "===" undefined}}
                                 data-value=""><span>--</span>
-                                {{/with}}
-                            </td>
+                            {{else}}
+                                data-value="{{lookupGenericPrefValue this ../id}}"><span>{{lookupGenericPrefValue this ../id}}</span>
+                            {{/compare}}
+                        </td>
                         {{/each}}
                         <td></td>
                     </tr>

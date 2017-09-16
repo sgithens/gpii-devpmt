@@ -18,14 +18,15 @@ fluid.registerNamespace("gpii.devpmt");
  * at the same time.
  */
 fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
-    gradeNames: ["gpii.handlebars.templateAware"],
+    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
     model: {
         active: false,
         current: {
             context: "",
             term: "",
             value: "",
-            product: ""
+            product: "",
+            blank: false
         },
         metadata: {
             name: "ForegroundColor",
@@ -33,13 +34,18 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             schema: {
                 type: "string"
             }
-        }
+        },
+        devModeOn: false
     },
     selectors: {
         initial: "#prefsAdjuster",
         okButton: ".ok-button",
         valueInput: "#new-value",
         blankCheckbox: "#blank-value"
+    },
+    bindings: { // Binding selectors: modelPaths
+        blankCheckbox: "current.blank",
+        valueInput: "current.value"
     },
     templates: {
         initial: "editprefset-prefSettingAdjuster-widget"
@@ -56,6 +62,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         watchInputKeys: {
             funcName: "gpii.devpmt.watchInputKeys",
             args: ["{that}", "{arguments}.0"]
+        },
+        updateBlankDisabling: {
+            funcName: "gpii.devpmt.updateBlankDisabling",
+            args: ["{that}"]
         }
     },
     listeners: {
@@ -72,9 +82,27 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         {
             funcName: "fluid.focus",
             args: ["{that}.dom.valueInput"]
+        },
+        {
+            func: "{that}.updateBlankDisabling"
         }]
+    },
+    modelListeners: {
+        "current.blank": {
+            func: "{that}.updateBlankDisabling"
+        }
     }
 });
+
+/**
+ * Updates the UI based on whether Blank is selected.
+ * If blank is selected, then the rest of the editing
+ * apparatus is disabled.
+ */
+gpii.devpmt.updateBlankDisabling = function (that) {
+    var disable = gpii.devpmt.binderBooleanFalse(that.model.current.blank);
+    that.dom.locate("valueInput").prop("disabled", disable);
+};
 
 /**
  * watchInputKeys - Watches value input and saves
@@ -90,11 +118,21 @@ gpii.devpmt.watchInputKeys = function (that, e) {
     };
 };
 
+gpii.devpmt.binderBooleanFalse = function (value) {
+    if (value.length === 1 && value[0] === "on") {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
 /**
  * Save/Update using the value the user has input. This is
  * typically caused by clicking the Ok button.
  */
 gpii.devpmt.saveUpdateValue = function (that, devpmt) {
+    that.applier.change("active", false);
     var segs = ["contexts", that.model.current.context, "preferences"];
     if (that.model.current.product) {
         segs.push(that.model.current.product.replace(/\./g, "\\."), that.model.current.term.replace(/\./g, "\\."));
@@ -106,7 +144,7 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
     fluid.each(segs, function (item) { path += "." + item; });
     // If the `blank` checkbox is ticked than we are actually going
     // to delete this key, rather than update it.
-    if (that.dom.locate("blankCheckbox").prop("checked")) {
+    if (gpii.devpmt.binderBooleanFalse(that.model.current.blank)) {
         devpmt.applier.change(path, false, "DELETE");
         devpmt.addEditToUnsavedList("Removed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context);
@@ -114,19 +152,16 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
     else {
         var newValue = "";
         if (that.model.metadata.schema.type === "boolean") {
-            var checkboxValue = that.dom.locate("valueInput").prop("checked");
-            if (checkboxValue === true) {
-                newValue = true;
-            }
-            else {
-                newValue = false;
-            }
+            newValue = gpii.devpmt.binderBooleanFalse(that.model.current.value); //that.dom.locate("valueInput").prop("checked");
         }
         else {
-            newValue = that.dom.locate("valueInput").val();
+            newValue = that.model.current.value; //that.dom.locate("valueInput").val();
         }
         devpmt.applier.change(path, newValue);
         devpmt.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context + " to " + newValue);
     }
+    // In the event that we didn't actually change any values, the model listener
+    // won't rerender the entire page.
+    that.renderInitialMarkup();
 };

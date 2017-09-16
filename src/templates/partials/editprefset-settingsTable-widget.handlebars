@@ -68,11 +68,11 @@
                         <td><!-- Space for product default column --></td>
                         {{#each ../../../model.contextNames}}
                         <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
-                            {{#with (lookup (lookup (lookup (lookup ../../../../model.flatPrefs.contexts this) "preferences") ../../../../options.appUri) @../key) }}
-                            data-value="{{this}}"><span>{{this}}</span>
+                            {{#compare (lookupProductPrefValue this ../../../../options.appUri @../key) "===" undefined}}
+                                data-value=""><span> -- </span>
                             {{else}}
-                            data-value=""><span> -- </span>
-                            {{/with}}
+                                data-value="{{lookupProductPrefValue this ../../../../options.appUri @../key}}"><span>{{lookupProductPrefValue this ../../../../options.appUri @../key}}</span>
+                            {{/compare}}
                         </td>
                         {{/each}}
                     </tr> 
