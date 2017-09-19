@@ -474,7 +474,7 @@ gpii.devpmt.editValueEvent = function (that, event) {
         newMetadata.name = newMetadata.schema.title;
         newMetadata.description = newMetadata.schema.description;
         newCurrent.value = that.lookupGenericPrefValue(newCurrent.context, newCurrent.term);
-        newCurrent.blank = newCurrent.value === undefined ? ["on"] : [];
+        newCurrent.blank = newCurrent.value === undefined;
     }
     else {
         // Common Term
@@ -486,7 +486,7 @@ gpii.devpmt.editValueEvent = function (that, event) {
             }
         };
         newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
-        newCurrent.blank = newCurrent.value === undefined ? ["on"] : [];
+        newCurrent.blank = newCurrent.value === undefined;
     }
     that.applier.change("currentlyEditing.current", newCurrent);
     that.applier.change("currentlyEditing.metadata", newMetadata);

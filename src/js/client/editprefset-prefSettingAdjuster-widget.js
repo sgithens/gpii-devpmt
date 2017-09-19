@@ -44,7 +44,11 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         blankCheckbox: "#blank-value"
     },
     bindings: { // Binding selectors: modelPaths
-        blankCheckbox: "current.blank",
+        blankCheckbox: {
+            selector: "blankCheckbox",
+            path: "current.blank",
+            rules: gpii.devpmt.booleanBinderRules
+        },
         valueInput: "current.value"
     },
     templates: {
@@ -100,7 +104,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
  * apparatus is disabled.
  */
 gpii.devpmt.updateBlankDisabling = function (that) {
-    var disable = gpii.devpmt.binderBooleanFalse(that.model.current.blank);
+    var disable = that.model.current.blank;
     that.dom.locate("valueInput").prop("disabled", disable);
 };
 
@@ -116,15 +120,6 @@ gpii.devpmt.watchInputKeys = function (that, e) {
     if (e.keyCode === 13) {
         that.saveUpdateValue();
     };
-};
-
-gpii.devpmt.binderBooleanFalse = function (value) {
-    if (value.length === 1 && value[0] === "on") {
-        return true;
-    }
-    else {
-        return false;
-    }
 };
 
 /**
@@ -144,7 +139,7 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
     fluid.each(segs, function (item) { path += "." + item; });
     // If the `blank` checkbox is ticked than we are actually going
     // to delete this key, rather than update it.
-    if (gpii.devpmt.binderBooleanFalse(that.model.current.blank)) {
+    if (that.model.current.blank) {
         devpmt.applier.change(path, false, "DELETE");
         devpmt.addEditToUnsavedList("Removed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context);

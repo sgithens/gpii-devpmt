@@ -4,6 +4,63 @@ var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 
 /**
+ * binderCheckboxToBoolean
+ *
+ * By default GPII binder, when bound to a checkbox input will
+ * represent checked as an array of one item, and unchecked as
+ * an empty array. For many situations we would like these to
+ * be represented as true and false. These transforms accomplish
+ * that mapping.
+ *
+ * @param (Array) value - The array coming from binder, most likely []
+ * or ['on']
+ * @return (boolean) true or false based on the array size
+ */
+gpii.devpmt.binderCheckboxToBoolean = function (value) {
+    return value.length > 0;
+};
+
+fluid.defaults("gpii.devpmt.binderCheckboxToBoolean", {
+    gradeNames: ["fluid.standardTransformFunction"]
+});
+
+/**
+ * booleanToBinderCheckbox
+ *
+ * See `gpii.devpmt.binderCheckboxToBoolean` for a description. This
+ * is the reverse transform.
+ *
+ * @param (boolean) value - Current value as a boolean
+ * @return (Array) [] or ['on'] depending on value
+ */
+gpii.devpmt.booleanToBinderCheckbox = function (value) {
+    return value ? ['on'] : [];
+};
+
+fluid.defaults("gpii.devpmt.booleanToBinderCheckbox", {
+    gradeNames: ["fluid.standardTransformFunction"]
+});
+
+gpii.devpmt.booleanBinderRules = {
+    domToModel: {
+        "": {
+            transform: {
+                type: "gpii.devpmt.binderCheckboxToBoolean",
+                inputPath: ""
+            }
+        }
+    },
+    modelToDom: {
+        "": {
+            transform: {
+                type: "gpii.devpmt.booleanToBinderCheckbox",
+                inputPath: ""
+            }
+        }
+    }
+};
+
+/**
  * contextNames - Takes a rawPrefs set and returns a list of all the
  * context names. This function ensures that the first item in the list is
  * always the default context, 'gpii-default', and the rest of the contexts
