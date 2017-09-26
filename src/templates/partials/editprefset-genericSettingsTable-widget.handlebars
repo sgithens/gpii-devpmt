@@ -34,9 +34,12 @@
                 <tr>
                     <th class="pmt-settingstable-name">Setting</th>
                     {{#each contextNames}}
-                        <th class="pmt-settingstable-value">{{this}} context</th>
+                    <th class="pmt-settingstable-value">
+                        {{this}} context
+                        <i class="fi-pencil"></i><i class="fi-trash"></i>
+                    </th>
                     {{/each}}
-                    <th><a class="hollow button small" data-open="pmt-add-context-modal">Add Context</a></th>
+                    <th><a class="hollow button small pmt-add-context-button">Add Context</a></th>
                 </tr>
             </thead>
             <tbody>

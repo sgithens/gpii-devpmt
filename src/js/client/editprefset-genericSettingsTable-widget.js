@@ -50,7 +50,8 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         // Generic Prefs Filters
         mySettingsButton: "#pmt-mysettings-button",
         allSettingsButton: "#pmt-allsettings-button",
-        settingsSearchInput: "#pmt-settings-search-input"
+        settingsSearchInput: "#pmt-settings-search-input",
+        addContextButton: ".pmt-add-context-button"
     },
     components: {
         filter: {
@@ -75,6 +76,11 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
                 "this": "{that}.dom.valueDisplayCell",
                 "method": "click",
                 args: ["{gpii.devpmt.editPrefs}.editValueEvent"]
+            },
+            {
+                "this": "{that}.dom.addContextButton",
+                "method": "click",
+                args: ["{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"]
             },
             {
                 func: "{that}.updateSettingsFilter"
