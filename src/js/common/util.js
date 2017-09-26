@@ -34,7 +34,7 @@ fluid.defaults("gpii.devpmt.binderCheckboxToBoolean", {
  * @return (Array) [] or ['on'] depending on value
  */
 gpii.devpmt.booleanToBinderCheckbox = function (value) {
-    return value ? ['on'] : [];
+    return value ? ["on"] : [];
 };
 
 fluid.defaults("gpii.devpmt.booleanToBinderCheckbox", {

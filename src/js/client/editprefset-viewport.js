@@ -52,14 +52,94 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 description: "",
                 schema: {}
             }
-        }
+        },
+
+        // Contains any free information that pertains to an active dialog.
+        // While we can only display one modal dialog at a time, the options
+        // and data for a dialog can change between instances, such as adding
+        // different products to an NP Set, and presenting an confirm dialog
+        // each time.
+        //
+        // notes: I had initially wanted to do this, by passing options to the
+        // createOnEvent firing to create the deffered component, but it didn't
+        // appear that I could get to the parameters being passed to the fire
+        // method. In some ways though, it does make sense to track the state of
+        // the entire page on this model, including the active dialog, for a
+        // future scenerio where we want to be able to continue after a page
+        // reload, or implement time-travel behavior to re-render back to any
+        // point in time.
+        activeModalDialog: {}
     },
     events: {
-        createSettingsTable: null
+        createSettingsTable: null,
+        openBaseDialog: null,
+        openAddContextDialog: null,
+        openConfirmDialog: null,
+        openConfirmAddProductDialog: null,
+        openConfirmSaveDialog: null
     },
     bindings: {
     },
     components: {
+        // TESTING
+        baseDialog: {
+            type: "gpii.devpmt.dialogs.baseDialog",
+            createOnEvent: "openBaseDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#modal-dialog-render"
+                }
+            }
+        },
+        // TESTING
+        confirmationDialog: {
+            type: "gpii.devpmt.dialogs.confirmDialog",
+            createOnEvent: "openConfirmDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#modal-dialog-render"
+                }
+            }
+        },
+        confirmAddProductDialog: {
+            type: "gpii.devpmt.dialogs.confirmAddProductDialog",
+            createOnEvent: "openConfirmAddProductDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#modal-dialog-render"
+                },
+                model: {
+                    appId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.appId",
+                    name: "{gpii.devpmt.editPrefs}.model.activeModalDialog.name"
+                }
+            }
+        },
+        addContextDialog: {
+            type: "gpii.devpmt.dialogs.addContextDialog",
+            createOnEvent: "openAddContextDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#modal-dialog-render"
+                }
+            }
+        },
+        confirmSaveDialog: {
+            type: "gpii.devpmt.dialogs.confirmSaveDialog",
+            createOnEvent: "openConfirmSaveDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#modal-dialog-render"
+                },
+                model: {
+                    unsavedChanges: "{gpii.devpmt.editPrefs}.model.unsavedChanges"
+                }
+            }
+        },
         productList: {
             type: "gpii.devpmt.productListWidget",
             createOnEvent: "onMarkupRendered",
@@ -151,25 +231,15 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     },
     selectors: {
         initial: "#editprefset-viewport",
+        modalDialogContainer: "#modal-dialog-container",
+        modalDialogRender: "#modal-dialog-render",
         editWidgetSidebar: "#editwidget-sidebar",
         productListContainer: "#productList-container",
         prefsAdjusterContainer: "#prefs-adjuster-container",
         genericSettingsTableContainer: "#genericSettingsTable-container",
-        saveButton: ".pmt-save-button",
-        // This might be nice as a separate component
-        addContextDialog: "#pmt-add-context-modal",
-        confirmSaveDialog: "#pmt-confirm-save-modal",
-        addContextNameInput: "#pmt-add-context-name-input",
-        addContextButton: "#pmt-add-context-button",
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
         topbarSaveButton: "#pmt-topbar-save-button", // Button on topbar to open Preview/Confirm Save Dialog
-        // List of unsaved changes in the save/confirm dialog
-        unsavedChangeList: "#pmt-unsaved-change-list",
-        addProductModal: "#pmt-add-product-modal",
-        addProductRender: "#pmt-add-product-render",
-        addProductConfirmButton: "#pmt-confirm-addproduct-button",
-        addProductAppId: "#pmt-add-product-appId",
         devModeIcon: "#pmt-topbar-devmode-button"
     },
     templates: {
@@ -204,10 +274,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.savePrefset",
             args: ["{that}" /*, "{arguments}.0" */]
         },
-        processAddContextDialog: {
-            funcName: "gpii.devpmt.processAddContextDialog",
-            args: ["{that}"]
-        },
         updateMetadataFromPrefs: {
             funcName: "gpii.devpmt.updateMetadataFromPrefs",
             args: ["{that}"]
@@ -216,17 +282,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.initSettingTableWidgets",
             args: ["{that}"]
         },
-        openSaveConfirmDialog: {
-            funcName: "gpii.devpmt.openSaveConfirmDialog",
-            args: ["{that}"]
-        },
         openAddProductDialog: {
             funcName: "gpii.devpmt.openAddProductDialog",
             args: ["{that}", "{arguments}.0"] // appId
-        },
-        confirmAddProductDialog: {
-            funcName: "gpii.devpmt.confirmAddProductDialog",
-            args: ["{that}", "{arguments}.0"]
         },
         toggleDevModeView: {
             funcName: "gpii.devpmt.toggleDevModeView",
@@ -246,28 +304,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.npsetInit",
             args: ["{that}"] //"onCreate listener"]
         },
-        "onMarkupRendered.firstPageRender": [
-            {
-                "this": "{that}.dom.addContextButton",
-                "method": "click",
-                args: ["{that}.processAddContextDialog"]
-            }
-        ],
         "onMarkupRendered": [
-            {
-                "this": "{that}.dom.addProductConfirmButton",
-                "method": "click",
-                args: ["{that}.confirmAddProductDialog"]
-            },
-            {
-                "this": "{that}.dom.saveButton",
-                "method": "click",
-                args: ["{that}.savePrefset"]
-            },
             {
                 "this": "{that}.dom.topbarSaveButton",
                 "method": "click",
-                args: ["{that}.openSaveConfirmDialog"]
+                args: ["{that}.events.openConfirmSaveDialog.fire"]
             },
             {
                 "this": "{that}.dom.devModeIcon",
@@ -325,7 +366,8 @@ gpii.devpmt.lookupGenericPrefValue = function (that, context, commonTerm) {
  * in regard to return values, but takes an extra argument for the product.
  */
 gpii.devpmt.lookupProductPrefValue = function (that, context, product, settingTerm) {
-    if (that.model.flatPrefs.contexts[context].preferences[product][settingTerm] !== undefined) {
+    if (that.model.flatPrefs.contexts[context].preferences[product] &&
+        that.model.flatPrefs.contexts[context].preferences[product][settingTerm] !== undefined) {
         return that.model.flatPrefs.contexts[context].preferences[product][settingTerm];
     }
     else {
@@ -360,7 +402,6 @@ gpii.devpmt.updateFoundationSticky = function () {
     $(".sticky").foundation("_calc", true);
 };
 
-
 /**
  * When the prefs are updated we need to usually update
  * some of the metadata that makes rendering easier, from
@@ -372,48 +413,12 @@ gpii.devpmt.updateMetadataFromPrefs = function (that) {
     that.applier.change("contextNames", gpii.devpmt.contextNames(that.model.flatPrefs));
 };
 
-/**
- * When the Add Context Dialog button is clicked, pull
- * the name from the text entry, process it, and then clear
- * it.
- */
-gpii.devpmt.processAddContextDialog = function (that) {
-    var contextName = that.dom.locate("addContextNameInput").val();
-    // TODO Refactor dialogs into components, or determine what is
-    // triggering this a second time with a blank string.
-    if (contextName === "") {
-        return;
-    }
-
-    // TODO validation to see if already exists, and determining
-    // the valid set of strings a context ID can take
-    var path = "flatPrefs.contexts." + contextName;
-    that.applier.change(path, {
-        "name": contextName,
-        "preferences": {}
-    }, "ADD");
-    that.dom.locate("addContextNameInput").val("");
-    that.dom.locate("addContextDialog").foundation("close");
-};
-
-gpii.devpmt.openSaveConfirmDialog = function (that) {
-    that.renderer.html(that.dom.locate("unsavedChangeList"), "editprefset-unsavedChanges-list", that.model);
-    that.dom.locate("confirmSaveDialog").foundation("open");
-};
-
 gpii.devpmt.openAddProductDialog = function (that, appId) {
-    that.renderer.html(that.dom.locate("addProductRender"), "editprefset-addProduct-dialog", {
+    that.applier.change("activeModalDialog", {
         appId: appId,
         name: that.model.allSolutions[appId].name
     });
-    that.dom.locate("addProductModal").foundation("open");
-};
-
-gpii.devpmt.confirmAddProductDialog = function (that) {
-    // TODO Ontology!!!
-    var appUrl = "http://registry.gpii.net/applications/" + $(that.dom.locate("addProductAppId")).val();
-    that.editProductEnabled(true, "gpii-default",  appUrl);
-    that.dom.locate("addProductModal").foundation("close");
+    that.events.openConfirmAddProductDialog.fire();
 };
 
 gpii.devpmt.savePrefset = function (that /*, event */) {

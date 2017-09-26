@@ -40,54 +40,12 @@
 </div>
 
 <!--
-    Render location for add/view product information dialog.
+    Master Render Location for Modal Dialogs.
 -->
-<div class="reveal" id="pmt-add-product-modal" data-reveal>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <div id="pmt-add-product-render">
-    </div>
-    <div>
-        <button id="pmt-confirm-addproduct-button" type="button" class="button pmt-addproduct-button">Add Product to NP Set</button>
+<div id="modal-dialog-container">
+    <div id="modal-dialog-render">
     </div>
 </div>
-
-<!--
-    View Changes and Confirm Save Dialog
--->
-<div class="reveal" id="pmt-confirm-save-modal" data-reveal>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <h2>View Changes and Confirm Save</h2>
-    <div id="pmt-unsaved-change-list">
-
-    </div>
-    <div>
-        <button id="pmt-confirm-save-button" type="button" class="button pmt-save-button">Confirm Save NP Set</button>
-    </div>
-</div>
-
-<!--
-    Add Context Modal Dialog
--->
-<div class="reveal" id="pmt-add-context-modal" data-reveal>
-<!-- <div id="pmt-add-context-modal" > -->
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <h2>Add Context</h2>
-    <p><strong>Give the context a different name.</strong></p>
-    <p>For example: Tired, Working, Bright, Noisy, School</p>
-    <label>Name
-        <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
-    </label>
-    <div>
-        <button id="pmt-add-context-button" type="button" class="button">Create Context</button>
-    </div>
-</div>
-
 
 {{!-- We are not going to render this for now, so there is no confusion that we are collecting and
       displaying this type of information about clients. May re-enable this in a strict developer
