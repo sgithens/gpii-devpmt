@@ -45,6 +45,31 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
 };
 
 /**
+ * Confirm deletion of NP Set Context Dialog
+ */
+fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {
+    gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
+    templates: {
+        initial: "editprefset-confirmDeleteContext-dialog"
+    },
+    model: {
+        contextId: "" // Should be populated/relayed during construction before showing dialog
+    },
+    invokers: {
+        acceptConfirmDialog: {
+            funcName: "gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog",
+            args: ["{that}", "{gpii.devpmt.editPrefs}", "{that}.model.contextId"]
+        }
+    }
+});
+
+gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog = function (that, editPrefs, contextId) {
+    that.closeDialog();
+    var path = "flatPrefs.contexts." + contextId;
+    editPrefs.applier.change(path, false, "DELETE");
+};
+
+/**
  * Add Product to NP Set Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {

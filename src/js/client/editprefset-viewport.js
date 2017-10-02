@@ -76,6 +76,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         openAddContextDialog: null,
         openConfirmDialog: null,
         openConfirmAddProductDialog: null,
+        openConfirmDeleteProductDialog: null,
         openConfirmSaveDialog: null
     },
     bindings: {
@@ -124,6 +125,19 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             options: {
                 selectors: {
                     initial: "#modal-dialog-render"
+                }
+            }
+        },
+        confirmDeleteContextDialog: {
+            type: "gpii.devpmt.dialogs.confirmDeleteContextDialog",
+            createOnEvent: "openConfirmDeleteProductDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#modal-dialog-render"
+                },
+                model: {
+                    contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId"
                 }
             }
         },
