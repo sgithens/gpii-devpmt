@@ -69,6 +69,25 @@
         </div>
     </div>
     <div id="settings-divs" class="medium-7 columns">
+        <div id="contexts-area" class="callout">
+            <h5>Contexts</h5>
+            <table class="table-scroll">
+                <thead>
+                    <tr>
+                        <th>Context ID</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each contextNames}}
+                    <tr>
+                        <td>{{this}}</td>
+                        <td><button data-contextId="{{this}}" type="button" class="pmt-delete-context alert button">Delete</button></td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
         <div id="genericSettingsTable-container">
             <div id="genericSettingsTable-widget">
             </div>

@@ -76,7 +76,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         openAddContextDialog: null,
         openConfirmDialog: null,
         openConfirmAddProductDialog: null,
-        openConfirmDeleteProductDialog: null,
+        openConfirmDeleteContextDialog: null,
         openConfirmSaveDialog: null
     },
     bindings: {
@@ -130,7 +130,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         confirmDeleteContextDialog: {
             type: "gpii.devpmt.dialogs.confirmDeleteContextDialog",
-            createOnEvent: "openConfirmDeleteProductDialog",
+            createOnEvent: "openConfirmDeleteContextDialog",
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
@@ -254,7 +254,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
         topbarSaveButton: "#pmt-topbar-save-button", // Button on topbar to open Preview/Confirm Save Dialog
-        devModeIcon: "#pmt-topbar-devmode-button"
+        devModeIcon: "#pmt-topbar-devmode-button",
+        deleteContextButtons: ".pmt-delete-context"
     },
     templates: {
         initial: "editprefset-viewport",
@@ -311,6 +312,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         lookupProductPrefValue: {
             funcName: "gpii.devpmt.lookupProductPrefValue",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
+        },
+        onDeleteContext: {
+            funcName: "gpii.devpmt.onDeleteContext",
+            args: ["{that}", "{arguments}.0"] // event
         }
     },
     listeners: {
@@ -323,6 +328,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 "this": "{that}.dom.topbarSaveButton",
                 "method": "click",
                 args: ["{that}.events.openConfirmSaveDialog.fire"]
+            },
+            {
+                "this": "{that}.dom.deleteContextButtons",
+                "method": "click",
+                args: ["{that}.onDeleteContext"]
             },
             {
                 "this": "{that}.dom.devModeIcon",
@@ -476,6 +486,22 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
     }
     that.applier.change("npsetApplications", gpii.devpmt.npsetApplications(that.model.flatPrefs));
     that.applier.change("unsavedChangesExist", true);
+};
+
+/**
+ * Event Listener for when a button is clicked to delete 
+ * a context. Fetches the context to delete from the elements
+ * data-contextid attribute.
+ *
+ * This listener doesn't actually delete the context, but
+ * opens the confirm delete context dialog.
+ *
+ * @param event (Event) Browser event object
+ */
+gpii.devpmt.onDeleteContext = function (that, event) {
+    var contextId = event.currentTarget.dataset.contextid;
+    that.applier.change("activeModalDialog.contextId", contextId);
+    that.events.openConfirmDeleteContextDialog.fire();
 };
 
 gpii.devpmt.editValueEvent = function (that, event) {
