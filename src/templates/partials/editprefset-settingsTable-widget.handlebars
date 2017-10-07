@@ -21,21 +21,22 @@
                     <span class="switch-active" aria-hidden="true">Mine</span>
                     <span class="switch-inactive" aria-hidden="true">All</span>
                 </label>
+                <span>Mine ({{model.termUsage.npset}}) All ({{model.termUsage.all}})</span>
                 <div id="filter-container">
                     <div id="common-filter-area">
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
     <table class="scroll">
         <thead>
             <tr>
                 <th class="pmt-settingstable-name">Setting</th>
                 <th class="pmt-settingstable-value">Product Default</th>
                 {{#each model.contextNames}}
-                    <th class="pmt-settingstable-value">{{this}} context</th>
-                {{/each}} 
+                    <th class="pmt-settingstable-value">{{lookup (lookup ../model/flatPrefs/contexts this) 'name'}} context</th>
+                {{/each}}
                 <th><a class="hollow button small pmt-add-context-button">Add Context</a></th>
             </tr>
         </thead>
@@ -60,7 +61,7 @@
                     </td>
                 {{/each}}
             </tr>
-            {{#with options.solution}} 
+            {{#with options.solution}}
                 {{#each this.settingsHandlers}}
                     {{#each this.supportedSettings}}
                     <tr class="pmt-settings-table-row" data-term="{{@key}}">
@@ -75,7 +76,7 @@
                             {{/compare}}
                         </td>
                         {{/each}}
-                    </tr> 
+                    </tr>
                     {{/each}}
                 {{/each}}
             {{/with}}
@@ -95,7 +96,7 @@
                         </td>
                     {{/each}}
                     <td></td>
-                </tr>                            
+                </tr>
                 {{/unless}}
             {{/each}}
         </tbody>

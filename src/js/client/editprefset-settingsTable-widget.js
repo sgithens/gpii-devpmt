@@ -26,7 +26,12 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         flatPrefs: null, // Model Relay to EditPrefs
         contextNames: null, // Model Relay to EditPrefs
         settingsFilter: null, // Bound to the text box for filtering/searching
-        allSettingsEnabled: null // For some reason this defaults to an array from binder
+        allSettingsEnabled: null, // For some reason this defaults to an array from binder
+
+        termUsage: {
+            all: 0,
+            npset: 0
+        }
     },
     modelListeners: {
         settingsFilter: {
@@ -85,6 +90,10 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         enableProductListener: {
             funcName: "gpii.devpmt.settingsTable.enableProductListener",
             args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"] // event
+        },
+        updateTermUsage: {
+            funcName: "gpii.devpmt.settingsTable.updateTermUsage",
+            args: ["{that}"]
         }
     },
     listeners: {
@@ -94,6 +103,9 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             },
             {
                 "func": "{that}.filterInit"
+            },
+            {
+                "func": "{that}.updateTermUsage"
             }
         ],
         "onMarkupRendered": [
@@ -143,6 +155,27 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event)
     var context = event.currentTarget.dataset.context;
     var product = event.currentTarget.dataset.product;
     devpmt.editProductEnabled(checked, context, product);
+};
+
+gpii.devpmt.settingsTable.updateTermUsage = function (that) {
+    var all = 0;
+    var npsetKeys = {};
+    fluid.each(that.model.flatPrefs.contexts, function (context) {
+        fluid.each(context.preferences[that.options.appUri], function (setting, settingKey) {
+            npsetKeys[settingKey] = true;
+        });
+    });
+    fluid.each(that.options.solution.settingsHandlers, function (settingsHandler) {
+        fluid.each(settingsHandler.supportedSettings, function (setting) {
+            if (setting.schema) {
+                all++;
+            }
+        });
+    });
+    that.applier.change("termUsage", {
+        all: all,
+        npset: Object.keys(npsetKeys).length
+    });
 };
 
 /**

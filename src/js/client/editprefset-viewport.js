@@ -54,6 +54,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             }
         },
 
+        commonTermUsageCounts: {},
+        productTermUsageCounts: [],
+
         // Contains any free information that pertains to an active dialog.
         // While we can only display one modal dialog at a time, the options
         // and data for a dialog can change between instances, such as adding
@@ -197,7 +200,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     commonTermsSorted: "{gpii.devpmt.editPrefs}.model.commonTermsSorted",
                     commonTerms: "{gpii.devpmt.editPrefs}.model.commonTerms",
                     settingsFilter: "{gpii.devpmt.editPrefs}.model.settingsFilter",
-                    settingsSearch: "{gpii.devpmt.editPrefs}.model.settingsSearch"
+                    settingsSearch: "{gpii.devpmt.editPrefs}.model.settingsSearch",
+                    commonTermUsageCounts: "{gpii.devpmt.editPrefs}.model.commonTermUsageCounts"
                 }
             }
         }
@@ -268,6 +272,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         addEditToUnsavedList: {
             funcName: "gpii.devpmt.addEditToUnsavedList",
             args: ["{that}", "{arguments}.0"]
+        },
+        commonTermUsageCounts: {
+            funcName: "gpii.devpmt.commonTermUsageCounts",
+            args: ["{that}", "{that}.model.commonTermsSorted", "{that}.model.flatPrefs"]
         },
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
@@ -352,10 +360,15 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         "flatPrefs": [{
             func: "{that}.updateMetadataFromPrefs",
             args: ["{that}"]
-        }, {
+        },
+        {
+            func: "{that}.commonTermUsageCounts"
+        },
+        {
             func: "{that}.reRender",
             excludeSource: ["init"]
-        }],
+        }
+        ],
         "unsavedChangesExist": {
             func: "{that}.reRender",
             excludeSource: ["init"]
@@ -366,6 +379,54 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         }
     }
 });
+
+/**
+ * Common term filter counts
+ *
+ * Returns the total number of common terms, and then the maximum
+ * number that is set in the NP Set. This is used for rendering
+ * information by the settings filters in the form:
+ *
+ * [[My Settings (3)]] [All Settings (225)]
+ *
+ * This provides the user will contextual knowledge before hiding
+ * or showing all settings. This information could also be used
+ * to perhaps only show the first 10 settings or something, and
+ * then expand the rest when the user decides it is appropriate.
+ *
+ * If the user has multiple contexts, this will return the total
+ * number of unique settings keys in the NP Set across all contexts.
+ *
+ * @return (Object) Object with keys `npset` and `all`, such as
+ *                  {
+ *                      npset: 3,
+ *                      all: 225
+ *                  }
+ */
+gpii.devpmt.commonTermUsageCounts = function (that, commonTermsSorted /*, flatPrefs */) {
+    var all = commonTermsSorted.length;
+    var npsetKeys = {};
+    fluid.each(that.model.flatPrefs.contexts, function (i) {
+        fluid.each(i.preferences, function (j, jKey) {
+            if (jKey.startsWith("http://registry.gpii.net/common")) {
+                npsetKeys[jKey] = true;
+            }
+        });
+    });
+    var counts = {
+        all: all,
+        npset: Object.keys(npsetKeys).length
+    };
+    that.applier.change("commonTermUsageCounts", counts);
+    return counts;
+};
+
+/**
+ * Product Term Filter counts
+ *
+ * See `gpii.devpmt.commonTermUsageCounts` for overview.
+ */
+// gpii.devpmt.productTermUsageCounts = function (that,
 
 /**
  * Lookup Generic Preference Setting.
@@ -489,7 +550,7 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
 };
 
 /**
- * Event Listener for when a button is clicked to delete 
+ * Event Listener for when a button is clicked to delete
  * a context. Fetches the context to delete from the elements
  * data-contextid attribute.
  *
@@ -602,6 +663,8 @@ gpii.devpmt.npsetInit = function (that) {
             return 0;
         }
     });
+
+    that.commonTermUsageCounts();
 
     // Debugging so this component is available in the console
     var editPrefs = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.editPrefs")[0];

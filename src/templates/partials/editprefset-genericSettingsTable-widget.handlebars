@@ -14,12 +14,13 @@
                     <div id="pmt-settings-filters">
                         <div class="button-group">
                             {{#compare settingsFilter "===" "mysettings" }}
-                            <button id="pmt-mysettings-button" class="button primary" type="button" >My Settings</button>
-                            <button id="pmt-allsettings-button" class="button secondary hollow" type="button" >All Settings</button>
+                            <button id="pmt-mysettings-button" class="button primary" type="button" >My Settings ( {{commonTermUsageCounts.npset}} )</button>
+                            <button id="pmt-allsettings-button" class="button secondary hollow" type="button" >All Settings ( {{commonTermUsageCounts.all}} )</button>
                             {{else}}
-                            <button id="pmt-mysettings-button" class="button secondary hollow" type="button" >My Settings</button>
-                            <button id="pmt-allsettings-button" class="button primary" type="button" >All Settings</button>
+                            <button id="pmt-mysettings-button" class="button secondary hollow" type="button" >My Settings ( {{commonTermUsageCounts.npset}} )</button>
+                            <button id="pmt-allsettings-button" class="button primary" type="button" >All Settings ( {{commonTermUsageCounts.all}} )</button>
                             {{/compare}}
+
                         </div>
                         <div id="filter-container">
                             <div id="common-filter-area">
@@ -35,7 +36,7 @@
                     <th class="pmt-settingstable-name">Setting</th>
                     {{#each contextNames}}
                     <th class="pmt-settingstable-value">
-                        {{this}} context
+                        {{lookup (lookup ../flatPrefs/contexts this) 'name'}} context
                     </th>
                     {{/each}}
                     <th><a class="hollow button small pmt-add-context-button">Add Context</a></th>

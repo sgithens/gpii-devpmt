@@ -14,7 +14,9 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         commonTermsSorted: null, // Model Relay to EditPrefs
 
         settingsFilter: "mysettings",
-        settingsSearch: ""
+        settingsSearch: "",
+
+        commonTermUsageCounts: {}
     },
     templates: {
         initial: "editprefset-genericSettingsTable-widget"
