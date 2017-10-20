@@ -1,5 +1,23 @@
-<h1>Developers Preference Test Tool</h1>
-<h2><em>The Home Screen!</em></h2>
+<div class="row">
+    <div class="column medium-12">
+        <h1>Developers Preference Test Tool</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 medium-6 columns">
+        <p>
+        This DevPTT is currently running in local demo mode. To access the set of
+        NP Sets being edited open the following location on your system:
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="small-12 medium-12 columns">
+        <code>{{absolutePrefsetDirectory}}</code>
+    </div>
+</div>
+
 <div class="row">
     <div class="small-12 medium-6 columns">
         <h3>Create and Edit Preference Sets</h3>
@@ -8,14 +26,27 @@
         or view and edit one of the existing Test Personas that are part 
         of the GPII Development and Test Data.
         </p>
+        <p>
+        To create a new NP Set, enter the token name in the field and click
+        Create NP Set. If an NP Set with that token already exists, it will
+        be opened for editing.
+        </p>
         <form action="/add-prefset" method="POST">
             <input name="prefset-name" type="text" placeholder="New Prefset Name" />
             <input type="submit" href="#" class="button" value="Create NP Set" />
         </form>
+    </div>
+</div>
+
+{{> index-snapsets }}
+{{> index-demo-personas }}
+
+<div class="row">
+    <div class="small-12 medium-6 columns">
         <ul>
             {{#each npsetList}}
             <li><a href="/editprefs/{{this}}">{{this}}</a></li>    
             {{/each}}
         </ul>
-
+    </div>
 </div>

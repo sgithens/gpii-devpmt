@@ -141,3 +141,21 @@ gpii.devpmt.lunrListFilterSearch = function (lunrIndex, filterString) {
         q.term("*" + lowerFilterString + "*");
     });
 };
+
+/**
+ * Goes through a set of solutions, and for a productId and term,
+ * finds the supportedSetting entry (there can be multiple blocks of them)
+ * and returns it.
+ */
+gpii.devpmt.findProductSettingMetadata = function ( solutions, productId, term ) {
+    var solution = solutions[productId];
+    var togo = {};
+    fluid.each(solution.settingsHandlers, function (settingHandler) {
+        fluid.each(settingHandler.supportedSettings, function (supportedSetting, key) {
+            if (key === term) {
+                togo = supportedSetting;
+            }
+        });
+    });
+    return togo;
+};

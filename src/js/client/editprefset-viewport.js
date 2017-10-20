@@ -575,7 +575,7 @@ gpii.devpmt.editValueEvent = function (that, event) {
 
     var newMetadata = {};
     if (!newCurrent.product) {
-        // Application Specific
+        // Common Term
         newMetadata = that.options.commonTerms[newCurrent.term];
         newMetadata.name = newMetadata.schema.title;
         newMetadata.description = newMetadata.schema.description;
@@ -583,14 +583,13 @@ gpii.devpmt.editValueEvent = function (that, event) {
         newCurrent.blank = newCurrent.value === undefined;
     }
     else {
-        // Common Term
-        newMetadata = {
-            name: event.currentTarget.dataset.name,
-            description: "",
-            schema: {
-                type: "string"
-            }
-        };
+        // Application Specific
+        console.log(newCurrent);
+        // TODO ontology
+        newMetadata = gpii.devpmt.findProductSettingMetadata(that.model.allSolutions,
+            newCurrent.product.slice(38), newCurrent.term);
+        newMetadata.name = newMetadata.schema.title;
+        newMetadata.description = newMetadata.schema.description;
         newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
         newCurrent.blank = newCurrent.value === undefined;
     }

@@ -4,6 +4,7 @@
 var fluid = require("infusion");
 var gpii  = fluid.registerNamespace("gpii");
 var JSON5 = require("json5");
+var path = require("path");
 fluid.require("gpii-express");
 fluid.require("gpii-handlebars");
 require("universal");
@@ -104,8 +105,8 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser"],
     port: 8080,
-    // prefsetDirectory: "/node_modules/universal/testData/preferences/",
     prefsetDirectory: "/../../../devpmtTestData/preferences/",
+    absolutePrefsetDirectory: path.normalize(__dirname + "/../../../devpmtTestData/preferences/"),
     solutionsDirectory: "/../../../devpmtTestData/solutions/",
     events: {
         onFsChange: null
@@ -157,7 +158,9 @@ fluid.defaults("gpii.devpmt", {
                 defaultTemplate: "index",
                 rules: {
                     contextToExpose: {
-                        npsetList: { literalValue: "{devpmt}.options.npsetList" }
+                        npsetList: { literalValue: "{devpmt}.options.npsetList" },
+                        absolutePrefsetDirectory: { literalValue: "{devpmt}.options.absolutePrefsetDirectory" },
+                        selectedDemoSets: { literalValue: "{devpmt}.options.selectedDemoSets" }
                     }
                 }
             }
@@ -232,8 +235,36 @@ fluid.defaults("gpii.devpmt", {
             funcName: "gpii.devpmt.loadAllSolutions",
             args: ["{that}.options.solutionsDirectory"]
         }
+    },
+    selectedDemoSets: {
+        expander: { funcName: "{that}.loadSelectedDemoSets" }
+    },
+    invokers: {
+        loadSelectedDemoSets: {
+            funcName: "gpii.devpmt.loadSelectedDemoSets",
+            args: ["{that}"]
+        }
     }
 });
+
+/**
+ * gpii.devpmt.loadSelectedDemoSets
+ * For our selected demo personas (alice, davey, etc) this will return
+ * an object keyed by persona token. Each entry will have at least 1 key
+ * of name `doc` that is their markdown description.
+ *
+ * @return (Object) Demo persona information keyed by token/key
+ */
+gpii.devpmt.loadSelectedDemoSets = function (that) {
+    var personaKeys = ["alice", "davey", "david", "elmer", "elod", "livia"];
+    var togo = {};
+    fluid.each(personaKeys, function (i, key) {
+        togo[i] = {
+            doc: gpii.devpmt.loadNPSetDocs(that.options.prefsetDirectory, i)
+        };
+    });
+    return togo;
+};
 
 fluid.registerNamespace("gpii.devpmt.addPrefsetFormHandler");
 
