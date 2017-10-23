@@ -1,7 +1,52 @@
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");
-fluid.registerNamespace("gpii.devpmt");
+fluid.registerNamespace("gpii.devpmt.prefSettingAdjuster");
+
+
+/*
+ * The following transform functions, valueInputToBinder and binderToValueInput
+ * sync the value being edited from our model to the adjust controler, and in
+ * this situation take in to account the semantics for binding boolean values by
+ * looking at the metadata schema of the term currently being edited, and if it
+ * is boolean applying that semantic.
+ *
+ * At the moment these are looking up the prefSettingAdjuster component manually,
+ * and should be changed to the correct way to set those values, and also prepare
+ * for a future where there is more than one instance of a pref adjuster at a time
+ * on a page.  They should really just be subcomponents on the prefSettingAdjuster
+ * component, and be able to look at the item currently being edited to apply the
+ * correct semantics. (Which could be even more complex in the future, at the moment
+ * we only handle very simple types.)
+ */
+
+fluid.defaults("gpii.devpmt.prefSettingAdjuster.valueInputToBinder", {
+    gradeNames: ["fluid.standardTransformFunction"]
+});
+
+gpii.devpmt.prefSettingAdjuster.valueInputToBinder = function (value) {
+    var adjuster = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.prefSettingAdjuster")[0];
+    if (adjuster.model.metadata.schema.type === "boolean") {
+        return value ? ["on"] : [];
+    }
+    else {
+        return value;
+    }
+};
+
+fluid.defaults("gpii.devpmt.prefSettingAdjuster.binderToValueInput", {
+    gradeNames: ["fluid.standardTransformFunction"]
+});
+
+gpii.devpmt.prefSettingAdjuster.binderToValueInput = function (value) {
+    var adjuster = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.prefSettingAdjuster")[0];
+    if (adjuster.model.metadata.schema.type === "boolean") {
+        return value.length > 0;
+    }
+    else {
+        return value;
+    }
+};
 
 /**
  * A gpii handlebars widget to create the adjuster for the
@@ -49,7 +94,28 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             path: "current.blank",
             rules: gpii.devpmt.booleanBinderRules
         },
-        valueInput: "current.value"
+        valueInput: {
+            selector: "valueInput",
+            path: "current.value",
+            rules: {
+                domToModel: {
+                    "": {
+                        transform: {
+                            type: "gpii.devpmt.prefSettingAdjuster.binderToValueInput",
+                            inputPath: ""
+                        }
+                    }
+                },
+                modelToDom: {
+                    "": {
+                        transform: {
+                            type: "gpii.devpmt.prefSettingAdjuster.valueInputToBinder",
+                            inputPath: ""
+                        }
+                    }
+                }
+            }
+        }
     },
     templates: {
         initial: "editprefset-prefSettingAdjuster-widget"
@@ -145,13 +211,7 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
                 " in context " + that.model.current.context);
     }
     else {
-        var newValue = "";
-        if (that.model.metadata.schema.type === "boolean") {
-            newValue = gpii.devpmt.binderBooleanFalse(that.model.current.value); //that.dom.locate("valueInput").prop("checked");
-        }
-        else {
-            newValue = that.model.current.value; //that.dom.locate("valueInput").val();
-        }
+        var newValue = that.model.current.value; //that.dom.locate("valueInput").val();
         devpmt.applier.change(path, newValue);
         devpmt.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context + " to " + newValue);
