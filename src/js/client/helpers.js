@@ -10,9 +10,25 @@
 Handlebars.registerHelper("message", function (messageKey) {
     var messages = {
         "devptt.booleanSettingOn": "true",
-        "devptt.booleanSettingOff": "false"
+        "devptt.booleanSettingOff": "false",
+
+        "devptt.contextsHeader": "Preference Sets",
+        "devptt.contextIDHeader": "Preference Set ID",
+        "devptt.addContextButton": "Add Preference Set",
+        "devptt.addContextDialogHeader": "Add Preference Set",
+        "devptt.addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p>",
+        "devptt.contextNameLabel": "{0} set"
+
     };
-    return messages[messageKey] ? messages[messageKey] : "";
+
+    var togo = messages[messageKey] ? messages[messageKey] : messageKey;
+    if (arguments.length > 2) {
+        for (var i = 1; i < arguments.length-1; i++) {
+            var pos = i-1;
+            togo = togo.replace("{"+ pos + "}", arguments[i]);
+        }
+    };
+    return togo;
 });
 
 /**

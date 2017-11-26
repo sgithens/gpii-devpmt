@@ -36,10 +36,12 @@
                     <th class="pmt-settingstable-name">Setting</th>
                     {{#each contextNames}}
                     <th class="pmt-settingstable-value">
-                        {{lookup (lookup ../flatPrefs/contexts this) 'name'}} context
+                        {{{message "devptt.contextNameLabel" (lookup (lookup ../flatPrefs/contexts this) "name") }}}
                     </th>
                     {{/each}}
-                    <th><a class="hollow button small pmt-add-context-button">Add Context</a></th>
+                    <th><a class="hollow button small pmt-add-context-button">
+                        {{{message "devptt.addContextButton"}}}
+                    </a></th>
                 </tr>
             </thead>
             <tbody>
