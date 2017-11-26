@@ -12,12 +12,12 @@
         {{else}}
             {{#compare metadata.schema.type "===" "number"}}
                 <label>Value
-                    <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/> 
+                    <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
                 </label>
             {{else}}
                 {{#compare metadata.schema.type "===" "integer"}}
                     <label>Value
-                        <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/> 
+                        <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
                     </label>
                 {{else}}
                     {{#compare metadata.schema.type "===" "boolean"}}
@@ -29,8 +29,11 @@
                             {{/if}}
                             <label class="switch-paddle" for="new-value">
                                 <span class="show-for-sr">Value 1</span>
-                                <span class="switch-active" aria-hidden="true">On</span>
-                                <span class="switch-inactive" aria-hidden="true">Off</span>
+                                <span class="switch-active" aria-hidden="true">
+                                    {{{message "devptt.booleanSettingOn"}}}</span>
+                                <span class="switch-inactive" aria-hidden="true">
+                                    {{{message "devptt.booleanSettingOff"}}}
+                                </span>
                             </label>
                         </div>
                     {{else}}
