@@ -9,6 +9,8 @@
  */
 Handlebars.registerHelper("message", function (messageKey) {
     var messages = {
+        "devptt.cancelButton": "Cancel",
+
         "devptt.booleanSettingOn": "true",
         "devptt.booleanSettingOff": "false",
 
@@ -17,8 +19,9 @@ Handlebars.registerHelper("message", function (messageKey) {
         "devptt.addContextButton": "Add Preference Set",
         "devptt.addContextDialogHeader": "Add Preference Set",
         "devptt.addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p>",
-        "devptt.contextNameLabel": "{0} set"
+        "devptt.contextNameLabel": "{0} set",
 
+        "devptt.addProductDialog.addButton": "Add"
     };
 
     var togo = messages[messageKey] ? messages[messageKey] : messageKey;
