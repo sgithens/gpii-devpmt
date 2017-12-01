@@ -1,4 +1,4 @@
-{{! 
+{{!
 Template for rendering a list of all the generic preference names,
 and product specific names. Primarily used as a sidebar for various pages
 to allow jumping to the setting in the page.
@@ -20,7 +20,7 @@ a-productname-settingname - to jump to a products setting
     <ul>
         <li class="pmt-sidebar-toc-product no-bullet"><a href="#a-">Generic Preferences</a></li>
         {{#each allSolutionsSorted}}
-            <li data-appid="{{this.id}}" class="pmt-sidebar-toc-product no-bullet">
+            <li data-appid="{{this.id}}" class="pmt-sidebar-toc-product no-bullet pmt-product-list">
                 <a data-appid="{{this.id}}" class="pmt-sidebar-product-link" href="#a-{{this.id}}">{{this.name}}</a>
             </li>
         {{/each}}
