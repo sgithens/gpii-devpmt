@@ -1,0 +1,17 @@
+<div class="button-group">
+    {{#compare model.settingsFilter "===" "mysettings" }}
+    <button class="pmt-mysettings-button button primary" type="button" >
+        My Settings ( {{model.mySettingsCount}} )
+    </button>
+    <button class="pmt-allsettings-button button secondary hollow" type="button" >
+        All Settings ( {{model.allSettingsCount}} )
+    </button>
+    {{else}}
+    <button class="pmt-mysettings-button button secondary hollow" type="button" >
+        My Settings ( {{model.mySettingsCount}} )
+    </button>
+    <button class="pmt-allsettings-button button primary" type="button" >
+        All Settings ( {{model.allSettingsCount}} )
+    </button>
+    {{/compare}}
+</div>

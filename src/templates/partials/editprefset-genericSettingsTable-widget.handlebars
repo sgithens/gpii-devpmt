@@ -12,15 +12,8 @@
                 </div>
                 <div class="medium-6 columns">
                     <div id="pmt-settings-filters">
-                        <div class="button-group">
-                            {{#compare settingsFilter "===" "mysettings" }}
-                            <button id="pmt-mysettings-button" class="button primary" type="button" >My Settings ( {{commonTermUsageCounts.npset}} )</button>
-                            <button id="pmt-allsettings-button" class="button secondary hollow" type="button" >All Settings ( {{commonTermUsageCounts.all}} )</button>
-                            {{else}}
-                            <button id="pmt-mysettings-button" class="button secondary hollow" type="button" >My Settings ( {{commonTermUsageCounts.npset}} )</button>
-                            <button id="pmt-allsettings-button" class="button primary" type="button" >All Settings ( {{commonTermUsageCounts.all}} )</button>
-                            {{/compare}}
-
+                        <div id="mineAllSwitch-container">
+                            <div id="mineAllSwitch-area">
                         </div>
                         <div id="filter-container">
                             <div id="common-filter-area">

@@ -1,0 +1,19 @@
+<div>
+    {{#compare model.settingsFilter "===" "mysettings" }}
+    <input name= "all-settings-switch-{{id}}"
+        id="all-settings-switch-{{id}}"
+        checked="true" class="all-settings-switch switch-input"
+        type="checkbox" value="mysettings" />
+    {{else}}
+    <input name= "all-settings-switch-{{id}}"
+        id="all-settings-switch-{{id}}"
+        class="all-settings-switch switch-input"
+        type="checkbox" value="mysettings" />
+    {{/compare}}
+    <label class="switch-paddle" for="all-settings-switch-{{id}}">
+        <span class="show-for-sr">Enable/Disable Solution</span>
+        <span class="switch-active" aria-hidden="true">Mine</span>
+        <span class="switch-inactive" aria-hidden="true">All</span>
+    </label>
+    <span>Mine ({{model.mySettingsCount}}) All ({{model.allSettingsCount}})</span>
+</div>

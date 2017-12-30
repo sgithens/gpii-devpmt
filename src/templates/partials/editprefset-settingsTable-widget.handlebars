@@ -15,13 +15,9 @@
         </div>
         <div class="medium-6 columns">
             <div>
-                <input name= "all-settings-switch-{{options.appId}}" id="all-settings-switch-{{options.appId}}" checked="false" class=" all-settings-switch switch-input" type="checkbox" value="mysettings" />
-                <label class="switch-paddle" for="all-settings-switch-{{options.appId}}">
-                    <span class="show-for-sr">Enable/Disable Solution</span>
-                    <span class="switch-active" aria-hidden="true">Mine</span>
-                    <span class="switch-inactive" aria-hidden="true">All</span>
-                </label>
-                <span>Mine ({{model.termUsage.npset}}) All ({{model.termUsage.all}})</span>
+                <div id="mineAllSwitch-container">
+                    <div id="mineAllSwitch-area">
+                </div>
                 <div id="filter-container">
                     <div id="common-filter-area">
                     </div>

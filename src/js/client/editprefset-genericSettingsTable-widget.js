@@ -33,10 +33,6 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
             funcName: "gpii.devpmt.updateSettingsFilter",
             args: ["{that}", "{that}.dom.commonTermRow", "{that}.model.settingsFilter", "{that}.model.settingsSearch"]
         },
-        setSettingsFilter: {
-            funcName: "gpii.devpmt.setSettingsFilter",
-            args: ["{that}", "{editPrefs}", "{arguments}.0"]
-        },
         searchSettings: {
             funcName: "gpii.devpmt.searchSettings",
             args: ["{that}", "{that}.dom.settingsSearchInput"]
@@ -50,12 +46,28 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         valueDisplayCell: ".pmt-value-display",
 
         // Generic Prefs Filters
-        mySettingsButton: "#pmt-mysettings-button",
-        allSettingsButton: "#pmt-allsettings-button",
         settingsSearchInput: "#pmt-settings-search-input",
-        addContextButton: ".pmt-add-context-button"
+        addContextButton: ".pmt-add-context-button",
+
+        // mineAllWidget
+        mineAllSwitchContainer: "#mineAllSwitch-container"
     },
     components: {
+        mineAllSwitch: {
+            type: "gpii.devpmt.mineAllSwitch.default",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.mineAllSwitchContainer",
+            options: {
+                selectors: {
+                    initial: "#mineAllSwitch-area"
+                },
+                model: {
+                    settingsFilter: "{genericSettingsTableWidget}.model.settingsFilter",
+                    allSettingsCount: "{genericSettingsTableWidget}.model.commonTermUsageCounts.all",
+                    mySettingsCount: "{genericSettingsTableWidget}.model.commonTermUsageCounts.npset"
+                }
+            }
+        },
         filter: {
             type: "gpii.devpmt.filterWidget",
             createOnEvent: "onMarkupRendered",
@@ -86,16 +98,6 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
             },
             {
                 func: "{that}.updateSettingsFilter"
-            },
-            {
-                "this": "{that}.dom.mySettingsButton",
-                "method": "click",
-                args: ["mysettings", "{that}.setSettingsFilter"]
-            },
-            {
-                "this": "{that}.dom.allSettingsButton",
-                "method": "click",
-                args: ["allsettings", "{that}.setSettingsFilter"]
             }
         ]
     },
@@ -111,18 +113,10 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
     }
 });
 
-/* Generic Prefs Table Filters */
 gpii.devpmt.searchSettings = function (that, searchInput) {
     that.applier.change("settingsSearch", searchInput);
     that.reRender();
 };
-
-gpii.devpmt.setSettingsFilter = function (that, editPrefs, event) {
-    console.log("setSettingsFilter");
-    that.applier.change("settingsFilter", event.data);
-    that.reRender();
-};
-/* End Generic Prefs Table Filters */
 
 gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, search) {
     console.log("updateSettingsFilter", search);

@@ -42,20 +42,34 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         }
     },
     bindings: { // Binding selectors to model paths
-        "allSettingsEnabledSwitch": "allSettingsEnabled"
     },
     selectors: {
         valueDisplayCell: ".pmt-value-display",
         enabledBooleanInputs: ".pmt-enabled-boolean",
         settingsFilter: "#filter-container",
         settingsRows: ".pmt-settings-table-row",
-        allSettingsEnabledSwitch: ".all-settings-switch",
-        addContextButton: ".pmt-add-context-button"
+        addContextButton: ".pmt-add-context-button",
+        mineAllSwitchContainer: "#mineAllSwitch-container"
     },
     templates: {
         initial: "editprefset-settingsTable-widget"
     },
     components: {
+        mineAllSwitch: {
+            type: "gpii.devpmt.mineAllSwitch.default",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.mineAllSwitchContainer",
+            options: {
+                selectors: {
+                    initial: "#mineAllSwitch-area"
+                },
+                model: {
+                    settingsFilter: "{settingsTableWidget}.model.allSettingsEnabled",
+                    allSettingsCount: "{settingsTableWidget}.model.termUsage.all",
+                    mySettingsCount: "{settingsTableWidget}.model.termUsage.npset"
+                }
+            }
+        },
         filter: {
             type: "gpii.devpmt.filterWidget",
             createOnEvent: "onMarkupRendered",
@@ -146,7 +160,7 @@ gpii.devpmt.settingsTable.filterInit = function (that) {
         that.applier.change("settingsFilter", "");
     }
     if (that.model.allSettingsEnabled === null) {
-        that.applier.change("allSettingsEnabled", ["mysettings"]);
+        that.applier.change("allSettingsEnabled", "mysettings");
     }
 };
 
@@ -191,7 +205,7 @@ gpii.devpmt.settingsTable.filterSettings = function (that, settingsRows, lunrInd
 
     var showBasedOnAllFilter = function (settingId) {
         var togo = false;
-        if (that.model.allSettingsEnabled.length === 0) {
+        if (that.model.allSettingsEnabled === "allsettings") {
             togo = true;
         }
         else {
