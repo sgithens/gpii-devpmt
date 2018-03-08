@@ -6,7 +6,7 @@
 @include foundation-everything;
 
 .pmt-value-display:hover {
-    border: medium solid $success-color;
+    outline: medium solid $success-color;
     background: $medium-gray;
 }
 
