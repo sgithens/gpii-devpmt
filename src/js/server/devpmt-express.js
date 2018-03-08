@@ -7,7 +7,7 @@ var JSON5 = require("json5");
 var path = require("path");
 fluid.require("gpii-express");
 fluid.require("gpii-handlebars");
-require("universal");
+require("gpii-universal");
 
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
