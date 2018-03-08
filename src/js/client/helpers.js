@@ -26,9 +26,9 @@ Handlebars.registerHelper("message", function (messageKey) {
 
     var togo = messages[messageKey] ? messages[messageKey] : messageKey;
     if (arguments.length > 2) {
-        for (var i = 1; i < arguments.length-1; i++) {
-            var pos = i-1;
-            togo = togo.replace("{"+ pos + "}", arguments[i]);
+        for (var i = 1; i < arguments.length - 1; i++) {
+            var pos = i - 1;
+            togo = togo.replace("{" + pos + "}", arguments[i]);
         }
     };
     return togo;
