@@ -10,6 +10,12 @@
     background: $medium-gray;
 }
 
+/* Style for the cell/value currently being edited. */
+.pmt-value-editing {
+    outline: medium dashed $success-color;
+    background: $light-gray;
+}
+
 /* Top-nav bar */
 .pmt-topnav-icon {
     font-size: rem-calc(30);
