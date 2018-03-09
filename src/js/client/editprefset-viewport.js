@@ -14,6 +14,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         commonTerms: "noexpand"
     },
     model: {
+        npsetName: "",
         flatPrefs: {},
         commonTerms: [],
         commonTermsSorted: [],
@@ -157,6 +158,21 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 }
             }
         },
+        topNavBar: {
+            type: "gpii.devpmt.topNavBar",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.topNavBar",
+            options: {
+                selectors: {
+                    initial: "#topNavBar-widget"
+                },
+                model: {
+                    npsetName: "{gpii.devpmt.editPrefs}.model.npsetName",
+                    devModeOn: "{gpii.devpmt.editPrefs}.model.devModeOn",
+                    unsavedChangesExist: "{gpii.devpmt.editPrefs}.model.unsavedChangesExist"
+                }
+            }
+        },
         productList: {
             type: "gpii.devpmt.productListWidget",
             createOnEvent: "onMarkupRendered",
@@ -251,14 +267,13 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         initial: "#editprefset-viewport",
         modalDialogContainer: "#modal-dialog-container",
         modalDialogRender: "#modal-dialog-render",
+        topNavBar: "#topNavBar-container",
         editWidgetSidebar: "#editwidget-sidebar",
         productListContainer: "#productList-container",
         prefsAdjusterContainer: "#prefs-adjuster-container",
         genericSettingsTableContainer: "#genericSettingsTable-container",
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
-        topbarSaveButton: "#pmt-topbar-save-button", // Button on topbar to open Preview/Confirm Save Dialog
-        devModeIcon: "#pmt-topbar-devmode-button",
         deleteContextButtons: ".pmt-delete-context"
     },
     templates: {
@@ -333,19 +348,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         "onMarkupRendered": [
             {
-                "this": "{that}.dom.topbarSaveButton",
-                "method": "click",
-                args: ["{that}.events.openConfirmSaveDialog.fire"]
-            },
-            {
                 "this": "{that}.dom.deleteContextButtons",
                 "method": "click",
                 args: ["{that}.onDeleteContext"]
-            },
-            {
-                "this": "{that}.dom.devModeIcon",
-                "method": "click",
-                args: ["{that}.toggleDevModeView"]
             },
             {
                 funcName: "gpii.devpmt.updateFoundationSticky",
@@ -357,22 +362,15 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         ]
     },
     modelListeners: {
-        "flatPrefs": [{
-            func: "{that}.updateMetadataFromPrefs",
-            args: ["{that}"]
-        },
-        {
-            func: "{that}.commonTermUsageCounts"
-        },
-        {
-            func: "{that}.reRender",
-            excludeSource: ["init"]
-        }
+        "flatPrefs": [
+            {
+                func: "{that}.updateMetadataFromPrefs",
+                args: ["{that}"]
+            },
+            {
+                func: "{that}.commonTermUsageCounts"
+            }
         ],
-        "unsavedChangesExist": {
-            func: "{that}.reRender",
-            excludeSource: ["init"]
-        },
         "npsetApplications": {
             func: "{that}.reRender",
             excludeSource: ["init"]
@@ -516,8 +514,6 @@ gpii.devpmt.savePrefset = function (that /*, event */) {
     $.ajax(options);
     that.applier.change("unsavedChangesExist", false);
     that.applier.change("unsavedChanges", []);
-    that.dom.locate("confirmSaveDialog").foundation("close");
-    that.reRender();
 };
 
 gpii.devpmt.toggleDevModeView = function (that, status) {

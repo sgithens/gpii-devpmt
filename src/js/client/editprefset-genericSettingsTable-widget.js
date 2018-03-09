@@ -109,6 +109,10 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         "settingsFilter": {
             func: "{that}.reRender",
             excludeSource: ["init"]
+        },
+        "flatPrefs": {
+            func: "{that}.reRender",
+            excludeSource: ["init"]
         }
     }
 });

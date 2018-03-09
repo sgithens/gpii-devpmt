@@ -39,6 +39,10 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         },
         allSettingsEnabled: {
             func: "{that}.filterSettings"
+        },
+        flatPrefs: {
+            func: "{that}.reRender",
+            excludeSource: ["init"]
         }
     },
     bindings: { // Binding selectors to model paths
@@ -108,6 +112,9 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         updateTermUsage: {
             funcName: "gpii.devpmt.settingsTable.updateTermUsage",
             args: ["{that}"]
+        },
+        reRender: {
+            func: "{that}.events.refresh.fire"
         }
     },
     listeners: {
