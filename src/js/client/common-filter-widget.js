@@ -87,9 +87,11 @@ gpii.devpmt.filterWidget.clearFilter = function (that) {
  */
 gpii.devpmt.filterWidget.updateResetButton = function (that, filterText, resetButtonGroup) {
     if (filterText === "") {
+        that.dom.locate("filterInput").removeClass("pmt-filter-active");
         resetButtonGroup.hide();
     }
     else {
+        that.dom.locate("filterInput").addClass("pmt-filter-active");
         resetButtonGroup.show();
     }
 };
