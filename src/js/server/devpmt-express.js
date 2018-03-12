@@ -105,9 +105,9 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser"],
     port: 8080,
-    prefsetDirectory: "/../../../devpmtTestData/preferences/",
-    absolutePrefsetDirectory: path.normalize(__dirname + "/../../../devpmtTestData/preferences/"),
-    solutionsDirectory: "/../../../devpmtTestData/solutions/",
+    prefsetDirectory: "/../../../node_modules/gpii-universal/testData/preferences/",
+    absolutePrefsetDirectory: path.normalize(__dirname + "/../../../node_modules/gpii-universal/testData/preferences/"),
+    solutionsDirectory: "/../../../node_modules/gpii-universal/testData/solutions/",
     events: {
         onFsChange: null
     },
@@ -258,7 +258,7 @@ fluid.defaults("gpii.devpmt", {
 gpii.devpmt.loadSelectedDemoSets = function (that) {
     var personaKeys = ["alice", "davey", "david", "elmer", "elod", "livia"];
     var togo = {};
-    fluid.each(personaKeys, function (i, key) {
+    fluid.each(personaKeys, function (i) {
         togo[i] = {
             doc: gpii.devpmt.loadNPSetDocs(that.options.prefsetDirectory, i)
         };
