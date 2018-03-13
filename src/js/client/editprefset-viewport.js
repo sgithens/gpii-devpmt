@@ -573,7 +573,7 @@ gpii.devpmt.editValueEvent = function (that, event) {
     var newMetadata = {};
     if (!newCurrent.product) {
         // Common Term
-        newMetadata = that.options.commonTerms[newCurrent.term];
+        newMetadata.schema = that.options.commonTerms[newCurrent.term];
         newMetadata.name = newMetadata.schema.title;
         newMetadata.description = newMetadata.schema.description;
         newCurrent.value = that.lookupGenericPrefValue(newCurrent.context, newCurrent.term);
@@ -649,10 +649,10 @@ gpii.devpmt.npsetInit = function (that) {
     });
 
     fluid.stableSort(that.model.commonTermsSorted, function (a, b) {
-        if (a.schema.title > b.schema.title) {
+        if (a.title > b.title) {
             return 1;
         }
-        else if (a.schema.title < b.schema.title) {
+        else if (a.title < b.title) {
             return -1;
         }
         else {

@@ -40,9 +40,9 @@
             <tbody>
                 {{#each commonTermsSorted}}
                     <tr class="pmt-commonterm-row" data-term="{{this.id}}">
-                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.schema.title}}&nbsp;{{this.schema.description}}&nbsp;{{jsonify this.schema}}"><i class="fi-info"></i></span> <span>{{this.schema.title}}</span></td>
+                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.title}}&nbsp;{{this.description}}&nbsp;{{jsonify this}}"><i class="fi-info"></i></span> <span>{{this.title}}</span></td>
                         {{#each ../contextNames}}
-                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-term="{{../id}}"
+                        <td class="pmt-value-display" data-name="{{../title}}" data-context="{{this}}" data-term="{{../id}}"
                             {{#compare (lookupGenericPrefValue this ../id) "===" undefined}}
                                 data-value=""><span>--</span>
                             {{else}}

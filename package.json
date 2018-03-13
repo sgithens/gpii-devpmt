@@ -31,7 +31,7 @@
         "lunr": "2.0.3",
         "marked": "0.3.6",
         "pagedown": "1.1.0",
-        "universal": "GPII/universal"
+        "gpii-universal": "0.3.0-dev.20180308T134536Z.1835e682"
     },
     "devDependencies": {
         "electron-packager": "8.5.2",

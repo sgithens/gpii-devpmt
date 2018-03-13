@@ -155,7 +155,7 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
         fluid.each(that.model.commonTerms, function (commonTerm, term) {
             idx.add({
                 "id": term,
-                "name": commonTerm.schema.title,
+                "name": commonTerm.title,
                 "term": term
             });
         });

@@ -56,8 +56,8 @@ gpii.devpmt.saveNPSet = function (prefsetDir, npsetName, data) {
  */
 gpii.devpmt.loadCommonTermsMetadata = function () {
     var commonTerms = JSON5.parse(fs.readFileSync(
-        __dirname + "/../../../devpmtTestData/solutions/supported-commonTerms.json5"));
-    return commonTerms;
+        __dirname + "/../../../node_modules/gpii-universal/testData/ontologies/flat.json5"));
+    return commonTerms.schemas;
 };
 
 /**
