@@ -8,7 +8,7 @@ management tools for the GPII.
 ```bash
 git clone https://github.com/sgithens/gpii-devpmt.git
 cd gpii-devpmt
-yarn install # npm probably works too
+npm install
 ```
 
 # Running
