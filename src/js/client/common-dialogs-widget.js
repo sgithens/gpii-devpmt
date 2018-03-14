@@ -41,7 +41,7 @@ fluid.defaults("gpii.devpmt.dialogs.baseDialog", {
     },
     events: {
         // Sometimes foundation can move around the markup for the
-        // dialog to float it, etc. and we can loose event bindings.
+        // dialog to float it, etc. and we can lose event bindings.
         // This allows activity to happen immediately after the dialog
         // is opened.
         afterOpenDialog: null
