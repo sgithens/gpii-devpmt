@@ -21,7 +21,7 @@ fluid.module.register("gpii-devpmt", __dirname, require);
  *  will be assigned to the variable in the transform.
  */
 fluid.defaults("gpii.handlebars.requestFuncTransform", {
-    gradeNames: ["fluid.standartInputTransformFunction"]
+    gradeNames: ["fluid.component"]
 });
 
 gpii.handlebars.requestFuncTransform = function (value, transformSpec) {

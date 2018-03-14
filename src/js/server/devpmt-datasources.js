@@ -42,9 +42,16 @@ gpii.devpmt.addNPSet = function (prefsetDir, npsetName) {
     gpii.devpmt.saveNPSet(prefsetDir, npsetName, JSON.stringify(data, null, 4));
 };
 
+/**
+ * Save a preferences set to disk.
+ * @param  {String} prefsetDir Current directory preferences are stored in.
+ * @param  {String} npsetName  Current name that will be used for the preference
+ *                             set. This will be the name on disk + .json
+ * @param  {String} data       Contents of the preference set file.
+ */
 gpii.devpmt.saveNPSet = function (prefsetDir, npsetName, data) {
     var filename = prefsetDir + npsetName + ".json";
-    console.log("About to writte to: ", filename);
+    fluid.log("About to write preferences to disk: ", filename);
     fs.writeFileSync(filename, data);
 };
 

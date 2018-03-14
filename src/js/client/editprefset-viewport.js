@@ -387,7 +387,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
  *
  * [[My Settings (3)]] [All Settings (225)]
  *
- * This provides the user will contextual knowledge before hiding
+ * This provides the user with contextual knowledge before hiding
  * or showing all settings. This information could also be used
  * to perhaps only show the first 10 settings or something, and
  * then expand the rest when the user decides it is appropriate.
@@ -626,15 +626,7 @@ gpii.devpmt.npsetInit = function (that) {
     });
 
     var sortName = function (a, b) {
-        if (a.name > b.name) {
-            return 1;
-        }
-        else if (a.name < b.name) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
+        return a.name.localeCompare(b.name);
     };
 
     fluid.stableSort(allSolutionsSorted, sortName);
@@ -649,15 +641,7 @@ gpii.devpmt.npsetInit = function (that) {
     });
 
     fluid.stableSort(that.model.commonTermsSorted, function (a, b) {
-        if (a.title > b.title) {
-            return 1;
-        }
-        else if (a.title < b.title) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
+        return a.title.localeCompare(b.title);
     });
 
     that.commonTermUsageCounts();
