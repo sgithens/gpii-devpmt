@@ -595,9 +595,6 @@ gpii.devpmt.editValueEvent = function (that, event) {
     that.applier.change("currentlyEditing.active", true);
     that.applier.change("unsavedChangesExist", true);
     that.prefsAdjuster.renderInitialMarkup();
-    // $(document).foundation();
-    // https://github.com/zurb/foundation-sites/issues/7899
-    $(".sticky").foundation("_calc", true);
 };
 
 
