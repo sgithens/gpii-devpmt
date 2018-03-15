@@ -4,7 +4,6 @@
 var fluid = require("infusion");
 var gpii  = fluid.registerNamespace("gpii");
 var JSON5 = require("json5");
-var path = require("path");
 fluid.require("gpii-express");
 fluid.require("gpii-handlebars");
 require("gpii-universal");
@@ -12,7 +11,6 @@ require("gpii-universal");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
 
-fluid.module.register("gpii-devpmt", __dirname, require);
 
 /** gpii.handlebars.requestFuncTransform
  *  This component is sort of a facsimile of the functions available
@@ -69,7 +67,7 @@ fluid.defaults("gpii.devpmt.npset", {
 fluid.defaults("gpii.devpmt.baseDispather", {
     gradeNames: ["gpii.express.middleware.requestAware", "gpii.handlebars.dispatcherMiddleware"],
     method: "get",
-    templateDirs: [__dirname + "/../../../src/templates"],
+    templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"],
     defaultLayout: "main"
 });
 
@@ -105,9 +103,8 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser"],
     port: 8080,
-    prefsetDirectory: "/../../../node_modules/gpii-universal/testData/preferences/",
-    absolutePrefsetDirectory: path.normalize(__dirname + "/../../../node_modules/gpii-universal/testData/preferences/"),
-    solutionsDirectory: "/../../../node_modules/gpii-universal/testData/solutions/",
+    prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
+    solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
     events: {
         onFsChange: null
     },
@@ -130,20 +127,20 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.express.router.static",
             options: {
                 path: "/modules",
-                content: __dirname + "/../../../node_modules/"
+                content: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/)"
             }
         },
         staticRouter: {
             type: "gpii.express.router.static",
             options: {
                 path: "/src",
-                content: __dirname + "/../../../src/"
+                content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
             }
         },
         hb: {
             type: "gpii.express.hb.live",
             options: {
-                templateDirs: [__dirname + "/../../../src/templates"],
+                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"],
                 listeners: {
                     "onFsChange.notifyExpress": {
                         func: "{gpii.devpmt}.events.onFsChange.fire"
@@ -159,7 +156,7 @@ fluid.defaults("gpii.devpmt", {
                 rules: {
                     contextToExpose: {
                         npsetList: { literalValue: "{devpmt}.options.npsetList" },
-                        absolutePrefsetDirectory: { literalValue: "{devpmt}.options.absolutePrefsetDirectory" },
+                        prefsetDirectory: { literalValue: "{devpmt}.options.prefsetDirectory" },
                         selectedDemoSets: { literalValue: "{devpmt}.options.selectedDemoSets" }
                     }
                 }
@@ -203,7 +200,7 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
             options: {
                 path: "/hbs",
-                templateDirs: [__dirname + "/../../../src/templates"]
+                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
             }
         },
         dispatcher: {
@@ -280,14 +277,14 @@ fluid.defaults("gpii.devpmt.addPrefsetFormHandler", {
 
 gpii.devpmt.addPrefsetFormHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
     var prefsetName = req.body["prefset-name"];
-    gpii.devpmt.addNPSet(__dirname + devpmt.options.prefsetDirectory, prefsetName);
+    gpii.devpmt.addNPSet(devpmt.options.prefsetDirectory, prefsetName);
     res.redirect("/editprefs/" + prefsetName);
 };
 
 fluid.registerNamespace("gpii.devpmt.savePrefsetHandler");
 
 gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
-    gpii.devpmt.saveNPSet(__dirname + devpmt.options.prefsetDirectory, req.params.npset, JSON5.stringify(req.body, null, 4));
+    gpii.devpmt.saveNPSet(devpmt.options.prefsetDirectory, req.params.npset, JSON5.stringify(req.body, null, 4));
     res.send("{result: 'ok'}");
 };
 

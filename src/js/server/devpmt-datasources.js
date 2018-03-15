@@ -6,15 +6,14 @@ var fs = require("fs");
 var JSON5 = require("json5");
 
 gpii.devpmt.loadNPSet = function (prefsetDir, prefsetName, ontologyHandler) {
-    var elod = JSON5.parse(fs.readFileSync(
-        __dirname + prefsetDir + prefsetName + ".json"));
+    var elod = JSON5.parse(fs.readFileSync(prefsetDir + prefsetName + ".json"));
     var npset = ontologyHandler.rawPrefsToOntology(elod, "flat");
     return npset;
 };
 
 gpii.devpmt.loadNPSetDocs = function (prefsetDir, prefsetName) {
     var docs = "";
-    var filename = __dirname + prefsetDir + prefsetName + ".md";
+    var filename = prefsetDir + prefsetName + ".md";
     if (fs.existsSync(filename)) {
         docs = fs.readFileSync(filename, {encoding: "UTF8"});
     }
@@ -63,7 +62,7 @@ gpii.devpmt.saveNPSet = function (prefsetDir, npsetName, data) {
  */
 gpii.devpmt.loadCommonTermsMetadata = function () {
     var commonTerms = JSON5.parse(fs.readFileSync(
-        __dirname + "/../../../node_modules/gpii-universal/testData/ontologies/flat.json5"));
+        fluid.module.resolvePath("%gpii-devpmt/node_modules/gpii-universal/testData/ontologies/flat.json5")));
     return commonTerms.schemas;
 };
 
@@ -77,7 +76,7 @@ gpii.devpmt.loadAllSolutions = function (solutionsDirectory) {
     var togo = {};
     fluid.each(solutionFiles, function (value) {
         var next = JSON5.parse(fs.readFileSync(
-            __dirname + solutionsDirectory + value + ".json5"));
+            solutionsDirectory + value + ".json5"));
         togo = fluid.merge({"": ["replace,noexpand"]}, togo, next);
     });
     return togo;
@@ -91,8 +90,7 @@ gpii.devpmt.loadAllSolutions = function (solutionsDirectory) {
  *      ["alice.json", "elod.json"]
  */
 gpii.devpmt.loadTestDataNPSets = function (folder) {
-    var allFiles = fs.readdirSync(
-        __dirname + folder);
+    var allFiles = fs.readdirSync(folder);
     var npsets = [];
     fluid.each(allFiles, function (val) {
         if (val.endsWith(".json") || val.endsWith(".json5")) {
