@@ -537,8 +537,16 @@ gpii.devpmt.savePrefset = function (that /*, event */) {
         data: JSON.stringify({ flat: that.model.flatPrefs }, null, 4)
     };
     $.ajax(options);
-    that.applier.change("unsavedChangesExist", false);
-    that.applier.change("unsavedChanges", []);
+    var transaction = that.applier.initiate();
+    transaction.fireChangeRequest({
+        path: "unsavedChangesExist",
+        value: false
+    });
+    transaction.fireChangeRequest({
+        path: "unsavedChanges",
+        value: []
+    });
+    transaction.commit();
 };
 
 gpii.devpmt.toggleDevModeView = function (that, status) {
@@ -606,7 +614,6 @@ gpii.devpmt.editValueEvent = function (that, event) {
     }
     else {
         // Application Specific
-        console.log(newCurrent);
         // TODO ontology
         newMetadata = gpii.devpmt.findProductSettingMetadata(that.model.allSolutions,
             newCurrent.product.slice(38), newCurrent.term);
@@ -615,10 +622,20 @@ gpii.devpmt.editValueEvent = function (that, event) {
         newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
         newCurrent.blank = newCurrent.value === undefined;
     }
-    that.applier.change("currentlyEditing.current", newCurrent);
-    that.applier.change("currentlyEditing.metadata", newMetadata);
-    that.applier.change("currentlyEditing.active", true);
-    that.applier.change("unsavedChangesExist", true);
+    var transaction = that.applier.initiate();
+    transaction.fireChangeRequest({
+        path: "currentlyEditing.current", value: newCurrent
+    });
+    transaction.fireChangeRequest({
+        path: "currentlyEditing.metadata", value: newMetadata
+    });
+    transaction.fireChangeRequest({
+        path: "currentlyEditing.active", value: true
+    });
+    transaction.fireChangeRequest({
+        path: "unsavedChangesExist", value: true
+    });
+    transaction.commit();
     that.prefsAdjuster.renderInitialMarkup();
 };
 
