@@ -12,16 +12,12 @@ fluid.registerNamespace("gpii.devpmt.dialogs");
  * modal dialog. Can be inherited to create more complex dialogs.
  */
 fluid.defaults("gpii.devpmt.dialogs.baseDialog", {
-    gradeNames: ["gpii.handlebars.templateAware"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     templates: {
         initial: "common-dialog-widget"
     },
     model: {},
     invokers: {
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
-        },
         openDialog: {
             funcName: "gpii.devpmt.dialogs.baseDialog.openDialog",
             args: ["{that}", "{that}.dom.dialogContainer"]

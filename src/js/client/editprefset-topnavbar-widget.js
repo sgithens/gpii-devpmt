@@ -15,21 +15,12 @@ fluid.registerNamespace("gpii.devpmt.topNavBar");
  * Top Navigation Bar Fluid View Component
  */
 fluid.defaults("gpii.devpmt.topNavBar", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         // Typically these will all have model relay linkages to the main editPrefs component
         npsetName: "",
         devModeOn: false,
         unsavedChangesExist: false
-    },
-    invokers: {
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
-        },
-        reRender: {
-            func: "{that}.events.refresh.fire"
-        }
     },
     templates: {
         initial: "editprefset-topnavbar-widget"

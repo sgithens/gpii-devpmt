@@ -63,7 +63,7 @@ gpii.devpmt.prefSettingAdjuster.binderToValueInput = function (value) {
  * at the same time.
  */
 fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         active: false,
         current: {
@@ -121,10 +121,6 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         initial: "editprefset-prefSettingAdjuster-widget"
     },
     invokers: {
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
-        },
         saveUpdateValue: {
             funcName: "gpii.devpmt.saveUpdateValue",
             args: ["{that}", "{editPrefs}"]

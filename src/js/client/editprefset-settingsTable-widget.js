@@ -18,7 +18,7 @@ fluid.registerNamespace("gpii.devpmt.settingsTable");
  * Main infusion component for a Setting Table Widget.
  */
 fluid.defaults("gpii.devpmt.settingsTableWidget", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     solution: null, // The solutions registry entry for this app
     appId: null,
     appUri: null, // TODO Use ontology transforms
@@ -93,6 +93,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             funcName: "gpii.devpmt.settingsTable.filterInit",
             args: ["{that}"]
         },
+        // Overriding renderInitialMarkup to take `that` as a render context.
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}"]
@@ -112,9 +113,6 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         updateTermUsage: {
             funcName: "gpii.devpmt.settingsTable.updateTermUsage",
             args: ["{that}"]
-        },
-        reRender: {
-            func: "{that}.events.refresh.fire"
         }
     },
     listeners: {

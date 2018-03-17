@@ -4,11 +4,34 @@ var gpii  = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 
 /**
+ * A devpmt tailored view component that brings in some common
+ * traits for our rendered widgets.
+ *
+ * Builds off of `gpii.handlbars.templateAware` and `gpii.binder.bindOnCreate`
+ * grades.  Includes a standard renderInitialMarkup invoker that uses
+ * the defined initial template and the model as the context for rendering.
+ * Also includes a useful reRender invoker that can be bound to model
+ * listeners or invoked programmatically.
+ */
+fluid.defaults("gpii.devpmt.viewComponent", {
+    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate"],
+    invokers: {
+        renderInitialMarkup: {
+            func: "{that}.renderMarkup",
+            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
+        },
+        reRender: {
+            func: "{that}.events.refresh.fire"
+        }
+    }
+});
+
+/**
  * Edit Prefs is the main component for driving the page editing
  * a preference set.
  */
 fluid.defaults("gpii.devpmt.editPrefs", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     mergePolicy: {
         allSolutions: "noexpand",
         commonTerms: "noexpand"
@@ -281,9 +304,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         editPrefWidget: "editpref-widget"
     },
     invokers: {
-        reRender: {
-            func: "{that}.events.refresh.fire"
-        },
         addEditToUnsavedList: {
             funcName: "gpii.devpmt.addEditToUnsavedList",
             args: ["{that}", "{arguments}.0"]
@@ -291,10 +311,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         commonTermUsageCounts: {
             funcName: "gpii.devpmt.commonTermUsageCounts",
             args: ["{that}", "{that}.model.commonTermsSorted", "{that}.model.flatPrefs"]
-        },
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
         },
         renderEditSidebar: {
             func: "{that}.renderMarkup",

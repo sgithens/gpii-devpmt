@@ -6,7 +6,7 @@ fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.settingsTable");
 
 fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         flatPrefs: null, // Model Relay to EditPrefs
         contextNames: null, // Model Relay to EditPrefs
@@ -22,13 +22,6 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         initial: "editprefset-genericSettingsTable-widget"
     },
     invokers: {
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
-        },
-        reRender: {
-            func: "{that}.events.refresh.fire"
-        },
         updateSettingsFilter: {
             funcName: "gpii.devpmt.updateSettingsFilter",
             args: ["{that}", "{that}.dom.commonTermRow", "{that}.model.settingsFilter", "{that}.model.settingsSearch"]

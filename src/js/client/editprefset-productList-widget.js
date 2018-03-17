@@ -16,7 +16,7 @@ fluid.registerNamespace("gpii.devpmt.productList");
  *  Main infusion component for a filterable product list.
  */
 fluid.defaults("gpii.devpmt.productListWidget", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         productListFilter: "",
         allSolutionsSorted: []
@@ -56,10 +56,6 @@ fluid.defaults("gpii.devpmt.productListWidget", {
     },
     lunrIndex: null,
     invokers: {
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
-        },
         updateLunrIndex: {
             funcName: "gpii.devpmt.productList.updateProductListLunrIndex",
             args: ["{that}"]

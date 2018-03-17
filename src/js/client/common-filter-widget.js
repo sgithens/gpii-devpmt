@@ -12,7 +12,7 @@ fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.filterWidget");
 
 fluid.defaults("gpii.devpmt.filterWidget", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         filterText: null
     },
@@ -31,10 +31,6 @@ fluid.defaults("gpii.devpmt.filterWidget", {
         clearFilter: {
             funcName: "gpii.devpmt.filterWidget.clearFilter",
             args: ["{that}"]
-        },
-        renderInitialMarkup: {
-            func: "{that}.renderMarkup",
-            args: ["initial", "{that}.options.templates.initial", "{that}.model"]
         },
         updateResetButton: {
             funcName: "gpii.devpmt.filterWidget.updateResetButton",

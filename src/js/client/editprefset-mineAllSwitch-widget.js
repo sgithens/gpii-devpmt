@@ -19,13 +19,14 @@ fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.mineAllSwitch");
 
 fluid.defaults("gpii.devpmt.mineAllSwitch.base", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         settingsFilter: "allsettings",
         allSettingsCount: 0,
         mySettingsCount: 0
     },
     invokers: {
+        // Overriding renderInitialMarkup to use `that` as a render context.
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}"]
