@@ -308,8 +308,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.addEditToUnsavedList",
             args: ["{that}", "{arguments}.0"]
         },
-        commonTermUsageCounts: {
-            funcName: "gpii.devpmt.commonTermUsageCounts",
+        updateCommonTermUsageCounts: {
+            funcName: "gpii.devpmt.updateCommonTermUsageCounts",
             args: ["{that}", "{that}.model.commonTermsSorted", "{that}.model.flatPrefs"]
         },
         renderEditSidebar: {
@@ -384,7 +384,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 args: ["{that}"]
             },
             {
-                func: "{that}.commonTermUsageCounts"
+                func: "{that}.updateCommonTermUsageCounts"
             }
         ],
         "npsetApplications": {
@@ -411,16 +411,16 @@ fluid.defaults("gpii.devpmt.editPrefs", {
  * If the user has multiple contexts, this will return the total
  * number of unique settings keys in the NP Set across all contexts.
  *
- * @return (Object) Object with keys `npset` and `all`, such as
+ * @return {Object} Object with keys `npset` and `all`, such as
  *                  {
  *                      npset: 3,
  *                      all: 225
  *                  }
  */
-gpii.devpmt.commonTermUsageCounts = function (that, commonTermsSorted /*, flatPrefs */) {
+gpii.devpmt.calculateCommonTermUsageCounts = function (commonTermsSorted, flatPrefs) {
     var all = commonTermsSorted.length;
     var npsetKeys = {};
-    fluid.each(that.model.flatPrefs.contexts, function (i) {
+    fluid.each(flatPrefs.contexts, function (i) {
         fluid.each(i.preferences, function (j, jKey) {
             if (jKey.startsWith("http://registry.gpii.net/common")) {
                 npsetKeys[jKey] = true;
@@ -431,8 +431,17 @@ gpii.devpmt.commonTermUsageCounts = function (that, commonTermsSorted /*, flatPr
         all: all,
         npset: Object.keys(npsetKeys).length
     };
-    that.applier.change("commonTermUsageCounts", counts);
     return counts;
+};
+
+/**
+ * Calculate any changes in the common term filter counts and
+ * update the model. See `gpii.devpmt.commonTermUsageCounts` for
+ * details on the data.
+ */
+gpii.devpmt.updateCommonTermUsageCounts = function (that, commonTermsSorted, flatPrefs) {
+    var counts = gpii.devpmt.calculateCommonTermUsageCounts(commonTermsSorted, flatPrefs);
+    that.applier.change("commonTermUsageCounts", counts);
 };
 
 /**
@@ -657,7 +666,7 @@ gpii.devpmt.npsetInit = function (that) {
         return a.title.localeCompare(b.title);
     });
 
-    that.commonTermUsageCounts();
+    that.updateCommonTermUsageCounts();
 
     // Debugging so this component is available in the console
     var editPrefs = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.editPrefs")[0];
