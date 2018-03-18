@@ -5,9 +5,11 @@
     "description": "Developers Preference Testing Tool",
     "main": "standalone.js",
     "scripts": {
-        "start": "electron standalone.js",
+        "start": "node index.js",
+        "start-electron": "electron standalone.js",
         "watch-sass": "gulp",
-        "build-sass": "gulp sass"
+        "build-sass": "gulp sass",
+        "test": "node tests/all-tests.js"
     },
     "repository": {
         "type": "git",
