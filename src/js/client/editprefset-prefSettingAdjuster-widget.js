@@ -197,8 +197,7 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
     else {
         segs.push(that.model.current.term.replace(/\./g, "\\."));
     }
-    var path = "flatPrefs";
-    fluid.each(segs, function (item) { path += "." + item; });
+    var path = ["flatPrefs"].concat(segs).join(".");
     // If the `blank` checkbox is ticked than we are actually going
     // to delete this key, rather than update it.
     if (that.model.current.blank) {
