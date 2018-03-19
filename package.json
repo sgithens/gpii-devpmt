@@ -9,7 +9,10 @@
         "start-electron": "electron standalone.js",
         "watch-sass": "gulp",
         "build-sass": "gulp sass",
-        "test": "node tests/all-tests.js"
+        "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",
+        "test:node": "node node_modules/nyc/bin/nyc.js node tests/all-tests.js",
+        "test": "npm run test:node",
+        "posttest": "node node_modules/nyc/bin/nyc.js report -r text-summary -r html --report-dir reports --temp-directory coverage"
     },
     "repository": {
         "type": "git",
@@ -33,7 +36,10 @@
         "lunr": "2.0.3",
         "marked": "0.3.6",
         "pagedown": "1.1.0",
-        "gpii-universal": "0.3.0-dev.20180308T134536Z.1835e682"
+        "gpii-universal": "0.3.0-dev.20180308T134536Z.1835e682",
+        "gpii-testem": "2.0.1-dev.20180305T143958Z.d98bb69",
+        "testem": "2.0.0",
+        "rimraf": "2.6.2"
     },
     "devDependencies": {
         "electron-packager": "8.5.2",
@@ -54,6 +60,7 @@
         "kettle": "1.6.4",
         "node-jqunit": "1.1.6",
         "rimraf": "2.5.4",
-        "shelljs": "0.3.0"
+        "shelljs": "0.3.0",
+        "nyc": "11.4.1"
     }
 }
