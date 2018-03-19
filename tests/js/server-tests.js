@@ -8,7 +8,7 @@ require("../../index.js");
 fluid.registerNamespace("gpii.tests.devpmt.server");
 
 gpii.tests.devpmt.server.loadTestDataNPSetsTest = function () {
-    var npsets = gpii.devpmt.loadTestDataNPSets("/../../../devpmtTestData/preferences");
+    var npsets = gpii.devpmt.loadTestDataNPSets(fluid.module.resolvePath("%gpii-devpmt/node_modules/gpii-universal/testData/preferences/"));
     var haveAlice = false;
     fluid.each(npsets, function (val) {
         if (val === "alice") {
@@ -21,7 +21,7 @@ gpii.tests.devpmt.server.loadTestDataNPSetsTest = function () {
 gpii.tests.devpmt.server.loadCommonTermsMetadataTest = function () {
     var terms = gpii.devpmt.loadCommonTermsMetadata();
     var fontSize = terms["http://registry.gpii.net/common/fontSize"];
-    jqUnit.assertEquals("Font Size should have a name", "Font Size", fontSize.schema.title);
+    jqUnit.assertEquals("Font Size should have a name", "Font Size", fontSize.title);
 };
 
 fluid.defaults("gpii.tests.devpmt.server.caseHolder", {
