@@ -100,9 +100,10 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
  * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
  * NP Sets.
  */
+var thePort = process.env.PORT || 8080;
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser"],
-    port: 8080,
+    port: thePort,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
     events: {
