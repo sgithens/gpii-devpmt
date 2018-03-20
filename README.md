@@ -22,7 +22,7 @@ run `npm start`.
 # Development
 
 To run the tests you'll need to install `chromedriver`. After that you can run,
-`node tests/all-tests.js`.  Linting tasks for javascript and json can be run
+`npm test`.  Linting tasks for javascript and json can be run
 with `grunt eslint` and `grunt jsonlint` respectively.
 
 # Building Stand Alone
