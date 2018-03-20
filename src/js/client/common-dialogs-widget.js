@@ -28,7 +28,7 @@ fluid.defaults("gpii.devpmt.dialogs.baseDialog", {
         }
     },
     selectors: {
-        dialogContainer: "#dialog-container"
+        dialogContainer: "#pmt-dialog-container"
     },
     listeners: {
         "onMarkupRendered.openDialog": {
@@ -83,8 +83,8 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDialog", {
         initial: "common-confirm-dialog-widget"
     },
     selectors: {
-        acceptButton: ".confirm-dialog-button",
-        cancelButton: ".cancel-dialog-button"
+        acceptButton: ".pmt-confirm-dialog-button",
+        cancelButton: ".pmt-cancel-dialog-button"
     },
     invokers: {
         acceptConfirmDialog: {

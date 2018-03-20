@@ -30,7 +30,7 @@ fluid.defaults("gpii.devpmt.productListWidget", {
         }
     },
     selectors: {
-        productListFilterContainer: "#filter-container",
+        productListFilterContainer: "#pmt-filter-container",
         productListItems: ".pmt-sidebar-toc-product",
         productListLinks: ".pmt-sidebar-product-link"
     },
@@ -46,7 +46,7 @@ fluid.defaults("gpii.devpmt.productListWidget", {
             container: "{that}.dom.productListFilterContainer",
             options: {
                 selectors: {
-                    initial: "#common-filter-area"
+                    initial: "#pmt-common-filter-area"
                 },
                 model: {
                     filterText: "{productListWidget}.model.productListFilter"

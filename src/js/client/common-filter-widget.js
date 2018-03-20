@@ -20,9 +20,9 @@ fluid.defaults("gpii.devpmt.filterWidget", {
         filterInput: "filterText"
     },
     selectors: {
-        filterInput: ".filter-input",
-        resetButtonGroup: ".reset-button-group",
-        resetButton: ".reset-button"
+        filterInput: ".pmt-filter-input",
+        resetButtonGroup: ".pmt-reset-button-group",
+        resetButton: ".pmt-reset-button"
     },
     templates: {
         initial: "common-filter-widget"

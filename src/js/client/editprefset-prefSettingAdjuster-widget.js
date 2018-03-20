@@ -83,10 +83,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         devModeOn: false
     },
     selectors: {
-        initial: "#prefsAdjuster",
-        okButton: ".ok-button",
-        valueInput: "#new-value",
-        blankCheckbox: "#blank-value"
+        // initial: "#pmt-prefsAdjuster",
+        okButton: ".pmt-ok-button",
+        valueInput: "#pmt-new-value",
+        blankCheckbox: "#pmt-blank-value"
     },
     bindings: { // Binding selectors: modelPaths
         blankCheckbox: {

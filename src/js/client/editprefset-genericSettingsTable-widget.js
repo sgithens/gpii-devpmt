@@ -35,7 +35,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
     },
     selectors: {
         commonTermRow: ".pmt-commonterm-row",
-        prefsFilter: "#filter-container",
+        prefsFilter: "#pmt-filter-container",
         valueDisplayCell: ".pmt-value-display",
 
         // Generic Prefs Filters
@@ -43,7 +43,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         addContextButton: ".pmt-add-context-button",
 
         // mineAllWidget
-        mineAllSwitchContainer: "#mineAllSwitch-container"
+        mineAllSwitchContainer: "#pmt-mineAllSwitch-container"
     },
     components: {
         mineAllSwitch: {
@@ -52,7 +52,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
             container: "{that}.dom.mineAllSwitchContainer",
             options: {
                 selectors: {
-                    initial: "#mineAllSwitch-area"
+                    initial: "#pmt-mineAllSwitch-area"
                 },
                 model: {
                     settingsFilter: "{genericSettingsTableWidget}.model.settingsFilter",
@@ -67,7 +67,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
             container: "{that}.dom.prefsFilter",
             options: {
                 selectors: {
-                    initial: "#common-filter-area"
+                    initial: "#pmt-common-filter-area"
                 },
                 model: {
                     filterText: "{genericSettingsTableWidget}.model.settingsSearch"

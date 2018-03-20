@@ -116,7 +116,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
-                    initial: "#modal-dialog-render"
+                    initial: "#pmt-modal-dialog-render"
                 }
             }
         },
@@ -127,7 +127,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
-                    initial: "#modal-dialog-render"
+                    initial: "#pmt-modal-dialog-render"
                 }
             }
         },
@@ -137,7 +137,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
-                    initial: "#modal-dialog-render"
+                    initial: "#pmt-modal-dialog-render"
                 },
                 model: {
                     appId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.appId",
@@ -151,7 +151,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
-                    initial: "#modal-dialog-render"
+                    initial: "#pmt-modal-dialog-render"
                 }
             }
         },
@@ -161,7 +161,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
-                    initial: "#modal-dialog-render"
+                    initial: "#pmt-modal-dialog-render"
                 },
                 model: {
                     contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId"
@@ -174,7 +174,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
-                    initial: "#modal-dialog-render"
+                    initial: "#pmt-modal-dialog-render"
                 },
                 model: {
                     unsavedChanges: "{gpii.devpmt.editPrefs}.model.unsavedChanges"
@@ -187,7 +187,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.topNavBar",
             options: {
                 selectors: {
-                    initial: "#topNavBar-widget"
+                    initial: "#pmt-topNavBar-widget"
                 },
                 model: {
                     npsetName: "{gpii.devpmt.editPrefs}.model.npsetName",
@@ -202,7 +202,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.productListContainer",
             options: {
                 selectors: {
-                    initial: "#productList-widget"
+                    initial: "#pmt-productList-widget"
                 },
                 model: {
                     allSolutionsSorted: "{gpii.devpmt.editPrefs}.model.allSolutionsSorted"
@@ -215,7 +215,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.prefsAdjusterContainer",
             options: {
                 selectors: {
-                    initial: "#prefs-adjuster"
+                    initial: "#pmt-prefs-adjuster"
                 },
                 model: {
                     active: "{gpii.devpmt.editPrefs}.model.currentlyEditing.active",
@@ -231,7 +231,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{that}.dom.genericSettingsTableContainer",
             options: {
                 selectors: {
-                    initial: "#genericSettingsTable-widget"
+                    initial: "#pmt-genericSettingsTable-widget"
                 },
                 model: {
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
@@ -252,7 +252,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             container: "{arguments}.0",
             options: {
                 selectors: {
-                    initial: ".settings-table-div"
+                    initial: ".pmt-settings-table-div"
                 },
                 appId: "{arguments}.1",
                 solution: "{arguments}.2",
@@ -287,14 +287,14 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         }
     },
     selectors: {
-        initial: "#editprefset-viewport",
+        initial: "#pmt-editprefset-viewport",
         modalDialogContainer: "#modal-dialog-container",
-        modalDialogRender: "#modal-dialog-render",
-        topNavBar: "#topNavBar-container",
-        editWidgetSidebar: "#editwidget-sidebar",
-        productListContainer: "#productList-container",
-        prefsAdjusterContainer: "#prefs-adjuster-container",
-        genericSettingsTableContainer: "#genericSettingsTable-container",
+        modalDialogRender: "#pmt-modal-dialog-render",
+        topNavBar: "#pmt-topNavBar-container",
+        editWidgetSidebar: "#pmt-editwidget-sidebar",
+        productListContainer: "#pmt-productList-container",
+        prefsAdjusterContainer: "#pmt-prefs-adjuster-container",
+        genericSettingsTableContainer: "#pmt-genericSettingsTable-container",
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
         deleteContextButtons: ".pmt-delete-context"

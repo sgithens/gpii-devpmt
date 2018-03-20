@@ -1,33 +1,33 @@
 <div class="callout">
     {{#if active}}
     <h5>{{metadata.schema.title}}</h5>
-    <input name="blank-value" id="blank-value" type="checkbox" /><label for="blank-value">Blank</label>
+    <input name="pmt-blank-value" id="pmt-blank-value" type="checkbox" /><label for="pmt-blank-value">Blank</label>
     {{!-- Currently we only handle very very simple JSON Schema, increasing
           the complexity of this may be the target of future work --}}
     <div>
         {{#compare metadata.schema.type "===" "string"}}
             <label>Value
-                <input id="new-value" type="text" placeholder="value" value="{{current.value}}"/>
+                <input id="pmt-new-value" type="text" placeholder="value" value="{{current.value}}"/>
             </label>
         {{else}}
             {{#compare metadata.schema.type "===" "number"}}
                 <label>Value
-                    <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
+                    <input id="pmt-new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
                 </label>
             {{else}}
                 {{#compare metadata.schema.type "===" "integer"}}
                     <label>Value
-                        <input id="new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
+                        <input id="pmt-new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
                     </label>
                 {{else}}
                     {{#compare metadata.schema.type "===" "boolean"}}
                         <div class="switch">
                             {{#if current.value}}
-                                <input checked="true" class="switch-input" id="new-value" type="checkbox" name="new-value" />
+                                <input checked="true" class="switch-input" id="pmt-new-value" type="checkbox" name="pmt-new-value" />
                             {{else}}
-                                <input class="switch-input" id="new-value" type="checkbox" name="new-value" />
+                                <input class="switch-input" id="pmt-new-value" type="checkbox" name="pmt-new-value" />
                             {{/if}}
-                            <label class="switch-paddle" for="new-value">
+                            <label class="switch-paddle" for="pmt-new-value">
                                 <span class="show-for-sr">Value 1</span>
                                 <span class="switch-active" aria-hidden="true">
                                     {{{message "devptt.booleanSettingOn"}}}</span>
@@ -39,7 +39,7 @@
                     {{else}}
                         {{! Assuming there is no schema information, or nothing we know how to handle. }}
                         <label>Value
-                            <input id="new-value" type="text" placeholder="value" value="{{current.value}}"/>
+                            <input id="pmt-new-value" type="text" placeholder="value" value="{{current.value}}"/>
                         </label>
                         <p>This setting is either lacking a schema, or using a schema not currently supported,
                         defaulting to type 'string'</p>
@@ -48,7 +48,7 @@
             {{/compare}}
         {{/compare}}
     </div>
-    <button type="button" class="ok-button button secondary hollow">OK</button>
+    <button type="button" class="pmt-ok-button button secondary hollow">OK</button>
     <p>{{metadata.schema.description}}</p>
     {{#if devModeOn}}
     <p>

@@ -50,10 +50,10 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     selectors: {
         valueDisplayCell: ".pmt-value-display",
         enabledBooleanInputs: ".pmt-enabled-boolean",
-        settingsFilter: "#filter-container",
+        settingsFilter: "#pmt-filter-container",
         settingsRows: ".pmt-settings-table-row",
         addContextButton: ".pmt-add-context-button",
-        mineAllSwitchContainer: "#mineAllSwitch-container"
+        mineAllSwitchContainer: "#pmt-mineAllSwitch-container"
     },
     templates: {
         initial: "editprefset-settingsTable-widget"
@@ -65,7 +65,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             container: "{that}.dom.mineAllSwitchContainer",
             options: {
                 selectors: {
-                    initial: "#mineAllSwitch-area"
+                    initial: "#pmt-mineAllSwitch-area"
                 },
                 model: {
                     settingsFilter: "{settingsTableWidget}.model.allSettingsEnabled",
@@ -80,7 +80,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             container: "{that}.dom.settingsFilter",
             options: {
                 selectors: {
-                    initial: "#common-filter-area"
+                    initial: "#pmt-common-filter-area"
                 },
                 model: {
                     filterText: "{settingsTableWidget}.model.settingsFilter"

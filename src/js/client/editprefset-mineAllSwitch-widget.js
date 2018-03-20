@@ -46,7 +46,7 @@ fluid.defaults("gpii.devpmt.mineAllSwitch.toggleSwitch", {
         initial: "editprefset-mineAllToggleSwitch-widget"
     },
     selectors: {
-        allSettingsEnabledSwitch: ".all-settings-switch"
+        allSettingsEnabledSwitch: ".pmt-all-settings-switch"
     },
     bindings: { // Binding selectors to model paths
         allSettingsEnabledSwitch: {
