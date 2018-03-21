@@ -3,10 +3,9 @@
     "productName": "devpmt",
     "version": "1.0.0",
     "description": "Developers Preference Testing Tool",
-    "main": "standalone.js",
+    "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "start-electron": "electron standalone.js",
         "watch-sass": "gulp",
         "build-sass": "gulp sass",
         "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",
@@ -25,7 +24,6 @@
     },
     "homepage": "https://github.com/sgithens/gpii-devpmt",
     "dependencies": {
-        "electron": "1.4.1",
         "foundation-sites": "6.4.3",
         "gpii-express": "1.0.13",
         "gpii-handlebars": "1.1.0",
@@ -42,7 +40,6 @@
         "rimraf": "2.6.2"
     },
     "devDependencies": {
-        "electron-packager": "8.5.2",
         "eslint": "3.14.1",
         "eslint-config-fluid": "1.1.0",
         "fluid-grunt-eslint": "18.1.2",
