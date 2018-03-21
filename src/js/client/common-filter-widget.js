@@ -70,8 +70,6 @@ fluid.defaults("gpii.devpmt.filterWidget", {
  * the right of the field, the ESC key, or anything else bound to this function.
  */
 gpii.devpmt.filterWidget.clearFilter = function (that) {
-    // For some reason just updating the model isn't updating the bound field.
-    that.dom.locate("filterInput").val("");
     that.applier.change("filterText", "");
 };
 
