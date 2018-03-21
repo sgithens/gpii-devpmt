@@ -5,6 +5,31 @@ var gpii  = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.settingsTable");
 
+/**
+ * Component for rendering generic settings.  In the past these
+ * have always been referred to as common terms, and they do not
+ * apply to a specific application or product, but products can
+ * support reading these generic settings. Examples include font
+ * size, cursor size, etc.
+ *
+ * This renders a table of all the current generic settings
+ * and allows users to read and filter the settings. Because there
+ * are enough differences from product specific settings from a
+ * storage and json perspective, this table has it's own widget.
+ *
+ * The following model entries will typically be set up as
+ * model relays to the page `gpii.devpmt.prefsEditor` component.
+ *
+ * - flatPrefs
+ * - contextNames
+ * - commonTerms
+ * - commonTermsSorted
+ *
+ * This components contains 2 invokers that are used internally by
+ * the components for updating it's search and settings filters.
+ * Several events on this component will trigger events for other
+ * components to edit values.
+ */
 fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
