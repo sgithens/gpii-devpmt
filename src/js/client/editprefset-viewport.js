@@ -623,6 +623,11 @@ gpii.devpmt.editValueEvent = function (that, event) {
         newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
         newCurrent.blank = newCurrent.value === undefined;
     }
+
+    // If blank to false so that you can immediately start editing
+    // the value.
+    newCurrent.blank = false;
+
     var transaction = that.applier.initiate();
     transaction.fireChangeRequest({
         path: "currentlyEditing.current", value: newCurrent
