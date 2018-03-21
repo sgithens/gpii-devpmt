@@ -595,6 +595,7 @@ gpii.devpmt.onDeleteContext = function (that, event) {
 };
 
 gpii.devpmt.editValueEvent = function (that, event) {
+    $(".pmt-value-display").removeClass("pmt-value-editing");
     $(event.currentTarget).addClass("pmt-value-editing");
     var newCurrent = {
         context: event.currentTarget.dataset.context,

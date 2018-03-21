@@ -214,4 +214,6 @@ gpii.devpmt.saveUpdateValue = function (that, devpmt) {
     // In the event that we didn't actually change any values, the model listener
     // won't rerender the entire page.
     that.renderInitialMarkup();
+    // Remove the active editing highlight
+    $(".pmt-value-display").removeClass("pmt-value-editing");
 };
