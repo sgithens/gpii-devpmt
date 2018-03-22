@@ -209,6 +209,19 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 }
             }
         },
+        prefSetsList: {
+            type: "gpii.devpmt.prefSetsListWidget",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.prefSetsListContainer",
+            options: {
+                selectors: {
+                    initial: "#pmt-prefSetsList-widget"
+                },
+                model: {
+                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                }
+            }
+        },
         prefsAdjuster: {
             type: "gpii.devpmt.prefSettingAdjuster",
             createOnEvent: "onMarkupRendered",
@@ -293,11 +306,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         topNavBar: "#pmt-topNavBar-container",
         editWidgetSidebar: "#pmt-editwidget-sidebar",
         productListContainer: "#pmt-productList-container",
+        prefSetsListContainer: "#pmt-prefSetsList-container",
         prefsAdjusterContainer: "#pmt-prefs-adjuster-container",
         genericSettingsTableContainer: "#pmt-genericSettingsTable-container",
         // Each product table has this class
-        eachProductArea: ".pmt-single-product-area",
-        deleteContextButtons: ".pmt-delete-context"
+        eachProductArea: ".pmt-single-product-area"
     },
     templates: {
         initial: "editprefset-viewport",
@@ -363,11 +376,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             args: ["{that}"] //"onCreate listener"]
         },
         "onMarkupRendered": [
-            {
-                "this": "{that}.dom.deleteContextButtons",
-                "method": "click",
-                args: ["{that}.onDeleteContext"]
-            },
             {
                 funcName: "gpii.devpmt.updateFoundationSticky",
                 args: []

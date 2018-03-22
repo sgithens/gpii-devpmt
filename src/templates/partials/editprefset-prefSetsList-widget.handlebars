@@ -1,0 +1,19 @@
+<div id="contexts-area" class="callout">
+    <h5>{{{message "devptt.contextsHeader"}}}</h5>
+    <table class="table-scroll">
+        <thead>
+            <tr>
+                <th>{{{message "devptt.contextIDHeader"}}}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each contextNames}}
+            <tr>
+                <td>{{this}}</td>
+                <td><button data-contextId="{{this}}" type="button" class="pmt-delete-context alert button">Delete</button></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
