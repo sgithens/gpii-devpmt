@@ -72,13 +72,19 @@ gpii.devpmt.booleanBinderRules = {
  */
 gpii.devpmt.contextNames = function (prefs) {
     var contextNames = [];
+    var hasDefaultContext = false;
     fluid.each(prefs.contexts, function (value, key) {
         if (key !== "gpii-default" && contextNames.indexOf(key) < 0) {
             contextNames.push(key);
         }
+        else if (key === "gpii-default") {
+            hasDefaultContext = true;
+        }
     });
     contextNames.sort();
-    contextNames.unshift("gpii-default");
+    if (hasDefaultContext) {
+        contextNames.unshift("gpii-default");
+    }
     return contextNames;
 };
 

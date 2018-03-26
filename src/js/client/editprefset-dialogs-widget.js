@@ -84,12 +84,26 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog",
-            args: ["{that}", "{that}.model.appId", "{gpii.devpmt.editPrefs}.editProductEnabled"]
+            args: ["{that}", "{that}.model.appId", "{gpii.devpmt.editPrefs}.model.contextNames", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }
     }
 });
 
-gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, editProductEnabled) {
+/**
+ * Clicking Add on the Product Dialog adds this product to the preference set.
+ * A preference safe must have at least one context (prefset) in order to add
+ * a product to it.
+ *
+ * @param  {Object} that               Dialog instance
+ * @param  {String} appId              String indicating the appId
+ *                                     ex. http://registry.gpii.net/applications/com.android.freespeech
+ * @param  {Array} contextNames        Array of Strings with the name/id the context is
+ *                                     keyed by. The product will be initially added to the first
+ *                                     item in this array.
+ * @param  {Function} editProductEnabled Invoker from `gpii.devpmt.editPrefs` to add the
+ *                                       product to.
+ */
+gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, contextNames, editProductEnabled) {
     // In this case we actually need to close the dialog first... as the page
     // rerenders based on a model listener when the product is enabled, and does
     // wonky things... such as removing the ability to vertical scroll. Should look
@@ -97,7 +111,9 @@ gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that
     that.closeDialog();
     // TODO Ontology!!!
     var appUrl = "http://registry.gpii.net/applications/" + appId;
-    editProductEnabled(true, "gpii-default",  appUrl);
+    if (contextNames.length > 0) {
+        editProductEnabled(true, contextNames[0],  appUrl);
+    }
 };
 
 /**
