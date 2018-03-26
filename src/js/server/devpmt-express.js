@@ -185,6 +185,12 @@ fluid.defaults("gpii.devpmt", {
             //     }
             // }
         },
+        downloadPrefsetHandler: {
+            type: "gpii.devpmt.downloadPrefsetHandler",
+            options: {
+                path: ["/downloadprefset/:npset"]
+            }
+        },
         savePrefsetHandler: {
             type: "gpii.devpmt.savePrefsetHandler",
             options: {
@@ -298,6 +304,8 @@ fluid.defaults("gpii.devpmt.savePrefsetHandler", {
         }
     }
 });
+
+fluid.registerNamespace("gpii.devpmt.downloadPrefsetHandler");
 
 /**
  * gpii.devpmt.requestNPSet

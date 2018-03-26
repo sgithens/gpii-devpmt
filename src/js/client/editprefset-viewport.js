@@ -1,3 +1,4 @@
+/* global saveAs */
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");
@@ -337,6 +338,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.editProductEnabled",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
         },
+        downloadPrefset: {
+            funcName: "gpii.devpmt.downloadPrefset",
+            args: ["{that}"]
+        },
         savePrefset: {
             funcName: "gpii.devpmt.savePrefset",
             args: ["{that}" /*, "{arguments}.0" */]
@@ -555,6 +560,14 @@ gpii.devpmt.savePrefset = function (that /*, event */) {
         value: []
     });
     transaction.commit();
+};
+
+gpii.devpmt.downloadPrefset = function (that) {
+    var togoString = JSON.stringify({
+        "flat": that.model.flatPrefs
+    }, null, 4);
+    var blob = new Blob([togoString], {type: "application/json;charset=utf-8"});
+    saveAs(blob, that.model.npsetName + ".json");
 };
 
 gpii.devpmt.toggleDevModeView = function (that, status) {

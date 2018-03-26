@@ -27,7 +27,8 @@ fluid.defaults("gpii.devpmt.topNavBar", {
     },
     selectors: {
         topbarSaveButton: "#pmt-topbar-save-button", // Button on topbar to open Preview/Confirm Save Dialog
-        devModeIcon: "#pmt-topbar-devmode-button"
+        devModeIcon: "#pmt-topbar-devmode-button",
+        topbarDownloadButton: "#pmt-topbar-download-button"
     },
     listeners: {
         "onMarkupRendered": [
@@ -35,6 +36,11 @@ fluid.defaults("gpii.devpmt.topNavBar", {
                 "this": "{that}.dom.topbarSaveButton",
                 "method": "click",
                 args: ["{gpii.devpmt.editPrefs}.events.openConfirmSaveDialog.fire"]
+            },
+            {
+                "this": "{that}.dom.topbarDownloadButton",
+                "method": "click",
+                args: ["{gpii.devpmt.editPrefs}.downloadPrefset"]
             },
             {
                 "this": "{that}.dom.devModeIcon",
