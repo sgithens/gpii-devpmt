@@ -1,52 +1,74 @@
-<div class="grid-x">
-    <div class="cell medium-12">
-        <h1>Developers Preference Test Tool</h1>
-    </div>
+<!-- Navigation -->
+<div class="title-bar" data-responsive-toggle="pmt-menu" data-hide-for="small">
+  <button class="menu-icon" type="button" data-toggle></button>
+  <div class="title-bar-title">Menu</div>
 </div>
 
-<div class="grid-x">
-    <div class="small-12 medium-6 cell">
-        <p>
-        This DevPTT is currently running in local demo mode. To access the set of
-        NP Sets being edited open the following location on your system:
-        </p>
-    </div>
+<div class="top-bar" id="pmt-menu">
+  <div class="top-bar-left">
+    <ul class="menu">
+      <li class="menu-text">Power Preferences Tool</li>
+      <!-- <li><a href="#">One</a></li> -->
+      <!-- <li><a href="#">Two</a></li> -->
+      <!-- <li><a href="#">Three</a></li> -->
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a href="#">My Account</a></li>
+      <li><a class="button">Login</a></li>
+    </ul>
+  </div>
 </div>
-<div class="grid-x">
-    <div class="small-12 medium-12 cell">
-        <code>{{absolutePrefsetDirectory}}</code>
-    </div>
-</div>
+<!-- /Navigation -->
 
-<div class="grid-x">
-    <div class="small-12 medium-6 cell">
-        <h3>Create and Edit Preference Sets</h3>
-        <p>
-        Below you can create a New NP Set <em>(under construction)</em>,
-        or view and edit one of the existing Test Personas that are part
-        of the GPII Development and Test Data.
-        </p>
-        <p>
-        To create a new NP Set, enter the token name in the field and click
-        Create NP Set. If an NP Set with that token already exists, it will
-        be opened for editing.
-        </p>
-        <form action="/add-prefset" method="POST">
-            <input name="prefset-name" type="text" placeholder="New Prefset Name" />
-            <input type="submit" href="#" class="button" value="Create NP Set" />
-        </form>
-    </div>
-</div>
+<br/>
 
-{{> index-snapsets }}
-{{> index-demo-personas }}
-
-<div class="grid-x">
-    <div class="small-12 medium-6 cell">
-        <ul>
-            {{#each npsetList}}
-            <li><a href="/editprefs/{{this}}">{{this}}</a></li>
-            {{/each}}
-        </ul>
+<article class="grid-container">
+    <div class="grid-x grid-margin-x">
+        <div class="medium-7 large-6 cell">
+            <h1>Power Preferences Tool</h1>
+            <p class="subheader">
+                Hello! This is a demo of the in-progress Power Preferences Tool.
+                Use the box on the right to create a new Preferences Safe, or choose
+                from an existing Snapset, Demo User, or Developer Safe below to
+                start with. After editing the preferences, you can download the
+                json file with your changes.
+            </p>
+        </div>
+        <div class="medium-5 large-3 cell">
+            <div class="callout secondary">
+                <form action="/add-prefset" method="POST">
+                    <div class="grid-x">
+                        <div class="small-12 cell">
+                            <label>New Preferences Safe Name
+                                <input name="prefset-name" type="text" placeholder="New Prefset Name" />
+                            </label>
+                            <input type="submit" href="#" class="button" value="Create NP Set" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="">
+        <hr/>
+    </div>
+    <div class="">
+        <p class="lead">Snapsets</p>
+    </div>
+    {{> index-snapsets }}
+</article>
+
+
+    {{> index-demo-personas }}
+
+    <div class="grid-x">
+        <div class="small-12 medium-6 cell">
+            <ul>
+                {{#each npsetList}}
+                <li><a href="/editprefs/{{this}}">{{this}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
