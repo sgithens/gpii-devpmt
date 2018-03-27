@@ -31,7 +31,7 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog",
-            args: ["{that}", "{gpii.devpmt.editPrefs}"]
+            args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
         }
     }
 });
@@ -44,7 +44,7 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * @param  {that} that           Add Context Dialog instance
  * @param  {editPrefs} editPrefs Central gpii.devpmt.editPrefs component for the page.
  */
-gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs) {
+gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
     that.closeDialog();
     // TODO validation to see if already exists, and determining
     // the valid set of strings a context ID can take
@@ -59,7 +59,9 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
         "name": that.model.contextId,
         "preferences": newPrefSet
     }, "ADD");
-
+    // We don't want the form to actually submit the page, just to enable
+    // activating the submit button on Enter
+    event.preventDefault();
 };
 
 /**
