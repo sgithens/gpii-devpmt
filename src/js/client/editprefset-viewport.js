@@ -153,6 +153,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             options: {
                 selectors: {
                     initial: "#pmt-modal-dialog-render"
+                },
+                model: {
+                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
                 }
             }
         },

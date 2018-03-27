@@ -9,8 +9,17 @@
         <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
     </label>
 
+    <label>Select Menu
+        <select id="pmt-context-to-copy-select">
+            <option value=""><em>New Blank Set</em></option>
+            {{#each contextNames}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </label>
+
     <div class="button-group">
-        <button id="" type="button" class="success button pmt-confirm-dialog-button">Save</button>
+        <button type="button" class="success button pmt-confirm-dialog-button">Save</button>
         <button type="button"  class="delete button pmt-cancel-dialog-button">Cancel</button>
     </div>
 </div>

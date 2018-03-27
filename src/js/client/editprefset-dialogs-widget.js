@@ -16,13 +16,17 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
         initial: "editprefset-addContext-dialog"
     },
     model: {
-        contextId: ""
+        contextId: "",
+        contextToCopy: "",
+        contextNames: []
     },
     selectors: {
-        contextIdInput: "#pmt-add-context-name-input"
+        contextIdInput: "#pmt-add-context-name-input",
+        contextToCopySelect: "#pmt-context-to-copy-select"
     },
     bindings: {
-        contextIdInput: "contextId"
+        contextIdInput: "contextId",
+        contextToCopySelect: "contextToCopy"
     },
     invokers: {
         acceptConfirmDialog: {
@@ -32,14 +36,28 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
     }
 });
 
+/**
+ * Dialog for adding a new preference set (context) to a preferences safe (prefset).
+ * Includes a dropdown that can be used to select a context to copy the
+ * initial settings from.
+ *
+ * @param  {that} that           Add Context Dialog instance
+ * @param  {editPrefs} editPrefs Central gpii.devpmt.editPrefs component for the page.
+ */
 gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs) {
     that.closeDialog();
     // TODO validation to see if already exists, and determining
     // the valid set of strings a context ID can take
+    var contextToCopy = that.model.contextToCopy;
     var path = "flatPrefs.contexts." + that.model.contextId;
+    var newPrefSet = {};
+    // The select contains a blank option to start with a fresh set of values.
+    if (that.model.contextToCopy !== "" && editPrefs.model.flatPrefs.contexts[contextToCopy]) {
+        newPrefSet = fluid.copy(editPrefs.model.flatPrefs.contexts[contextToCopy].preferences);
+    }
     editPrefs.applier.change(path, {
         "name": that.model.contextId,
-        "preferences": {}
+        "preferences": newPrefSet
     }, "ADD");
 
 };
