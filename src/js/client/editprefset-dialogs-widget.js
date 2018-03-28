@@ -11,14 +11,15 @@ fluid.registerNamespace("gpii.devpmt.dialogs");
  * Add NP Set Context Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
-    gradeNames: ["gpii.devpmt.dialogs.confirmDialog", "gpii.binder.bindOnCreate", "gpii.binder.bindOnDomChange"],
+    gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
     templates: {
         initial: "editprefset-addContext-dialog"
     },
     model: {
         contextId: "",
         contextToCopy: "",
-        contextNames: []
+        contextNames: [],
+        fieldErrors: ""
     },
     selectors: {
         contextIdInput: "#pmt-add-context-name-input",
@@ -45,7 +46,27 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * @param  {editPrefs} editPrefs Central gpii.devpmt.editPrefs component for the page.
  */
 gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
-    that.closeDialog();
+    // We don't want the form to actually submit the page, just to enable
+    // activating the submit button on Enter
+    event.preventDefault();
+
+    // Validate context name, eventually this will be replaced with
+    // our new json schema work.
+    if (that.model.contextId === "") {
+        that.applier.change("fieldErrors", "Please enter a name.");
+        that.reRender();
+        return;
+    }
+    else if (!/^\w+$/.exec(that.model.contextId)) {
+        that.applier.change("fieldErrors", "Please use only alphanumeric characters.");
+        that.reRender();
+        return;
+    }
+    else {
+        // In case we are revalidating on a subsequent attempt
+        that.applier.change("fieldErrors", "");
+    }
+
     // TODO validation to see if already exists, and determining
     // the valid set of strings a context ID can take
     var contextToCopy = that.model.contextToCopy;
@@ -59,9 +80,7 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
         "name": that.model.contextId,
         "preferences": newPrefSet
     }, "ADD");
-    // We don't want the form to actually submit the page, just to enable
-    // activating the submit button on Enter
-    event.preventDefault();
+    that.closeDialog();
 };
 
 /**

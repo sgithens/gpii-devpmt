@@ -9,6 +9,11 @@
     <label>Name
         <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
     </label>
+    {{#if fieldErrors}}
+    <div role="alert" class="alert callout" style="display: block;">
+        <p><i class="fi-alert"></i>{{fieldErrors}}</p>
+    </div>
+    {{/if}}
 
     <label>Select Menu
         <select id="pmt-context-to-copy-select">
