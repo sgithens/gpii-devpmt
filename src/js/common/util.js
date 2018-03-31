@@ -88,6 +88,27 @@ gpii.devpmt.contextNames = function (prefs) {
     return contextNames;
 };
 
+/**
+ * Returns the prefsets (contexts) an Application is being
+ * used in, as an array of prefset keys.  An example use of this
+ * is for enabling and unabling products in the UI.  When a product
+ * is removed from the last prefset, it is essentially completely
+ * removed from the users safe.  Sometimes we would like to put up
+ * a warning dialog before that happens, and could do that if we
+ * see that the returned array from this function only has one
+ * item.
+ */
+gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
+    var contexts = [];
+    fluid.each(prefs.contexts, function (context, contextKey) {
+        fluid.each(context.preferences, function (prefBody, prefKey) {
+            if (prefKey === appURI) {
+                contexts.push(contextKey);
+            }
+        });
+    });
+    return contexts;
+};
 
 /**
  * npsetApplications - Goes through all the contexts in a flat prefs set

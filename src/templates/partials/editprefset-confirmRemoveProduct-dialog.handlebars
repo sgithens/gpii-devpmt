@@ -1,0 +1,30 @@
+<div class="reveal" id="pmt-dialog-container" data-reveal>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+<div>
+
+<h2>{{name}}</h2>
+<p><code>{{appId}}</code></p>
+<p>
+    Are you sure want to completely remove this product from the preferences?
+
+    Note: Un-enabling a product from all Preference Sets will
+    completely remove it from your safe.
+</p>
+
+<input type="hidden" id="pmt-add-product-appId" value="{{appId}}" />
+</div>
+
+
+    <div class="button-group">
+        <button id="" type="button" class="success button pmt-confirm-dialog-button">
+            {{{message "devptt.removeProductDialog.removeButton"}}}
+        </button>
+        <button type="button"  class="delete button pmt-cancel-dialog-button">
+            {{{message "devptt.cancelButton"}}}
+        </button>
+    </div>
+</div>
+

@@ -173,6 +173,29 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event)
     var checked = event.currentTarget.checked;
     var context = event.currentTarget.dataset.context;
     var product = event.currentTarget.dataset.product;
+
+    if (gpii.devpmt.prefsetsForApplication(devpmt.model.flatPrefs, product).length === 1 &&
+        checked === false) {
+        var appId = product.slice(38); // TODO Ontology lookup
+        devpmt.applier.change("activeModalDialog", {
+            appId: appId,
+            name: devpmt.model.allSolutions[appId].name,
+            product: product,
+            context: context
+        });
+        devpmt.events.openConfirmRemoveProductDialog.fire();
+        // The reRender call below is so that the toggle button goes back
+        // to it's toggled state. If the user were to click "Cancel", then
+        // the product wouldn't be removed, but the toggle would still have
+        // been moved to false in the page. (But there is no model change to
+        // the preferences.)
+        // If the user continues and clicks to Remove the Product, the
+        // model listener will reRender the widgets anyways so the view will
+        // be up to date.
+        that.reRender();
+        return;
+    }
+
     devpmt.editProductEnabled(checked, context, product);
 };
 

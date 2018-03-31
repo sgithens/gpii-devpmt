@@ -21,7 +21,9 @@ Handlebars.registerHelper("message", function (messageKey) {
         "devptt.addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p>",
         "devptt.contextNameLabel": "{0} set",
 
-        "devptt.addProductDialog.addButton": "Add"
+        "devptt.addProductDialog.addButton": "Add",
+
+        "devptt.removeProductDialog.removeButton": "Remove"
     };
 
     var togo = messages[messageKey] ? messages[messageKey] : messageKey;

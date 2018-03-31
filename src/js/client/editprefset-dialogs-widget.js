@@ -178,3 +178,31 @@ gpii.devpmt.dialogs.confirmSaveDialog.acceptConfirmDialog = function (that, save
     saveFunc();
     that.closeDialog();
 };
+
+
+/**
+ * Confirm Removing Product Dialog
+ */
+fluid.defaults("gpii.devpmt.dialogs.confirmRemoveProductDialog", {
+    gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
+    templates: {
+        initial: "editprefset-confirmRemoveProduct-dialog"
+    },
+    model: {
+        appId: "",
+        name: "",
+        product: "",
+        context: ""
+    },
+    invokers: {
+        acceptConfirmDialog: {
+            funcName: "gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog",
+            args: ["{that}", "{gpii.devpmt.editPrefs}"]
+        }
+    }
+});
+
+gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog = function (that, devpmt) {
+    that.closeDialog();
+    devpmt.editProductEnabled(false, that.model.context, that.model.product);
+};

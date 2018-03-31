@@ -105,7 +105,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         openConfirmDialog: null,
         openConfirmAddProductDialog: null,
         openConfirmDeleteContextDialog: null,
-        openConfirmSaveDialog: null
+        openConfirmSaveDialog: null,
+        openConfirmRemoveProductDialog: null
     },
     bindings: {
     },
@@ -143,6 +144,22 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 model: {
                     appId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.appId",
                     name: "{gpii.devpmt.editPrefs}.model.activeModalDialog.name"
+                }
+            }
+        },
+        confirmRemoveProductDialog: {
+            type: "gpii.devpmt.dialogs.confirmRemoveProductDialog",
+            createOnEvent: "openConfirmRemoveProductDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#pmt-modal-dialog-render"
+                },
+                model: {
+                    appId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.appId",
+                    name: "{gpii.devpmt.editPrefs}.model.activeModalDialog.name",
+                    product: "{gpii.devpmt.editPrefs}.model.activeModalDialog.product",
+                    context: "{gpii.devpmt.editPrefs}.model.activeModalDialog.context"
                 }
             }
         },
