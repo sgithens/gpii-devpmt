@@ -53,7 +53,8 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         settingsFilter: "#pmt-filter-container",
         settingsRows: ".pmt-settings-table-row",
         addContextButton: ".pmt-add-context-button",
-        mineAllSwitchContainer: "#pmt-mineAllSwitch-container"
+        mineAllSwitchContainer: "#pmt-mineAllSwitch-container",
+        removeProductButton: ".pmt-remove-product"
     },
     templates: {
         initial: "editprefset-settingsTable-widget"
@@ -113,6 +114,10 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         updateTermUsage: {
             funcName: "gpii.devpmt.settingsTable.updateTermUsage",
             args: ["{that}"]
+        },
+        removeProduct: {
+            funcName: "gpii.devpmt.settingsTable.removeProduct",
+            args: ["{that}", "{gpii.devpmt.editPrefs}"]
         }
     },
     listeners: {
@@ -142,6 +147,11 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
                 "this": "{that}.dom.valueDisplayCell",
                 "method": "click",
                 args: ["{gpii.devpmt.editPrefs}.editValueEvent"]
+            },
+            {
+                "this": "{that}.dom.removeProductButton",
+                "method": "click",
+                args: ["{that}.removeProduct"]
             },
             {
                 "func": "{that}.filterSettings"
@@ -284,4 +294,14 @@ gpii.devpmt.settingsTable.updateLunrIndex = function (that) {
             });
         });
     });
+};
+
+/**
+ * Completely remove this product from all preference sets (contexts).
+
+ * @param  {Object} that
+ * @param  {Object} editPrefs Primary page component `gpii.devpmt.editPrefs`
+ */
+gpii.devpmt.settingsTable.removeProduct = function (that, editPrefs) {
+    editPrefs.editProductEnabled(false, null, that.options.appUri);
 };

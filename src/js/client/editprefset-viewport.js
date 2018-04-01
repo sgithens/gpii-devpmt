@@ -600,23 +600,41 @@ gpii.devpmt.toggleDevModeView = function (that, status) {
     that.reRender();
 };
 
+/**
+ * Edits whether a product is enabled for a specific context (preference set).
+ * Can also be used to enable or unable the product for all contexts.
+ *
+ * @param  {Object} that    `gpii.devpmt.editPrefs` instance
+ * @param  {boolean} checked True or False indicating if this product should be
+ * enabled or unabled.
+ * @param  {string} context Context (prefset). If this is null, the product will
+ * be (un)enabled in all contexts.
+ * @param  {string} product The uri of the product.
+ */
 gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
-    // TODO generalize these 4 lines with copied code in editwidgets.js:saveUpdateValue
-    var segs = ["contexts", context, "preferences", product.replace(/\./g, "\\.")];
-    var path = "flatPrefs";
-    fluid.each(segs, function (item) { path += "." + item; });
+    var contexts = [context];
+    if (context === null) {
+        contexts = fluid.copy(that.model.contextNames);
+    }
 
-    if (checked) {
-        // Add a check in case it's already enabled
-        that.applier.change(path, {});
-        that.addEditToUnsavedList("Enabled Product for Context: " + product);
-    }
-    else {
-        that.applier.change(path, false, "DELETE");
-        that.addEditToUnsavedList("Un-enabled Product for Context: " + product);
-    }
-    that.applier.change("npsetApplications", gpii.devpmt.npsetApplications(that.model.flatPrefs));
-    that.applier.change("unsavedChangesExist", true);
+    fluid.each(contexts, function (context) {
+        // TODO generalize these 4 lines with copied code in editwidgets.js:saveUpdateValue
+        var segs = ["contexts", context, "preferences", product.replace(/\./g, "\\.")];
+        var path = "flatPrefs";
+        fluid.each(segs, function (item) { path += "." + item; });
+
+        if (checked) {
+            // Add a check in case it's already enabled
+            that.applier.change(path, {});
+            that.addEditToUnsavedList("Enabled Product for Context: " + product);
+        }
+        else {
+            that.applier.change(path, false, "DELETE");
+            that.addEditToUnsavedList("Un-enabled Product for Context: " + product);
+        }
+        that.applier.change("npsetApplications", gpii.devpmt.npsetApplications(that.model.flatPrefs));
+        that.applier.change("unsavedChangesExist", true);
+    });
 };
 
 /**
