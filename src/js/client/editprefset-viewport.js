@@ -38,13 +38,14 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         commonTerms: "noexpand"
     },
     model: {
-        npsetName: "",
-        flatPrefs: {},
-        commonTerms: [],
+        npsetName: "{that}.options.npset.options.npsetName",  // ""
+        flatPrefs: "{that}.options.npset.options.flatPrefs",  // {}
+        commonTerms: "{that}.options.commonTerms",            // []
         commonTermsSorted: [],
         contextNames: [],
-        npsetApplications: [],
-        allSolutions: {},
+        npsetApplications: "@expand:gpii.devpmt.npsetApplications({that}.options.npset.options.flatPrefs)", // []
+        allSolutions: "{that}.options.allSolutions", // {}
+
         unsavedChangesExist: false,
         unsavedChanges: [],
 
@@ -530,12 +531,11 @@ gpii.devpmt.initSettingTableWidgets = function (that) {
 };
 
 gpii.devpmt.addEditToUnsavedList = function (that, description) { // that, path, newValue, oldValue) {
-    that.model.unsavedChanges.push({
-        // path: path,
-        // newValue: newValue,
-        // oldValue: oldValue
+    var curUnsavedChanges = fluid.copy(that.model.unsavedChanges);
+    curUnsavedChanges.push({
         description: description
     });
+    that.applier.change("unsavedChanges", curUnsavedChanges);
 };
 
 gpii.devpmt.updateFoundationSticky = function () {
@@ -711,18 +711,8 @@ gpii.devpmt.editValueEvent = function (that, event) {
  * element at the top of the page.
  */
 gpii.devpmt.npsetInit = function (that) {
-    // Should use change applier
-    that.model.flatPrefs = that.options.npset.options.flatPrefs;
-    that.model.commonTerms = that.options.commonTerms;
-    that.model.contextNames = gpii.devpmt.contextNames(that.options.npset.options.flatPrefs);
-    that.model.npsetApplications = gpii.devpmt.npsetApplications(that.options.npset.options.flatPrefs);
-    that.model.docs = that.options.npset.options.docs;
-    that.model.npsetName = that.options.npset.options.npsetName;
-    that.model.allSolutions = that.options.allSolutions;
-
     // Add sorted solutions
     var allSolutionsSorted = [];
-    // that.model.allSolutionsSorted = [];
     fluid.each(that.model.allSolutions, function (item, key) {
         var flatItem = fluid.copy(item);
         flatItem.id = key;
@@ -737,12 +727,13 @@ gpii.devpmt.npsetInit = function (that) {
     that.applier.change("allSolutionsSorted", allSolutionsSorted);
 
     // Add sorted commonTerms
-    that.model.commonTermsSorted = [];
+    var commonTermsSorted = [];
     fluid.each(that.model.commonTerms, function (item, key) {
         var flatTerm = fluid.copy(item);
         flatTerm.id = key;
-        that.model.commonTermsSorted.push(flatTerm);
+        commonTermsSorted.push(flatTerm);
     });
+    that.applier.change("commonTermsSorted", commonTermsSorted);
 
     fluid.stableSort(that.model.commonTermsSorted, function (a, b) {
         return a.title.localeCompare(b.title);
