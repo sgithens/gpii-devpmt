@@ -31,14 +31,18 @@ gpii.devpmt.addNPSet = function (prefsetDir, npsetName) {
     }
 
     var data = {
-        "contexts": {
-            "gpii-default": {
-                "name": "Default preferences",
-                "preferences": {}
+        "flat": {
+            "name": npsetName,
+            "contexts": {
+                "gpii-default": {
+                    "name": "Default preferences",
+                    "preferences": {}
+                }
             }
         }
     };
-    gpii.devpmt.saveNPSet(prefsetDir, npsetName, JSON.stringify(data, null, 4));
+    var toWrite = JSON.stringify(data, null, 4);
+    gpii.devpmt.saveNPSet(prefsetDir, npsetName, toWrite);
 };
 
 /**
