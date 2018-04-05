@@ -30,24 +30,19 @@ fluid.defaults("gpii.devpmt.topNavBar", {
         devModeIcon: "#pmt-topbar-devmode-button",
         topbarDownloadButton: "#pmt-topbar-download-button"
     },
-    listeners: {
-        "onMarkupRendered": [
-            {
-                "this": "{that}.dom.topbarSaveButton",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.events.openConfirmSaveDialog.fire"]
-            },
-            {
-                "this": "{that}.dom.topbarDownloadButton",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.downloadPrefset"]
-            },
-            {
-                "this": "{that}.dom.devModeIcon",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.toggleDevModeView"]
-            }
-        ]
+    markupEventBindings: {
+        topbarSaveButton: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.events.openConfirmSaveDialog.fire"
+        },
+        topbarDownloadButton: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.downloadPrefset"
+        },
+        devModeIcon: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.toggleDevModeView"
+        }
     },
     modelListeners: {
         "*": {

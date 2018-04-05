@@ -120,6 +120,24 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             args: ["{that}", "{gpii.devpmt.editPrefs}"]
         }
     },
+    markupEventBindings: {
+        enabledBooleanInputs: {
+            method: "click",
+            args: "{that}.enableProductListener"
+        },
+        addContextButton: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"
+        },
+        valueDisplayCell: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.editValueEvent"
+        },
+        removeProductButton: {
+            method: "click",
+            args: "{that}.removeProduct"
+        }
+    },
     listeners: {
         "onCreate": [
             {
@@ -133,26 +151,6 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             }
         ],
         "onMarkupRendered": [
-            {
-                "this": "{that}.dom.enabledBooleanInputs",
-                "method": "click",
-                args: ["{that}.enableProductListener"]
-            },
-            {
-                "this": "{that}.dom.addContextButton",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"]
-            },
-            {
-                "this": "{that}.dom.valueDisplayCell",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.editValueEvent"]
-            },
-            {
-                "this": "{that}.dom.removeProductButton",
-                "method": "click",
-                args: ["{that}.removeProduct"]
-            },
             {
                 "func": "{that}.filterSettings"
             }

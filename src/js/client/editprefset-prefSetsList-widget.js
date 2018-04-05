@@ -38,13 +38,10 @@ fluid.defaults("gpii.devpmt.prefSetsListWidget", {
     selectors: {
         deleteContextButtons: ".pmt-delete-context"
     },
-    listeners: {
-        "onMarkupRendered": [
-            {
-                "this": "{that}.dom.deleteContextButtons",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.onDeleteContext"]
-            }
-        ]
+    markupEventBindings: {
+        deleteContextButtons: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.onDeleteContext"
+        }
     }
 });

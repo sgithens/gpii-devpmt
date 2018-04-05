@@ -100,20 +100,20 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
             }
         }
     },
+    markupEventBindings: {
+        valueDisplayCell: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.editValueEvent"
+        },
+        addContextButton: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"
+        }
+    },
     listeners: {
         "onCreate": [
         ],
         "onMarkupRendered": [
-            {
-                "this": "{that}.dom.valueDisplayCell",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.editValueEvent"]
-            },
-            {
-                "this": "{that}.dom.addContextButton",
-                "method": "click",
-                args: ["{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"]
-            },
             {
                 func: "{that}.updateSettingsFilter"
             }

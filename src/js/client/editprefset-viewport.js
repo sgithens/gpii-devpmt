@@ -15,7 +15,8 @@ fluid.registerNamespace("gpii.devpmt");
  * listeners or invoked programmatically.
  */
 fluid.defaults("gpii.devpmt.viewComponent", {
-    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate"],
+    gradeNames: ["gpii.handlebars.templateAware", "gpii.binder.bindOnCreate",
+        "gpii.binder.bindMarkupEvents"],
     invokers: {
         renderInitialMarkup: {
             func: "{that}.renderMarkup",

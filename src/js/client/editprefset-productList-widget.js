@@ -73,14 +73,11 @@ fluid.defaults("gpii.devpmt.productListWidget", {
     events: {
         activateProduct: null
     },
-    listeners: {
-        "onMarkupRendered": [
-            {
-                "this": "{that}.dom.productListLinks",
-                "method": "click",
-                args: ["{that}.selectProduct"]
-            }
-        ]
+    markupEventBindings: {
+        productListLinks: {
+            method: "click",
+            args: ["{that}.selectProduct"]
+        }
     }
 });
 

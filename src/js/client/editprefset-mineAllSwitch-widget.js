@@ -105,19 +105,15 @@ fluid.defaults("gpii.devpmt.mineAllSwitch.buttonSwitch", {
             args: ["{that}", "{editPrefs}", "{arguments}.0"]
         }
     },
-    listeners: {
-        onMarkupRendered: [
-            {
-                "this": "{that}.dom.mySettingsButton",
-                "method": "click",
-                args: ["mysettings", "{that}.setSettingsFilter"]
-            },
-            {
-                "this": "{that}.dom.allSettingsButton",
-                "method": "click",
-                args: ["allsettings", "{that}.setSettingsFilter"]
-            }
-        ]
+    markupEventBindings: {
+        mySettingsButton: {
+            method: "click",
+            args: ["mysettings", "{that}.setSettingsFilter"]
+        },
+        allSettingsButton: {
+            method: "click",
+            args: ["allsettings", "{that}.setSettingsFilter"]
+        }
     }
 });
 

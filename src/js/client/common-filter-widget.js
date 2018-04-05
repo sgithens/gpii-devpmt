@@ -41,22 +41,20 @@ fluid.defaults("gpii.devpmt.filterWidget", {
             args: ["{that}", "{arguments}.0"]
         }
     },
+    markupEventBindings: {
+        filterInput: {
+            method: "keyup",
+            args: "{that}.watchInputKeys"
+        },
+        resetButton: {
+            method: "click",
+            args: "{that}.clearFilter"
+        }
+    },
     listeners: {
-        onMarkupRendered: [
-            {
-                "this": "{that}.dom.filterInput",
-                "method": "keyup",
-                args: ["{that}.watchInputKeys"]
-            },
-            {
-                "this": "{that}.dom.resetButton",
-                "method": "click",
-                args: ["{that}.clearFilter"]
-            },
-            {
-                "func": "{that}.updateResetButton"
-            }
-        ]
+        onMarkupRendered: {
+            "func": "{that}.updateResetButton"
+        }
     },
     modelListeners: {
         "filterText": {

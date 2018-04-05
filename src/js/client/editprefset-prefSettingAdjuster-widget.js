@@ -134,18 +134,18 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             args: ["{that}"]
         }
     },
+    markupEventBindings: {
+        okButton: {
+            method: "click",
+            args: "{that}.saveUpdateValue"
+        },
+        valueInput: {
+            method: "keypress",
+            args: "{that}.watchInputKeys"
+        }
+    },
     listeners: {
         onMarkupRendered: [{
-            "this": "{that}.dom.okButton",
-            "method": "click",
-            args: ["{that}.saveUpdateValue"]
-        },
-        {
-            "this": "{that}.dom.valueInput",
-            "method": "keypress",
-            args: ["{that}.watchInputKeys"]
-        },
-        {
             funcName: "fluid.focus",
             args: ["{that}.dom.valueInput"]
         },
