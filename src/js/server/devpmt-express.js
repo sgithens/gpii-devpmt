@@ -1,7 +1,6 @@
 /* eslint-env node */
 "use strict";
 
-var path = require("path");
 var fluid = require("infusion");
 var gpii  = fluid.registerNamespace("gpii");
 fluid.require("gpii-express");
@@ -80,138 +79,6 @@ fluid.defaults("gpii.devpmt.npset", {
     }
 });
 
-/**
- * gpii.devpmt.basicDispath - The simplest base dispatcher that
- * has common features such as our templates.
- *
- * This dispatcher container an invoker `contextPromise` that can
- * be overridden to add extra keys to the context that is given to
- * the handlebars renderer.
- */
-fluid.defaults("gpii.devpmt.baseDispatcher", {
-    gradeNames: ["gpii.express.middleware.requestAware", "gpii.handlebars.dispatcherMiddleware"],
-    method: "get",
-    templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"],
-    defaultLayout: "main",
-    invokers: {
-        middleware: {
-            funcName: "gpii.devpmt.baseDispatcher.middleware",
-            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
-        },
-        contextPromise: {
-            funcName: "gpii.devpmt.baseDispatcher.contextPromise",
-            args: ["{that}", "{arguments}.0"]
-        }
-    }
-});
-
-/**
- * Default implementation of the `contextPromise` invoker that adds
- * no new values to the context. This can be overridden with further
- * contextual data.
- */
-gpii.devpmt.baseDispatcher.contextPromise = function (/* that, req */) {
-    return fluid.promise().resolve({});
-};
-
-/**
- * TODO Create a ticket in gpii-handlebars and reference here.
- *
- * The combination of this method and `gpii.devpmt.baseDispatcher.getRenderInfo`
- * tear up the following method in gpii-handlebars and insert functionality
- * to allow adding a promise to the request that will add more data to the
- * context that is provided to the template renderer.
- *  https://github.com/GPII/gpii-handlebars/blob/master/src/js/server/dispatcher.js#L19
- */
-gpii.devpmt.baseDispatcher.middleware = function (that, req, res, next) {
-    var renderInfo = gpii.devpmt.baseDispatcher.getRenderInfo(that, req);
-    if (renderInfo && renderInfo.templatePath) {
-        that.contextPromise(req).then(function (data) {
-            var context = fluid.merge("replace", {}, renderInfo.context, data);
-            res.status(200).render(renderInfo.templatePath, context);
-        });
-    }
-    else {
-        next({ isError: true, message: "The page you requested could not be found."});
-    }
-};
-
-/**
- * See comments for gpii.devpmt.baseDispatcher.middleware for the functionality that
- * this stubs in until addressed upstream.
- */
-gpii.devpmt.baseDispatcher.getRenderInfo = function (that, req) {
-    var template     = req.params.template ? req.params.template : that.options.defaultTemplate;
-    var templateName = template + ".handlebars";
-
-    var resolvedTemplateDirs = gpii.express.hb.resolveAllPaths(that.options.templateDirs);
-    var templateExists =  fluid.find(resolvedTemplateDirs, gpii.express.hb.getPathSearchFn(["pages", templateName]));
-    if (templateExists) {
-        var layoutExists    = fluid.find(resolvedTemplateDirs, gpii.express.hb.getPathSearchFn(["layouts", templateName]));
-        var layoutName      = layoutExists ? templateName : that.options.defaultLayout;
-        var contextToExpose = fluid.model.transformWithRules({ model: that.model, req: req, layout: layoutName }, that.options.rules.contextToExpose);
-        return {
-            templatePath: path.join("pages", templateName),
-            context: contextToExpose
-        };
-    }
-    else {
-        // fluid.error("Could not find template... properly handle this.");
-        return null;
-    }
-};
-
-/**
- * Dispatcher for the page allowing you to edit a preferences safe.
- */
-fluid.defaults("gpii.devpmt.editPrefSetHandler", {
-    gradeNames: ["gpii.devpmt.baseDispatcher"],
-    handlerGrades: [],
-    path: ["/editprefs/:npset"],
-    defaultTemplate: "editprefset",
-    rules: {
-        contextToExpose: {
-            commonTerms: {
-                "transform": {
-                    type: "fluid.transforms.free",
-                    func: "fluid.getForComponent",
-                    args: ["{gpii.devpmt}", "commonTermsDataSource.current.schemas"]
-                }
-            },
-            allSolutions: {
-                "transform": {
-                    type: "fluid.transforms.free",
-                    func: "fluid.getForComponent",
-                    args: ["{devpmt}", "model.solutions"]
-                }
-            }
-        }
-    },
-    invokers: {
-        contextPromise: {
-            funcName: "gpii.devpmt.editPrefSetHandler.contextPromise",
-            args: ["{that}", "{gpii.devpmt}", "{arguments}.0"]
-        }
-    }
-});
-
-/**
- * Adds the `gpii.devpmt.npset` for the request to the handlebars
- * context.
- */
-gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
-    return fluid.promise.map(devpmt.prefSetDataSource.get({prefSetId: req.params.npset}), function (data) {
-        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data, "flat");
-        var prefset = gpii.devpmt.npset({
-            npsetName: req.params.npset,
-            flatPrefs: npset,
-            docs: ""
-        });
-        return {
-            npset: prefset
-        };
-    });
-};
 
 /**
  * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
@@ -250,6 +117,23 @@ fluid.defaults("gpii.devpmt", {
         jsonBodyParser: {
             type: "gpii.express.middleware.bodyparser.json"
         },
+        cookieparser: {
+            type: "gpii.express.middleware.cookieparser",
+            options: {
+                middlewareOptions: {
+                    secret: "TODO Override"
+                },
+                priority: "before:sessionMiddleware"
+            }
+        },
+        sessionMiddleware: {
+            type: "gpii.express.middleware.session",
+            options: {
+                middlewareOptions: {
+                    secret: "TODO Override"
+                }
+            }
+        },
         foundationRouter: {
             type: "gpii.express.router.static",
             options: {
@@ -275,44 +159,31 @@ fluid.defaults("gpii.devpmt", {
                 }
             }
         },
+        /*
+         * Page Dispatchers, see devpmt-page-dispatchers.js
+         */
         indexHandler: {
-            type: "gpii.devpmt.baseDispatcher",
+            type: "gpii.devpmt.dispatchers.index",
             options: {
-                path: ["/"],
-                defaultTemplate: "index",
-                rules: {
-                    contextToExpose: {
-                        npsetList: {
-                            "transform": {
-                                type: "fluid.transforms.free",
-                                func: "fluid.getForComponent",
-                                args: ["{devpmt}", "model.npsetList"]
-                            }
-                        },
-                        selectedDemoSets: {
-                            "transform": {
-                                type: "fluid.transforms.free",
-                                func: "fluid.getForComponent",
-                                args: ["{devpmt}", "model.selectedDemoSets"]
-                            }
-                        }
-                    }
-                }
+                path: "/"
             }
         },
         editPrefSetHandler: {
-            type: "gpii.devpmt.editPrefSetHandler"
+            type: "gpii.devpmt.editPrefSetHandler",
+            options: {
+                path: "/editprefs/:npset"
+            }
         },
         savePrefsetHandler: {
             type: "gpii.devpmt.savePrefsetHandler",
             options: {
-                path: ["/saveprefset/:npset"]
+                path: "/saveprefset/:npset"
             }
         },
         addPrefsetFormHandler: {
             type: "gpii.devpmt.addPrefsetFormHandler",
             options: {
-                path: ["/add-prefset"]
+                path: "/add-prefset"
             }
         },
         inlineMiddleware: {
@@ -336,6 +207,10 @@ fluid.defaults("gpii.devpmt", {
         //         templateKey: "pages/error"
         //     }
         // },
+
+        /**
+         * Data Sources: see devpmt.datasources.js
+         */
         commonTermsDataSource: {
             type: "gpii.devpmt.dataSource.commonTermsMetadata"
         },
@@ -396,41 +271,6 @@ gpii.devpmt.initialize = function (that) {
         that.applier.change("npsetList", npsets);
     });
 };
-
-fluid.registerNamespace("gpii.devpmt.addPrefsetFormHandler");
-
-fluid.defaults("gpii.devpmt.addPrefsetFormHandler", {
-    gradeNames: ["gpii.express.middleware"],
-    invokers: {
-        middleware: {
-            funcName: "gpii.devpmt.addPrefsetFormHandler.handleRequest",
-            args: ["{that}", "{devpmt}", "{arguments}.0", "{arguments}.1" /*, "{arguments}.2" */]
-        }
-    }
-});
-
-gpii.devpmt.addPrefsetFormHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
-    var prefsetName = req.body["prefset-name"];
-    gpii.devpmt.addNPSet(devpmt.prefSetDataSource, prefsetName);
-    res.redirect("/editprefs/" + prefsetName);
-};
-
-fluid.registerNamespace("gpii.devpmt.savePrefsetHandler");
-
-gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
-    devpmt.prefSetDataSource.set({prefSetId: req.params.npset}, req.body);
-    res.send("{result: 'ok'}");
-};
-
-fluid.defaults("gpii.devpmt.savePrefsetHandler", {
-    gradeNames: ["gpii.express.middleware"],
-    invokers: {
-        middleware: {
-            funcName: "gpii.devpmt.savePrefsetHandler.handleRequest",
-            args: ["{that}", "{devpmt}", "{arguments}.0", "{arguments}.1" /*, "{arguments}.2" */]
-        }
-    }
-});
 
 /**
  * gpii.devpmt.requestNPSet

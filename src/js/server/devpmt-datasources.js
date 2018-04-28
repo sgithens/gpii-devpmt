@@ -231,3 +231,33 @@ fluid.defaults("gpii.devpmt.dataSource.prefsetListing", {
         prefSetDir: "{that}.options.prefSetDir"
     }
 });
+
+//
+// Post GPII-2630 Data Sources below, these are connecting straight to the
+// CouchDB instance and will need to move to the internal preferences server
+// in universal.
+//
+fluid.defaults("gpii.devpmt.dataSource.safemgmt.prefSafe", {
+    gradeNames: ["kettle.dataSource.URL"],
+    url: "http://localhost:5984/gpii/%prefSafeId",
+    termMap: {
+        prefSafeId: "%prefSafeId"
+    },
+    writable: true
+});
+
+fluid.defaults("gpii.devpmt.dataSource.safemgmt.prefSafeByName", {
+    gradeNames: ["kettle.dataSource.URL"],
+    url: "http://localhost:5984/gpii/_design/views/_view/findPrefsSafeByName?key=\"%name\"",
+    termMap: {
+        name: "%name"
+    }
+});
+
+fluid.defaults("gpii.devpmt.dataSource.safemgmt.keysForPrefsSafe", {
+    gradeNames: ["kettle.dataSource.URL"],
+    url: "http://localhost:5984/gpii/_design/views/_view/listKeysForPrefsSafe?key=\"%name\"",
+    termMap: {
+        name: "%name"
+    }
+});
