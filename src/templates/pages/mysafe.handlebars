@@ -1,0 +1,26 @@
+<h1>My Safe Landing Page</h1>
+<p>Current safe name: {{safename}}</p>
+
+<a href="/logout">Log out of safe</a>
+
+<ul>
+<li>Pref Sets</li>
+<li>Keys {{keys.length}}</li>
+<li>Sharing</li>
+<li>Email Subscriptions</li>
+<li>Account</li>
+</ul>
+
+<h2>Keys {{keys.length}}</h2>
+<ul>
+{{#each keys}}
+<li>{{this.value._id}} {{this.value.prefsSafeId}}</li>
+{{/each}}
+</ul>
+
+<h2>Prefs Sets</h2>
+<ul>
+{{#each prefsSafe.preferences.flat.contexts}}
+<li>{{this.name}}</li>
+{{/each}}
+</ul>
