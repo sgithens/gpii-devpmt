@@ -54,14 +54,14 @@ gpii.devpmt.dataSource.prefetchDataSource.get = function (that, directModel, opt
 };
 
 /**
- * `gpii.devpmt.dataSource.prefSet`
+ * `gpii.devpmt.dataSource.prefSet.filesystem`
  *
  * File based dataSource that fetches a prefSet typically from
  * testData/preferences.  That directory should be passed in as
  * `prefSetDir` in the construction options. And `prefSetId` is
  * used in the termMap.
  */
-fluid.defaults("gpii.devpmt.dataSource.prefSet", {
+fluid.defaults("gpii.devpmt.dataSource.prefSet.filesystem", {
     gradeNames: "kettle.dataSource.file",
     prefSetDir: "", // Should be passed in options
     path: "%prefSetDir/%prefSetId.json",
@@ -71,6 +71,58 @@ fluid.defaults("gpii.devpmt.dataSource.prefSet", {
     },
     writable: true
 });
+
+/**
+ * `gpii.devpmt.dataSource.prefSet.couchdb`
+ *
+ * CouchDB (or PouchDB) dataSource for fetching prefsSets for a prefSafe
+ * from Couch. The `prefSetId` should be passed in the termMap.
+ */
+fluid.defaults("gpii.devpmt.dataSource.prefSet.couchdb", {
+    gradeNames: "kettle.dataSource",
+    readOnlyGrade: "gpii.devpmt.dataSource.prefSet.couchdb",
+    components: {
+        prefSafeByName: {
+            type: "gpii.devpmt.dataSource.safemgmt.prefSafeByName"
+        },
+        prefSafes: {
+            type: "gpii.devpmt.dataSource.safemgmt.prefSafe"
+        }
+    },
+    invokers: {
+        get: {
+            funcName: "gpii.devpmt.dataSource.prefSet.couchdb.get",
+            args: ["{that}", "{arguments}.0", "{arguments}.1"]
+        },
+        set: {
+            funcName: "gpii.devpmt.dataSource.prefSet.couchdb.set",
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
+        }
+    }
+});
+
+gpii.devpmt.dataSource.prefSet.couchdb.get = function (that, directModel /* options */) {
+    var togo = fluid.promise();
+    var prom = that.prefSafeByName.get({name: directModel.prefSetId});
+    prom.then(function (data) {
+        togo.resolve(data.rows[0].value.preferences);
+    });
+    return togo;
+};
+
+gpii.devpmt.dataSource.prefSet.couchdb.set = function (that, directModel, model /*, options */) {
+    var togo = fluid.promise();
+    var prom = that.prefSafeByName.get({name: directModel.prefSetId});
+    prom.then(function (data) {
+        var record = data.rows[0].value;
+        record.preferences = model;
+        var setPromise = that.prefSafes.set({prefSafeId: record._id}, record);
+        setPromise.then(function (setData) {
+            togo.resolve(setData);
+        });
+    });
+    return togo;
+};
 
 /**
  * `gpii.devpmt.dataSource.prefSetDocs`
@@ -224,13 +276,89 @@ gpii.devpmt.dataSource.dirListing.handle = function (that, requestOptions, direc
  * Takes the absolute path to the directory as the `prefSetDir` component
  * option.
  */
-fluid.defaults("gpii.devpmt.dataSource.prefsetListing", {
+fluid.defaults("gpii.devpmt.dataSource.prefsetDirListing", {
     gradeNames: ["gpii.devpmt.dataSource.dirListing"],
     path: "%prefSetDir/",
     termMap: {
         prefSetDir: "{that}.options.prefSetDir"
     }
 });
+
+/**
+ * `gpii.devpmt.dataSource.prefsSafeListing.filesystem`
+ *
+ * Data Source to return an array of preference set ids/names in the
+ * system. Currently returns them all, but in the future could allow
+ * for paging/filtering.
+ */
+fluid.defaults("gpii.devpmt.dataSource.prefsSafeListing.filesystem", {
+    gradeNames: ["kettle.dataSource"],
+    readOnlyGrade: "gpii.devpmt.dataSource.prefsSafeListing.filesystem",
+    components: {
+        dirListingDataSource: {
+            type: "gpii.devpmt.dataSource.prefsetDirListing",
+            options: {
+                prefSetDir: "{gpii.devpmt}.options.prefsetDirectory"
+            }
+        }
+    },
+    writable: false,
+    invokers: {
+        get: {
+            funcName: "gpii.devpmt.dataSource.prefsSafeListing.filesystem.get",
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
+        }
+    }
+});
+
+gpii.devpmt.dataSource.prefsSafeListing.filesystem.get = function (that, directModel, options) {
+    var togo = fluid.promise();
+    var prom = that.dirListingDataSource.get(directModel, options);
+    prom.then(function (data) {
+        var prefsSafes = [];
+        fluid.each(data, function (val) {
+            if (val.endsWith(".json") || val.endsWith(".json5")) {
+                prefsSafes.push(val.split(/\./)[0]);
+            }
+        });
+        togo.resolve(prefsSafes);
+    });
+    return togo;
+};
+
+fluid.defaults("gpii.devpmt.dataSource.prefsSafeListing.couchdb", {
+    gradeNames: ["kettle.dataSource"],
+    writable: false,
+    readOnlyGrade: "gpii.devpmt.dataSource.prefsSafeListing.couchdb",
+    components: {
+        prefsSafeByName: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5984/gpii/_design/views/_view/findPrefsSafeByName",
+                writable: false
+            }
+        }
+    },
+    invokers: {
+        get: {
+            funcName: "gpii.devpmt.dataSource.prefsSafeListing.couchdb.get",
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
+        }
+    }
+});
+
+gpii.devpmt.dataSource.prefsSafeListing.couchdb.get = function (that /*, directModel, options */) {
+    var togo = fluid.promise();
+    var prom = that.prefsSafeByName.get();
+    prom.then(function (data) {
+        var prefsSafes = [];
+        fluid.each(data.rows, function (i) {
+            prefsSafes.push(i.key);
+        });
+        togo.resolve(prefsSafes);
+    });
+    return togo;
+};
 
 //
 // Post GPII-2630 Data Sources below, these are connecting straight to the
@@ -251,7 +379,8 @@ fluid.defaults("gpii.devpmt.dataSource.safemgmt.prefSafeByName", {
     url: "http://localhost:5984/gpii/_design/views/_view/findPrefsSafeByName?key=\"%name\"",
     termMap: {
         name: "%name"
-    }
+    },
+    writable: true
 });
 
 fluid.defaults("gpii.devpmt.dataSource.safemgmt.keysForPrefsSafe", {

@@ -79,38 +79,12 @@ fluid.defaults("gpii.devpmt.npset", {
     }
 });
 
-
 /**
- * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
- * NP Sets.
+ * Base express grade for our devpmt based express apps
  */
-var thePort = process.env.PORT || 8080;
-fluid.defaults("gpii.devpmt", {
-    gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
-    port: thePort,
-    prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
-    solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
-    events: {
-        onFsChange: null
-    },
-    model: {
-        selectedDemoSets: {},
-        solutions: {},
-        npsetList: []
-    },
-    listeners: {
-        "onCreate": {
-            funcName: "gpii.devpmt.initialize",
-            args: ["{that}"]
-        },
-        "onFsChange.reloadInlineTemplates": {
-            func: "{inlineMiddleware}.events.loadTemplates.fire"
-        }
-    },
+fluid.defaults("gpii.devpmt.express.base", {
+    gradeNames: ["gpii.express.withJsonQueryParser"],
     components: {
-        ontologyHandler: {
-            type: "gpii.ontologyHandler"
-        },
         urlEncodedParser: {
             type: "gpii.express.middleware.bodyparser.urlencoded"
         },
@@ -147,6 +121,106 @@ fluid.defaults("gpii.devpmt", {
                 path: "/src",
                 content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
             }
+        },
+        inlineMiddleware: {
+            type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
+            options: {
+                path: "/hbs",
+                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
+            }
+        },
+        dispatcher: {
+            type: "gpii.devpmt.baseDispatcher",
+            options: {
+                priority: "before:htmlErrorHandler",
+                path: ["/:template", "/"]
+            }
+        }
+    }
+});
+
+/**
+ * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
+ * NP Sets.
+ */
+var thePort = process.env.PORT || 8085;
+fluid.defaults("gpii.devpmt", {
+    gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
+    port: thePort,
+    prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
+    solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
+    events: {
+        onFsChange: null
+    },
+    model: {
+        selectedDemoSets: {},
+        solutions: {},
+        npsetList: []
+    },
+    listeners: {
+        "onCreate": {
+            funcName: "gpii.devpmt.initialize",
+            args: ["{that}"]
+        },
+        "onFsChange.reloadInlineTemplates": {
+            func: "{inlineMiddleware}.events.loadTemplates.fire"
+        }
+    },
+    components: {
+        urlEncodedParser: {
+            type: "gpii.express.middleware.bodyparser.urlencoded"
+        },
+        jsonBodyParser: {
+            type: "gpii.express.middleware.bodyparser.json"
+        },
+        cookieparser: {
+            type: "gpii.express.middleware.cookieparser",
+            options: {
+                middlewareOptions: {
+                    secret: "TODO Override"
+                },
+                priority: "before:sessionMiddleware"
+            }
+        },
+        sessionMiddleware: {
+            type: "gpii.express.middleware.session",
+            options: {
+                middlewareOptions: {
+                    secret: "TODO Override"
+                }
+            }
+        },
+        foundationRouter: {
+            type: "gpii.express.router.static",
+            options: {
+                path: "/modules",
+                content: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/)"
+            }
+        },
+        staticRouter: {
+            type: "gpii.express.router.static",
+            options: {
+                path: "/src",
+                content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
+            }
+        },
+        inlineMiddleware: {
+            type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
+            options: {
+                path: "/hbs",
+                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
+            }
+        },
+        // dispatcher: {
+        //     type: "gpii.devpmt.baseDispatcher",
+        //     options: {
+        //         priority: "before:htmlErrorHandler",
+        //         path: ["/:template", "/"]
+        //     }
+        // },
+        // Removed the above from the common express base grade
+        ontologyHandler: {
+            type: "gpii.ontologyHandler"
         },
         hb: {
             type: "gpii.express.hb.live",
@@ -186,18 +260,10 @@ fluid.defaults("gpii.devpmt", {
                 path: "/add-prefset"
             }
         },
-        inlineMiddleware: {
-            type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
+        widgetGalleryHandler: {
+            type: "gpii.devpmt.widgetGalleryHandler",
             options: {
-                path: "/hbs",
-                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
-            }
-        },
-        dispatcher: {
-            type: "gpii.devpmt.baseDispatcher",
-            options: {
-                priority: "before:htmlErrorHandler",
-                path: ["/:template", "/"]
+                path: "/widgetgallery"
             }
         },
         // htmlErrorHandler: {
@@ -215,10 +281,11 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.devpmt.dataSource.commonTermsMetadata"
         },
         prefSetDataSource: {
-            type: "gpii.devpmt.dataSource.prefSet",
-            options: {
-                prefSetDir: "{gpii.devpmt}.options.prefsetDirectory"
-            }
+            type: "gpii.devpmt.dataSource.prefSet.couchdb"
+            // type: "gpii.devpmt.dataSource.prefSet.filesystem",
+            // options: {
+            //     prefSetDir: "{gpii.devpmt}.options.prefsetDirectory"
+            // }
         },
         prefSetDocsDataSource: {
             type: "gpii.devpmt.dataSource.prefSetDocs",
@@ -232,11 +299,9 @@ fluid.defaults("gpii.devpmt", {
                 solutionsDir: "{gpii.devpmt}.options.solutionsDirectory"
             }
         },
-        dirListingDataSource: {
-            type: "gpii.devpmt.dataSource.prefsetListing",
-            options: {
-                prefSetDir: "{gpii.devpmt}.options.prefsetDirectory"
-            }
+        prefsSafesListingDataSource: {
+            // type: "gpii.devpmt.dataSource.prefsSafeListing.filesystem"
+            type: "gpii.devpmt.dataSource.prefsSafeListing.couchdb"
         }
     }
 });
@@ -260,15 +325,9 @@ gpii.devpmt.initialize = function (that) {
         });
     });
 
-    var dirListPromise = that.dirListingDataSource.get();
-    dirListPromise.then(function (data) {
-        var npsets = [];
-        fluid.each(data, function (val) {
-            if (val.endsWith(".json") || val.endsWith(".json5")) {
-                npsets.push(val.split(/\./)[0]);
-            }
-        });
-        that.applier.change("npsetList", npsets);
+    var prefsSafesList = that.prefsSafesListingDataSource.get();
+    prefsSafesList.then(function (data) {
+        that.applier.change("npsetList", data);
     });
 };
 

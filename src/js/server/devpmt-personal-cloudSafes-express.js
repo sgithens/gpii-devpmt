@@ -21,7 +21,7 @@ require("gpii-universal");
 fluid.registerNamespace("gpii.personalCloudSafe");
 fluid.registerNamespace("gpii.handlebars");
 
-var thePort = process.env.PORT || 8082;
+var thePort = process.env.PORT || 8086;
 fluid.defaults("gpii.personalCloudSafe.express", {
     gradeNames: ["gpii.express.withJsonQueryParser"],
     port: thePort,
@@ -34,7 +34,6 @@ fluid.defaults("gpii.personalCloudSafe.express", {
         }
     },
     components: {
-        // TODO copied from devpmt-express
         urlEncodedParser: {
             type: "gpii.express.middleware.bodyparser.urlencoded"
         },
@@ -72,17 +71,6 @@ fluid.defaults("gpii.personalCloudSafe.express", {
                 content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
             }
         },
-        hb: {
-            type: "gpii.express.hb.live",
-            options: {
-                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"],
-                listeners: {
-                    "onFsChange.notifyExpress": {
-                        func: "{gpii.personalCloudSafe.express}.events.onFsChange.fire"
-                    }
-                }
-            }
-        },
         inlineMiddleware: {
             type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
             options: {
@@ -95,6 +83,18 @@ fluid.defaults("gpii.personalCloudSafe.express", {
             options: {
                 priority: "before:htmlErrorHandler",
                 path: ["/:template", "/"]
+            }
+        },
+        // For some reason the above don't work if from a sub grade
+        hb: {
+            type: "gpii.express.hb.live",
+            options: {
+                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"],
+                listeners: {
+                    "onFsChange.notifyExpress": {
+                        func: "{gpii.personalCloudSafe.express}.events.onFsChange.fire"
+                    }
+                }
             }
         },
         // END copied from devpmt-express
