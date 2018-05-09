@@ -12,9 +12,9 @@ fluid.registerNamespace("gpii.devpmt");
  * be represented as true and false. These transforms accomplish
  * that mapping.
  *
- * @param (Array) value - The array coming from binder, most likely []
+ * @param {Array} value - The array coming from binder, most likely []
  * or ['on']
- * @return (boolean) true or false based on the array size
+ * @return {Boolean} true or false based on the array size
  */
 gpii.devpmt.binderCheckboxToBoolean = function (value) {
     return value.length > 0;
@@ -30,8 +30,8 @@ fluid.defaults("gpii.devpmt.binderCheckboxToBoolean", {
  * See `gpii.devpmt.binderCheckboxToBoolean` for a description. This
  * is the reverse transform.
  *
- * @param (boolean) value - Current value as a boolean
- * @return (Array) [] or ['on'] depending on value
+ * @param {Boolean} value - Current value as a boolean
+ * @return {Array} [] or ['on'] depending on value
  */
 gpii.devpmt.booleanToBinderCheckbox = function (value) {
     return value ? ["on"] : [];
@@ -67,8 +67,8 @@ gpii.devpmt.booleanBinderRules = {
  * in an order that will always be the same. The stability of the order is
  * so that we can build html tables and other structures successfully.
  *
- * @param prefs (Object) - A prefs set.
- * @return (Array) - List of context names.
+ * @param {Object} prefs - A prefs set.
+ * @return {Array} - List of context names.
  */
 gpii.devpmt.contextNames = function (prefs) {
     var contextNames = [];
@@ -115,8 +115,8 @@ gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
  * and pulls out the flat pref URI and app ID. Returns all the apps a
  * user has settings.
  *
- * @param prefs (Object) Transformed flat preferences set
- * @return (Array) An array of objects structured as the following: (RWG example)
+ * @param {Object} prefs Transformed flat preferences set
+ * @return {Array} An array of objects structured as the following: (RWG example)
  *     {
  *         uri: "http://registry.gpii.net/applications/com.texthelp.readWriteGold",
  *         appId: "com.texthelp.readWriteGold"
@@ -153,8 +153,8 @@ gpii.devpmt.npsetApplications = function (prefs) {
  * any of the oddities of lunr search strings, and necessary usage of
  * various wildcards for list filtering use cases.
  *
- * @param {Object} lunrIndex The existing lunr index to query.
- * @param {String} filterString The string used to filter the results.
+ * @param {Object} lunrIndex - The existing lunr index to query.
+ * @param {String} filterString  - The string used to filter the results.
  * @return {Array} The matching lunr results.
  */
 gpii.devpmt.lunrListFilterSearch = function (lunrIndex, filterString) {
