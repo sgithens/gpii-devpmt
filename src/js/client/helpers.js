@@ -8,25 +8,7 @@
  * to suffice until our work in GPII-2444 lands. https://issues.gpii.net/browse/GPII-2444
  */
 Handlebars.registerHelper("message", function (messageKey) {
-    var messages = {
-        "devptt.cancelButton": "Cancel",
-
-        "devptt.booleanSettingOn": "true",
-        "devptt.booleanSettingOff": "false",
-
-        "devptt.contextsHeader": "Preference Sets",
-        "devptt.contextIDHeader": "Preference Set ID",
-        "devptt.addContextButton": "Add Preference Set",
-        "devptt.addContextDialogHeader": "Add Preference Set",
-        "devptt.addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p>",
-        "devptt.contextNameLabel": "{0} set",
-
-        "devptt.addProductDialog.addButton": "Add",
-
-        "devptt.removeProductDialog.removeButton": "Remove"
-    };
-
-    var togo = messages[messageKey] ? messages[messageKey] : messageKey;
+    var togo = messages_en[messageKey] ? messages_en[messageKey] : messageKey;
     if (arguments.length > 2) {
         for (var i = 1; i < arguments.length - 1; i++) {
             var pos = i - 1;
