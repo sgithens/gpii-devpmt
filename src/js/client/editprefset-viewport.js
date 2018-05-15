@@ -174,7 +174,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-modal-dialog-render"
                 },
                 model: {
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
         },

@@ -10,7 +10,7 @@ var messages_en = {
     "gpii_pmt_contextIDHeader": "Preference Set ID",
     "gpii_pmt_addContextButton": "Add Preference Set",
     "gpii_pmt_addContextDialogHeader": "Add Preference Set",
-    "gpii_pmt_addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p>",
+    "gpii_pmt_addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p><p>Additionally, you can start with a blank set, or copy the initial settings from another preference set.",
     "gpii_pmt_contextNameLabel": "{0} set",
 
     "gpii_pmt_addProductDialog_addButton": "Add",

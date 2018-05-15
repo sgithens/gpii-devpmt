@@ -15,11 +15,11 @@
     </div>
     {{/if}}
 
-    <label>Select Menu
+    <label>Copy initial settings from:
         <select id="pmt-context-to-copy-select">
             <option value=""><em>New Blank Set</em></option>
             {{#each contextNames}}
-            <option value="{{this}}">{{this}}</option>
+            <option value="{{this}}">{{{lookup (lookup ../flatPrefs/contexts this) "name"}}}</option>
             {{/each}}
         </select>
     </label>
