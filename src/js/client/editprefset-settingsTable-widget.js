@@ -296,10 +296,17 @@ gpii.devpmt.settingsTable.updateLunrIndex = function (that) {
 
 /**
  * Completely remove this product from all preference sets (contexts).
-
+ * Opens the standard Remove Product Confirmation Dialog from the page devpmt component.
  * @param  {Object} that
  * @param  {Object} editPrefs Primary page component `gpii.devpmt.editPrefs`
  */
 gpii.devpmt.settingsTable.removeProduct = function (that, editPrefs) {
-    editPrefs.editProductEnabled(false, null, that.options.appUri);
+    var appId = that.options.appId;
+    editPrefs.applier.change("activeModalDialog", {
+        appId: appId,
+        name: editPrefs.model.allSolutions[appId].name,
+        product: that.options.appUri,
+        context: null
+    });
+    editPrefs.events.openConfirmRemoveProductDialog.fire();
 };
