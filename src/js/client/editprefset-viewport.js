@@ -108,7 +108,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         openConfirmAddProductDialog: null,
         openConfirmDeleteContextDialog: null,
         openConfirmSaveDialog: null,
-        openConfirmRemoveProductDialog: null
+        openConfirmRemoveProductDialog: null,
+        startDevWidgets: null
     },
     bindings: {
     },
@@ -202,6 +203,19 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 },
                 model: {
                     unsavedChanges: "{gpii.devpmt.editPrefs}.model.unsavedChanges"
+                }
+            }
+        },
+        flatPrefsJsonDev: {
+            type: "gpii.devpmt.jsonDev",
+            createOnEvent: "startDevWidgets",
+            container: "{that}.dom.flatPrefsJsonDev",
+            options: {
+                selectors: {
+                    initial: "#pmt-flatPrefs-jsonDev-render"
+                },
+                model: {
+                    editing: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
         },
@@ -334,7 +348,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         prefsAdjusterContainer: "#pmt-prefs-adjuster-container",
         genericSettingsTableContainer: "#pmt-genericSettingsTable-container",
         // Each product table has this class
-        eachProductArea: ".pmt-single-product-area"
+        eachProductArea: ".pmt-single-product-area",
+        flatPrefsJsonDev: "#pmt-flatPrefs-jsonDev-container"
     },
     templates: {
         initial: "editprefset-viewport",
@@ -595,11 +610,23 @@ gpii.devpmt.downloadPrefset = function (that) {
 gpii.devpmt.toggleDevModeView = function (that, status) {
     if (status) {
         that.applier.change("devModeOn", false);
+        that.flatPrefsJsonDev.destroy();
+        // TODO Concering the hide/show. I seem to be having some
+        // issues creating and destroying this widget when devModeOn
+        // is toggled. Eventually, these devwidgets could consume more
+        // resources if they have editors, so I would actually like to
+        // destroy them when they aren't in use, rather than hide them.
+        // Currently, when the component is destroyed, via event or
+        // the top level destroy method, it's markup is remaining on
+        // the page. Also, eventually I would like this create/destroy
+        // work to be keyed by a model listener on the `devModeOn` data.
+        that.dom.locate("flatPrefsJsonDev").hide();
     }
     else {
         that.applier.change("devModeOn", true);
+        that.events.startDevWidgets.fire();
+        that.dom.locate("flatPrefsJsonDev").show();
     };
-    that.reRender();
 };
 
 /**

@@ -47,13 +47,10 @@
 
         {{/each}} {{! end npsetApplications }}
 
-        {{#if devModeOn}}
-        <hr/>
-        <h3>Raw Transformed Flat Preferences <a id="rawTransformedFlatPrefs" href="#top"><small>top</small></a></h3>
-        <pre>
-            {{{jsonify flatPrefs}}}
-        </pre>
-        {{/if}}
+        <div id="pmt-flatPrefs-jsonDev-container">
+            <div id="pmt-flatPrefs-jsonDev-render">
+            </div>
+        </div>
     </div>
     <div class="medium-3 cell right" data-sticky-container>
         <div class="sticky" data-sticky data-top-anchor="all-prefs">
