@@ -61,6 +61,19 @@ gpii.devpmt.booleanBinderRules = {
 };
 
 /**
+ * prefsetExists - Check a flatPrefs set to see if the context/prefset
+ * keyed with a particular ID already exists.
+ *
+ * @param {Object} flatPrefs - A flatPrefs set.
+ * @param {String} prefsetId - The id of the prefset that is used as it's key
+ *     in the json.
+ * @return {boolean} true if it exists, false otherwise.
+ */
+gpii.devpmt.prefsetExists = function (flatPrefs, prefsetId) {
+    return flatPrefs.contexts[prefsetId] ? true : false;
+};
+
+/**
  * contextNames - Takes a rawPrefs set and returns a list of all the
  * context names. This function ensures that the first item in the list is
  * always the default context, 'gpii-default', and the rest of the contexts

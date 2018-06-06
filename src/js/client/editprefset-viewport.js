@@ -104,6 +104,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         createSettingsTable: null,
         openBaseDialog: null,
         openAddContextDialog: null,
+        openEditContextDialog: null,
         openConfirmDialog: null,
         openConfirmAddProductDialog: null,
         openConfirmDeleteContextDialog: null,
@@ -177,6 +178,21 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 model: {
                     contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
+                }
+            }
+        },
+        editContextDialog: {
+            type: "gpii.devpmt.dialogs.editContextDialog",
+            createOnEvent: "openEditContextDialog",
+            container: "{that}.dom.modalDialogContainer",
+            options: {
+                selectors: {
+                    initial: "#pmt-modal-dialog-render"
+                },
+                model: {
+                    contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId",
+                    originalContextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.originalContextId",
+                    contextName: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextName"
                 }
             }
         },
@@ -256,7 +272,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-prefSetsList-widget"
                 },
                 model: {
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
         },
@@ -356,6 +373,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         editPrefWidget: "editpref-widget"
     },
     invokers: {
+        prefsetExists: {
+            funcName: "gpii.devpmt.prefsetExists",
+            args: ["{that}.model.flatPrefs", "{arguments}.0"]
+        },
         addEditToUnsavedList: {
             funcName: "gpii.devpmt.addEditToUnsavedList",
             args: ["{that}", "{arguments}.0"]
@@ -407,6 +428,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         lookupProductPrefValue: {
             funcName: "gpii.devpmt.lookupProductPrefValue",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
+        },
+        onEditContext: {
+            funcName: "gpii.devpmt.onEditContext",
+            args: ["{that}", "{arguments}.0"] // event
         },
         onDeleteContext: {
             funcName: "gpii.devpmt.onDeleteContext",
@@ -680,6 +705,23 @@ gpii.devpmt.onDeleteContext = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;
     that.applier.change("activeModalDialog.contextId", contextId);
     that.events.openConfirmDeleteContextDialog.fire();
+};
+
+/**
+ * Event Listener for when a button is clicked to edit
+ * a context. Fetches the context to delete from the elements
+ * data-contextid attribute.
+ *
+ * @param event (Event) Browser event object
+ */
+gpii.devpmt.onEditContext = function (that, event) {
+    var contextId = event.currentTarget.dataset.contextid;
+    that.applier.change("activeModalDialog", {
+        contextId: contextId,
+        originalContextId: contextId,
+        contextName: that.model.flatPrefs.contexts[contextId].name
+    });
+    that.events.openEditContextDialog.fire();
 };
 
 gpii.devpmt.editValueEvent = function (that, event) {

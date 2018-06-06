@@ -1,0 +1,34 @@
+<div class="reveal" id="pmt-dialog-container" data-reveal>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    <h2>{{{message "gpii_pmt_editContextDialog_header"}}}</h2>
+    {{{message "gpii_pmt_editContextDialog_inst"}}}
+    <form>
+    <label>Preference Set ID
+        <input id="pmt-edit-context-id-input" type="text" placeholder="preferences01" />
+    </label>
+    {{#if contextIdErrors}}
+    <div role="alert" class="alert callout" style="display: block;">
+        <p><i class="fi-alert"></i>{{contextIdErrors}}</p>
+    </div>
+    {{/if}}
+
+    <label>Name
+        <input id="pmt-edit-context-name-input" type="text" placeholder="preferences01" />
+    </label>
+    {{#if contextNameErrors}}
+    <div role="alert" class="alert callout" style="display: block;">
+        <p><i class="fi-alert"></i>{{contextNameErrors}}</p>
+    </div>
+    {{/if}}
+
+
+    <div class="button-group">
+        <button type="submit" class="success button pmt-confirm-dialog-button">Save</button>
+        <button type="button"  class="delete button pmt-cancel-dialog-button">Cancel</button>
+    </div>
+    </form>
+</div>
+

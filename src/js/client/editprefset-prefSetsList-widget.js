@@ -24,10 +24,15 @@ fluid.registerNamespace("gpii.devpmt.prefSetsList");
 fluid.defaults("gpii.devpmt.prefSetsListWidget", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
-        contextNames: []
+        contextNames: [],
+        flatPrefs: {}
     },
     modelListeners: {
         contextNames: {
+            func: "{that}.reRender",
+            excludeSource: ["init"]
+        },
+        flatPrefs: {
             func: "{that}.reRender",
             excludeSource: ["init"]
         }
@@ -36,12 +41,17 @@ fluid.defaults("gpii.devpmt.prefSetsListWidget", {
         initial: "editprefset-prefSetsList-widget"
     },
     selectors: {
-        deleteContextButtons: ".pmt-delete-context"
+        deleteContextButtons: ".pmt-delete-context",
+        editContextButtons: ".pmt-edit-context"
     },
     markupEventBindings: {
         deleteContextButtons: {
             method: "click",
             args: "{gpii.devpmt.editPrefs}.onDeleteContext"
+        },
+        editContextButtons: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.onEditContext"
         }
     }
 });

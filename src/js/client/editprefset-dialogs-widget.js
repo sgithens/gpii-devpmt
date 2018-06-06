@@ -84,6 +84,102 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
 };
 
 /**
+ * Edit NP Set Context Dialog
+ */
+fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
+    gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
+    templates: {
+        initial: "editprefset-editContext-dialog"
+    },
+    model: {
+        // Store so that we can fetch the context to copy to a new ID
+        originalContextId: "",
+        contextId: "",
+        contextIdErrors: "",
+        contextName: "",
+        contextNameErrors: "",
+        fieldErrors: ""
+    },
+    selectors: {
+        contextIdInput: "#pmt-edit-context-id-input",
+        contextNameInput: "#pmt-edit-context-name-input"
+    },
+    bindings: {
+        contextIdInput: "contextId",
+        contextNameInput: "contextName"
+    },
+    invokers: {
+        acceptConfirmDialog: {
+            funcName: "gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog",
+            args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
+        }
+    }
+});
+
+gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
+    // We don't want the form to actually submit the page, just to enable
+    // activating the submit button on Enter
+    event.preventDefault();
+
+    // Validate context name, eventually this will be replaced with
+    // our new json schema work.
+    if (that.model.contextId === "") {
+        that.applier.change("contextIdErrors", "Please enter an ID.");
+        that.reRender();
+        return;
+    }
+    // TODO standardize the accepted regular expression for prefset ID's
+    // and other parts of the schema.
+    else if (!/^[\w-]+$/.exec(that.model.contextId)) {
+        that.applier.change("contextIdErrors", "Please use only alphanumeric characters.");
+        that.reRender();
+        return;
+    }
+    // If we changed the contextId, make sure that there isn't an existing context with
+    // that ID
+    else if (that.model.contextId !== that.model.originalContextId &&
+             editPrefs.prefsetExists(that.model.contextId)) {
+        that.applier.change("contextIdErrors", "A Preference Set with that ID already exists.");
+        that.reRender();
+        return;
+    }
+    else {
+        // In case we are revalidating on a subsequent attempt
+        that.applier.change("contextIdErrors", "");
+    }
+
+    if (that.model.contextName === "") {
+        that.applier.change("contextNameErrors", "Please enter a name.");
+        that.reRender();
+        return;
+    }
+    else {
+        // In case we are revalidating on a subsequent attempt
+        that.applier.change("contextNameErrors", "");
+    }
+
+    var transaction = editPrefs.applier.initiate();
+    var prefsetToEdit = fluid.copy(editPrefs.model.flatPrefs.contexts[that.model.originalContextId]);
+    prefsetToEdit.name = that.model.contextName;
+    var oldPath = "flatPrefs.contexts." + that.model.originalContextId;
+    var path = "flatPrefs.contexts." + that.model.contextId;
+
+    transaction.fireChangeRequest({
+        path: oldPath,
+        type: "DELETE"
+    });
+
+    transaction.fireChangeRequest({
+        path: path,
+        value: prefsetToEdit
+    });
+
+    transaction.commit();
+    that.closeDialog();
+};
+
+
+/**
  * Confirm deletion of NP Set Context Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {

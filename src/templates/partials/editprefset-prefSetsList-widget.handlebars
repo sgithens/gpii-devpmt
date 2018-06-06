@@ -4,6 +4,8 @@
         <thead>
             <tr>
                 <th>{{{message "gpii_pmt_contextIDHeader"}}}</th>
+                <th>{{{message "gpii_pmt_nameHeader"}}}</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -11,6 +13,8 @@
         {{#each contextNames}}
             <tr>
                 <td>{{this}}</td>
+                <td>{{{lookup (lookup ../flatPrefs/contexts this) "name" }}}</td>
+                <td><button data-contextId="{{this}}" type="button" class="pmt-edit-context button">Edit</button></td>
                 <td><button data-contextId="{{this}}" type="button" class="pmt-delete-context alert button">Delete</button></td>
             </tr>
         {{/each}}
