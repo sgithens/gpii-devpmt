@@ -24,5 +24,7 @@ var messages_en = {
     "gpii_pmt_editContextDialog_header": "Edit Preference Set",
     "gpii_pmt_editContextDialog_inst": "Below you can edit the internal id of the Preference Set, and it's human readable name",
     "gpii_pmt_editContextDialog_idLabel": "Preference Set ID",
-    "gpii_pmt_editContextDialog_nameLabel": "Preference Set Name"
+    "gpii_pmt_editContextDialog_nameLabel": "Preference Set Name",
+
+    "gpii_pmt_settingsTable_includeApplication": "Include Application Settings"
 };
