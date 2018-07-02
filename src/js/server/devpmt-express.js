@@ -145,7 +145,7 @@ fluid.defaults("gpii.devpmt.express.base", {
  */
 var thePort = process.env.PORT || 8085;
 fluid.defaults("gpii.devpmt", {
-    gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
+    gradeNames: ["gpii.devpmt.express.base", "fluid.modelComponent"],
     port: thePort,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
@@ -190,27 +190,7 @@ fluid.defaults("gpii.devpmt", {
                 }
             }
         },
-        foundationRouter: {
-            type: "gpii.express.router.static",
-            options: {
-                path: "/modules",
-                content: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/)"
-            }
-        },
-        staticRouter: {
-            type: "gpii.express.router.static",
-            options: {
-                path: "/src",
-                content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
-            }
-        },
-        inlineMiddleware: {
-            type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
-            options: {
-                path: "/hbs",
-                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
-            }
-        },
+        // For some reason the above don't work if from a sub grade, GPII-3000
         // dispatcher: {
         //     type: "gpii.devpmt.baseDispatcher",
         //     options: {
@@ -236,10 +216,29 @@ fluid.defaults("gpii.devpmt", {
         /*
          * Page Dispatchers, see devpmt-page-dispatchers.js
          */
+        pptLoginHandler: {
+            type: "gpii.devpmt.ppt.loginHandler",
+            options: {
+                path: "/pptlogin"
+            }
+        },
+        pptLogoutHandler: {
+            type: "gpii.devpmt.ppt.logoutHandler",
+            options: {
+                path: "/pptlogout"
+            }
+        },
+        landingPageHandler: {
+            type: "gpii.devpmt.baseDispatcher",
+            options: {
+                path: "/",
+                defaultTemplate: "landing-page"
+            }
+        },
         indexHandler: {
             type: "gpii.devpmt.dispatchers.index",
             options: {
-                path: "/"
+                path: "/ppt"
             }
         },
         editPrefSetHandler: {
@@ -260,32 +259,47 @@ fluid.defaults("gpii.devpmt", {
                 path: "/add-prefset"
             }
         },
-        widgetGalleryHandler: {
-            type: "gpii.devpmt.widgetGalleryHandler",
+        htmlErrorHandler: {
+            type: "gpii.handlebars.errorRenderingMiddleware",
             options: {
-                path: "/widgetgallery"
+                priority: "last",
+                templateKey: "pages/error"
             }
         },
-        // htmlErrorHandler: {
-        //     type: "gpii.handlebars.errorRenderingMiddleware",
-        //     options: {
-        //         priority: "last",
-        //         templateKey: "pages/error"
-        //     }
-        // },
+
+        // Personal CloudSafes Endpoints
+        // TODO: Factor these out, as well as the ppt ones above
+        // to their own grades once we fix the express issues
+        loginToSafeHandler: {
+            type: "gpii.devpmt.loginToSafeHandler",
+            options: {
+                path: "/cloudsafelogin"
+            }
+        },
+        logoutFromSafeHandler: {
+            type: "gpii.devpmt.logoutFromSafeHandler",
+            options: {
+                path: "/cloudsafelogout"
+            }
+        },
+        mysafeHandler: {
+            type: "gpii.devpmt.mySafeHandler",
+            options: {
+                path: "/mycloudsafe"
+            }
+        },
+        createAnonSafeHandler: {
+            type: "gpii.devpmt.createAnonSafeHandler",
+            options: {
+                path: "/create/cloudsafe"
+            }
+        },
 
         /**
          * Data Sources: see devpmt.datasources.js
          */
         commonTermsDataSource: {
             type: "gpii.devpmt.dataSource.commonTermsMetadata"
-        },
-        prefSetDataSource: {
-            type: "gpii.devpmt.dataSource.prefSet.couchdb"
-            // type: "gpii.devpmt.dataSource.prefSet.filesystem",
-            // options: {
-            //     prefSetDir: "{gpii.devpmt}.options.prefsetDirectory"
-            // }
         },
         prefSetDocsDataSource: {
             type: "gpii.devpmt.dataSource.prefSetDocs",
@@ -299,12 +313,48 @@ fluid.defaults("gpii.devpmt", {
                 solutionsDir: "{gpii.devpmt}.options.solutionsDirectory"
             }
         },
+        prefSetDataSource: {
+            //TODO there seems to be an issue which calling higher level
+            //ports, for instance this wouldn't work if the prefserver was on 9081...
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5000/prefssafe/%prefsSafeId",
+                termMap: {
+                    prefsSafeId: "%prefsSafeId"
+                }
+            }
+        },
         prefsSafesListingDataSource: {
             // type: "gpii.devpmt.dataSource.prefsSafeListing.filesystem"
-            type: "gpii.devpmt.dataSource.prefsSafeListing.couchdb"
+            // type: "gpii.devpmt.dataSource.prefsSafeListing.couchdb"
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5000/prefssafes"
+            }
+        },
+        unlockSafeDataSource: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5000/unlock-cloudsafe",
+                writable: true,
+                writeMethod: "POST"
+            }
+        }
+    },
+    invokers: {
+        reverse: {
+            funcName: "gpii.devpmt.reverse",
+            args: ["{that}", "{arguments}.0"]
         }
     }
 });
+
+gpii.devpmt.reverse = function (that, urlName) {
+    var urls = {
+        cloudSafeLogin:  "/cloudsafelogin"
+    };
+    return urls[urlName];
+};
 
 gpii.devpmt.initialize = function (that) {
     var personaKeys = ["alice", "davey", "david", "elmer", "elod", "livia"];
@@ -327,28 +377,11 @@ gpii.devpmt.initialize = function (that) {
 
     var prefsSafesList = that.prefsSafesListingDataSource.get();
     prefsSafesList.then(function (data) {
-        that.applier.change("npsetList", data);
+        var togo = [];
+        fluid.each(data, function (item) {
+            togo.push(item.prefsSafeId);
+        });
+        that.applier.change("npsetList", togo);
     });
 };
 
-/**
- * gpii.devpmt.requestNPSet
- * Grabs the npset from the URL parameter :npset, builds an npset
- * component with that name, and returns it.
- *
- * @param (Object) request - GPII Express Request Instance
- * @returns (Object) The NP Set component
- */
-gpii.devpmt.requestNPSet = function (that, request) {
-    that.prefSetDataSource.get({
-        prefSetId: request.params.npset
-    });
-
-    var flatPrefs = gpii.devpmt.loadNPSet(that.options.prefsetDirectory, request.params.npset, that.ontologyHandler);
-    var docs = gpii.devpmt.loadNPSetDocs(that.options.prefsetDirectory, request.params.npset);
-    return gpii.devpmt.npset({
-        npsetName: request.params.npset,
-        flatPrefs: flatPrefs,
-        docs: docs
-    });
-};
