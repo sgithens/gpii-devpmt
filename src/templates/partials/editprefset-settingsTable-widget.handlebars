@@ -36,6 +36,12 @@
                 {{#each model.contextNames}}
                     <th class="pmt-settingstable-value">
                         {{{message "gpii_pmt_contextNameLabel" (lookup (lookup ../model/flatPrefs/contexts this) "name") }}}</th>
+                    <!-- if psp options -->
+                    <th>PSP
+                    </th>
+                    <th>MEM
+                    </th>
+                    <!-- end if psp options -->
                 {{/each}}
                 <th><a class="hollow button small pmt-add-context-button">
                    {{{message "gpii_pmt_addContextButton"}}}
@@ -77,6 +83,22 @@
                                 data-value="{{lookupProductPrefValue this ../../../../options.appUri @../key}}"><span>{{lookupProductPrefValue this ../../../../options.appUri @../key}}</span>
                             {{/compare}}
                         </td>
+                        <!-- if psp options -->
+                        <td>
+                            <input data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}" class="pmt-psp-show-checkbox" type="checkbox"
+                                {{#compare (lookupPspMetadata 'show' this @../key ../../../../options.appUri) "===" true}}
+                                    checked="true"
+                                {{/compare}}
+                                />
+                        </td>
+                        <td>
+                            <input data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}" class="pmt-psp-memory-checkbox" type="checkbox"
+                                {{#compare (lookupPspMetadata 'memory' this @../key ../../../../options.appUri) "===" true}}
+                                    checked="true"
+                                {{/compare}}
+                                />
+                        </td>
+                        <!-- end if psp options -->
                         {{/each}}
                     </tr>
                     {{/each}}

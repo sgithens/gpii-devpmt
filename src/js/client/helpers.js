@@ -39,6 +39,10 @@ Handlebars.registerHelper("lookupProductPrefValue", function (context, product, 
     return editPrefs.lookupProductPrefValue(context, product, settingTerm);
 });
 
+Handlebars.registerHelper("lookupPspMetadata", function (type, context, term, product) {
+    return editPrefs.lookupPspMetadata(type, context, term, product);
+});
+
 /**
  * appIDfromURI Handlebars Helper
  *

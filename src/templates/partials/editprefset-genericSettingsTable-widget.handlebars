@@ -31,6 +31,12 @@
                     <th class="pmt-settingstable-value">
                         {{{message "gpii_pmt_contextNameLabel" (lookup (lookup ../flatPrefs/contexts this) "name") }}}
                     </th>
+                    <!-- if psp options -->
+                    <th>PSP
+                    </th>
+                    <th>MEM
+                    </th>
+                    <!-- end if psp options -->
                     {{/each}}
                     <th><a class="hollow button small pmt-add-context-button">
                         {{{message "gpii_pmt_addContextButton"}}}
@@ -49,6 +55,22 @@
                                 data-value="{{lookupGenericPrefValue this ../id}}"><span>{{lookupGenericPrefValue this ../id}}</span>
                             {{/compare}}
                         </td>
+                        <!-- if psp options -->
+                        <td>
+                            <input data-term="{{../id}}" data-context="{{this}}" class="pmt-psp-show-checkbox" type="checkbox"
+                                {{#compare (lookupPspMetadata 'show' this ../id false) "===" true}}
+                                    checked="true"
+                                {{/compare}}
+                                />
+                        </td>
+                        <td>
+                            <input data-term="{{../id}}" data-context="{{this}}" class="pmt-psp-memory-checkbox" type="checkbox"
+                                {{#compare (lookupPspMetadata 'memory' this ../id false) "===" true}}
+                                    checked="true"
+                                {{/compare}}
+                                />
+                        </td>
+                        <!-- end if psp options -->
                         {{/each}}
                         <td></td>
                     </tr>

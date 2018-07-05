@@ -68,7 +68,11 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         addContextButton: ".pmt-add-context-button",
 
         // mineAllWidget
-        mineAllSwitchContainer: "#pmt-mineAllSwitch-container"
+        mineAllSwitchContainer: "#pmt-mineAllSwitch-container",
+
+        // PSP items
+        pspShowCheckboxes: ".pmt-psp-show-checkbox",
+        pspMemoryCheckboxes: ".pmt-psp-memory-checkbox"
     },
     components: {
         mineAllSwitch: {
@@ -108,6 +112,14 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         addContextButton: {
             method: "click",
             args: "{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"
+        },
+        pspShowCheckboxes: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.editPspShow"
+        },
+        pspMemoryCheckboxes: {
+            method: "click",
+            args: "{gpii.devpmt.editPrefs}.editPspMemory"
         }
     },
     listeners: {
