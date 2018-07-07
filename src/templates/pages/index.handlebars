@@ -15,8 +15,8 @@
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li><a href="#">My Account</a></li>
-      <li><a class="button">Login</a></li>
+      <li><a href="/pptlogout">Logout</a></li>
+      <!-- <li><a class="button">Login</a></li> -->
     </ul>
   </div>
 </div>
@@ -31,7 +31,7 @@
             <p class="subheader">
                 Hello! This is a demo of the in-progress Power Preferences Tool.
                 Use the box on the right to create a new Preferences Safe, or choose
-                from an existing Snapset, Demo User, or Developer Safe below to
+                from an existing Preferences Safe below to
                 start with. After editing the preferences, you can download the
                 json file with your changes.
             </p>
@@ -41,10 +41,8 @@
                 <form action="/add-prefset" method="POST">
                     <div class="grid-x">
                         <div class="small-12 cell">
-                            <label>New Preferences Safe Name
-                                <input name="prefset-name" type="text" placeholder="New Prefset Name" />
-                            </label>
-                            <input type="submit" href="#" class="button" value="Create NP Set" />
+                            <h3>Tasks</h3>
+                            <input type="submit" href="#" class="button" value="New PrefsSafe" />
                         </div>
                     </div>
                 </form>
@@ -54,21 +52,41 @@
     <div class="">
         <hr/>
     </div>
-    <div class="">
-        <p class="lead">Snapsets</p>
-    </div>
-    {{> index-snapsets }}
-</article>
+    <!-- <div class=""> -->
+    <!--     <p class="lead">Snapsets</p> -->
+    <!-- </div> -->
+    <!-- {{> index-snapsets }} -->
 
 
-    {{> index-demo-personas }}
+    <!-- {{> index-demo-personas }} -->
 
+    <h2>Preference Safes</h2>
     <div class="grid-x">
-        <div class="small-12 medium-6 cell">
-            <ul>
-                {{#each npsetList}}
-                <li><a href="/editprefs/{{this}}">{{this}}</a></li>
+        <div class="cell">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>PrefsSafe ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each prefsSafesList}}
+                    <tr>
+                        <td><a href="/editprefs/{{this.prefsSafeId}}">{{this.prefsSafeId}}</td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.created}}</td>
+                        <td>{{this.updated}}</td>
+                        <td><a href="">Remove</td>
+                    </tr>
                 {{/each}}
-            </ul>
+                </tbody>
+            </table>
         </div>
     </div>
+</article>

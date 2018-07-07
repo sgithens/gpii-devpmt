@@ -259,13 +259,13 @@ fluid.defaults("gpii.devpmt", {
                 path: "/add-prefset"
             }
         },
-        htmlErrorHandler: {
-            type: "gpii.handlebars.errorRenderingMiddleware",
-            options: {
-                priority: "last",
-                templateKey: "pages/error"
-            }
-        },
+        // htmlErrorHandler: {
+        //     type: "gpii.handlebars.errorRenderingMiddleware",
+        //     options: {
+        //         priority: "last",
+        //         templateKey: "pages/error"
+        //     }
+        // },
 
         // Personal CloudSafes Endpoints
         // TODO: Factor these out, as well as the ppt ones above
@@ -330,6 +330,14 @@ fluid.defaults("gpii.devpmt", {
             type: "kettle.dataSource.URL",
             options: {
                 url: "http://localhost:5000/prefssafes"
+            }
+        },
+        prefsSafeCreationDataSource: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5000/preferences",
+                writable: true,
+                writeMethod: "POST"
             }
         },
         unlockSafeDataSource: {

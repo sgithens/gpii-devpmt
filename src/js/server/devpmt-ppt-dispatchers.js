@@ -9,7 +9,7 @@ gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
     if (req.session.loggedInToPPT) {
         return true;
     }
-    res.status("403").send("Not logged in to PPT.");
+    res.status("401").redirect("/pptlogin");
 };
 
 /**
@@ -20,30 +20,30 @@ fluid.defaults("gpii.devpmt.dispatchers.index", {
     defaultTemplate: "index",
     rules: {
         contextToExpose: {
-            npsetList: {
-                "transform": {
-                    type: "fluid.transforms.free",
-                    func: "fluid.getForComponent",
-                    args: ["{devpmt}", "model.npsetList"]
-                }
-            },
-            selectedDemoSets: {
-                "transform": {
-                    type: "fluid.transforms.free",
-                    func: "fluid.getForComponent",
-                    args: ["{devpmt}", "model.selectedDemoSets"]
-                }
-            }
         }
     },
     invokers: {
         checkAuthorization: {
             funcName: "gpii.devpmt.ppt.checkAuthorization",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
+        },
+        contextPromise: {
+            funcName: "gpii.devpmt.dispatchers.index.contextPromise",
+            args: ["{that}", "{devpmt}", "{arguments}.0"]
         }
     }
 });
 
+gpii.devpmt.dispatchers.index.contextPromise = function (that, devpmt /*, req */) {
+    var promTogo = fluid.promise();
+    var prefsSafesProm = devpmt.prefsSafesListingDataSource.get();
+    prefsSafesProm.then(function (data) {
+        promTogo.resolve({
+            prefsSafesList: data
+        });
+    });
+    return promTogo;
+};
 
 // URLPATH /editprefs/:npset
 fluid.defaults("gpii.devpmt.ppt.loginHandler", {
@@ -190,7 +190,16 @@ fluid.defaults("gpii.devpmt.addPrefsetFormHandler", {
 });
 
 gpii.devpmt.addPrefsetFormHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
-    var prefsetName = req.body["prefset-name"];
-    gpii.devpmt.addNPSet(devpmt.prefSetDataSource, prefsetName);
-    res.redirect("/editprefs/" + prefsetName);
+    var prefsPromise = devpmt.prefsSafeCreationDataSource.set({}, {
+        contexts: {
+            "gpii-default": {
+                "name": "Default Preferences",
+                "preferences": {}
+            }
+        }
+    });
+    prefsPromise.then(function (data) {
+        res.redirect("/ppt"); //"/editprefs/" + prefsetName);
+    });
+
 };
