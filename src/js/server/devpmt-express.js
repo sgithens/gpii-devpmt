@@ -321,7 +321,9 @@ fluid.defaults("gpii.devpmt", {
                 url: "http://localhost:5000/prefssafe/%prefsSafeId",
                 termMap: {
                     prefsSafeId: "%prefsSafeId"
-                }
+                },
+                writable: true,
+                writeMethod: "PUT"
             }
         },
         prefsSafesListingDataSource: {
@@ -338,6 +340,15 @@ fluid.defaults("gpii.devpmt", {
                 url: "http://localhost:5000/preferences",
                 writable: true,
                 writeMethod: "POST"
+            }
+        },
+        prefsSafeByGpiiKeyDataSource: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5000/prefssafe/%prefsSafeId",
+                termMap: {
+                    prefsSafeId: "%prefsSafeId"
+                }
             }
         },
         unlockSafeDataSource: {

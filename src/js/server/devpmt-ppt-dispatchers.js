@@ -165,13 +165,14 @@ fluid.defaults("gpii.devpmt.savePrefsetHandler", {
             funcName: "gpii.devpmt.savePrefsetHandler.handleRequest",
             args: ["{that}", "{devpmt}", "{arguments}.0", "{arguments}.1" /*, "{arguments}.2" */]
         }
-        //TODO Auth check
     }
 });
 
 gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
-    devpmt.prefSetDataSource.set({prefSetId: req.params.npset}, req.body);
-    res.send("{result: 'ok'}");
+    if (gpii.devpmt.ppt.loginHandler.checkAuthorization) {
+        var prom = devpmt.prefSetDataSource.set({prefSetId: req.params.npset}, req.body);
+        prom.then(req.events.onSuccess.fire, req.events.onError.fire);
+    }
 };
 
 // URLPATH /add-prefset
