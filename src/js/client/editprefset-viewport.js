@@ -39,6 +39,40 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         commonTerms: "noexpand"
     },
     model: {
+        prefsSafe: {
+            id: "Alice prefsafe",
+            name: "Alice Alice",
+            email: "Alice@Wonderland.org",
+            timestampCreated: "2018-06-21T19:02:28.078Z",
+            timestampUpdated: null
+        },
+
+        keys: [
+            {
+                id: "alice",
+                type: "gpiiKey",
+                schemaVersion: "0.1",
+                prefsSafeId: "prefsSafe-alice",
+                prefsSetId: "gpii-default",
+                revoked: false,
+                revokedReason: null,
+                timestampCreated: "2018-06-21T19:02:28.057Z",
+                timestampUpdated: null
+            },
+            {
+                id: "alice-usb",
+                type: "gpiiKey",
+                schemaVersion: "0.1",
+                prefsSafeId: "prefsSafe-alice",
+                prefsSetId: "gpii-default",
+                revoked: false,
+                revokedReason: null,
+                timestampCreated: "2018-06-21T19:02:28.057Z",
+                timestampUpdated: null
+            }
+        ],
+
+
         npsetName: "{that}.options.npset.options.npsetName",  // ""
         flatPrefs: "{that}.options.npset.options.flatPrefs",  // {}
         commonTerms: "{that}.options.commonTerms",            // []
@@ -263,6 +297,32 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 }
             }
         },
+        prefsSafeInfo: {
+            type: "gpii.devpmt.prefsSafeInfoWidget",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.prefsSafeInfoContainer",
+            options: {
+                selectors: {
+                    initial: "#pmt-prefsSafeInfo-widget"
+                },
+                model: {
+                    prefsSafe: "{gpii.devpmt.editPrefs}.model.prefsSafe"
+                }
+            }
+        },
+        prefsSafeKeysList: {
+            type: "gpii.devpmt.prefsSafeKeysList",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.prefsSafeKeysListContainer",
+            options: {
+                selectors: {
+                    initial: "#pmt-prefsSafeKeysList-widget"
+                },
+                model: {
+                    keys: "{gpii.devpmt.editPrefs}.model.keys"
+                }
+            }
+        },
         prefSetsList: {
             type: "gpii.devpmt.prefSetsListWidget",
             createOnEvent: "onMarkupRendered",
@@ -361,6 +421,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         topNavBar: "#pmt-topNavBar-container",
         editWidgetSidebar: "#pmt-editwidget-sidebar",
         productListContainer: "#pmt-productList-container",
+        prefsSafeInfoContainer: "#pmt-prefsSafeInfo-container",
+        prefsSafeKeysListContainer: "#pmt-prefsSafeKeysList-container",
         prefSetsListContainer: "#pmt-prefSetsList-container",
         prefsAdjusterContainer: "#pmt-prefs-adjuster-container",
         genericSettingsTableContainer: "#pmt-genericSettingsTable-container",

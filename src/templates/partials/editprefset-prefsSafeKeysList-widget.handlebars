@@ -1,0 +1,28 @@
+<div  class="callout">
+    <h5>Keys and Credentials</h5>
+    <table class="table-scroll">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>type</th>
+                <th>PrefsSet ID</th>
+                <th>Revoked</th>
+                <th>Created</th>
+                <th>Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each keys}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{this.prefsSetId}}</td>
+                    <td>{{this.revoked}}</td>
+                    <td>{{this.timestampCreated}}</td>
+                    <td>{{this.timestampUpdated}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
