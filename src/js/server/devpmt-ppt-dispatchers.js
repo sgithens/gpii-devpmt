@@ -6,6 +6,9 @@ var gpii  = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt.ppt");
 
 gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
+    //TODO Temporary change to demo on AWS cluster until the persistent session node is setup
+    return true;
+
     if (req.session.loggedInToPPT) {
         return true;
     }

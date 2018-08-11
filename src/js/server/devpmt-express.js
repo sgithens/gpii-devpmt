@@ -193,10 +193,10 @@ fluid.defaults("gpii.devpmt", {
         sessionMiddleware: {
             type: "gpii.express.middleware.session",
             options: {
-                middlewareOptions: {
-                    store: "@expand:gpii.devpmt.redisStore()",
-                    secret: "TODO Override"
-                }
+                // middlewareOptions: {
+                //     store: "@expand:gpii.devpmt.redisStore()",
+                //     secret: "TODO Override"
+                // }
             }
         },
         foundationRouter: {
