@@ -1,0 +1,11 @@
+{
+    "type": "gpii.ppt",
+    "options": {
+        "gradeNames": "fluid.component",
+        "components": {
+            "devpmt": {
+                "type": "gpii.devpmt"
+            }
+        }
+    }
+}

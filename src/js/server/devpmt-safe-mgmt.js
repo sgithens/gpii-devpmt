@@ -7,27 +7,36 @@ var bcrypt = require("bcrypt");
 fluid.registerNamespace("gpii.devpmt.safemgmt");
 
 /**
- * Create a hash from a plaintext password suitable to store
- * in the password field of a preferences safe.
+ * Creates a new Cloud Safe Login for a user, by creating a gpiiKey and 
+ * then a gpii-express-user account that will be tied to that login.
  *
- * @param {String} password     Plain text password.
- * @return {String}             Hashed password.
  */
-gpii.devpmt.safemgmt.hashPassword = function (password) {
-    return bcrypt.hashSync(password, 10);
+gpii.devpmt.safemgmt.createCloudSafeLogin = function (devpmt, prefsSafeId, loginName, email, password) {
+
+var gpiiExpressEntry = devpmt.gpiiExpressUserApi.createNewUser(loginName, email, password);
+
+var keyData = {
+    type: "gpiiKey",
+    schemaVersion: "0.1",
+    prefsSafeId: prefsSafeId,
+    revoked: false,
+    revokedReason: null,
+    timestampCreated: null,
+    timestampUpdated: null,
+
+    access: "login",
+    keyType: "gpiiExpressUser",
+    gpiiExpressUserId: gpiiExpressEntry._id
 };
 
-/**
- * Check a plainText password, perhaps from a safe login
- * against a hash, probably coming from a safe's password field.
- *
- * @param {String} plainText    Plain text password to check.
- * @param {String} hash         Hash, mostly likely from prefsSafe.password.
- * @return {Boolean}            True if the passwords match.
- */
-gpii.devpmt.safemgmt.checkPassword = function (plainText, hash) {
-    return bcrypt.compareSync(plainText, hash);
+var prom = devpmt.prefsSafeKeyCreationDataSource.set({}, keyData);
+
+return prom;
+
 };
+
+
+// Old work below, gpii-express-user work above
 
 /**
  * Fetches the preferences safe by id name, checks to see if the password
@@ -37,7 +46,15 @@ gpii.devpmt.safemgmt.checkPassword = function (plainText, hash) {
  * @param {String} password     Plain text password
  * @return {Promise}
  */
-gpii.devpmt.safemgmt.loginToSafe = function (name, password) {
+gpii.devpmt.safemgmt.loginToSafe = function (devpmt, name, password) {
+    var safeProm = devpmt.unlockSafeDataSource.set({}, {
+        username: name,
+        password: password
+    });
+    return safeProm;
+
+
+
     var safeByNameDS = gpii.devpmt.dataSource.safemgmt.prefSafeByName();
     var finalPromise = fluid.promise();
     var prom = safeByNameDS.get({name: name});
@@ -53,24 +70,6 @@ gpii.devpmt.safemgmt.loginToSafe = function (name, password) {
     return finalPromise;
 };
 
-
-gpii.devpmt.safemgmt.changeSafePassword = function (name, password) {
-    // TODO use async version
-    var hash = gpii.devpmt.safemgmt.hashPassword(password);
-
-    var prefSafeDS = gpii.devpmt.dataSource.safemgmt.prefSafe();
-
-    var safeByNameDS = gpii.devpmt.dataSource.safemgmt.prefSafeByName();
-    var prom = safeByNameDS.get({name: name});
-    prom.then(function (res) {
-        var safe = res.rows[0].value;
-        safe.password = hash;
-        var updateProm = prefSafeDS.set({prefSafeId: safe._id}, safe);
-        updateProm.then(function (res) {
-            fluid.log("hopefully updated the safe", res);
-        });
-    });
-};
 
 gpii.devpmt.safemgmt.createAnonSafe = function (name, password) {
     var hash = gpii.devpmt.safemgmt.hashPassword(password);

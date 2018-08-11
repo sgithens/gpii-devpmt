@@ -1,9 +1,13 @@
 /* eslint-env node */
 "use strict";
 
+var session = require("express-session");
+var RedisStore = require("connect-redis")(session);
+
 var fluid = require("infusion");
 var gpii  = fluid.registerNamespace("gpii");
 fluid.require("gpii-express");
+fluid.require("gpii-express-user");
 fluid.require("gpii-handlebars");
 require("gpii-universal");
 
@@ -139,6 +143,10 @@ fluid.defaults("gpii.devpmt.express.base", {
     }
 });
 
+gpii.devpmt.redisStore = function () {
+    return new RedisStore({})
+};
+
 /**
  * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
  * NP Sets.
@@ -186,18 +194,50 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.express.middleware.session",
             options: {
                 middlewareOptions: {
+                    store: "@expand:gpii.devpmt.redisStore()",
                     secret: "TODO Override"
                 }
             }
         },
+        foundationRouter: {
+            type: "gpii.express.router.static",
+            options: {
+                path: "/modules",
+                content: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/)"
+            }
+        },
+        staticRouter: {
+            type: "gpii.express.router.static",
+            options: {
+                path: "/src",
+                content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
+            }
+        },
+        inlineMiddleware: {
+            type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
+            options: {
+                path: "/hbs",
+                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
+            }
+        },
+        // gpii-express-user accounts and management
+        gpiiExpressUserApi: {
+            type: "gpii.express.user.api",
+            options: {
+                couch: {
+                    userDbName: "gpii",
+                    userDbUrl: "http://localhost:5984/gpii"
+                }
+            },
+        },
         // For some reason the above don't work if from a sub grade, GPII-3000
-        // dispatcher: {
-        //     type: "gpii.devpmt.baseDispatcher",
-        //     options: {
-        //         priority: "before:htmlErrorHandler",
-        //         path: ["/:template", "/"]
-        //     }
-        // },
+        dispatcher: {
+            type: "gpii.devpmt.baseDispatcher",
+            options: {
+                priority: "before:htmlErrorHandler",
+                path: ["/:template", "/"]
+            }
+        },
         // Removed the above from the common express base grade
         ontologyHandler: {
             type: "gpii.ontologyHandler"
@@ -259,13 +299,13 @@ fluid.defaults("gpii.devpmt", {
                 path: "/add-prefset"
             }
         },
-        // htmlErrorHandler: {
-        //     type: "gpii.handlebars.errorRenderingMiddleware",
-        //     options: {
-        //         priority: "last",
-        //         templateKey: "pages/error"
-        //     }
-        // },
+        htmlErrorHandler: {
+            type: "gpii.handlebars.errorRenderingMiddleware",
+            options: {
+                priority: "last",
+                templateKey: "pages/error"
+            }
+        },
 
         // Personal CloudSafes Endpoints
         // TODO: Factor these out, as well as the ppt ones above
@@ -342,6 +382,14 @@ fluid.defaults("gpii.devpmt", {
                 writeMethod: "POST"
             }
         },
+        prefsSafeKeyCreationDataSource: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: "http://localhost:5000/prefssafe-key-create",
+                writable: true,
+                writeMethod: "POST"
+            }
+        },
         prefsSafeByGpiiKeyDataSource: {
             type: "kettle.dataSource.URL",
             options: {
@@ -364,6 +412,11 @@ fluid.defaults("gpii.devpmt", {
         reverse: {
             funcName: "gpii.devpmt.reverse",
             args: ["{that}", "{arguments}.0"]
+        },
+        createCloudSafeLogin: {
+            funcName: "gpii.devpmt.safemgmt.createCloudSafeLogin",
+            // prefsSafeId, loginName, email, password
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2", "{arguments}.3"]
         }
     }
 });
@@ -403,4 +456,3 @@ gpii.devpmt.initialize = function (that) {
         that.applier.change("npsetList", togo);
     });
 };
-

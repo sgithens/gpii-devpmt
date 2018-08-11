@@ -53,19 +53,35 @@ fluid.defaults("gpii.devpmt.ppt.loginHandler", {
     invokers: {
         checkAuthorization: {
             funcName: "gpii.devpmt.ppt.loginHandler.checkAuthorization",
-            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
+            args: ["{that}", "{gpii.devpmt}.gpiiExpressUserApi", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
         }
     }
 });
 
-gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, req, res /*, next */) {
-    //TODO Move to gpii-couch-user
-    if (req.body.username === "morphic" && req.body.password === "gpii") {
-        req.session.loggedInToPPT = true;
-        res.redirect("/ppt");
-        return false;
+gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, res /*, next */) {
+    if (req.method !== "POST") {
+        return true;
     }
-    return true;
+    //TODO Move to gpii-couch-user
+    var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
+    loginProm.then(function (data) {
+        console.log("LoginProm: ", loginProm.value);
+        if (loginProm.value.isError) {
+            // return true;
+            res.redirect("/pptlogin");
+        }
+        if (loginProm.value.roles.includes("ppt_admin")) {
+            req.session.loggedInToPPT = true;
+            res.redirect("/ppt");
+            // return false;
+        }
+    // if (req.body.username === "morphic" && req.body.password === "gpii") {
+    //     req.session.loggedInToPPT = true;
+    //     res.redirect("/ppt");
+    //     return false;
+    // }
+    });
+    return false;
 };
 
 fluid.defaults("gpii.devpmt.ppt.logoutHandler", {
