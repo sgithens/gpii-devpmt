@@ -154,6 +154,8 @@ gpii.devpmt.redisStore = function () {
 var thePort = process.env.PORT || 8085;
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.devpmt.express.base", "fluid.modelComponent"],
+    // prefsServerURL: "http://localhost:5000",
+    prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
     port: thePort,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
@@ -358,12 +360,19 @@ fluid.defaults("gpii.devpmt", {
             //ports, for instance this wouldn't work if the prefserver was on 9081...
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://localhost:5000/prefssafe/%prefsSafeId",
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/prefssafe/%prefsSafeId", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
                 termMap: {
                     prefsSafeId: "%prefsSafeId"
                 },
-                writable: true,
-                writeMethod: "PUT"
+                writable: true
+                // writeMethod: "PUT"
             }
         },
         prefsSafesListingDataSource: {
@@ -371,13 +380,27 @@ fluid.defaults("gpii.devpmt", {
             // type: "gpii.devpmt.dataSource.prefsSafeListing.couchdb"
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://localhost:5000/prefssafes"
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/prefssafes", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                }
             }
         },
         prefsSafeCreationDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://localhost:5000/preferences",
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/preferences", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
                 writable: true,
                 writeMethod: "POST"
             }
@@ -385,7 +408,14 @@ fluid.defaults("gpii.devpmt", {
         prefsSafeKeyCreationDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://localhost:5000/prefssafe-key-create",
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/prefssafe-key-create", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
                 writable: true,
                 writeMethod: "POST"
             }
@@ -393,7 +423,14 @@ fluid.defaults("gpii.devpmt", {
         prefsSafeByGpiiKeyDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://localhost:5000/prefssafe/%prefsSafeId",
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/prefssafe/%prefsSafeId", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
                 termMap: {
                     prefsSafeId: "%prefsSafeId"
                 }
@@ -402,7 +439,14 @@ fluid.defaults("gpii.devpmt", {
         unlockSafeDataSource: {
             type: "kettle.dataSource.URL",
             options: {
-                url: "http://localhost:5000/unlock-cloudsafe",
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/unlock-cloudsafe", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
                 writable: true,
                 writeMethod: "POST"
             }
