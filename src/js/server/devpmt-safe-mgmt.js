@@ -2,7 +2,6 @@
 "use strict";
 var fluid = require("infusion");
 var gpii  = fluid.registerNamespace("gpii");
-var bcrypt = require("bcrypt");
 
 fluid.registerNamespace("gpii.devpmt.safemgmt");
 

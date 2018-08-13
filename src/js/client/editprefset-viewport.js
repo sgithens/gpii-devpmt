@@ -39,13 +39,13 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         commonTerms: "noexpand"
     },
     model: {
-        prefsSafe: {
-            id: "Alice prefsafe",
-            name: "Alice Alice",
-            email: "Alice@Wonderland.org",
-            timestampCreated: "2018-06-21T19:02:28.078Z",
-            timestampUpdated: null
-        },
+        prefsSafe: "{that}.options.prefsSafe",
+            // id: "Alice prefsafe",
+            // name: "Alice Alice",
+            // email: "Alice@Wonderland.org",
+            // timestampCreated: "2018-06-21T19:02:28.078Z",
+            // timestampUpdated: null
+        // },
 
         keys: [
             {
@@ -702,13 +702,20 @@ gpii.devpmt.openAddProductDialog = function (that, appId) {
 };
 
 gpii.devpmt.savePrefset = function (that /*, event */) {
+    //TODO Resolve the prefssafe vs prefsets model entries.
+    var toSave = that.model.prefsSafe;
+    toSave.preferences.flat = that.model.flatPrefs;
+
     var options = {
         method: "POST",
         contentType: "application/json",
-        url: "/saveprefset/" + that.model.npsetName,
-        data: JSON.stringify({ flat: that.model.flatPrefs }, null, 4)
+        url: "/saveprefset/" + that.model.prefsSafe.id,
+        data: JSON.stringify(toSave, null, 4)
     };
-    $.ajax(options);
+    $.ajax(options).done(function (data) {
+        console.log("Returning from saving prefssafe:");
+        console.log(data);
+    });
     var transaction = that.applier.initiate();
     transaction.fireChangeRequest({
         path: "unsavedChangesExist",

@@ -167,7 +167,8 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
             docs: ""
         });
         promTogo.resolve({
-            npset: prefset
+            npset: prefset,
+            prefsSafe: data
         });
     });
     return promTogo;
@@ -189,7 +190,7 @@ fluid.defaults("gpii.devpmt.savePrefsetHandler", {
 
 gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
     if (gpii.devpmt.ppt.loginHandler.checkAuthorization) {
-        var prom = devpmt.prefSetDataSource.set({prefSetId: req.params.npset}, req.body);
+        var prom = devpmt.prefSetDataSource.set({prefsSafeId: req.params.npset}, req.body);
         prom.then(req.events.onSuccess.fire, req.events.onError.fire);
     }
 };
