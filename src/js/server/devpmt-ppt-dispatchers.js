@@ -166,9 +166,17 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
             flatPrefs: npset,
             docs: ""
         });
+        // This data is coming from a convenience endpoint that includes
+        // the keys, but when we go back to save the prefset they would be in their
+        // own documents, so we are removing the keys to a separate data
+        // field here to make life easier in the frontend.
+        var prefsSafe = data;
+        var keys = prefsSafe.keys;
+        delete prefsSafe.keys;
         promTogo.resolve({
             npset: prefset,
-            prefsSafe: data
+            prefsSafe: prefsSafe,
+            keys: keys
         });
     });
     return promTogo;

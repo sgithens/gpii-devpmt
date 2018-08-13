@@ -40,6 +40,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     },
     model: {
         prefsSafe: "{that}.options.prefsSafe",
+        // Example of a prefsSafe document from our model
             // id: "Alice prefsafe",
             // name: "Alice Alice",
             // email: "Alice@Wonderland.org",
@@ -47,30 +48,31 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             // timestampUpdated: null
         // },
 
-        keys: [
-            {
-                id: "alice",
-                type: "gpiiKey",
-                schemaVersion: "0.1",
-                prefsSafeId: "prefsSafe-alice",
-                prefsSetId: "gpii-default",
-                revoked: false,
-                revokedReason: null,
-                timestampCreated: "2018-06-21T19:02:28.057Z",
-                timestampUpdated: null
-            },
-            {
-                id: "alice-usb",
-                type: "gpiiKey",
-                schemaVersion: "0.1",
-                prefsSafeId: "prefsSafe-alice",
-                prefsSetId: "gpii-default",
-                revoked: false,
-                revokedReason: null,
-                timestampCreated: "2018-06-21T19:02:28.057Z",
-                timestampUpdated: null
-            }
-        ],
+        keys: "{that}.options.keys",
+        // Example of keys documents from the data model
+            // {
+            //     id: "alice",
+            //     type: "gpiiKey",
+            //     schemaVersion: "0.1",
+            //     prefsSafeId: "prefsSafe-alice",
+            //     prefsSetId: "gpii-default",
+            //     revoked: false,
+            //     revokedReason: null,
+            //     timestampCreated: "2018-06-21T19:02:28.057Z",
+            //     timestampUpdated: null
+            // },
+            // {
+            //     id: "alice-usb",
+            //     type: "gpiiKey",
+            //     schemaVersion: "0.1",
+            //     prefsSafeId: "prefsSafe-alice",
+            //     prefsSetId: "gpii-default",
+            //     revoked: false,
+            //     revokedReason: null,
+            //     timestampCreated: "2018-06-21T19:02:28.057Z",
+            //     timestampUpdated: null
+            // }
+        // ],
 
 
         npsetName: "{that}.options.npset.options.npsetName",  // ""

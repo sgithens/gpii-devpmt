@@ -158,7 +158,8 @@ fluid.defaults("gpii.devpmt", {
     prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
     port: thePort,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
-    solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
+    // solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
+    solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/src/demoSolutions/)",
     events: {
         onFsChange: null
     },
@@ -363,7 +364,7 @@ fluid.defaults("gpii.devpmt", {
                 url: {
                     expander: {
                         funcName: "fluid.stringTemplate",
-                        args: ["%prefsServerURL/prefssafe/%prefsSafeId", {
+                        args: ["%prefsServerURL/prefssafe-with-keys/%prefsSafeId", {
                             prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
                         }]
                     }
