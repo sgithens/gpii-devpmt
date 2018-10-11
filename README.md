@@ -1,7 +1,11 @@
 # Development Preferences Test Tool and other Management Tools
 
-This project is the foundation for the DPTT and other comprehensive preferences
-management tools for the GPII.
+This repository contains a web based tool for editing preferences safes and
+sets as part of the larger eco-system of GPII modules. It contains resuable
+routines and widgets as well that other preference editing user interfaces
+can be based on.  While it's changed during the course of development and
+testing, it's fundamental design is still based on these
+[original designs](https://drive.google.com/open?id=0Bxy2B0Y99qCubGVUSlNCRFU3d0U).
 
 # Installation
 
