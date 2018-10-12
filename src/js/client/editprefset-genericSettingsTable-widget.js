@@ -180,7 +180,7 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
         this.ref("id");
         this.field("name");
         this.field("term");
-        this.b(0.01);
+        this.b(0.01); // lunr.js field length normalisation
 
         fluid.each(that.model.commonTerms, function (commonTerm, term) {
             idx.add({

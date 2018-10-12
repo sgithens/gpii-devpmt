@@ -128,7 +128,7 @@ gpii.devpmt.productList.updateProductListLunrIndex = function (that) {
         this.ref("id");
         this.field("name");
         this.field("appId");
-        this.b(0.01);
+        this.b(0.01); // lunr.js field length normalisation
 
         fluid.each(that.model.allSolutionsSorted, function (sol) {
             idx.add({
