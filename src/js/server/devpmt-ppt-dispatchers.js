@@ -6,9 +6,6 @@ var gpii  = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt.ppt");
 
 gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
-    //TODO Temporary change to demo on AWS cluster until the persistent session node is setup
-    return true;
-
     if (req.session.loggedInToPPT) {
         return true;
     }
@@ -66,6 +63,15 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
         return true;
     }
     //TODO Move to gpii-couch-user
+    if (req.body.username === 'morphic' && req.body.password === 'gpii') {
+        req.session.loggedInToPPT = true;
+        res.redirect("/ppt");
+    }
+    else {
+        res.redirect("/pptlogin");
+    }
+    return false;
+
     var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
     loginProm.then(function (data) {
         console.log("LoginProm: ", loginProm.value);
@@ -152,7 +158,7 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
  */
 gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
     var promTogo = fluid.promise();
-    fluid.promise.map(devpmt.prefSetDataSource.get({prefsSafeId: req.params.npset}), function (data) {
+    fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.params.npset}), function (data) {
         if (!data) {
             promTogo.reject({
                 isError: true,
@@ -160,7 +166,7 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
             });
             return;
         };
-        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.preferences, "flat");
+        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
         var prefset = gpii.devpmt.npset({
             npsetName: req.params.npset,
             flatPrefs: npset,
@@ -170,9 +176,8 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
         // the keys, but when we go back to save the prefset they would be in their
         // own documents, so we are removing the keys to a separate data
         // field here to make life easier in the frontend.
-        var prefsSafe = data;
-        var keys = prefsSafe.keys;
-        delete prefsSafe.keys;
+        var prefsSafe = data.prefsSafe;
+        var keys = data.keys;
         promTogo.resolve({
             npset: prefset,
             prefsSafe: prefsSafe,

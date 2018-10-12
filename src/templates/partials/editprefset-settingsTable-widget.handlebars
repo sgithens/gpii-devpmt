@@ -34,25 +34,21 @@
                 <th class="pmt-settingstable-name">Setting</th>
                 <th class="pmt-settingstable-value">Product Default</th>
                 {{#each model.contextNames}}
+                    <th><!-- PSP --></th><th><!-- MEM --></th>
                     <th class="pmt-settingstable-value">
                         {{{message "gpii_pmt_contextNameLabel" (lookup (lookup ../model/flatPrefs/contexts this) "name") }}}</th>
-                    <!-- if psp options -->
-                    <th>PSP
-                    </th>
-                    <th>MEM
-                    </th>
-                    <!-- end if psp options -->
                 {{/each}}
                 <th><a class="hollow button small pmt-add-context-button">
                    {{{message "gpii_pmt_addContextButton"}}}
                 </a></th>
             </tr>
-        </thead>
-        <tbody>
+
             <tr>
                 <td>{{{message "gpii_pmt_settingsTable_includeApplication" }}}</td>
                 <td><!-- Space for product default column --></td>
                 {{#each model.contextNames}}
+                    <!-- PSP and MEM placeholders -->
+                    <td></td><td></td>
                     <td>
                         <div class="switch">
                             {{#if (lookup (lookup (lookup ../model.flatPrefs.contexts this) "preferences") ../options.appUri) }}
@@ -68,14 +64,34 @@
                         </div>
                     </td>
                 {{/each}}
+                <td><!-- Add Pref Set spacer --></td>
             </tr>
-            {{#with options.solution}}
+        </thead>
+        <tbody>
+           {{#with options.solution}}
                 {{#each this.settingsHandlers}}
                     {{#each this.supportedSettings}}
                     <tr class="pmt-settings-table-row" data-term="{{@key}}">
                         <td id="a-{{../../../options.appId}}-{{@key}}">{{this.schema.title}}</td>
                         <td><!-- Space for product default column --></td>
                         {{#each ../../../model.contextNames}}
+                        <!-- if psp options -->
+                        <td>
+                            <input data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}" class="pmt-psp-show-checkbox" type="checkbox" title="Include setting in PSP"
+                                {{#compare (lookupPspMetadata 'show' this @../key ../../../../options.appUri) "===" true}}
+                                    checked="true"
+                                {{/compare}}
+                                />
+                        </td>
+                        <td>
+                            <input data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}" class="pmt-psp-memory-checkbox" type="checkbox" title="Include setting with Memory in PSP"
+                                {{#compare (lookupPspMetadata 'memory' this @../key ../../../../options.appUri) "===" true}}
+                                    checked="true"
+                                {{/compare}}
+                                />
+                        </td>
+                        <!-- end if psp options -->
+
                         <td class="pmt-value-display" data-name="{{../schema.title}}" data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
                             {{#compare (lookupProductPrefValue this ../../../../options.appUri @../key) "===" undefined}}
                                 data-value=""><span> -- </span>
@@ -83,23 +99,7 @@
                                 data-value="{{lookupProductPrefValue this ../../../../options.appUri @../key}}"><span>{{lookupProductPrefValue this ../../../../options.appUri @../key}}</span>
                             {{/compare}}
                         </td>
-                        <!-- if psp options -->
-                        <td>
-                            <input data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}" class="pmt-psp-show-checkbox" type="checkbox"
-                                {{#compare (lookupPspMetadata 'show' this @../key ../../../../options.appUri) "===" true}}
-                                    checked="true"
-                                {{/compare}}
-                                />
-                        </td>
-                        <td>
-                            <input data-context="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}" class="pmt-psp-memory-checkbox" type="checkbox"
-                                {{#compare (lookupPspMetadata 'memory' this @../key ../../../../options.appUri) "===" true}}
-                                    checked="true"
-                                {{/compare}}
-                                />
-                        </td>
-                        <!-- end if psp options -->
-                        {{/each}}
+                       {{/each}}
                     </tr>
                     {{/each}}
                 {{/each}}

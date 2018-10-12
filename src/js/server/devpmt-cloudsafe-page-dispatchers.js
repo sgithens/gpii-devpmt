@@ -80,7 +80,6 @@ gpii.devpmt.createAnonSafeHandler.handleRequest = function (that, devpmt, req, r
     if (req.method === "POST") {
         var prefsetName = req.body.username;
         var prefsetPassword = req.body.password;
-        // gpii.devpmt.addNPSet(devpmt.prefSetDataSource, prefsetName);
         var prom = gpii.devpmt.safemgmt.createAnonSafe(prefsetName, prefsetPassword);
         prom.then(function () {
             req.session.loggedInToSafe = prefsetName;
@@ -135,7 +134,7 @@ gpii.devpmt.mySafeHandler.handleRequest = function (that, req, res, next) {
 };
 
 gpii.devpmt.mySafeHandler.contextPromise = function (that, devpmt, req) {
-    return fluid.promise.map(devpmt.prefSetDataSource.get({prefsSafeId: req.session.loggedInToSafe}), function (data) {
+    return fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.session.loggedInToSafe}), function (data) {
         var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.preferences, "flat");
         var prefset = gpii.devpmt.npset({
             npsetName: req.params.npset,

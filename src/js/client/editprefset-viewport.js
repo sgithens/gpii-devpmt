@@ -76,11 +76,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
 
 
         npsetName: "{that}.options.npset.options.npsetName",  // ""
-        flatPrefs: "{that}.options.npset.options.flatPrefs",  // {}
+        flatPrefs: "{that}.options.prefsSafe.preferences.flat",  // {}
         commonTerms: "{that}.options.commonTerms",            // []
         commonTermsSorted: [],
         contextNames: [],
-        npsetApplications: "@expand:gpii.devpmt.npsetApplications({that}.options.npset.options.flatPrefs)", // []
+        npsetApplications: "@expand:gpii.devpmt.npsetApplications({that}.options.prefsSafe.preferences.flat)", // []
         allSolutions: "{that}.options.allSolutions", // {}
 
         unsavedChangesExist: false,
@@ -125,15 +125,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // and data for a dialog can change between instances, such as adding
         // different products to an NP Set, and presenting an confirm dialog
         // each time.
-        //
-        // notes: I had initially wanted to do this, by passing options to the
-        // createOnEvent firing to create the deffered component, but it didn't
-        // appear that I could get to the parameters being passed to the fire
-        // method. In some ways though, it does make sense to track the state of
-        // the entire page on this model, including the active dialog, for a
-        // future scenerio where we want to be able to continue after a page
-        // reload, or implement time-travel behavior to re-render back to any
-        // point in time.
         activeModalDialog: {}
     },
     events: {
@@ -286,6 +277,20 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 }
             }
         },
+        tableOfContents: {
+            type: "gpii.devpmt.editPrefsTocWidget",
+            createOnEvent: "onMarkupRendered",
+            container: "{that}.dom.tableOfContentsContainer",
+            options: {
+                selectors: {
+                    initial: "#pmt-editPrefsTOC-widget"
+                },
+                model: {
+                    allSolutions: "{gpii.devpmt.editPrefs}.model.allSolutions",
+                    npsetApplications: "{gpii.devpmt.editPrefs}.model.npsetApplications"
+                }
+            }
+        },
         productList: {
             type: "gpii.devpmt.productListWidget",
             createOnEvent: "onMarkupRendered",
@@ -422,6 +427,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         modalDialogRender: "#pmt-modal-dialog-render",
         topNavBar: "#pmt-topNavBar-container",
         editWidgetSidebar: "#pmt-editwidget-sidebar",
+        tableOfContentsContainer: "#pmt-editPrefsTOC-container",
         productListContainer: "#pmt-productList-container",
         prefsSafeInfoContainer: "#pmt-prefsSafeInfo-container",
         prefsSafeKeysListContainer: "#pmt-prefsSafeKeysList-container",

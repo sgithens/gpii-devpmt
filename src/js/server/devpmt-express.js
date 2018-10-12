@@ -196,10 +196,10 @@ fluid.defaults("gpii.devpmt", {
         sessionMiddleware: {
             type: "gpii.express.middleware.session",
             options: {
-                // middlewareOptions: {
-                //     store: "@expand:gpii.devpmt.redisStore()",
-                //     secret: "TODO Override"
-                // }
+                middlewareOptions: {
+                    // store: "@expand:gpii.devpmt.redisStore()",
+                    secret: "TODO Override"
+                }
             }
         },
         foundationRouter: {
@@ -356,6 +356,23 @@ fluid.defaults("gpii.devpmt", {
                 solutionsDir: "{gpii.devpmt}.options.solutionsDirectory"
             }
         },
+        fullPrefSetDataSource: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/prefssafe-with-keys/%prefsSafeId", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
+                termMap: {
+                    prefsSafeId: "%prefsSafeId"
+                },
+                writable: false
+            }
+        },
         prefSetDataSource: {
             //TODO there seems to be an issue which calling higher level
             //ports, for instance this wouldn't work if the prefserver was on 9081...
@@ -364,7 +381,7 @@ fluid.defaults("gpii.devpmt", {
                 url: {
                     expander: {
                         funcName: "fluid.stringTemplate",
-                        args: ["%prefsServerURL/prefssafe-with-keys/%prefsSafeId", {
+                        args: ["%prefsServerURL/prefssafe/%prefsSafeId", {
                             prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
                         }]
                     }
