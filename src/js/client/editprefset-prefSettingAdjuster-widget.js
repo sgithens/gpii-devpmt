@@ -21,12 +21,15 @@ fluid.registerNamespace("gpii.devpmt.prefSettingAdjuster");
  */
 
 fluid.defaults("gpii.devpmt.prefSettingAdjuster.valueInputToBinder", {
-    gradeNames: ["fluid.standardTransformFunction"]
+    gradeNames: ["fluid.standardTransformFunction", "fluid.multiInputTransformFunction"],
+    inputVariables: {
+        schema: null
+    }
 });
 
-gpii.devpmt.prefSettingAdjuster.valueInputToBinder = function (value) {
-    var adjuster = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.prefSettingAdjuster")[0];
-    if (adjuster.model.metadata.schema.type === "boolean") {
+gpii.devpmt.prefSettingAdjuster.valueInputToBinder = function (value, options) {
+    var schema = options.schema().model.metadata.schema;
+    if (schema.type === "boolean") {
         return value ? ["on"] : [];
     }
     else {
@@ -35,12 +38,15 @@ gpii.devpmt.prefSettingAdjuster.valueInputToBinder = function (value) {
 };
 
 fluid.defaults("gpii.devpmt.prefSettingAdjuster.binderToValueInput", {
-    gradeNames: ["fluid.standardTransformFunction"]
+    gradeNames: ["fluid.standardTransformFunction", "fluid.multiInputTransformFunction"],
+    inputVariables: {
+        schema: null
+    }
 });
 
-gpii.devpmt.prefSettingAdjuster.binderToValueInput = function (value) {
-    var adjuster = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.prefSettingAdjuster")[0];
-    if (adjuster.model.metadata.schema.type === "boolean") {
+gpii.devpmt.prefSettingAdjuster.binderToValueInput = function (value, options) {
+    var schema = options.schema().model.metadata.schema;
+    if (schema.type === "boolean") {
         return value.length > 0;
     }
     else {
@@ -103,7 +109,8 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
                     "": {
                         transform: {
                             type: "gpii.devpmt.prefSettingAdjuster.binderToValueInput",
-                            inputPath: ""
+                            inputPath: "",
+                            schema: "{that}"
                         }
                     }
                 },
@@ -111,7 +118,8 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
                     "": {
                         transform: {
                             type: "gpii.devpmt.prefSettingAdjuster.valueInputToBinder",
-                            inputPath: ""
+                            inputPath: "",
+                            schema: "{that}"
                         }
                     }
                 }
