@@ -6,32 +6,30 @@ var gpii  = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt.safemgmt");
 
 /**
- * Creates a new Cloud Safe Login for a user, by creating a gpiiKey and 
+ * Creates a new Cloud Safe Login for a user, by creating a gpiiKey and
  * then a gpii-express-user account that will be tied to that login.
  *
  */
 gpii.devpmt.safemgmt.createCloudSafeLogin = function (devpmt, prefsSafeId, loginName, email, password) {
 
-var gpiiExpressEntry = devpmt.gpiiExpressUserApi.createNewUser(loginName, email, password);
+    var gpiiExpressEntry = devpmt.gpiiExpressUserApi.createNewUser(loginName, email, password);
+    var keyData = {
+        type: "gpiiKey",
+        schemaVersion: "0.1",
+        prefsSafeId: prefsSafeId,
+        revoked: false,
+        revokedReason: null,
+        timestampCreated: null,
+        timestampUpdated: null,
 
-var keyData = {
-    type: "gpiiKey",
-    schemaVersion: "0.1",
-    prefsSafeId: prefsSafeId,
-    revoked: false,
-    revokedReason: null,
-    timestampCreated: null,
-    timestampUpdated: null,
+        access: "login",
+        keyType: "gpiiExpressUser",
+        gpiiExpressUserId: gpiiExpressEntry._id
+    };
 
-    access: "login",
-    keyType: "gpiiExpressUser",
-    gpiiExpressUserId: gpiiExpressEntry._id
-};
+    var prom = devpmt.prefsSafeKeyCreationDataSource.set({}, keyData);
 
-var prom = devpmt.prefsSafeKeyCreationDataSource.set({}, keyData);
-
-return prom;
-
+    return prom;
 };
 
 

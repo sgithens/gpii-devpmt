@@ -168,14 +168,34 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         },
         {
             func: "{that}.updateBlankDisabling"
+        },
+        {
+            funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
+            args: ["{that}"]
         }]
     },
     modelListeners: {
         "current.blank": {
             func: "{that}.updateBlankDisabling"
-        }
+        },
+        "current.value": [{
+            funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
+            args: ["{that}"]
+        }]
     }
 });
+
+gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (that) {
+    // if (that.model.metadata.schema.type === "boolean") {
+    jQuery("#pmt-boolean-value").css("display","inline");
+    jQuery("#pmt-boolean-value").css("color","black");
+    if (that.model.current.value === true)  {
+        jQuery("#pmt-boolean-value").html("true");
+    }
+    else if (that.model.current.value === false) {
+        jQuery("#pmt-boolean-value").html("false");
+    }
+};
 
 /**
  * Updates the UI based on whether Blank is selected.

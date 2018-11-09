@@ -1,4 +1,4 @@
-/* global saveAs */
+/* global saveAs, Foundation */
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");
@@ -533,6 +533,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             },
             {
                 func: "{that}.initSettingTableWidgets"
+            },
+            {
+                func: "gpii.devpmt.startFoundationAccordian",
+                args: []
             }
         ]
     },
@@ -967,6 +971,9 @@ gpii.devpmt.npsetInit = function (that) {
     $(window).bind("beforeunload", function () {
         return that.model.unsavedChangesExist ? true : undefined;
     });
-
 };
 
+gpii.devpmt.startFoundationAccordian = function () {
+    var elem = jQuery("#pmt-sidebar-accordian");
+    var accordian = new Foundation.Accordion(elem);
+};

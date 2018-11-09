@@ -9,7 +9,7 @@ gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
     if (req.session.loggedInToPPT) {
         return true;
     }
-    res.status("401").redirect("/pptlogin");
+    res.status("401").redirect("/");
 };
 
 /**
@@ -34,12 +34,13 @@ fluid.defaults("gpii.devpmt.dispatchers.index", {
     }
 });
 
-gpii.devpmt.dispatchers.index.contextPromise = function (that, devpmt /*, req */) {
+gpii.devpmt.dispatchers.index.contextPromise = function (that, devpmt, req) {
     var promTogo = fluid.promise();
     var prefsSafesProm = devpmt.prefsSafesListingDataSource.get();
     prefsSafesProm.then(function (data) {
         promTogo.resolve({
-            prefsSafesList: data
+            prefsSafesList: data.rows,
+            perms: req.session.perms
         });
     });
     return promTogo;
@@ -50,6 +51,9 @@ fluid.defaults("gpii.devpmt.ppt.loginHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     defaultTemplate: "ppt-login",
     method: "use",
+    // list of extra permissions to be added to session on successful login
+    permissions: {
+    },
     invokers: {
         checkAuthorization: {
             funcName: "gpii.devpmt.ppt.loginHandler.checkAuthorization",
@@ -63,24 +67,26 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
         return true;
     }
     //TODO Move to gpii-couch-user
-    if (req.body.username === 'morphic' && req.body.password === 'gpii') {
+    if (req.body.username === "morphic" && req.body.password === "gpii") {
         req.session.loggedInToPPT = true;
+        req.session.perms = that.options.permissions;
         res.redirect("/ppt");
     }
     else {
-        res.redirect("/pptlogin");
+        res.redirect("/");
     }
     return false;
 
     var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
-    loginProm.then(function (data) {
+    loginProm.then(function (/* data */) {
         console.log("LoginProm: ", loginProm.value);
         if (loginProm.value.isError) {
             // return true;
-            res.redirect("/pptlogin");
+            res.redirect("/");
         }
         if (loginProm.value.roles.includes("ppt_admin")) {
             req.session.loggedInToPPT = true;
+            req.session.perms = that.options.permissions;
             res.redirect("/ppt");
             // return false;
         }
@@ -92,6 +98,17 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
     });
     return false;
 };
+
+fluid.defaults("gpii.devpmt.ppt.devLoginHandler", {
+    gradeNames: ["gpii.devpmt.ppt.loginHandler"],
+    permissions: {
+        listSafes: true
+    }
+});
+
+fluid.defaults("gpii.devpmt.ppt.supportLoginHandler", {
+    gradeNames: ["gpii.devpmt.ppt.loginHandler"]
+});
 
 fluid.defaults("gpii.devpmt.ppt.logoutHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
@@ -110,7 +127,7 @@ gpii.devpmt.ppt.logoutHandler.checkAuthorization = function (that, req, res /*, 
         if (err) {
             res.status(500).send(err);
         }
-        res.redirect("/pptlogin");
+        res.redirect("/");
     });
     return false;
 };
@@ -159,7 +176,7 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
 gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
     var promTogo = fluid.promise();
     fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.params.npset}), function (data) {
-        if (!data) {
+        if (!data.prefsSafe) {
             promTogo.reject({
                 isError: true,
                 message: "Couldn't find preferences safe."
@@ -201,7 +218,7 @@ fluid.defaults("gpii.devpmt.savePrefsetHandler", {
     }
 });
 
-gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
+gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req /* res , next */) {
     if (gpii.devpmt.ppt.loginHandler.checkAuthorization) {
         var prom = devpmt.prefSetDataSource.set({prefsSafeId: req.params.npset}, req.body);
         prom.then(req.events.onSuccess.fire, req.events.onError.fire);
@@ -232,8 +249,33 @@ gpii.devpmt.addPrefsetFormHandler.handleRequest = function (that, devpmt, req, r
             }
         }
     });
-    prefsPromise.then(function (data) {
+    prefsPromise.then(function (/* data */) {
         res.redirect("/ppt"); //"/editprefs/" + prefsetName);
     });
 
+};
+
+// PPT Preference Safe Search Lookup
+fluid.registerNamespace("gpii.devpmt.lookupFormHandler");
+
+fluid.defaults("gpii.devpmt.lookupFormHandler", {
+    gradeNames: ["gpii.express.middleware"],
+    path: ["/ppt-lookup"],
+    invokers: {
+        middleware: {
+            funcName: "gpii.devpmt.lookupFormHandler.handleRequest",
+            args: ["{that}", "{devpmt}", "{arguments}.0", "{arguments}.1" /*, "{arguments}.2" */]
+        }
+        //TODO Auth check
+    }
+});
+
+gpii.devpmt.lookupFormHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
+    if (req.method !== "POST") {
+        res.redirect("/ppt");
+    }
+    else {
+        var prefsSafeId = req.body.lookup;
+        res.redirect("/editprefs/" + prefsSafeId);
+    }
 };

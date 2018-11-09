@@ -4,40 +4,24 @@ https://jwoaql.axshare.com/#g=1&p=sign_up_from_nothing
 -->
 
 <article class="grid-container">
+    {{> morphic-mymorphic-banner}}
     <div class="grid-x grid-margin-x">
-        <div class="medium-7 large-6 cell">
-            <h2>Create a GPII Cloud-Safe</h1>
-            <p> 
-                A GPII Cloud-Safe will store your needs and preference settings.
-
-                Any time you want to use your settings on a computer, you can just use your Key (without signing in). You can also sign into the computer if that is more convenient.
-
-                By creating and signing into your Cloud Safe, you can:
-                <ul>
-                    <li>Make changes to your settings</li>
-                    <li>Manage Keys and create duplicates</li>
-                    <li>Share parts of your settings with others</li>
-                </ul>
-            </p>
-            <a href="/create/anonsafe" class="button">Sign up for a GPII Cloud-Safe</a>
-        </div>
-        <div class="medium-5 large-3 cell">
-            <div class="callout secondary">
-                <h2>Already have a Cloud-Safe? Sign in!</h2>
-                <form action="/cloudsafelogin" method="POST">
-                    <div class="grid-x">
-                        <div class="small-12 cell">
-                            <label>Cloud-Safe Name or E-mail
-                                <input name="username" type="text" placeholder="" />
-                            </label>
-                            <label>Password
-                                <input name="password" type="password" placeholder="" />
-                            </label>
-                            <button type="submit" class="button">Sign In</button>
-                        </div>
+        <div class="medium-4 large-3 cell">
+            <h2>Sign in</h2>
+            <p>or <a href="/morphic/create/safe">create an account</a>
+            <form autocomplete="off" action="/morphic/login" method="POST">
+                <div class="grid-x">
+                    <div class="small-12 cell">
+                        <label>Email or account name
+                            <input name="username" type="text" placeholder="" />
+                        </label>
+                        <label>Password
+                            <input name="password" type="password" placeholder="" />
+                        </label>
+                        <button type="submit" class="button">Sign In</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </article>

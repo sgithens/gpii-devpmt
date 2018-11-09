@@ -1,59 +1,7 @@
-<p>
-DEMO: This is a demo/prototype of personal cloudsafe functionality. 
-Currently only the cloudsafe name and first password field are used on
-this page to create the demo anonymous safe.
-</p>
-<article class="grid-container">
-    <div class="grid-x grid-margin-x">
-        <div class="medium-7 large-6 cell">
-            <h2><img src="/src/images/gpii-gear.svg" />Create a new anonymous GPII Account</h2>
-            <div>
-                <img src="/src/images/anon-guy.png" />
-                <p>
-                Do NOT forget your Safe Name or Password with an anonymous account.
-                </p>
+{{>editprefset-widget-includes}}
+<script src="/src/js/client/editprefset-viewport.js"></script>
+<script src="/src/js/client/morphic-create-safe-viewport.js"></script>
 
-                <p>
-                If you forget either one. You will not be able to make changes to your needs and preferences. You also will not be able to add any extra Keys.
-                </p>
-            </div>
-            <form action="/create/anonsafe" method="POST">
-                <div class="grid-x">
-                    <div class="small-12 cell">
-                        <label>Cloud-Safe Name
-                            <input name="username" type="text" placeholder="" />
-                        </label>
-                        <label>Password
-                            <input name="password" type="password" placeholder="" />
-                        </label>
-                        <label>Re-type Password
-                            <input name="confirm-password" type="password" placeholder="" />
-                        </label>
-                        <input id="accept-gpii-toc" type="checkbox" />
-                        <label for="accept-gpii-toc">I accept the Terms of use for GPII Auto-personalization.</label><br/>
-                        <input id="accept-gpii-toc" type="checkbox" />
-                        <label for="accept-gpii-toc">I accept the Terms of use for GPII Auto-personalization.</label><br/>
-                        <button type="submit" class="button">Continue</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+<div id="morphic-create-safe-viewport" class="column" />
 
-        <div>
-            <div>
-            <p>Your Cloud-Safe Name has to be longer than 8 characters and must be unique.</p>
-            </div>
-            <div>
-            <p>
-            This password protects your needs and preferences from being  viewed or changed by others. You must use a strong password that has at least 8 characters.
-            </p>
-            <p>
-            If you want to create a stronger password, we recommend using an easy-to-remember phrase or sentence.
-            </p>
-            </div>
-            <div>
-                In order to use GPII Auto-personalization, you need to accept 2 terms of use documents. These describe what data we need to provide auto-personalization and the purposes for which you may use the service.
-            </div>
-        </div>
-    </div>
-</article>
+{{{initBlock "gpii.devpmt.morphic.createSafeViewport"}}}

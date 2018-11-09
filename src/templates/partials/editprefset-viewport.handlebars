@@ -28,13 +28,22 @@
 <br/>
 <div class="grid-x expanded" id="all-prefs">
     <div class="medium-2 cell">
-        <div id="pmt-editPrefsTOC-container">
-            <div id="pmt-editPrefsTOC-widget"></div>
-        </div>
-        <div id="pmt-productList-container">
-            <div id="pmt-productList-widget"></div>
-        </div>
+        <ul id="pmt-sidebar-accordian" class="accordion" data-multi-expand="true" data-allow-all-closed="true" data-accordion>
+            <li class="accordion-item is-active" data-accordion-item>
+                <a href="#" class="accordion-title">Safe Contents</a>
+                <div id="pmt-editPrefsTOC-container" class="accordion-content" data-tab-content>
+                        <div id="pmt-editPrefsTOC-widget"></div>
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Add Product</a>
+                <div id="pmt-productList-container" class="accordion-content" data-tab-content>
+                        <div id="pmt-productList-widget"></div>
+                </div>
+            </li>
+        </ul>
     </div>
+
     <div id="settings-divs" class="medium-7 cell">
         <div id="pmt-prefsSafeInfo-container">
             <a id="pmt-prefsSafeInfo-anchor"></a>

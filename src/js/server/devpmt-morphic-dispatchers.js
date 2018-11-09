@@ -3,31 +3,31 @@
 var fluid = require("infusion");
 var gpii  = fluid.registerNamespace("gpii");
 
-
 // URLPATH /login
-fluid.defaults("gpii.devpmt.loginToSafeHandler", {
+fluid.defaults("gpii.devpmt.morphic.loginToSafeHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     method: "use",
-    defaultTemplate: "login",
+    defaultTemplate: "morphic-login",
     invokers: {
         middleware: {
-            funcName: "gpii.devpmt.loginToSafeHandler.handleRequest",
+            funcName: "gpii.devpmt.morphic.loginToSafeHandler.handleRequest",
             args: ["{that}", "{gpii.devpmt}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
         }
     }
 });
 
-gpii.devpmt.loginToSafeHandler.handleRequest = function (that, devpmt, req, res, next) {
+gpii.devpmt.morphic.loginToSafeHandler.handleRequest = function (that, devpmt, req, res, next) {
     if (req.method === "POST") {
-        var promise = gpii.devpmt.safemgmt.loginToSafe(devpmt, req.body.username, req.body.password);
-        promise.then(function (safe) {
-            if (!safe.error) {
-                req.session.loggedInToSafe = safe._id;
-                res.redirect("/mycloudsafe");
-            }
-            else {
-                res.redirect("/cloudsafelogin");
-            }
+        var unlockProm = devpmt.cloudSafeUnlockDataSource.set({}, {
+            username: req.body.username,
+            password: req.body.password
+        });
+        unlockProm.then(function (data) {
+            req.session.loggedInToSafe = data.id;
+            res.redirect("/morphic/safe");
+        }, function (err) {
+            fluid.log(err);
+            res.redirect("/morphic/login");
         });
         return;
     }
@@ -35,66 +35,97 @@ gpii.devpmt.loginToSafeHandler.handleRequest = function (that, devpmt, req, res,
 };
 
 // URLPATH /logout
-fluid.defaults("gpii.devpmt.logoutFromSafeHandler", {
+fluid.defaults("gpii.devpmt.morphic.logoutFromSafeHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     method: "use",
-    defaultTemplate: "cloudsafe-logout",
+    defaultTemplate: "morphic-logout",
     invokers: {
         middleware: {
-            funcName: "gpii.devpmt.logoutFromSafeHandler.handleRequest",
+            funcName: "gpii.devpmt.morphic.logoutFromSafeHandler.handleRequest",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
         }
     }
 });
 
-gpii.devpmt.logoutFromSafeHandler.handleRequest = function (that, req, res /*, next */) {
+gpii.devpmt.morphic.logoutFromSafeHandler.handleRequest = function (that, req, res /*, next */) {
     req.session.destroy(function (err) {
         if (err) {
             res.status(500).send(err);
         }
-        res.redirect("/cloudsafelogin");
+        res.redirect("/morphic/login");
     });
 };
 
-// URLPATH /create/anonsafe
-fluid.defaults("gpii.devpmt.createAnonSafeHandler", {
+fluid.defaults("gpii.devpmt.morphic.createSafeHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
-    path: ["/create/anonsafe"],
     method: "use",
-    defaultTemplate: "create-anon-safe",
+    defaultTemplate: "morphic-create-safe",
     invokers: {
         middleware: {
-            funcName: "gpii.devpmt.createAnonSafeHandler.handleRequest",
+            funcName: "gpii.devpmt.morphic.createSafeHandler.handleRequest",
             args: ["{that}", "{gpii.devpmt}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
         }
     }
 });
 
-gpii.devpmt.createAnonSafeHandler.handleRequest = function (that, devpmt, req, res, next) {
+gpii.devpmt.morphic.createSafeHandler.handleRequest = function (that, devpmt, req, res, next) {
     // If you're already logged in redirect to your safe
     if (req.session.loggedInToSafe) {
-        res.redirect("/mysafe");
+        res.redirect("/morphic/safe");
         return;
     }
     // Try and create a new safe, TODO update for GPII-2630 schema changes.
     if (req.method === "POST") {
         var prefsetName = req.body.username;
         var prefsetPassword = req.body.password;
-        var prom = gpii.devpmt.safemgmt.createAnonSafe(prefsetName, prefsetPassword);
-        prom.then(function () {
-            req.session.loggedInToSafe = prefsetName;
-            res.redirect("/mysafe");
+        var prom = devpmt.prefsSafeCreationDataSource.set({prefsSafeId: prefsetName}, {
+            "flat": {
+                "name": "Default Morphic",
+                "contexts": {
+                    "gpii-default": {
+                        "name": "Default preferences",
+                        "preferences": {}
+                    }
+                }
+            }
         });
-        return;
+        prom.then(function (data) {
+            console.log("Data: ", data);
+            var prefsSafeId = data.prefsSafeId;
+            var createCloudCredProm = devpmt.cloudSafeCredCreateDataSource.set({prefsSafeId: prefsSafeId}, {
+                username: prefsetName,
+                password: prefsetPassword
+            });
+            createCloudCredProm.then(function (credPromData) {
+                console.log("credPromData: ", credPromData);
+                req.session.loggedInToSafe = data.prefsSafeId;
+                res.redirect("/morphic/safe");
+            }, function (credPromErr) {
+                console.log("credPromErr: ", credPromErr);
+                res.redirect("/morphic/create/safe");
+            });
+        }, function (err) {
+            console.log("Err: ", err);
+        });
+
+
+        // var prom = gpii.devpmt.safemgmt.createAnonSafe(prefsetName, prefsetPassword);
+        // prom.then(function () {
+            // req.session.loggedInToSafe = prefsetName;
+            // res.redirect("/morphic/safe");
+        // });
+        // return;
     }
-    gpii.devpmt.baseDispatcher.middleware(that, req, res, next);
+    else {
+        gpii.devpmt.baseDispatcher.middleware(that, req, res, next);
+    }
 };
 
 // URLPATH /mysafe
-fluid.defaults("gpii.devpmt.mySafeHandler", {
+fluid.defaults("gpii.devpmt.morphic.mySafeHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     method: "get",
-    defaultTemplate: "mysafe",
+    defaultTemplate: "morphic-mysafe",
     rules: {
         contextToExpose: {
             commonTerms: {
@@ -115,27 +146,59 @@ fluid.defaults("gpii.devpmt.mySafeHandler", {
     },
     invokers: {
         middleware: {
-            funcName: "gpii.devpmt.mySafeHandler.handleRequest",
+            funcName: "gpii.devpmt.morphic.mySafeHandler.handleRequest",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // req, res, next
         },
         contextPromise: {
-            funcName: "gpii.devpmt.mySafeHandler.contextPromise",
+            funcName: "gpii.devpmt.morphic.mySafeHandler.contextPromise",
             args: ["{that}", "{devpmt}", "{arguments}.0"]
         }
     }
 });
 
-gpii.devpmt.mySafeHandler.handleRequest = function (that, req, res, next) {
+gpii.devpmt.morphic.mySafeHandler.handleRequest = function (that, req, res, next) {
     if (!req.session.loggedInToSafe) {
-        res.status(403).send("Not logged in");
+        res.redirect("/morphic/login");
+        // res.status(403).send("Not logged in");
         return;
     }
     gpii.devpmt.baseDispatcher.middleware(that, req, res, next);
 };
 
-gpii.devpmt.mySafeHandler.contextPromise = function (that, devpmt, req) {
+gpii.devpmt.morphic.mySafeHandler.contextPromise = function (that, devpmt, req) {
+    var promTogo = fluid.promise();
+    fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.session.loggedInToSafe}), function (data) {
+        if (!data) {
+            promTogo.reject({
+                isError: true,
+                message: "Couldn't find preferences safe."
+            });
+            return;
+        };
+        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
+        var prefset = gpii.devpmt.npset({
+            npsetName: req.params.npset,
+            flatPrefs: npset,
+            docs: ""
+        });
+        // This data is coming from a convenience endpoint that includes
+        // the keys, but when we go back to save the prefset they would be in their
+        // own documents, so we are removing the keys to a separate data
+        // field here to make life easier in the frontend.
+        var prefsSafe = data.prefsSafe;
+        var keys = data.keys;
+        promTogo.resolve({
+            npset: prefset,
+            prefsSafe: prefsSafe,
+            keys: keys
+        });
+    });
+    return promTogo;
+
+
+
     return fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.session.loggedInToSafe}), function (data) {
-        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.preferences, "flat");
+        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
         var prefset = gpii.devpmt.npset({
             npsetName: req.params.npset,
             flatPrefs: npset,

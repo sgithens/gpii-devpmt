@@ -1,10 +1,12 @@
-<h1>Personal Cloudsafe</h1>
-<a href="/logout">Log out of safe</a>
-
 {{>editprefset-widget-includes}}
+<script src="/src/js/client/morphic-safe.js"></script>
+
+{{>morphic-mymorphic-banner}}
+<a href="/morphic/logout">Log out of safe</a>
+
 
 <script src="/src/js/client/editprefset-viewport.js"></script>
 
     <div id="pmt-editprefset-viewport" class="column" />
 
-{{{initBlock "gpii.devpmt.editPrefs"}}}
+{{{initBlock "gpii.devpmt.morphic.editsafe"}}}

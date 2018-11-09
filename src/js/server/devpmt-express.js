@@ -144,7 +144,7 @@ fluid.defaults("gpii.devpmt.express.base", {
 });
 
 gpii.devpmt.redisStore = function () {
-    return new RedisStore({})
+    return new RedisStore({});
 };
 
 /**
@@ -154,8 +154,8 @@ gpii.devpmt.redisStore = function () {
 var thePort = process.env.PORT || 8085;
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.devpmt.express.base", "fluid.modelComponent"],
-    // prefsServerURL: "http://localhost:5000",
-    prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
+    prefsServerURL: "http://localhost:5000",
+    // prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
     port: thePort,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     // solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
@@ -231,7 +231,7 @@ fluid.defaults("gpii.devpmt", {
                     userDbName: "gpii",
                     userDbUrl: "http://localhost:5984/gpii"
                 }
-            },
+            }
         },
         // For some reason the above don't work if from a sub grade, GPII-3000
         dispatcher: {
@@ -259,12 +259,6 @@ fluid.defaults("gpii.devpmt", {
         /*
          * Page Dispatchers, see devpmt-page-dispatchers.js
          */
-        pptLoginHandler: {
-            type: "gpii.devpmt.ppt.loginHandler",
-            options: {
-                path: "/pptlogin"
-            }
-        },
         pptLogoutHandler: {
             type: "gpii.devpmt.ppt.logoutHandler",
             options: {
@@ -302,6 +296,12 @@ fluid.defaults("gpii.devpmt", {
                 path: "/add-prefset"
             }
         },
+        lookupFormHandler: {
+            type: "gpii.devpmt.lookupFormHandler",
+            options: {
+                path: "/ppt-lookup"
+            }
+        },
         htmlErrorHandler: {
             type: "gpii.handlebars.errorRenderingMiddleware",
             options: {
@@ -310,31 +310,48 @@ fluid.defaults("gpii.devpmt", {
             }
         },
 
+        // Dev/Testing Login Endpoints
+        pptDevLoginHandler: {
+            type: "gpii.devpmt.ppt.devLoginHandler",
+            options: {
+                path: "/ppt/dev/login"
+            }
+        },
+
+        pptSupportLoginHandler: {
+            type: "gpii.devpmt.ppt.supportLoginHandler",
+            options: {
+                path: "/ppt/support/login"
+            }
+        },
+
+        // Admin Support Login Endpoints
+
         // Personal CloudSafes Endpoints
         // TODO: Factor these out, as well as the ppt ones above
         // to their own grades once we fix the express issues
         loginToSafeHandler: {
-            type: "gpii.devpmt.loginToSafeHandler",
+            type: "gpii.devpmt.morphic.loginToSafeHandler",
             options: {
-                path: "/cloudsafelogin"
+                path: "/morphic/login"
             }
         },
         logoutFromSafeHandler: {
-            type: "gpii.devpmt.logoutFromSafeHandler",
+            type: "gpii.devpmt.morphic.logoutFromSafeHandler",
             options: {
-                path: "/cloudsafelogout"
+                path: "/morphic/logout"
             }
         },
         mysafeHandler: {
-            type: "gpii.devpmt.mySafeHandler",
+            type: "gpii.devpmt.morphic.mySafeHandler",
             options: {
-                path: "/mycloudsafe"
+                path: "/morphic/safe"
             }
         },
         createAnonSafeHandler: {
-            type: "gpii.devpmt.createAnonSafeHandler",
+            type: "gpii.devpmt.morphic.createSafeHandler",
             options: {
-                path: "/create/cloudsafe"
+                path: "/morphic/create/safe"
             }
         },
 
@@ -454,13 +471,31 @@ fluid.defaults("gpii.devpmt", {
                 }
             }
         },
-        unlockSafeDataSource: {
+        cloudSafeCredCreateDataSource: {
             type: "kettle.dataSource.URL",
             options: {
                 url: {
                     expander: {
                         funcName: "fluid.stringTemplate",
-                        args: ["%prefsServerURL/unlock-cloudsafe", {
+                        args: ["%prefsServerURL/add-cloud-credentials/%prefsSafeId", {
+                            prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
+                        }]
+                    }
+                },
+                termMap: {
+                    prefsSafeId: "%prefsSafeId"
+                },
+                writable: true,
+                writeMethod: "PUT"
+            }
+        },
+        cloudSafeUnlockDataSource: {
+            type: "kettle.dataSource.URL",
+            options: {
+                url: {
+                    expander: {
+                        funcName: "fluid.stringTemplate",
+                        args: ["%prefsServerURL/unlock-cloud-safe", {
                             prefsServerURL: "{gpii.devpmt}.options.prefsServerURL"
                         }]
                     }

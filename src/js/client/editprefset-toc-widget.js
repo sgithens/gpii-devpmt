@@ -6,7 +6,7 @@
  * currently added to the site.  Meant to appear on the left hand side as a sort
  * of table of contents.
  */
- "use strict";
+"use strict";
 
 var gpii  = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");

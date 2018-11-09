@@ -28,13 +28,14 @@
                                 <input class="switch-input" id="pmt-new-value" type="checkbox" name="pmt-new-value" />
                             {{/if}}
                             <label class="switch-paddle" for="pmt-new-value">
-                                <span class="show-for-sr">Value 1</span>
-                                <span class="switch-active" aria-hidden="true">
-                                    {{{message "gpii_pmt_booleanSettingOn"}}}</span>
-                                <span class="switch-inactive" aria-hidden="true">
-                                    {{{message "gpii_pmt_booleanSettingOff"}}}
-                                </span>
+                                <!-- <span class="show-for-sr">Value 1</span> -->
+                                <!-- <span class="switch-active" aria-hidden="true"> -->
+                                    <!-- {{{message "gpii_pmt_booleanSettingOn"}}}</span> -->
+                                <!-- <span class="switch-inactive" aria-hidden="true"> -->
+                                    <!-- {{{message "gpii_pmt_booleanSettingOff"}}} -->
+                                <!-- </span> -->
                             </label>
+                            <span id="pmt-boolean-value">false</span>
                         </div>
                     {{else}}
                         {{! Assuming there is no schema information, or nothing we know how to handle. }}
