@@ -1,0 +1,13 @@
+<div class="callout small">
+    <ul>
+        <li><a href="#pmt-prefsSafeInfo-anchor">Overview Info</a></li>
+        <li><a href="#pmt-prefsSafeKeysList-anchor">Keys and Credentials</a></li>
+        <li><a href="#pmt-prefSetsList-anchor">Preference Sets</a></li>
+        <li><a href="#pmt-genericSettingsTable-anchor">Generic Settings</a></li>
+        {{#each renderList}}
+            <li>
+                <a href="#{{this.appId}}">{{this.name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
