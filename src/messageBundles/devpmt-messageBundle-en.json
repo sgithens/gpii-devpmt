@@ -1,8 +1,4 @@
-// Once we have the built in gpii-handlebars i18n this file will just
-// be a top level object of translations
-"use strict";
-
-var messages_en = {
+{
     "gpii_pmt_saveButton": "Save",
     "gpii_pmt_cancelButton": "Cancel",
 
@@ -26,5 +22,8 @@ var messages_en = {
     "gpii_pmt_editContextDialog_idLabel": "Preference Set ID",
     "gpii_pmt_editContextDialog_nameLabel": "Preference Set Name",
 
-    "gpii_pmt_settingsTable_includeApplication": "Include Application Settings"
-};
+    "gpii_pmt_settingsTable_includeApplication": "Include Application Settings",
+
+    "wow-dude": "Totally awesome"
+
+}

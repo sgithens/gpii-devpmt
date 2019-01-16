@@ -1,6 +1,10 @@
 /* eslint-env node */
 "use strict";
 
+var fluid = require("infusion");
+// Make sure we get a good copy of gpii-express
+fluid.require("gpii-express");
+
 
 require(__dirname + "/src/js/server/devpmt-express.js");
 require(__dirname + "/src/js/server/devpmt-datasources.js");

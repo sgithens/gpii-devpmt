@@ -256,6 +256,12 @@ fluid.defaults("gpii.devpmt", {
                 }
             }
         },
+        messageLoader: {
+            type: "gpii.handlebars.i18n.messageLoader",
+            options: {
+                messageDirs: "%gpii-devpmt/src/messageBundles"
+            }
+        },
         /*
          * Page Dispatchers, see devpmt-page-dispatchers.js
          */

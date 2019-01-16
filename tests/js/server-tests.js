@@ -34,8 +34,8 @@ fluid.defaults("gpii.tests.devpmt.server.caseHolder", {
                     name: "Devpmt Server Tests",
                     type: "test",
                     sequence: [
-                        { funcName: "gpii.tests.devpmt.server.loadCommonTermsMetadataTest" },
-                        { funcName: "gpii.tests.devpmt.server.loadTestDataNPSetsTest" },
+                        // { funcName: "gpii.tests.devpmt.server.loadCommonTermsMetadataTest" },
+                        // { funcName: "gpii.tests.devpmt.server.loadTestDataNPSetsTest" },
                         { funcName: "gpii.tests.devpmt.server.lunrCaseInsesitiveTest" }
                         // { funcName: "gpii.tests.devpmt.server.npsetLoadTest" },
                         // { funcName: "gpii.tests.devpmt.server.npsetApplicationsTest" }
@@ -104,7 +104,7 @@ gpii.tests.devpmt.server.makeTestProductIndex = function () {
         this.ref("id");
         this.field("name");
         this.field("appId");
-        this.b(0.01);
+        this.b(0.01); // lunr.js field length normalisation
 
         fluid.each(entries, function (sol) {
             idx.add({
@@ -128,4 +128,7 @@ gpii.tests.devpmt.server.lunrCaseInsesitiveTest = function () {
     jawsResults = gpii.devpmt.lunrListFilterSearch(index, "JAWS");
     jqUnit.assertEquals("ucase: There should be 1 result for JAWS", jawsResults.length, 1);
     jqUnit.assertEquals("ucase: The ref should be the JAWS ID", jawsResults[0].ref, "com.freedomscientific.jaws");
+};
+
+gpii.tests.devpmt.server.passwordCreateUnlockTest = function () {
 };
