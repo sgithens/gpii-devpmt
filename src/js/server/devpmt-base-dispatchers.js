@@ -31,14 +31,6 @@ fluid.defaults("gpii.devpmt.baseDispatcher", {
             funcName: "gpii.devpmt.baseDispatcher.checkAuthorization",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
         }
-    },
-    components: {
-        messageLoader: {
-            type: "gpii.handlebars.i18n.messageLoader",
-            options: {
-                messageDirs: "%gpii-devpmt/src/messageBundles"
-            }
-        }
     }
 });
 

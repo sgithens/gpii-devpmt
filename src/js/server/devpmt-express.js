@@ -164,6 +164,7 @@ fluid.defaults("gpii.devpmt", {
         onFsChange: null
     },
     model: {
+        messages: {},
         selectedDemoSets: {},
         solutions: {},
         npsetList: []
@@ -253,13 +254,25 @@ fluid.defaults("gpii.devpmt", {
                     "onFsChange.notifyExpress": {
                         func: "{gpii.devpmt}.events.onFsChange.fire"
                     }
+                },
+                components: {
+                    renderer: {
+                        options: {
+                            model: {
+                                messages: "{gpii.devpmt}.model.messages"
+                            }
+                        }
+                    }
                 }
             }
         },
         messageLoader: {
             type: "gpii.handlebars.i18n.messageLoader",
             options: {
-                messageDirs: "%gpii-devpmt/src/messageBundles"
+                messageDirs: "%gpii-devpmt/src/messageBundles",
+                model: {
+                    messages: "{gpii.devpmt}.model.messages"
+                }
             }
         },
         /*
@@ -275,7 +288,10 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.devpmt.baseDispatcher",
             options: {
                 path: "/",
-                defaultTemplate: "landing-page"
+                defaultTemplate: "landing-page",
+                model: {
+                    messageBundles: "{gpii.devpmt}.model.messageBundles"
+                }
             }
         },
         indexHandler: {

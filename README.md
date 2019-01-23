@@ -17,10 +17,10 @@ npm install
 
 # Running
 
-To run just the server on port 8080 run `node index.js`, and visit the following
-link in a browser `http://localhost:8080/prefs/alice`.
+To run just the server on port 8085 run `node index.js`, and visit the following
+link in a browser `http://localhost:8085/prefs/alice`.
 
-To run in electron app (at the time of writing still requires port 8080),
+To run in electron app (at the time of writing still requires port 8085),
 run `npm start`.
 
 # Development
