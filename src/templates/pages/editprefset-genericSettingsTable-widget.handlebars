@@ -30,11 +30,11 @@
                     {{#each contextNames}}
                         <th><!-- PSP --></th><th><!-- MEM --></th>
                         <th class="pmt-settingstable-value">
-                            {{{message "gpii_pmt_contextNameLabel" (lookup (lookup ../flatPrefs/contexts this) "name") }}}
+                            {{{messageHelper "gpii_pmt_contextNameLabel" (lookup (lookup ../flatPrefs/contexts this) "name") }}}
                         </th>
                     {{/each}}
                     <th><a class="hollow button small pmt-add-context-button">
-                        {{{message "gpii_pmt_addContextButton"}}}
+                        {{{messageHelper "gpii_pmt_addContextButton"}}}
                     </a></th>
                 </tr>
             </thead>

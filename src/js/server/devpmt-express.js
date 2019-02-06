@@ -259,7 +259,8 @@ fluid.defaults("gpii.devpmt", {
                     renderer: {
                         options: {
                             model: {
-                                messages: "{gpii.devpmt}.model.messages"
+                                messages: "{gpii.devpmt}.model.messages",
+                                messageBundles: "{gpii.devpmt}.model.messages"
                             }
                         }
                     }
@@ -272,6 +273,15 @@ fluid.defaults("gpii.devpmt", {
                 messageDirs: "%gpii-devpmt/src/messageBundles",
                 model: {
                     messages: "{gpii.devpmt}.model.messages"
+                }
+            }
+        },
+        messages: {
+            type: "gpii.handlebars.inlineMessageBundlingMiddleware",
+            priority: "last",
+            options: {
+                model: {
+                    messageBundles: "{messageLoader}.model.messageBundles"
                 }
             }
         },

@@ -2,23 +2,6 @@
 "use strict";
 
 /**
- * i18n Messages
- *
- * This is a prototype implemention of our handlebars i18n message handler
- * to suffice until our work in GPII-2444 lands. https://issues.gpii.net/browse/GPII-2444
- */
-Handlebars.registerHelper("message", function (messageKey) {
-    var togo = messages_en[messageKey] ? messages_en[messageKey] : messageKey;
-    if (arguments.length > 2) {
-        for (var i = 1; i < arguments.length - 1; i++) {
-            var pos = i - 1;
-            togo = togo.replace("{" + pos + "}", arguments[i]);
-        }
-    };
-    return togo;
-});
-
-/**
  * Lookup Generic Preference Setting.
  *
  * Using the context and commonTerm lookup the generic preference

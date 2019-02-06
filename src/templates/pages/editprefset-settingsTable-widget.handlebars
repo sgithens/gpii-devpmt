@@ -36,15 +36,15 @@
                 {{#each model.contextNames}}
                     <th><!-- PSP --></th><th><!-- MEM --></th>
                     <th class="pmt-settingstable-value">
-                        {{{message "gpii_pmt_contextNameLabel" (lookup (lookup ../model/flatPrefs/contexts this) "name") }}}</th>
+                        {{{messageHelper "gpii_pmt_contextNameLabel" (lookup (lookup ../model/flatPrefs/contexts this) "name") }}}</th>
                 {{/each}}
                 <th><a class="hollow button small pmt-add-context-button">
-                   {{{message "gpii_pmt_addContextButton"}}}
+                   {{{messageHelper "gpii_pmt_addContextButton"}}}
                 </a></th>
             </tr>
 
             <tr>
-                <td>{{{message "gpii_pmt_settingsTable_includeApplication" }}}</td>
+                <td>{{{messageHelper "gpii_pmt_settingsTable_includeApplication" }}}</td>
                 <td><!-- Space for product default column --></td>
                 {{#each model.contextNames}}
                     <!-- PSP and MEM placeholders -->
