@@ -105,4 +105,3 @@ gpii.devpmt.safemgmt.createAnonSafe = function (name, password) {
     });
     return promTogo;
 };
-

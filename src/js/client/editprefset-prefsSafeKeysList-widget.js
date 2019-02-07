@@ -15,4 +15,3 @@ fluid.defaults("gpii.devpmt.prefsSafeKeysList", {
         initial: "editprefset-prefsSafeKeysList-widget"
     }
 });
-

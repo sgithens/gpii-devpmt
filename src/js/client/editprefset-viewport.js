@@ -975,5 +975,8 @@ gpii.devpmt.npsetInit = function (that) {
 
 gpii.devpmt.startFoundationAccordian = function () {
     var elem = jQuery("#pmt-sidebar-accordian");
-    var accordian = new Foundation.Accordion(elem);
+    /* eslint-disable no-new */
+    // This foundation plugin requires using the `new` operator to work.
+    new Foundation.Accordion(elem);
+    /* eslint-enable no-new */
 };

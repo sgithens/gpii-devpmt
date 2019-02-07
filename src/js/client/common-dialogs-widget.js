@@ -45,9 +45,12 @@ fluid.defaults("gpii.devpmt.dialogs.baseDialog", {
 });
 
 gpii.devpmt.dialogs.baseDialog.openDialog = function (that, dialogContainer) {
-    var elem = new Foundation.Reveal(dialogContainer, {
+    /* eslint-disable no-new */
+    // This foundation plugin requires using the `new` operator to work.
+    new Foundation.Reveal(dialogContainer, {
         appendTo: that.options.selectors.initial
     });
+    /* eslint-enable no-new */
     dialogContainer.on("closed.zf.reveal", function () {
         that.destroy();
     });
