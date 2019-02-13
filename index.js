@@ -19,9 +19,13 @@ fluid.module.register("gpii-devpmt", __dirname, require);
 var gpii = fluid.registerNamespace("gpii");
 var kettle = fluid.registerNamespace("kettle");
 
-kettle.config.loadConfig({
-    configName: kettle.config.getConfigName("app"),
-    configPath: kettle.config.getConfigPath("%gpii-devpmt/configs")
-});
+fluid.registerNamespace("gpii.devpmt");
 
-module.exports = gpii.devpmt;
+gpii.devpmt.start = function () {
+    kettle.config.loadConfig({
+        configName: kettle.config.getConfigName("app"),
+        configPath: kettle.config.getConfigPath("%gpii-devpmt/configs")
+    });
+};
+
+module.exports = fluid;
