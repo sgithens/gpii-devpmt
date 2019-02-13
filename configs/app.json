@@ -3,7 +3,7 @@
     "options": {
         "gradeNames": "fluid.component",
         "components": {
-            "devpmt": {
+            "server": {
                 "type": "gpii.devpmt"
             }
         }

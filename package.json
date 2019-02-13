@@ -3,9 +3,9 @@
     "productName": "devpmt",
     "version": "1.0.0",
     "description": "Developers Preference Testing Tool",
-    "main": "index.js",
+    "main": "devpmt.js",
     "scripts": {
-        "start": "node index.js",
+        "start": "node devpmt.js",
         "watch-sass": "gulp",
         "build-sass": "gulp sass",
         "pretest": "node node_modules/rimraf/bin.js reports/* coverage/*",

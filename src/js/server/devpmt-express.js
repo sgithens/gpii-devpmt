@@ -160,7 +160,8 @@ fluid.defaults("gpii.devpmt", {
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
     events: {
-        onFsChange: null
+        onFsChange: null,
+        onListen: null // Needed for using the kettle unit tests
     },
     model: {
         messages: {},
@@ -175,6 +176,12 @@ fluid.defaults("gpii.devpmt", {
         },
         "onFsChange.reloadInlineTemplates": {
             func: "{inlineMiddleware}.events.loadTemplates.fire"
+        },
+        "onStarted": {
+            func: "{that}.events.onListen.fire"
+        },
+        "onDestroy": {
+            func: "{that}.events.onStopped.fire"
         }
     },
     components: {
@@ -537,6 +544,11 @@ fluid.defaults("gpii.devpmt", {
         }
     },
     invokers: {
+        stop: {
+            func: "{that}.destroy"
+            // funcName: "gpii.express.stopServer",
+            // args: ["that"]
+        },
         reverse: {
             funcName: "gpii.devpmt.reverse",
             args: ["{that}", "{arguments}.0"]
