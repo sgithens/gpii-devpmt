@@ -1,5 +1,5 @@
 {
-    "type": "gpii.ppt",
+    "type": "gpii.config.devpmt.express.base",
     "options": {
         "gradeNames": "fluid.component",
         "components": {

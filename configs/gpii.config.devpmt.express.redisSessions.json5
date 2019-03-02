@@ -1,0 +1,17 @@
+{
+    "type": "gpii.config.devpmt.express.redisSessions",
+    "options": {
+        "sessionMiddlewareOptions": {
+            store: "@expand:gpii.devpmt.redisStore()"
+        },
+        "distributeOptions": {
+            "devpmt.sessionStore.redis": {
+                "source": "{that}.options.sessionMiddlewareOptions",
+                "target": "{that sessionMiddleware}.options.middlewareOptions"
+            }
+        }
+    },
+    "mergeConfigs": [
+        "%gpii-devpmt/configs/gpii.config.devpmt.express.base"
+    ]
+}

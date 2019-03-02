@@ -23,7 +23,7 @@ fluid.registerNamespace("gpii.devpmt");
 
 gpii.devpmt.start = function () {
     kettle.config.loadConfig({
-        configName: kettle.config.getConfigName("app"),
+        configName: kettle.config.getConfigName("gpii.config.devpmt.express.base"),
         configPath: kettle.config.getConfigPath("%gpii-devpmt/configs")
     });
 };

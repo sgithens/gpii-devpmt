@@ -144,19 +144,25 @@ fluid.defaults("gpii.devpmt.express.base", {
 });
 
 gpii.devpmt.redisStore = function () {
-    return new RedisStore({});
+    gpii.devpmt.GPII_REDIS_HOST = process.env.GPII_REDIS_HOST || "127.0.0.1";
+    gpii.devpmt.GPII_REDIS_PORT = process.env.GPII_REDIS_PORT || 6379;
+    return new RedisStore({
+        host: gpii.devpmt.GPII_REDIS_HOST,
+        port: gpii.devpmt.GPII_REDIS_PORT
+    });
 };
 
 /**
  * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
  * NP Sets.
  */
-var thePort = process.env.PORT || 8085;
+gpii.devpmt.LISTEN_PORT = process.env.GPII_DEVPMT_LISTEN_PORT || 8085;
+gpii.devpmt.PREFERENCESSERVER_URL = process.env.GPII_DEVPMT_TO_PREFERENCESSERVER_URL || "http://localhost:8081";
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.devpmt.express.base", "fluid.modelComponent"],
-    prefsServerURL: "http://localhost:5000",
+    prefsServerURL: gpii.devpmt.PREFERENCESSERVER_URL,
     // prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
-    port: thePort,
+    port: gpii.devpmt.LISTEN_PORT,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
     events: {
