@@ -211,7 +211,9 @@ fluid.defaults("gpii.devpmt", {
             options: {
                 middlewareOptions: {
                     // store: "@expand:gpii.devpmt.redisStore()",
-                    secret: "TODO Override"
+                    secret: "TODO Override",
+                    saveUninitialized: false,
+                    resave: false
                 }
             }
         },
