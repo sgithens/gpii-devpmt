@@ -83,66 +83,6 @@ fluid.defaults("gpii.devpmt.npset", {
     }
 });
 
-/**
- * Base express grade for our devpmt based express apps
- */
-fluid.defaults("gpii.devpmt.express.base", {
-    gradeNames: ["gpii.express.withJsonQueryParser"],
-    components: {
-        urlEncodedParser: {
-            type: "gpii.express.middleware.bodyparser.urlencoded"
-        },
-        jsonBodyParser: {
-            type: "gpii.express.middleware.bodyparser.json"
-        },
-        cookieparser: {
-            type: "gpii.express.middleware.cookieparser",
-            options: {
-                middlewareOptions: {
-                    secret: "TODO Override"
-                },
-                priority: "before:sessionMiddleware"
-            }
-        },
-        sessionMiddleware: {
-            type: "gpii.express.middleware.session",
-            options: {
-                middlewareOptions: {
-                    secret: "TODO Override"
-                }
-            }
-        },
-        foundationRouter: {
-            type: "gpii.express.router.static",
-            options: {
-                path: "/modules",
-                content: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/)"
-            }
-        },
-        staticRouter: {
-            type: "gpii.express.router.static",
-            options: {
-                path: "/src",
-                content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/)"
-            }
-        },
-        inlineMiddleware: {
-            type: "gpii.handlebars.inlineTemplateBundlingMiddleware",
-            options: {
-                path: "/hbs",
-                templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
-            }
-        },
-        dispatcher: {
-            type: "gpii.devpmt.baseDispatcher",
-            options: {
-                priority: "before:htmlErrorHandler",
-                path: ["/:template", "/"]
-            }
-        }
-    }
-});
-
 gpii.devpmt.redisStore = function () {
     gpii.devpmt.GPII_REDIS_HOST = process.env.GPII_REDIS_HOST || "127.0.0.1";
     gpii.devpmt.GPII_REDIS_PORT = process.env.GPII_REDIS_PORT || 6379;
@@ -159,7 +99,7 @@ gpii.devpmt.redisStore = function () {
 gpii.devpmt.LISTEN_PORT = process.env.GPII_DEVPMT_LISTEN_PORT || 8085;
 gpii.devpmt.PREFERENCESSERVER_URL = process.env.GPII_DEVPMT_TO_PREFERENCESSERVER_URL || "http://localhost:8081";
 fluid.defaults("gpii.devpmt", {
-    gradeNames: ["gpii.devpmt.express.base", "fluid.modelComponent"],
+    gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
     prefsServerURL: gpii.devpmt.PREFERENCESSERVER_URL,
     // prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
     port: gpii.devpmt.LISTEN_PORT,
@@ -457,8 +397,6 @@ fluid.defaults("gpii.devpmt", {
             }
         },
         prefsSafesListingDataSource: {
-            // type: "gpii.devpmt.dataSource.prefsSafeListing.filesystem"
-            // type: "gpii.devpmt.dataSource.prefsSafeListing.couchdb"
             type: "kettle.dataSource.URL",
             options: {
                 url: {
@@ -557,10 +495,6 @@ fluid.defaults("gpii.devpmt", {
             // funcName: "gpii.express.stopServer",
             // args: ["that"]
         },
-        reverse: {
-            funcName: "gpii.devpmt.reverse",
-            args: ["{that}", "{arguments}.0"]
-        },
         createCloudSafeLogin: {
             funcName: "gpii.devpmt.safemgmt.createCloudSafeLogin",
             // prefsSafeId, loginName, email, password
@@ -568,13 +502,6 @@ fluid.defaults("gpii.devpmt", {
         }
     }
 });
-
-gpii.devpmt.reverse = function (that, urlName) {
-    var urls = {
-        cloudSafeLogin:  "/cloudsafelogin"
-    };
-    return urls[urlName];
-};
 
 gpii.devpmt.initialize = function (that) {
     var personaKeys = ["alice", "davey", "david", "elmer", "elod", "livia"];
