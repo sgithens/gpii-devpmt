@@ -36,6 +36,7 @@ environment variable. The default config uses in-memory session storage for
 browser sessions, whereas the second uses Redis to persist sessions.
 
 | Name | Possible values | Usage |
+| ---- | --------------- | ----- |
 | NODE_ENV | `gpii.config.devpmt.express.base` | Default Config used if not set. In memory session store. |
 |          | `gpii.config.devpmt.express.redisSessions` | Uses the Redis backend to persist sessions. |
 | GPII_DEVPMT_LISTEN_PORT | Default is `8085` | Port number that the main web app is served on. |
@@ -62,7 +63,7 @@ To temporarily point a desktop Morphic installation to a PPT development cloud, 
 following changes can be made to `C:\Program Files (x86)\Morphic\start.cmd`
 For this example we are using a GCP developers cloud.
 
-```
+```bat
 @echo off
 rem set GPII_CLOUD_URL=https://flowmanager.prd.gcp.gpii.net
 set GPII_CLOUD_URL=https://flowmanager.sgithens.dev.gcp.gpii.net

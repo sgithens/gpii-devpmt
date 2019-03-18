@@ -2,9 +2,6 @@
 
 var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
-var fs = require("fs");
-var kettle = require("kettle");
-
 
 /**
  * PreFetch DataSource

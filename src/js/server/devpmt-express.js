@@ -494,7 +494,7 @@ fluid.defaults("gpii.devpmt", {
             func: "{that}.destroy"
             // funcName: "gpii.express.stopServer",
             // args: ["that"]
-        },
+        }
     }
 });
 

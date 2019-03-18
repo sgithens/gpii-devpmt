@@ -35,7 +35,7 @@ gpii.tests.devpmt.server.commonComponents = {
             options: {
                 path: "/ppt/dev/login",
                 method: "POST",
-                port: 8085,
+                port: 8085
             }
         },
         pptHomeRequest: {
@@ -43,11 +43,11 @@ gpii.tests.devpmt.server.commonComponents = {
             options: {
                 path: "/ppt",
                 method: "GET",
-                port: 8085,
+                port: 8085
             }
         }
     }
-}
+};
 
 gpii.tests.devpmt.server.testDefs = [{
     name: "Basic test for loading the index page.",
