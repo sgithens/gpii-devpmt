@@ -107,14 +107,6 @@ gpii.devpmt.morphic.createSafeHandler.handleRequest = function (that, devpmt, re
         }, function (err) {
             console.log("Err: ", err);
         });
-
-
-        // var prom = gpii.devpmt.safemgmt.createAnonSafe(prefsetName, prefsetPassword);
-        // prom.then(function () {
-            // req.session.loggedInToSafe = prefsetName;
-            // res.redirect("/morphic/safe");
-        // });
-        // return;
     }
     else {
         gpii.devpmt.baseDispatcher.middleware(that, req, res, next);
@@ -194,18 +186,4 @@ gpii.devpmt.morphic.mySafeHandler.contextPromise = function (that, devpmt, req) 
         });
     });
     return promTogo;
-
-
-
-    return fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.session.loggedInToSafe}), function (data) {
-        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
-        var prefset = gpii.devpmt.npset({
-            npsetName: req.params.npset,
-            flatPrefs: npset,
-            docs: ""
-        });
-        return {
-            npset: prefset
-        };
-    });
 };

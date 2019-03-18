@@ -10,7 +10,6 @@ require(__dirname + "/src/js/server/devpmt-express.js");
 require(__dirname + "/src/js/server/devpmt-datasources.js");
 require(__dirname + "/src/js/server/devpmt-base-dispatchers.js");
 require(__dirname + "/src/js/server/devpmt-ppt-dispatchers.js");
-require(__dirname + "/src/js/server/devpmt-safe-mgmt.js");
 require(__dirname + "/src/js/server/devpmt-morphic-dispatchers.js");
 require(__dirname + "/src/js/common/util.js");
 

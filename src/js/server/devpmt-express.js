@@ -495,11 +495,6 @@ fluid.defaults("gpii.devpmt", {
             // funcName: "gpii.express.stopServer",
             // args: ["that"]
         },
-        createCloudSafeLogin: {
-            funcName: "gpii.devpmt.safemgmt.createCloudSafeLogin",
-            // prefsSafeId, loginName, email, password
-            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2", "{arguments}.3"]
-        }
     }
 });
 
