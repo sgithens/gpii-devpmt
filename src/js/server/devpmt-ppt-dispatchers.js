@@ -66,7 +66,7 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
     if (req.method !== "POST") {
         return true;
     }
-    //TODO Move to gpii-couch-user
+
     if (req.body.username === "morphic" && req.body.password === "gpii") {
         req.session.loggedInToPPT = true;
         req.session.perms = that.options.permissions;
@@ -75,27 +75,26 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
     else {
         res.redirect("/");
     }
-    return false;
 
-    var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
-    loginProm.then(function (/* data */) {
-        console.log("LoginProm: ", loginProm.value);
-        if (loginProm.value.isError) {
-            // return true;
-            res.redirect("/");
-        }
-        if (loginProm.value.roles.includes("ppt_admin")) {
-            req.session.loggedInToPPT = true;
-            req.session.perms = that.options.permissions;
-            res.redirect("/ppt");
-            // return false;
-        }
-    // if (req.body.username === "morphic" && req.body.password === "gpii") {
-    //     req.session.loggedInToPPT = true;
-    //     res.redirect("/ppt");
-    //     return false;
-    // }
-    });
+    // During our next round of work, we will finish hooking the PPT up to
+    // native gpii-express-user accounts. For current requirements, the demo
+    // login above suffices.
+
+    // var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
+    // loginProm.then(function (/* data */) {
+    //     console.log("LoginProm: ", loginProm.value);
+    //     if (loginProm.value.isError) {
+    //         // return true;
+    //         res.redirect("/");
+    //     }
+    //     if (loginProm.value.roles.includes("ppt_admin")) {
+    //         req.session.loggedInToPPT = true;
+    //         req.session.perms = that.options.permissions;
+    //         res.redirect("/ppt");
+    //         // return false;
+    //     }
+    // });
+
     return false;
 };
 

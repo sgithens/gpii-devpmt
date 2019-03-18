@@ -44,8 +44,6 @@ gpii.devpmt.baseDispatcher.contextPromise = function (/* that, req */) {
 };
 
 /**
- * TODO Create a ticket in gpii-handlebars and reference here.
- *
  * The combination of this method and `gpii.devpmt.baseDispatcher.getRenderInfo`
  * tear up the following method in gpii-handlebars and insert functionality
  * to allow adding a promise to the request that will add more data to the
@@ -103,7 +101,7 @@ gpii.devpmt.baseDispatcher.getRenderInfo = function (that, req) {
         };
     }
     else {
-        // fluid.error("Could not find template... properly handle this.");
+        fluid.log("Could not find template... properly handle this.");
         return null;
     }
 };
