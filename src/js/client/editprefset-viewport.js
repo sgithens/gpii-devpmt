@@ -123,7 +123,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // Contains any free information that pertains to an active dialog.
         // While we can only display one modal dialog at a time, the options
         // and data for a dialog can change between instances, such as adding
-        // different products to an NP Set, and presenting an confirm dialog
+        // different products to an NP Set, and presenting a confirm dialog
         // each time.
         activeModalDialog: {}
     },
