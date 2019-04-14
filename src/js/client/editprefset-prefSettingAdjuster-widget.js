@@ -205,7 +205,7 @@ gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (that) {
     // if (that.model.metadata.schema.type === "boolean") {
     jQuery("#pmt-boolean-value").css("display","inline");
     jQuery("#pmt-boolean-value").css("color","black");
-    jQuery("#pmt-boolean-value").html(that.model.current.value === true ? "true": "false");
+    jQuery("#pmt-boolean-value").html(that.model.current.value === true ? "true" : "false");
 };
 
 /**

@@ -116,8 +116,7 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
         contextId: "",
         contextIdErrors: "",
         contextName: "",
-        contextNameErrors: "",
-        fieldErrors: ""
+        contextNameErrors: ""
     },
     selectors: {
         contextIdInput: "#pmt-edit-context-id-input",
