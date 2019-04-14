@@ -1,3 +1,19 @@
+/**
+ * Preference Setting Adjuster
+ *
+ * Contains a widget `gpii.devpmt.prefSettingAdjuster` and auxiliary
+ * tooling to edit a single setting in a preference set. Currently does
+ * only a small amount of guess work on the editor field type based on
+ * the JSON schema for the setting.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
 "use strict";
 
 var gpii  = fluid.registerNamespace("gpii");

@@ -4,6 +4,14 @@
  * A component that renders a list of all the applications/products, as well
  * as including Generic Settings at the top of the list. Typically used on
  * the left hand side for navigation and adding new products to an NP Set.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
 /* global lunr */
 "use strict";

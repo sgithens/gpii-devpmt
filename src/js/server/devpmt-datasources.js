@@ -1,3 +1,17 @@
+/**
+ * Devpmt Data Sources
+ *
+ * Data sources for retrieving directory GPII solutions registry entries,
+ * generic settings metadata, and GPII demo persona descriptions.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
 "use strict";
 
 var gpii = fluid.registerNamespace("gpii");

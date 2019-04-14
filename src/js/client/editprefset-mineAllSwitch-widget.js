@@ -1,4 +1,4 @@
-/*
+/**
  * Mine / All Switch Widgets
  *
  * This includes a base grade and specific grades for a UI control that
@@ -11,6 +11,14 @@
  * We will provide 2 implementations.  One that uses 2 buttons, and another
  * that uses the Foundation boolean toggle. Additionally, the number of all
  * or mine settings is includes in the control display.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
 "use strict";
 

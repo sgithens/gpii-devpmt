@@ -1,9 +1,17 @@
 /**
- * Filter Widget
+ * Common Filter Widget
  *
  * A GPII Handlebars component to build a filter widget of the
  * type you would type in to filter something like a list of API
  * functions, a table of settings, or anything else really.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.tx
  */
 "use strict";
 

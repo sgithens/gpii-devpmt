@@ -6,6 +6,14 @@
  * each context. In the upper left hand corner will be a search filter and
  * filter to show only settings the user has, or all available settings.
  * Clicking on a setting will launch a widget to edit the setting.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
 /* global lunr */
 "use strict";

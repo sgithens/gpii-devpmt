@@ -1,3 +1,19 @@
+/**
+ * Common JSON Dev Widget
+ *
+ * Contains a grade `gpii.devpmt.jsonDev` that can be used in
+ * various places on the page to display underlying JSON for
+ * development and debugging purposes.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
+
 "use strict";
 
 fluid.registerNamespace("gpii");

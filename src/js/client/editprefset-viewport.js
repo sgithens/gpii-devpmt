@@ -1,3 +1,19 @@
+/**
+ * Edit Preferences Viewport
+ *
+ * This is the primary entry point and container for the full page
+ * preference safe editor. The grade `gpii.devpmt.editPrefs` orchestrates
+ * the entire editor including it's model and subcomponents.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
+
 /* global saveAs, Foundation */
 "use strict";
 

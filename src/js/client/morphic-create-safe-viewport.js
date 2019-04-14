@@ -1,3 +1,18 @@
+/**
+ * Morphic Create Safe Viewport
+ *
+ * Viewport for a full page component to create a new preference safe.
+ * This is part of the UI for a public user workflow to create new accounts
+ * and safes for Morphic.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
 /* global zxcvbn */
 "use strict";
 

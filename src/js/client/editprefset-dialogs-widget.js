@@ -1,5 +1,24 @@
 /**
- * Dialog boxes for the DevPTT.
+ * Dialog boxes
+ *
+ * - addContextDialog Adds a preference set to a preferences safe
+ * - editContextDialog Edits metadata for a preference set
+ * - confirmDeleteContextDialog Confirms with the user before permanently
+ *   removing a preference set from a safe
+ * - confirmAddProductDialog After clicking a product to add to
+ *   preference safe, confirms before actual insertion.
+ * - confirmSaveDialog Shows a list of changes since last save, and
+ *   confirms with the user before saving preference set.
+ * - confirmRemoveProductDialog Confirms with the user before permanently
+ *   removing a product from the preference safe.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
 "use strict";
 

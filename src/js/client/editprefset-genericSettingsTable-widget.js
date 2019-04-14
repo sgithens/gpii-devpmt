@@ -1,3 +1,19 @@
+/**
+ * Generic Settings Table Widget
+ *
+ * Contains UI component `gpii.devpmt.genericSettingsTableWidget` which
+ * renders a partially interactive table on the page detailing all the
+ * generic settings in the preference safe, with featuers such as filtering
+ * and searching, and selecting to edit.
+ *
+ * Copyright 2019 Raising the Floor - International
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this License.
+ *
+ * You may obtain a copy of the License at
+ * https://github.com/GPII/universal/blob/master/LICENSE.txt
+ */
 /* global lunr */
 "use strict";
 
