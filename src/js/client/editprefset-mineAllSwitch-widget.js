@@ -10,7 +10,7 @@
  *
  * We will provide 2 implementations.  One that uses 2 buttons, and another
  * that uses the Foundation boolean toggle. Additionally, the number of all
- * or mine settings is includes in the control display.
+ * or mine settings is included in the control display.
  *
  * Copyright 2019 Raising the Floor - International
  *

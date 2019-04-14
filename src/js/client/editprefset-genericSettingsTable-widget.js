@@ -190,7 +190,7 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
     // TODO For both the settings and products index, move them out into
     // a component, or part of the model (so they aren't regenerated each time).
     // Then also hook up a model listener such that if the solutions or
-    // settings change, the index get's updated.
+    // settings change, the index gets updated.
     var lunrIndex = lunr(function () {
         var idx = this;
         this.ref("id");
