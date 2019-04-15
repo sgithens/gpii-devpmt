@@ -97,7 +97,7 @@ gpii.devpmt.filterWidget.updateResetButton = function (that, filterText, resetBu
 };
 
 gpii.devpmt.filterWidget.watchInputKeys = function (that, e) {
-    // Save the value when the enter key is pressed
+    // Clear the filter when the ESC key is pushed.
     if (e.keyCode === 27) {
         that.clearFilter();
     };
