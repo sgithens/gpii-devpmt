@@ -45,12 +45,6 @@ fluid.defaults("gpii.devpmt.morphic.createSafeViewport", {
             args: "{that}.checkPasswordStrength"
         }]
     },
-    listeners: {
-        onCreate: [{
-            funcName: "console.log",
-            args: ["Hello from createSafeViewport"]
-        }]
-    },
     templates: {
         initial: "morphic-create-safe-viewport"
     }

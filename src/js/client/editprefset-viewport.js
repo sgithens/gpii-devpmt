@@ -538,23 +538,19 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         }
     },
     listeners: {
-        "onCreate": {
+        "onCreate.initialize": {
             funcName: "gpii.devpmt.npsetInit",
             args: ["{that}"] //"onCreate listener"]
         },
-        "onMarkupRendered": [
-            {
-                funcName: "gpii.devpmt.updateFoundationSticky",
-                args: []
-            },
-            {
-                func: "{that}.initSettingTableWidgets"
-            },
-            {
-                func: "gpii.devpmt.startFoundationAccordian",
-                args: []
-            }
-        ]
+        "onMarkupRendered.updateFoundationSticky": {
+            funcName: "gpii.devpmt.updateFoundationSticky"
+        },
+        "onMarkupRendered.startFoundationAccordian": {
+            func: "gpii.devpmt.startFoundationAccordian"
+        },
+        "onMarkupRendered.initSettingsTableWidgets": {
+            func: "{that}.initSettingTableWidgets"
+        }
     },
     modelListeners: {
         "flatPrefs": [

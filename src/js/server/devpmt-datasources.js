@@ -42,7 +42,7 @@ fluid.defaults("gpii.devpmt.dataSource.prefetchDataSource", {
         current: null
     },
     listeners: {
-        onCreate: {
+        "onCreate.get": {
             func: "{that}.get"
         }
     }

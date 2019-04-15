@@ -159,22 +159,18 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         }
     },
     listeners: {
-        "onCreate": [
-            {
+        "onCreate.updateLunrIndex": {
                 "func": "{that}.updateLunrIndex"
-            },
-            {
+        },
+        "onCreate.filterInit": {
                 "func": "{that}.filterInit"
-            },
-            {
+        },
+        "onCreate.updateTermUsage": {
                 "func": "{that}.updateTermUsage"
-            }
-        ],
-        "onMarkupRendered": [
-            {
+        },
+        "onMarkupRendered.filterSettings": {
                 "func": "{that}.filterSettings"
-            }
-        ]
+        }
     },
     lunrIndex: null
 });

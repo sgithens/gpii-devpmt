@@ -60,7 +60,7 @@ fluid.defaults("gpii.devpmt.filterWidget", {
         }
     },
     listeners: {
-        onMarkupRendered: {
+        "onMarkupRendered.updateResetButton": {
             "func": "{that}.updateResetButton"
         }
     },

@@ -139,9 +139,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         }
     },
     listeners: {
-        "onCreate": [
-        ],
-        "onMarkupRendered": [
+        "onMarkupRendered.updateSettingsFilter": [
             {
                 func: "{that}.updateSettingsFilter"
             }

@@ -116,18 +116,16 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDialog", {
         }
     },
     listeners: {
-        "afterOpenDialog": [
-            {
-                "this": "{that}.dom.acceptButton",
-                "method": "click",
-                args: ["{that}.acceptConfirmDialog"]
-            },
-            {
-                "this": "{that}.dom.cancelButton",
-                "method": "click",
-                args: ["{that}.cancelConfirmDialog"]
-            }
-        ]
+        "afterOpenDialog.bindAcceptButton": {
+            "this": "{that}.dom.acceptButton",
+            "method": "click",
+            args: ["{that}.acceptConfirmDialog"]
+        },
+        "afterOpenDialog.bindCancelButton": {
+            "this": "{that}.dom.cancelButton",
+            "method": "click",
+            args: ["{that}.cancelConfirmDialog"]
+        }
     }
 });
 

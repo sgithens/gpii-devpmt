@@ -178,17 +178,17 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         }
     },
     listeners: {
-        onMarkupRendered: [{
+        "onMarkupRendered.focus": {
             funcName: "fluid.focus",
             args: ["{that}.dom.valueInput"]
         },
-        {
+        "onMarkupRendered.updateBlankDisabling": {
             func: "{that}.updateBlankDisabling"
         },
-        {
+        "onMarkupRendered.updateBooleanValueLabel": {
             funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
             args: ["{that}"]
-        }]
+        }
     },
     modelListeners: {
         "current.blank": {

@@ -130,17 +130,17 @@ fluid.defaults("gpii.devpmt", {
         npsetList: []
     },
     listeners: {
-        "onCreate": {
+        "onCreate.initialize": {
             funcName: "gpii.devpmt.initialize",
             args: ["{that}"]
         },
         "onFsChange.reloadInlineTemplates": {
             func: "{inlineMiddleware}.events.loadTemplates.fire"
         },
-        "onStarted": {
+        "onStarted.listen": {
             func: "{that}.events.onListen.fire"
         },
-        "onDestroy": {
+        "onDestroy.stopped": {
             func: "{that}.events.onStopped.fire"
         }
     },
