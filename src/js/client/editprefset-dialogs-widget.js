@@ -248,7 +248,7 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog",
-            args: ["{that}", "{that}.model.appId", "{gpii.devpmt.editPrefs}.model.contextNames", "{gpii.devpmt.editPrefs}.editProductEnabled"]
+            args: ["{that}", "{that}.model.appId", "{gpii.devpmt.editPrefs}.model.allSolutions", "{gpii.devpmt.editPrefs}.model.contextNames", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }
     }
 });
@@ -258,21 +258,27 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
  * A preference safe must have at least one context (prefset) in order to add
  * a product to it.
  *
- * @param  {Object} that               Dialog instance
- * @param  {String} appId              String indicating the appId
+ * @param {Object} that Dialog instance
+ * @param {String} appId String indicating the appId
  *                                     ex. http://registry.gpii.net/applications/com.android.freespeech
- * @param  {Array} contextNames        Array of Strings with the name/id the context is
- *                                     keyed by. The product will be initially added to the first
- *                                     item in this array.
- * @param  {Function} editProductEnabled Invoker from `gpii.devpmt.editPrefs` to add the
- *                                       product to.
+ * @param {Object} solutions Solutions registry entries.
+ * @param {Array} contextNames Array of Strings with the name/id the context is
+ * keyed by. The product will be initially added to the first item in this array.
+ * @param {Function} editProductEnabled Invoker from `gpii.devpmt.editPrefs` to add the
+ * product to.
  */
-gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, contextNames, editProductEnabled) {
+gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, solutions, contextNames, editProductEnabled) {
     // In this case we actually need to close the dialog first... as the page
     // rerenders based on a model listener when the product is enabled, and does
     // wonky things... such as removing the ability to vertical scroll. Should look
     // at reworking this perhaps.
     that.closeDialog();
+    // It's unlikely that this dialog could have been instantiated with an appId not from
+    // the list, but in any event, if the appId is not in the solutions listing, we will
+    // return here.
+    if (!solutions[appId]) {
+        return;
+    }
     // TODO Ontology!!!
     var appUrl = "http://registry.gpii.net/applications/" + appId;
     if (contextNames.length > 0) {
