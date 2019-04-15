@@ -163,7 +163,6 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
 
 gpii.devpmt.searchSettings = function (that, searchInput) {
     that.applier.change("settingsSearch", searchInput);
-    that.reRender();
 };
 
 gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, search) {
