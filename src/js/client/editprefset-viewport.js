@@ -737,8 +737,7 @@ gpii.devpmt.savePrefset = function (that /*, event */) {
         data: JSON.stringify(toSave, null, 4)
     };
     $.ajax(options).done(function (data) {
-        console.log("Returning from saving prefssafe:");
-        console.log(data);
+        //TODO what should be done here?
     });
     var transaction = that.applier.initiate();
     transaction.fireChangeRequest({

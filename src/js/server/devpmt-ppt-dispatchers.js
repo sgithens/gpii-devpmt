@@ -93,7 +93,6 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
 
     // var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
     // loginProm.then(function (/* data */) {
-    //     console.log("LoginProm: ", loginProm.value);
     //     if (loginProm.value.isError) {
     //         // return true;
     //         res.redirect("/");

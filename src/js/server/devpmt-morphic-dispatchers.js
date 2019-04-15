@@ -101,22 +101,18 @@ gpii.devpmt.morphic.createSafeHandler.handleRequest = function (that, devpmt, re
             }
         });
         prom.then(function (data) {
-            console.log("Data: ", data);
             var prefsSafeId = data.prefsSafeId;
             var createCloudCredProm = devpmt.cloudSafeCredCreateDataSource.set({prefsSafeId: prefsSafeId}, {
                 username: prefsetName,
                 password: prefsetPassword
             });
             createCloudCredProm.then(function (credPromData) {
-                console.log("credPromData: ", credPromData);
                 req.session.loggedInToSafe = data.prefsSafeId;
                 res.redirect("/morphic/safe");
             }, function (credPromErr) {
-                console.log("credPromErr: ", credPromErr);
                 res.redirect("/morphic/create/safe");
             });
         }, function (err) {
-            console.log("Err: ", err);
         });
     }
     else {

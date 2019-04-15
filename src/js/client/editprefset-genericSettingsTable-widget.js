@@ -167,7 +167,6 @@ gpii.devpmt.searchSettings = function (that, searchInput) {
 };
 
 gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, search) {
-    console.log("updateSettingsFilter", search);
     if (filters === "allsettings") {
         commonTermRows.show();
     }
