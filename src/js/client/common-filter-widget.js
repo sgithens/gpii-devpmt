@@ -40,8 +40,8 @@ fluid.defaults("gpii.devpmt.filterWidget", {
             funcName: "gpii.devpmt.filterWidget.clearFilter",
             args: ["{that}"]
         },
-        updateResetButton: {
-            funcName: "gpii.devpmt.filterWidget.updateResetButton",
+        updateFilterDisplay: {
+            funcName: "gpii.devpmt.filterWidget.updateFilterDisplay",
             args: ["{that}", "{that}.model.filterText", "{that}.dom.resetButtonGroup"]
         },
         watchInputKeys: {
@@ -60,13 +60,13 @@ fluid.defaults("gpii.devpmt.filterWidget", {
         }
     },
     listeners: {
-        "onMarkupRendered.updateResetButton": {
-            "func": "{that}.updateResetButton"
+        "onMarkupRendered.updateFilterDisplay": {
+            "func": "{that}.updateFilterDisplay"
         }
     },
     modelListeners: {
         "filterText": {
-            func: "{that}.updateResetButton"
+            func: "{that}.updateFilterDisplay"
         }
     }
 });
@@ -80,12 +80,12 @@ gpii.devpmt.filterWidget.clearFilter = function (that) {
 };
 
 /**
- * Update Reset Button
+ * Update Filter Display
  * The button to the right of the input field text is the reset button.
  * It should only be visible when there is some current text in the filter
  * to be reset.
  */
-gpii.devpmt.filterWidget.updateResetButton = function (that, filterText, resetButtonGroup) {
+gpii.devpmt.filterWidget.updateFilterDisplay = function (that, filterText, resetButtonGroup) {
     if (filterText === "") {
         that.dom.locate("filterInput").removeClass("pmt-filter-active");
         resetButtonGroup.hide();
