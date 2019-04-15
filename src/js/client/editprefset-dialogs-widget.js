@@ -61,8 +61,9 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * Includes a dropdown that can be used to select a context to copy the
  * initial settings from.
  *
- * @param  {that} that           Add Context Dialog instance
- * @param  {editPrefs} editPrefs Central gpii.devpmt.editPrefs component for the page.
+ * @param {that} that Add Context Dialog instance
+ * @param {editPrefs} editPrefs Central gpii.devpmt.editPrefs component for the page.
+ * @param {event} event Browser event triggered by the accept button.
  */
 gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
     // We don't want the form to actually submit the page, just to enable
