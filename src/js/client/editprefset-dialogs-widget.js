@@ -53,6 +53,11 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
             funcName: "gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog",
             args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
         }
+    },
+    modelListeners: {
+        "fieldErrors": {
+            func: "{that}.reRender"
+        }
     }
 });
 
@@ -74,12 +79,10 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
     // our new json schema work.
     if (that.model.contextId === "") {
         that.applier.change("fieldErrors", "Please enter a name.");
-        that.reRender();
         return;
     }
     else if (!/^\w+$/.exec(that.model.contextId)) {
         that.applier.change("fieldErrors", "Please use only alphanumeric characters.");
-        that.reRender();
         return;
     }
     else {
@@ -132,6 +135,14 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
             funcName: "gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog",
             args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
         }
+    },
+    modelListeners: {
+        "contextIdErrors": {
+            func: "{that}.reRender"
+        },
+        "contextNameErrors": {
+            func: "{that}.reRender"
+        }
     }
 });
 
@@ -144,14 +155,12 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, edit
     // our new json schema work.
     if (that.model.contextId === "") {
         that.applier.change("contextIdErrors", "Please enter an ID.");
-        that.reRender();
         return;
     }
     // TODO standardize the accepted regular expression for prefset ID's
     // and other parts of the schema.
     else if (!/^[\w-]+$/.exec(that.model.contextId)) {
         that.applier.change("contextIdErrors", "Please use only alphanumeric characters.");
-        that.reRender();
         return;
     }
     // If we changed the contextId, make sure that there isn't an existing context with
@@ -159,7 +168,6 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, edit
     else if (that.model.contextId !== that.model.originalContextId &&
              editPrefs.prefsetExists(that.model.contextId)) {
         that.applier.change("contextIdErrors", "A Preference Set with that ID already exists.");
-        that.reRender();
         return;
     }
     else {
@@ -169,7 +177,6 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, edit
 
     if (that.model.contextName === "") {
         that.applier.change("contextNameErrors", "Please enter a name.");
-        that.reRender();
         return;
     }
     else {
