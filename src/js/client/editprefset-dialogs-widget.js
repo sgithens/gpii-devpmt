@@ -226,6 +226,9 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {
 
 gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog = function (that, editPrefs, contextId) {
     that.closeDialog();
+    // In the rare event that this contextId no longer exists in the preferences,
+    // the worse case scenerio here is that the change applier operation will merely
+    // do nothing.
     var path = "flatPrefs.contexts." + contextId;
     editPrefs.applier.change(path, false, "DELETE");
 };
