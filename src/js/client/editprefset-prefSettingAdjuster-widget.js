@@ -109,7 +109,8 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         okButton: ".pmt-ok-button",
         cancelButton: ".pmt-cancel-button",
         valueInput: "#pmt-new-value",
-        blankCheckbox: "#pmt-blank-value"
+        blankCheckbox: "#pmt-blank-value",
+        booleanValueLabel: "#pmt-boolean-value"
     },
     bindings: { // Binding selectors: modelPaths
         blankCheckbox: {
@@ -203,9 +204,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
 
 gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (that) {
     // if (that.model.metadata.schema.type === "boolean") {
-    jQuery("#pmt-boolean-value").css("display","inline");
-    jQuery("#pmt-boolean-value").css("color","black");
-    jQuery("#pmt-boolean-value").html(that.model.current.value === true ? "true" : "false");
+    var booleanValueLabel = that.dom.locate("booleanValueLabel");
+    booleanValueLabel.css("display","inline");
+    booleanValueLabel.css("color","black");
+    booleanValueLabel.html(that.model.current.value === true ? "true" : "false");
 };
 
 /**
