@@ -452,7 +452,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         genericSettingsTableContainer: "#pmt-genericSettingsTable-container",
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
-        flatPrefsJsonDev: "#pmt-flatPrefs-jsonDev-container"
+        flatPrefsJsonDev: "#pmt-flatPrefs-jsonDev-container",
+        sidebarAccordian: "#pmt-sidebar-accordian"
     },
     templates: {
         initial: "editprefset-viewport",
@@ -546,7 +547,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.updateFoundationSticky"
         },
         "onMarkupRendered.startFoundationAccordian": {
-            func: "gpii.devpmt.startFoundationAccordian"
+            func: "gpii.devpmt.startFoundationAccordian",
+            args: ["{that}"]
         },
         "onMarkupRendered.initSettingsTableWidgets": {
             func: "{that}.initSettingTableWidgets"
@@ -984,8 +986,8 @@ gpii.devpmt.npsetInit = function (that) {
     });
 };
 
-gpii.devpmt.startFoundationAccordian = function () {
-    var elem = jQuery("#pmt-sidebar-accordian");
+gpii.devpmt.startFoundationAccordian = function (that) {
+    var elem = that.dom.locate("sidebarAccordian");
     /* eslint-disable no-new */
     // This foundation plugin requires using the `new` operator to work.
     new Foundation.Accordion(elem);
