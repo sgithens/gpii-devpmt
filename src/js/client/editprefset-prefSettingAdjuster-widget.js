@@ -153,7 +153,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         },
         cancelEditing: {
             funcName: "gpii.devpmt.prefSettingAdjuster.cancelEditing",
-            args: ["{that}"]
+            args: ["{that}", "{editPrefs}"]
         },
         watchInputKeys: {
             funcName: "gpii.devpmt.prefSettingAdjuster.watchInputKeys",
@@ -265,18 +265,18 @@ gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that, devpmt) {
     // won't rerender the entire page.
     that.renderInitialMarkup();
     // Remove the active editing highlight
-    $(".pmt-value-display").removeClass("pmt-value-editing");
+    devpmt.locate("valueDisplayCell").removeClass("pmt-value-editing");
 };
 
 /**
  * Cancel any editing that has been done, and turn the active editing
  * portion of the widget off.
  */
-gpii.devpmt.prefSettingAdjuster.cancelEditing = function (that) {
+gpii.devpmt.prefSettingAdjuster.cancelEditing = function (that, devpmt) {
     that.applier.change("active", false);
     // In the event that we didn't actually change any values, the model listener
     // won't rerender the entire page.
     that.renderInitialMarkup();
     // Remove the active editing highlight
-    $(".pmt-value-display").removeClass("pmt-value-editing");
+    devpmt.locate("valueDisplayCell").removeClass("pmt-value-editing");
 };

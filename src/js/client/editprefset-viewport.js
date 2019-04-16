@@ -453,7 +453,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // Each product table has this class
         eachProductArea: ".pmt-single-product-area",
         flatPrefsJsonDev: "#pmt-flatPrefs-jsonDev-container",
-        sidebarAccordian: "#pmt-sidebar-accordian"
+        sidebarAccordian: "#pmt-sidebar-accordian",
+        valueDisplayCell: ".pmt-value-display",
+        foundationSticky: ".sticky"
     },
     templates: {
         initial: "editprefset-viewport",
@@ -536,6 +538,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         onDeleteContext: {
             funcName: "gpii.devpmt.onDeleteContext",
             args: ["{that}", "{arguments}.0"] // event
+        },
+        updateFoundationSticky: {
+            funcName: "gpii.devpmt.updateFoundationSticky",
+            args: ["{that}"]
         }
     },
     listeners: {
@@ -544,7 +550,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             args: ["{that}"] //"onCreate listener"]
         },
         "onMarkupRendered.updateFoundationSticky": {
-            funcName: "gpii.devpmt.updateFoundationSticky"
+            func: "{that}.updateFoundationSticky"
         },
         "onMarkupRendered.startFoundationAccordian": {
             func: "gpii.devpmt.startFoundationAccordian",
@@ -703,9 +709,9 @@ gpii.devpmt.addEditToUnsavedList = function (that, description) { // that, path,
     that.applier.change("unsavedChanges", curUnsavedChanges);
 };
 
-gpii.devpmt.updateFoundationSticky = function () {
+gpii.devpmt.updateFoundationSticky = function (that) {
     // https://github.com/zurb/foundation-sites/issues/7899
-    $(".sticky").foundation("_calc", true);
+    that.dom.locate("foundationSticky").foundation("_calc", true);
 };
 
 /**
@@ -886,7 +892,7 @@ gpii.devpmt.editPspMemory = function (devpmt, event) {
 };
 
 gpii.devpmt.editValueEvent = function (that, event) {
-    $(".pmt-value-display").removeClass("pmt-value-editing");
+    that.locate("valueDisplayCell").removeClass("pmt-value-editing");
     $(event.currentTarget).addClass("pmt-value-editing");
     var newCurrent = {
         context: event.currentTarget.dataset.context,
@@ -978,7 +984,7 @@ gpii.devpmt.npsetInit = function (that) {
     fluid.setGlobalValue("editPrefs", editPrefs);
 
     setInterval( function () {
-        gpii.devpmt.updateFoundationSticky();
+        that.updateFoundationSticky();
     }, 250);
 
     $(window).bind("beforeunload", function () {
