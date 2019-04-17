@@ -51,10 +51,11 @@ fluid.defaults("gpii.devpmt.dataSource.prefetchDataSource", {
 /**
  * `get` implementation for `gpii.devpmt.dataSource.prefetchDataSource`.
  * Fetches data from the underlying dataSource
- * @param  {Object} that        prefetchDataSource instance
- * @param  {Object} directModel `kettle.dataSource` directModel
- * @param  {Object} options     `kettle.dataSource` options
- * @return {Promise}            `kettle.dataSource.get` promise
+ *
+ * @param {Object} that - prefetchDataSource instance
+ * @param {Object} directModel - `kettle.dataSource` directModel
+ * @param {Object} options - `kettle.dataSource` options
+ * @return {Promise} `kettle.dataSource.get` promise
  */
 gpii.devpmt.dataSource.prefetchDataSource.get = function (that, directModel, options) {
     var promiseFetch = that.dataSource.get(directModel, options);

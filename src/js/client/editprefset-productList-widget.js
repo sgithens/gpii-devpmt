@@ -98,9 +98,9 @@ gpii.devpmt.productList.selectProduct = function (that, devpmt, event) {
  * Filters the products in the list, usually runs on a model listener for when
  * a user updates the filter text.
  *
- * @param that
- * @param productListItems
- * @param productListFilter
+ * @param {gpii.devpmt.productListWidget} that - Product list widget component
+ * @param {jQuery} productListItems - Products currently available and rendered in the dom.
+ * @param {String} productListFilter - Search string to filter the products by.
  */
 gpii.devpmt.productList.filterProductList = function (that, productListItems, productListFilter) {
     if (!that.lunrIndex) {
@@ -124,7 +124,7 @@ gpii.devpmt.productList.filterProductList = function (that, productListItems, pr
  * Typically runs in response to a change in the list of products in the
  * list so that the lunr index can either be rebuilt or updated.
  *
- * @param that
+ * @param {gpii.devpmt.productListWidget} that - Product list widget component
  */
 gpii.devpmt.productList.updateProductListLunrIndex = function (that) {
     var lunrIndex = lunr(function () {

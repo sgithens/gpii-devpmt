@@ -66,9 +66,9 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * Includes a dropdown that can be used to select a context to copy the
  * initial settings from.
  *
- * @param {that} that Add Context Dialog instance
- * @param {editPrefs} editPrefs Central gpii.devpmt.editPrefs component for the page.
- * @param {event} event Browser event triggered by the accept button.
+ * @param {that} that - Add Context Dialog instance
+ * @param {editPrefs} editPrefs - Central gpii.devpmt.editPrefs component for the page.
+ * @param {event} event Browser - event triggered by the accept button.
  */
 gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
     // We don't want the form to actually submit the page, just to enable
@@ -258,13 +258,13 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
  * A preference safe must have at least one context (prefset) in order to add
  * a product to it.
  *
- * @param {Object} that Dialog instance
- * @param {String} appId String indicating the appId
+ * @param {Object} that - Dialog instance
+ * @param {String} appId - String indicating the appId
  *                                     ex. http://registry.gpii.net/applications/com.android.freespeech
- * @param {Object} solutions Solutions registry entries.
- * @param {Array} contextNames Array of Strings with the name/id the context is
+ * @param {Object} solutions - Solutions registry entries.
+ * @param {Array} contextNames - Array of Strings with the name/id the context is
  * keyed by. The product will be initially added to the first item in this array.
- * @param {Function} editProductEnabled Invoker from `gpii.devpmt.editPrefs` to add the
+ * @param {Function} editProductEnabled - Invoker from `gpii.devpmt.editPrefs` to add the
  * product to.
  */
 gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, solutions, contextNames, editProductEnabled) {

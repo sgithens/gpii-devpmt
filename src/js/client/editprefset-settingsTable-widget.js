@@ -187,7 +187,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
  * The first time it is created though, we want to set the default values,
  * and trigger them via change applier so they are set on the parent.
  *
- * @param (Object) that
+ * @param {gpii.devpmt.settingsTableWidget} that - Settings Table Widget
  */
 gpii.devpmt.settingsTable.filterInit = function (that) {
     if (that.model.settingsFilter === null) {
@@ -251,7 +251,10 @@ gpii.devpmt.settingsTable.updateTermUsage = function (that) {
  * Update the currently displayed settings in the table based upon a
  * filter string.
  *
- * @param filterText
+ * @param {gpii.devpmt.settingsTableWidget} that - Settings Table Widget
+ * @param {jQuery} settingsRows - Table rows, containing one setting per row.
+ * @param {Object} lunrIndex - Index created by lunr.js
+ * @param {String} filterText - Text string being used to filter settings.
  */
 gpii.devpmt.settingsTable.filterSettings = function (that, settingsRows, lunrIndex, filterText) {
     if (!lunrIndex) {
@@ -316,7 +319,8 @@ gpii.devpmt.settingsTable.updateLunrIndex = function (that) {
 /**
  * Completely remove this product from all preference sets (contexts).
  * Opens the standard Remove Product Confirmation Dialog from the page devpmt component.
- * @param {Object} that
+ *
+ * @param {gpii.devpmt.settingsTableWidget} that - Settings Table Widget
  * @param {Object} editPrefs Primary page component `gpii.devpmt.editPrefs`
  * @param {String} context Optional argument with the context this product is being
  * removed from. If `null`, this product will be removed from all contexts.

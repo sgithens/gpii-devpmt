@@ -50,7 +50,6 @@ fluid.defaults("gpii.devpmt.morphic.createSafeViewport", {
     }
 });
 
-
 gpii.devpmt.morphic.createSafeViewport.checkPasswordStrength = function (that/*, e */) {
     var passwd = that.dom.locate("passwordInput").val();
     var strengthLabel = that.dom.locate("passwordStrengthLabel");

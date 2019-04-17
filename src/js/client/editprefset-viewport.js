@@ -596,6 +596,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
  * If the user has multiple contexts, this will return the total
  * number of unique settings keys in the NP Set across all contexts.
  *
+ * @param {Array} commonTermsSorted - List of our common terms, currently
+ * known as generic preferences.
+ * @param {Object} flatPrefs - Users current set of flat preferences.
  * @return {Object} Object with keys `npset` and `all`, such as
  *                  {
  *                      npset: 3,
@@ -628,13 +631,6 @@ gpii.devpmt.updateCommonTermUsageCounts = function (that, commonTermsSorted, fla
     var counts = gpii.devpmt.calculateCommonTermUsageCounts(commonTermsSorted, flatPrefs);
     that.applier.change("commonTermUsageCounts", counts);
 };
-
-/**
- * Product Term Filter counts
- *
- * See `gpii.devpmt.commonTermUsageCounts` for overview.
- */
-// gpii.devpmt.productTermUsageCounts = function (that,
 
 /**
  * Lookup Generic Preference Setting.
@@ -795,12 +791,12 @@ gpii.devpmt.toggleDevModeView = function (that, status) {
  * Edits whether a product is enabled for a specific context (preference set).
  * Can also be used to enable or unable the product for all contexts.
  *
- * @param  {Object} that    `gpii.devpmt.editPrefs` instance
- * @param  {boolean} checked True or False indicating if this product should be
+ * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
+ * @param {Boolean} checked - `true` or `false` indicating if this product should be
  * enabled or unabled.
- * @param  {string} context Context (prefset). If this is null, the product will
+ * @param {String} context - Context (prefset). If this is null, the product will
  * be (un)enabled in all contexts.
- * @param  {string} product The uri of the product.
+ * @param {String} product - The uri of the product.
  */
 gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
     var contexts = [context];
@@ -836,7 +832,8 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
  * This listener doesn't actually delete the context, but
  * opens the confirm delete context dialog.
  *
- * @param event (Event) Browser event object
+ * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
+ * @param {Event} event - Browser event object
  */
 gpii.devpmt.onDeleteContext = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;
@@ -849,7 +846,8 @@ gpii.devpmt.onDeleteContext = function (that, event) {
  * a context. Fetches the context to delete from the elements
  * data-contextid attribute.
  *
- * @param event (Event) Browser event object
+ * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
+ * @param {Event} event - Browser event object
  */
 gpii.devpmt.onEditContext = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;

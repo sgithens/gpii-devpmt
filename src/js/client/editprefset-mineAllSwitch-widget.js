@@ -127,7 +127,6 @@ fluid.defaults("gpii.devpmt.mineAllSwitch.buttonSwitch", {
 
 gpii.devpmt.mineAllSwitch.buttonSwitch.setSettingsFilter = function (that, editPrefs, event) {
     that.applier.change("settingsFilter", event.data);
-    // that.reRender();
 };
 
 fluid.defaults("gpii.devpmt.mineAllSwitch.default", {

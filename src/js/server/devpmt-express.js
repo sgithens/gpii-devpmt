@@ -29,7 +29,8 @@ fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
 
 
-/** gpii.handlebars.requestFuncTransform
+/**
+ * gpii.handlebars.requestFuncTransform
  *  This component is sort of a facsimile of the functions available
  *  in many web frameworks that take a request instance or URL parameter
  *  and return something for the response. In this case what is returned
@@ -54,8 +55,8 @@ gpii.handlebars.requestFuncTransform = function (value, transformSpec) {
  *
  * but could be any resolvable path on the component.
  *
- * @param  {string} path  The IoC path to look up.
- * @return {Any}          The value at the path.
+ * @param {String} path - The IoC path to look up.
+ * @return {Any} The value at the path.
  */
 fluid.getValueByGlobalPath = function (path) {
     var contextRef = fluid.parseContextReference(path);

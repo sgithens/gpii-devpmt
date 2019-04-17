@@ -50,7 +50,7 @@ Handlebars.registerHelper("lookupPspMetadata", function (type, context, term, pr
  * to org.gnome.orca .
  * This should likely be replaced with correct ontology usage.
  *
- * @param uri {String} a flat URI of a GPII application.
+ * @param {String} uri - a flat URI of a GPII application.
  * @return {String} The application ID.
  */
 Handlebars.registerHelper("appIDfromURI", function (uri) {
@@ -65,7 +65,7 @@ Handlebars.registerHelper("appIDfromURI", function (uri) {
  * http://registry.gpii.net/applications/org.gnome.orca
  * This should likely be replaced with correct ontology usage.
  *
- * @param uri {String} The application ID.
+ * @param {String} uri - The application ID.
  * @return {String} A flat URI of a GPII application.
  */
 Handlebars.registerHelper("appURIfromID", function (appId) {
@@ -78,8 +78,8 @@ Handlebars.registerHelper("appURIfromID", function (appId) {
  * it's of type appId. It would be nice to wrap some of the infusion
  * find/map functions as helpers rather than use this custom function.
  *
- * @param npsetApplications {Object} The listing of GPII app solutions.
- * @param appId {String} The ID of the application we're looking for.
+ * @param {Object} npsetApplications - The listing of GPII app solutions.
+ * @param {String} appId - The ID of the application we're looking for.
  * @return {Object} The solution entry of the IP, otherwise undefined.
  */
 Handlebars.registerHelper("checkForApp", function (npsetApplications, appId) {
@@ -99,9 +99,9 @@ Handlebars.registerHelper("checkForApp", function (npsetApplications, appId) {
  * The underlying functionality for this should be moved to a utility method
  * with unit tests.
  *
- * @param solution {Object} The solution registry entry.
- * @param settingKey {String} The generic pref setting key.
- * @return {boolean} Returns `true` if this solution supports the setting, otherwise `false`.
+ * @param {Object} solution - The solution registry entry.
+ * @param {String} settingKey - The generic pref setting key.
+ * @return {Boolean} Returns `true` if this solution supports the setting, otherwise `false`.
  */
 Handlebars.registerHelper("checkForSupportedSetting", function (solution, settingKey) {
     var togo = false;

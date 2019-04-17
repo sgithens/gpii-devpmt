@@ -224,8 +224,8 @@ gpii.devpmt.prefSettingAdjuster.updateBlankDisabling = function (that) {
  * watchInputKeys - Watches value input and saves
  * on Enter.
  *
- * @param (Object) that - prefSettingAdjuster
- * @param (Object) e - jQuery Event
+ * @param {Object} that - prefSettingAdjuster
+ * @param {Object} e - jQuery Event
  */
 gpii.devpmt.prefSettingAdjuster.watchInputKeys = function (that, e) {
     // Save the value when the enter key is pressed

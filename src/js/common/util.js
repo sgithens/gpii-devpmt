@@ -95,7 +95,7 @@ gpii.devpmt.prefsetExists = function (flatPrefs, prefsetId) {
  * so that we can build html tables and other structures successfully.
  *
  * @param {Object} prefs - A prefs set.
- * @return {Array} - List of context names.
+ * @return {Array} List of context names.
  */
 gpii.devpmt.contextNames = function (prefs) {
     var contextNames = [];
@@ -142,7 +142,7 @@ gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
  * and pulls out the flat pref URI and app ID. Returns all the apps a
  * user has settings.
  *
- * @param {Object} prefs Transformed flat preferences set
+ * @param {Object} prefs - Transformed flat preferences set
  * @return {Array} An array of objects structured as the following: (RWG example)
  *     {
  *         uri: "http://registry.gpii.net/applications/com.texthelp.readWriteGold",
@@ -181,7 +181,7 @@ gpii.devpmt.npsetApplications = function (prefs) {
  * various wildcards for list filtering use cases.
  *
  * @param {Object} lunrIndex - The existing lunr index to query.
- * @param {String} filterString  - The string used to filter the results.
+ * @param {String} filterString - The string used to filter the results.
  * @return {Array} The matching lunr results.
  */
 gpii.devpmt.lunrListFilterSearch = function (lunrIndex, filterString) {
