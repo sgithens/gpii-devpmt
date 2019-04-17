@@ -23,9 +23,18 @@ fluid.registerNamespace("gpii.devpmt.editPrefsTocWidget");
 fluid.defaults("gpii.devpmt.editPrefsTocWidget", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
-        npsetApplications: null,
-        allSolutions: null,
+        inputData: {
+            npsetApplications: null,
+            allSolutions: null,
+        },
         renderList: null
+    },
+    modelRelay: {
+        source: "inputData",
+        target: "renderList",
+        singleTransform: {
+            type: "gpii.devpmt.editPrefsTocWidget.generateRenderList"
+        }
     },
     selectors: {
         editPrefsTocContainer: "#pmt-editprefstoc-container"
@@ -34,24 +43,19 @@ fluid.defaults("gpii.devpmt.editPrefsTocWidget", {
         initial: "editprefset-toc-widget"
     },
     modelListeners: {
-        "npsetApplications": {
-            funcName: "gpii.devpmt.editPrefsTocWidget.generateRenderList",
-            args: ["{that}"]
-        },
         "renderList": {
             func: "{that}.reRender"
         }
     }
 });
 
-
-gpii.devpmt.editPrefsTocWidget.generateRenderList = function (that) {
-    var togo = [];
-    fluid.each(that.model.npsetApplications, function (app) {
-        togo.push({
+gpii.devpmt.editPrefsTocWidget.generateRenderList = function (input) {
+    var output = [];
+    fluid.each(input.npsetApplications, function (app) {
+        output.push({
             appId: app.appId,
-            name: that.model.allSolutions[app.appId].name
+            name: input.allSolutions[app.appId].name
         });
-        that.applier.change("renderList", togo);
     });
+    return output;
 };

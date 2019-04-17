@@ -302,8 +302,10 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-editPrefsTOC-widget"
                 },
                 model: {
-                    allSolutions: "{gpii.devpmt.editPrefs}.model.allSolutions",
-                    npsetApplications: "{gpii.devpmt.editPrefs}.model.npsetApplications"
+                    inputData: {
+                        allSolutions: "{gpii.devpmt.editPrefs}.model.allSolutions",
+                        npsetApplications: "{gpii.devpmt.editPrefs}.model.npsetApplications"
+                    }
                 }
             }
         },
