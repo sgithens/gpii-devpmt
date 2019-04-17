@@ -129,7 +129,12 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         },
         removeProduct: {
             funcName: "gpii.devpmt.settingsTable.removeProduct",
-            args: ["{that}", "{gpii.devpmt.editPrefs}"]
+            args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
+        },
+        // Zero-arg version of removeProduct that can be used as a click hander
+        removeProductEvent: {
+            func: "{that}.removeProduct",
+            args: [null]
         }
     },
     markupEventBindings: {
@@ -147,7 +152,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         },
         removeProductButton: {
             method: "click",
-            args: "{that}.removeProduct"
+            args: ["{that}.removeProductEvent"]
         },
         pspShowCheckboxes: {
             method: "click",
@@ -193,6 +198,12 @@ gpii.devpmt.settingsTable.filterInit = function (that) {
     }
 };
 
+/*
+ * This listener is called when the toggle switch is clicked for a specific prefset/context
+ * in the settings table. These switches are in a top row before the actual settings. This
+ * switch is necessary so that we could still have an empty object/entry for the product
+ * inside the prefset/context, which in some matchmaking situations could make a difference.
+ */
 gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event) {
     var checked = event.currentTarget.checked;
     var context = event.currentTarget.dataset.context;
@@ -200,14 +211,7 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event)
 
     if (gpii.devpmt.prefsetsForApplication(devpmt.model.flatPrefs, product).length === 1 &&
         checked === false) {
-        var appId = product.slice(38); // TODO Ontology lookup
-        devpmt.applier.change("activeModalDialog", {
-            appId: appId,
-            name: devpmt.model.allSolutions[appId].name,
-            product: product,
-            context: context
-        });
-        devpmt.events.openConfirmRemoveProductDialog.fire();
+        that.removeProduct(context);
         // The reRender call below is so that the toggle button goes back
         // to it's toggled state. If the user were to click "Cancel", then
         // the product wouldn't be removed, but the toggle would still have
@@ -219,7 +223,6 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event)
         that.reRender();
         return;
     }
-
     devpmt.editProductEnabled(checked, context, product);
 };
 
@@ -313,16 +316,18 @@ gpii.devpmt.settingsTable.updateLunrIndex = function (that) {
 /**
  * Completely remove this product from all preference sets (contexts).
  * Opens the standard Remove Product Confirmation Dialog from the page devpmt component.
- * @param  {Object} that
- * @param  {Object} editPrefs Primary page component `gpii.devpmt.editPrefs`
+ * @param {Object} that
+ * @param {Object} editPrefs Primary page component `gpii.devpmt.editPrefs`
+ * @param {String} context Optional argument with the context this product is being
+ * removed from. If `null`, this product will be removed from all contexts.
  */
-gpii.devpmt.settingsTable.removeProduct = function (that, editPrefs) {
+gpii.devpmt.settingsTable.removeProduct = function (that, editPrefs, context) {
     var appId = that.options.appId;
     editPrefs.applier.change("activeModalDialog", {
         appId: appId,
         name: editPrefs.model.allSolutions[appId].name,
         product: that.options.appUri,
-        context: null
+        context: context
     });
     editPrefs.events.openConfirmRemoveProductDialog.fire();
 };
