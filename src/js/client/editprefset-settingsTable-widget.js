@@ -18,7 +18,7 @@
 /* global lunr */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.settingsTable");
 
@@ -165,16 +165,16 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     },
     listeners: {
         "onCreate.updateLunrIndex": {
-                "func": "{that}.updateLunrIndex"
+            "func": "{that}.updateLunrIndex"
         },
         "onCreate.filterInit": {
-                "func": "{that}.filterInit"
+            "func": "{that}.filterInit"
         },
         "onCreate.updateTermUsage": {
-                "func": "{that}.updateTermUsage"
+            "func": "{that}.updateTermUsage"
         },
         "onMarkupRendered.filterSettings": {
-                "func": "{that}.filterSettings"
+            "func": "{that}.filterSettings"
         }
     },
     lunrIndex: null

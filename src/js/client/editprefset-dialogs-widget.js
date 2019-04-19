@@ -22,12 +22,12 @@
  */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.dialogs");
 
 /**
- * Add NP Set Context Dialog
+ * Add Preferences Set Context Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
@@ -107,7 +107,7 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
 };
 
 /**
- * Edit NP Set Context Dialog
+ * Edit Preferences Set Context Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
@@ -206,7 +206,7 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, edit
 
 
 /**
- * Confirm deletion of NP Set Context Dialog
+ * Confirm deletion of Preferences Set Context Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
@@ -234,7 +234,7 @@ gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog = function (t
 };
 
 /**
- * Add Product to NP Set Dialog
+ * Add Product to Preferences Set Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
@@ -287,7 +287,7 @@ gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that
 };
 
 /**
- * Confirm NP Set Save Dialog
+ * Confirm Preferences Set Save Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.confirmSaveDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
@@ -328,12 +328,12 @@ fluid.defaults("gpii.devpmt.dialogs.confirmRemoveProductDialog", {
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog",
-            args: ["{that}", "{gpii.devpmt.editPrefs}"]
+            args: ["{that}", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }
     }
 });
 
-gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog = function (that, devpmt) {
+gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog = function (that, editProductEnabled) {
     that.closeDialog();
-    devpmt.editProductEnabled(false, that.model.context, that.model.product);
+    editProductEnabled(false, that.model.context, that.model.product);
 };

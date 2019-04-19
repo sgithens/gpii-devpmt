@@ -3,7 +3,7 @@
  *
  * A component that renders a list of all the applications/products, as well
  * as including Generic Settings at the top of the list. Typically used on
- * the left hand side for navigation and adding new products to an NP Set.
+ * the left hand side for navigation and adding new products to a Preferences Set.
  *
  * Copyright 2019 Raising the Floor - International
  *
@@ -16,7 +16,7 @@
 /* global lunr */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.productList");
 

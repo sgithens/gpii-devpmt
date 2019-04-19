@@ -17,10 +17,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
         lintAll: {
             sources: {
-                md:    [ "./*.md","./documentation/*.md", "./examples/**/*.md"],
-                js:    ["!./browserify/**/*.js", "./gpii/**/*.js", "./tests/**/*.js", "./examples/**/*.js", "*.js"],
-                json:  ["./gpii/**/*.json", "./tests/**/*.json", "./testData/**/*.json", "./*.json"],
-                json5: ["./gpii/**/*.json5", "./tests/**/*.json5", "./testData/**/*.json5", "./*.json5"],
+                md:    [ "./*.md"],
+                js:    ["!./browserify/**/*.js", "./src/**/*.js", "./tests/**/*.js", "*.js"],
+                json:  ["./src/**/*.json", "./tests/**/*.json", "./*.json"],
+                json5: ["./src/**/*.json5", "./tests/**/*.json5", "./configs/**/*.json5", "./*.json5"],
                 other: ["./.*"]
             }
         }

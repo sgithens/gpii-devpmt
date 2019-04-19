@@ -12,7 +12,7 @@
 /* eslint-env node */
 "use strict";
 var fluid = require("infusion");
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 
 // URLPATH /login
 fluid.defaults("gpii.devpmt.morphic.loginToSafeHandler", {
@@ -106,13 +106,13 @@ gpii.devpmt.morphic.createSafeHandler.handleRequest = function (that, devpmt, re
                 username: prefsetName,
                 password: prefsetPassword
             });
-            createCloudCredProm.then(function (credPromData) {
+            createCloudCredProm.then(function (/* credPromData */) {
                 req.session.loggedInToSafe = data.prefsSafeId;
                 res.redirect("/morphic/safe");
-            }, function (credPromErr) {
+            }, function (/* credPromErr */) {
                 res.redirect("/morphic/create/safe");
             });
-        }, function (err) {
+        }, function (/* err */) {
         });
     }
     else {

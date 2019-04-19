@@ -12,7 +12,7 @@
 /* eslint-env node */
 "use strict";
 var fluid = require("infusion");
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 
 fluid.registerNamespace("gpii.devpmt.ppt");
 

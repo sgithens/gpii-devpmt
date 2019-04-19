@@ -6,7 +6,6 @@
     "tests",
     "reports",
     "coverage",
-    "examples",
     "Gruntfile.js"
   ],
   "reporter": "none",

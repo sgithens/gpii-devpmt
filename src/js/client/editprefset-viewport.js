@@ -17,7 +17,7 @@
 /* global saveAs, Foundation */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 
 /**
@@ -139,7 +139,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // Contains any free information that pertains to an active dialog.
         // While we can only display one modal dialog at a time, the options
         // and data for a dialog can change between instances, such as adding
-        // different products to an NP Set, and presenting a confirm dialog
+        // different products to an Preferences Set, and presenting a confirm dialog
         // each time.
         activeModalDialog: {}
     },
@@ -583,7 +583,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
  * Common term filter counts
  *
  * Returns the total number of common terms, and then the maximum
- * number that is set in the NP Set. This is used for rendering
+ * number that is set in the Preferences Set. This is used for rendering
  * information by the settings filters in the form:
  *
  * [[My Settings (3)]] [All Settings (225)]
@@ -594,7 +594,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
  * then expand the rest when the user decides it is appropriate.
  *
  * If the user has multiple contexts, this will return the total
- * number of unique settings keys in the NP Set across all contexts.
+ * number of unique settings keys in the Preferences Set across all contexts.
  *
  * @param {Array} commonTermsSorted - List of our common terms, currently
  * known as generic preferences.
@@ -742,7 +742,7 @@ gpii.devpmt.savePrefset = function (that /*, event */) {
         url: "/saveprefset/" + that.model.prefsSafe.id,
         data: JSON.stringify(toSave, null, 4)
     };
-    $.ajax(options).done(function (data) {
+    $.ajax(options).done(function (/* data */) {
         //TODO what should be done here?
     });
     var transaction = that.applier.initiate();

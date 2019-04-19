@@ -19,7 +19,7 @@ var session = require("express-session");
 var RedisStore = require("connect-redis")(session);
 
 var fluid = require("infusion");
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.require("gpii-express");
 fluid.require("gpii-express-user");
 fluid.require("gpii-handlebars");
@@ -65,8 +65,8 @@ fluid.getValueByGlobalPath = function (path) {
 };
 
 /**
- * gpii.devpmt.npset - Infusion component representing a single NP Set for
- * a user or snapset. Based on current hardwire, loads it's NP Set from
+ * gpii.devpmt.npset - Infusion component representing a single Preferences Set for
+ * a user or snapset. Based on current hardwire, loads it's Preferences Set from
  * the bundled GPII's testData.
  *
  * When creating a new instance, the npsetName is required in the options
@@ -74,18 +74,13 @@ fluid.getValueByGlobalPath = function (path) {
  *
  * gpii.devpmt.npset({ npsetName: "alice" , flatPrefs: flatPrefsObject});
  *
- * This will become a model component for NP set editing.
+ * This will become a model component for Preferences set editing.
  */
 fluid.defaults("gpii.devpmt.npset", {
     gradeNames: ["fluid.component"],
     // npsetName: "elod",
     // flatPrefs: {},
-    // docs: {
-    //     expander: {
-    //         funcName: "gpii.devpmt.loadNPSetDocs",
-    //         args: ["{that}.options.npsetName"]
-    //     }
-    // },
+    // docs: {}
     invokers: {
         contextNames: {
             funcName: "gpii.devpmt.contextNames",
@@ -109,14 +104,13 @@ gpii.devpmt.redisStore = function () {
 
 /**
  * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
- * NP Sets.
+ * Preferences Sets.
  */
 gpii.devpmt.LISTEN_PORT = process.env.GPII_DEVPMT_LISTEN_PORT || 8085;
 gpii.devpmt.PREFERENCESSERVER_URL = process.env.GPII_DEVPMT_TO_PREFERENCESSERVER_URL || "http://localhost:8081";
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
     prefsServerURL: gpii.devpmt.PREFERENCESSERVER_URL,
-    // prefsServerURL: "http://preferences.dev-sgithens.gpii.net",
     port: gpii.devpmt.LISTEN_PORT,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",

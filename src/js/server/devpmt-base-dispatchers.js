@@ -19,7 +19,7 @@
 "use strict";
 var path = require("path");
 var fluid = require("infusion");
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 
 
 /**
@@ -103,14 +103,14 @@ gpii.devpmt.baseDispatcher.checkAuthorization = function (/* that, req, res, nex
  * this stubs in until addressed upstream.
  */
 gpii.devpmt.baseDispatcher.getRenderInfo = function (that, req) {
-    var template     = req.params.template ? req.params.template : that.options.defaultTemplate;
+    var template = req.params.template ? req.params.template : that.options.defaultTemplate;
     var templateName = template + ".handlebars";
 
     var resolvedTemplateDirs = gpii.express.hb.resolveAllPaths(that.options.templateDirs);
-    var templateExists =  fluid.find(resolvedTemplateDirs, gpii.express.hb.getPathSearchFn(["pages", templateName]));
+    var templateExists = fluid.find(resolvedTemplateDirs, gpii.express.hb.getPathSearchFn(["pages", templateName]));
     if (templateExists) {
-        var layoutExists    = fluid.find(resolvedTemplateDirs, gpii.express.hb.getPathSearchFn(["layouts", templateName]));
-        var layoutName      = layoutExists ? templateName : that.options.defaultLayout;
+        var layoutExists = fluid.find(resolvedTemplateDirs, gpii.express.hb.getPathSearchFn(["layouts", templateName]));
+        var layoutName = layoutExists ? templateName : that.options.defaultLayout;
         var contextToExpose = fluid.model.transformWithRules({ model: that.model, req: req, layout: layoutName }, that.options.rules.contextToExpose);
         return {
             templatePath: path.join("pages", templateName),

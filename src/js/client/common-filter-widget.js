@@ -15,7 +15,7 @@
  */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.filterWidget");
 

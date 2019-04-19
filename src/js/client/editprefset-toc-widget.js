@@ -16,7 +16,7 @@
  */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.editPrefsTocWidget");
 
@@ -25,7 +25,7 @@ fluid.defaults("gpii.devpmt.editPrefsTocWidget", {
     model: {
         inputData: {
             npsetApplications: null,
-            allSolutions: null,
+            allSolutions: null
         },
         renderList: null
     },

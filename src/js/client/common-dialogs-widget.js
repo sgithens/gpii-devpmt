@@ -17,7 +17,7 @@
 /* global Foundation */
 "use strict";
 
-var gpii  = fluid.registerNamespace("gpii");
+var gpii = fluid.registerNamespace("gpii");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.dialogs");
 
@@ -82,8 +82,7 @@ gpii.devpmt.dialogs.baseDialog.closeDialog = function (that, dialogContainer) {
  * DevPMT Confirmation Dialog
  *
  * Suitable dialog for performing actions that require either an
- * 'accept' or 'cancel' type answer. Such as adding a product to
- * an NP Set, deleting a context from an NP Set, etc.
+ * 'accept' or 'cancel' type answer.
  *
  * To create confirmation dialogs, inherit this grade. Then the
  * following items need to be overriden:
@@ -106,14 +105,8 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDialog", {
         cancelButton: ".pmt-cancel-dialog-button"
     },
     invokers: {
-        acceptConfirmDialog: {
-            funcName: "gpii.devpmt.dialogs.acceptConfirmDialog",
-            args: ["{that}"]
-        },
-        cancelConfirmDialog: {
-            funcName: "gpii.devpmt.dialogs.cancelConfirmDialog",
-            args: ["{that}"]
-        }
+        acceptConfirmDialog: "fluid.notImplemented",
+        cancelConfirmDialog: "{that}.closeDialog"
     },
     listeners: {
         "afterOpenDialog.bindAcceptButton": {
@@ -128,11 +121,3 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDialog", {
         }
     }
 });
-
-gpii.devpmt.dialogs.acceptConfirmDialog = function (that) {
-    that.closeDialog();
-};
-
-gpii.devpmt.dialogs.cancelConfirmDialog = function (that) {
-    that.closeDialog();
-};
