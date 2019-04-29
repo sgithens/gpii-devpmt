@@ -62,11 +62,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         settingsRows: ".pmt-settings-table-row",
         addContextButton: ".pmt-add-context-button",
         mineAllSwitchContainer: "#pmt-mineAllSwitch-container",
-        removeProductButton: ".pmt-remove-product",
-
-        // PSP items
-        pspShowCheckboxes: ".pmt-psp-show-checkbox",
-        pspMemoryCheckboxes: ".pmt-psp-memory-checkbox"
+        removeProductButton: ".pmt-remove-product"
     },
     templates: {
         initial: "editprefset-settingsTable-widget"
@@ -153,14 +149,6 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         removeProductButton: {
             method: "click",
             args: ["{that}.removeProductEvent"]
-        },
-        pspShowCheckboxes: {
-            method: "click",
-            args: "{gpii.devpmt.editPrefs}.editPspShow"
-        },
-        pspMemoryCheckboxes: {
-            method: "click",
-            args: "{gpii.devpmt.editPrefs}.editPspMemory"
         }
     },
     listeners: {

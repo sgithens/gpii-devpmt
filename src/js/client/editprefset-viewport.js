@@ -465,14 +465,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             func: "{that}.renderMarkup",
             args: ["editWidgetSidebar", "{that}.options.templates.editPrefWidget", "{arguments}.0"]
         },
-        editPspShow: {
-            funcName: "gpii.devpmt.editPspShow",
-            args: ["{that}", "{arguments}.0"]
-        },
-        editPspMemory: {
-            funcName: "gpii.devpmt.editPspMemory",
-            args: ["{that}", "{arguments}.0"]
-        },
         editValueEvent: {
             funcName: "gpii.devpmt.editValueEvent",
             args: ["{that}", "{arguments}.0"]
@@ -513,11 +505,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.lookupProductPrefValue",
             args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
         },
-        lookupPspMetadata: {
-            funcName: "gpii.devpmt.lookupPspMetadata",
-            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2", "{arguments}.3"]
-                    // type: "show" or "memory", context, term, product
-        },
         onEditContext: {
             funcName: "gpii.devpmt.onEditContext",
             args: ["{that}", "{arguments}.0"] // event
@@ -534,7 +521,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     listeners: {
         "onCreate.initialize": {
             funcName: "gpii.devpmt.npsetInit",
-            args: ["{that}"] //"onCreate listener"]
+            args: ["{that}"]
         },
         "onMarkupRendered.updateFoundationSticky": {
             func: "{that}.updateFoundationSticky"
@@ -647,28 +634,6 @@ gpii.devpmt.lookupProductPrefValue = function (that, context, product, settingTe
     else {
         return undefined;
     }
-};
-
-gpii.devpmt.lookupPspMetadata = function (that, type, context, term, product) {
-    if (product) {
-        if (that.model.flatPrefs.contexts[context].metadata &&
-            that.model.flatPrefs.contexts[context].metadata.psp &&
-            that.model.flatPrefs.contexts[context].metadata.psp[type] &&
-            that.model.flatPrefs.contexts[context].metadata.psp[type][product] &&
-            that.model.flatPrefs.contexts[context].metadata.psp[type][product][term]) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    else if (that.model.flatPrefs.contexts[context].metadata &&
-        that.model.flatPrefs.contexts[context].metadata.psp &&
-        that.model.flatPrefs.contexts[context].metadata.psp[type] &&
-        that.model.flatPrefs.contexts[context].metadata.psp[type][term]) {
-        return true;
-    }
-    return false;
 };
 
 gpii.devpmt.initSettingTableWidgets = function (that) {
@@ -842,38 +807,6 @@ gpii.devpmt.onEditContext = function (that, event) {
         contextName: that.model.flatPrefs.contexts[contextId].name
     });
     that.events.openEditContextDialog.fire();
-};
-
-gpii.devpmt.editPspShow = function (devpmt, event) {
-    var context = event.currentTarget.dataset.context;
-    var term = event.currentTarget.dataset.term;
-    var product = event.currentTarget.dataset.product;
-    var checked = event.currentTarget.checked;
-    var segs = ["contexts", context, "metadata", "psp", "show"];
-    if (product) {
-        segs.push(product.replace(/\./g, "\\."), term.replace(/\./g, "\\."));
-    }
-    else {
-        segs.push(term.replace(/\./g, "\\."));
-    }
-    var path = ["flatPrefs"].concat(segs).join(".");
-    devpmt.applier.change(path, checked);
-};
-
-gpii.devpmt.editPspMemory = function (devpmt, event) {
-    var context = event.currentTarget.dataset.context;
-    var term = event.currentTarget.dataset.term;
-    var product = event.currentTarget.dataset.product;
-    var checked = event.currentTarget.checked;
-    var segs = ["contexts", context, "metadata", "psp", "memory"];
-    if (product) {
-        segs.push(product.replace(/\./g, "\\."), term.replace(/\./g, "\\."));
-    }
-    else {
-        segs.push(term.replace(/\./g, "\\."));
-    }
-    var path = ["flatPrefs"].concat(segs).join(".");
-    devpmt.applier.change(path, checked);
 };
 
 gpii.devpmt.editValueEvent = function (that, event) {

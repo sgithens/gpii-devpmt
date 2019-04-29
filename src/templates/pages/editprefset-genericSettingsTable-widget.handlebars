@@ -28,7 +28,6 @@
                 <tr>
                     <th class="pmt-settingstable-name">Setting</th>
                     {{#each contextNames}}
-                        <th><!-- PSP --></th><th><!-- MEM --></th>
                         <th class="pmt-settingstable-value">
                             {{{messageHelper "gpii_pmt_contextNameLabel" (lookup (lookup ../flatPrefs/contexts this) "name") }}}
                         </th>
@@ -43,24 +42,6 @@
                     <tr class="pmt-commonterm-row" data-term="{{this.id}}">
                         <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.title}}&nbsp;{{this.description}}&nbsp;{{jsonify this}}"><i class="fi-info"></i></span> <span>{{this.title}}</span></td>
                         {{#each ../contextNames}}
-                        <!-- if psp options -->
-                        <td>
-                            <input data-term="{{../id}}" data-context="{{this}}" class="pmt-psp-show-checkbox" type="checkbox"
-                                title="Include setting in PSP"
-                                {{#compare (lookupPspMetadata 'show' this ../id false) "===" true}}
-                                    checked="true"
-                                {{/compare}}
-                                />
-                        </td>
-                        <td>
-                            <input data-term="{{../id}}" data-context="{{this}}" class="pmt-psp-memory-checkbox" type="checkbox"
-                                title="Include setting with Memory in PSP"
-                                {{#compare (lookupPspMetadata 'memory' this ../id false) "===" true}}
-                                    checked="true"
-                                {{/compare}}
-                                />
-                        </td>
-                        <!-- end if psp options -->
                         <td class="pmt-value-display" data-name="{{../title}}" data-context="{{this}}" data-term="{{../id}}"
                             {{#compare (lookupGenericPrefValue this ../id) "===" undefined}}
                                 data-value=""><span>--</span>
