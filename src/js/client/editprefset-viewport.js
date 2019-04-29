@@ -169,6 +169,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 model: {
                     appId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.appId",
                     name: "{gpii.devpmt.editPrefs}.model.activeModalDialog.name"
+                    // TODO For some reason the mere presence of the below two model relays
+                    // is breaking the toc widget, as it can't perform it's lookups as things
+                    // are being rerendered as a byproduct of the creation of this dialog.
+                    // allSolutions: "{gpii.devpmt.editPrefs}.model.allSolutions",
+                    // contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
                 }
             }
         },

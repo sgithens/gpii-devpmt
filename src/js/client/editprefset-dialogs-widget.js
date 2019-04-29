@@ -67,7 +67,6 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * initial settings from.
  *
  * @param {that} that - Add Context Dialog instance
- * @param {editPrefs} editPrefs - Central gpii.devpmt.editPrefs component for the page.
  * @param {event} event Browser - event triggered by the accept button.
  */
 gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, event) {
@@ -249,7 +248,7 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
     model: {
         appId: null,
         name: null, // Human Name of Product,
-        solutions: null,
+        allSolutions: null,
         contextNames: null
     },
     invokers: {
@@ -274,7 +273,7 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
  * @param {Function} editProductEnabled - Invoker from `gpii.devpmt.editPrefs` to add the
  * product to.
  */
-gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, solutions, contextNames, editProductEnabled) {
+gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that, appId, allSolutions, contextNames, editProductEnabled) {
     // In this case we actually need to close the dialog first... as the page
     // rerenders based on a model listener when the product is enabled, and does
     // wonky things... such as removing the ability to vertical scroll. Should look
@@ -283,7 +282,7 @@ gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (that
     // It's unlikely that this dialog could have been instantiated with an appId not from
     // the list, but in any event, if the appId is not in the solutions listing, we will
     // return here.
-    if (!solutions[appId]) {
+    if (!allSolutions[appId]) {
         return;
     }
     // TODO Ontology!!!
