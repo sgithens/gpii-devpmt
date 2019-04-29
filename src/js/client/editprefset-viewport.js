@@ -499,11 +499,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         lookupGenericPrefValue: {
             funcName: "gpii.devpmt.lookupGenericPrefValue",
-            args: ["{that}", "{arguments}.0", "{arguments}.1"] // context, commonTerm
+            args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1"] // context, commonTerm
         },
         lookupProductPrefValue: {
             funcName: "gpii.devpmt.lookupProductPrefValue",
-            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
+            args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
         },
         onEditContext: {
             funcName: "gpii.devpmt.onEditContext",
@@ -613,9 +613,9 @@ gpii.devpmt.updateCommonTermUsageCounts = function (that, commonTermsSorted, fla
  * a valid JSON value. Theoretically, and preference setting maybe
  * set as `null`.
  */
-gpii.devpmt.lookupGenericPrefValue = function (that, context, commonTerm) {
-    if (that.model.flatPrefs.contexts[context].preferences[commonTerm] !== undefined) {
-        return that.model.flatPrefs.contexts[context].preferences[commonTerm];
+gpii.devpmt.lookupGenericPrefValue = function (contexts, context, commonTerm) {
+    if (contexts[context].preferences[commonTerm] !== undefined) {
+        return contexts[context].preferences[commonTerm];
     }
     else {
         return undefined;
@@ -626,10 +626,10 @@ gpii.devpmt.lookupGenericPrefValue = function (that, context, commonTerm) {
  * Lookup Application Specific Setting. Similar to `lookupGenericPrefValue` lookups
  * in regard to return values, but takes an extra argument for the product.
  */
-gpii.devpmt.lookupProductPrefValue = function (that, context, product, settingTerm) {
-    if (that.model.flatPrefs.contexts[context].preferences[product] &&
-        that.model.flatPrefs.contexts[context].preferences[product][settingTerm] !== undefined) {
-        return that.model.flatPrefs.contexts[context].preferences[product][settingTerm];
+gpii.devpmt.lookupProductPrefValue = function (contexts, context, product, settingTerm) {
+    if (contexts[context].preferences[product] &&
+        contexts[context].preferences[product][settingTerm] !== undefined) {
+        return contexts[context].preferences[product][settingTerm];
     }
     else {
         return undefined;
