@@ -51,7 +51,7 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog",
-            args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
+            args: ["{that}", "{arguments}.0"]
         }
     },
     modelListeners: {
@@ -70,7 +70,7 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * @param {editPrefs} editPrefs - Central gpii.devpmt.editPrefs component for the page.
  * @param {event} event Browser - event triggered by the accept button.
  */
-gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
+gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, event) {
     // We don't want the form to actually submit the page, just to enable
     // activating the submit button on Enter
     event.preventDefault();
@@ -96,10 +96,10 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (that, editP
     var path = "flatPrefs.contexts." + that.model.contextId;
     var newPrefSet = {};
     // The select contains a blank option to start with a fresh set of values.
-    if (that.model.contextToCopy !== "" && editPrefs.model.flatPrefs.contexts[contextToCopy]) {
-        newPrefSet = fluid.copy(editPrefs.model.flatPrefs.contexts[contextToCopy].preferences);
+    if (that.model.contextToCopy !== "" && that.model.flatPrefs.contexts[contextToCopy]) {
+        newPrefSet = fluid.copy(that.model.flatPrefs.contexts[contextToCopy].preferences);
     }
-    editPrefs.applier.change(path, {
+    that.applier.change(path, {
         "name": that.model.contextId,
         "preferences": newPrefSet
     }, "ADD");
@@ -120,7 +120,8 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
         contextId: "",
         contextIdErrors: "",
         contextName: "",
-        contextNameErrors: ""
+        contextNameErrors: "",
+        flatPrefs: {} // For use in prefsetExists
     },
     selectors: {
         contextIdInput: "#pmt-edit-context-id-input",
@@ -133,7 +134,7 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog",
-            args: ["{that}", "{gpii.devpmt.editPrefs}", "{arguments}.0"]
+            args: ["{that}", "{arguments}.0"]
         }
     },
     modelListeners: {
@@ -146,7 +147,7 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
     }
 });
 
-gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, editPrefs, event) {
+gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, event) {
     // We don't want the form to actually submit the page, just to enable
     // activating the submit button on Enter
     event.preventDefault();
@@ -166,7 +167,7 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, edit
     // If we changed the contextId, make sure that there isn't an existing context with
     // that ID
     else if (that.model.contextId !== that.model.originalContextId &&
-             editPrefs.prefsetExists(that.model.contextId)) {
+             gpii.devpmt.prefsetExists(that.model.flatPrefs, that.model.contextId)) {
         that.applier.change("contextIdErrors", "A Preference Set with that ID already exists.");
         return;
     }
@@ -184,8 +185,8 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (that, edit
         that.applier.change("contextNameErrors", "");
     }
 
-    var transaction = editPrefs.applier.initiate();
-    var prefsetToEdit = fluid.copy(editPrefs.model.flatPrefs.contexts[that.model.originalContextId]);
+    var transaction = that.applier.initiate();
+    var prefsetToEdit = fluid.copy(that.model.flatPrefs.contexts[that.model.originalContextId]);
     prefsetToEdit.name = that.model.contextName;
     var oldPath = "flatPrefs.contexts." + that.model.originalContextId;
     var path = "flatPrefs.contexts." + that.model.contextId;
@@ -214,7 +215,8 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {
         initial: "editprefset-confirmDeleteContext-dialog"
     },
     model: {
-        contextId: "" // Should be populated/relayed during construction before showing dialog
+        contextId: "", // Should be populated/relayed during construction before showing dialog
+        flatPrefs: {}
     },
     invokers: {
         acceptConfirmDialog: {
@@ -230,6 +232,9 @@ gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog = function (t
     // the worse case scenerio here is that the change applier operation will merely
     // do nothing.
     var path = "flatPrefs.contexts." + contextId;
+    //TODO We want to use the local change applier for this operation and have the model Relay
+    //push the DELETE back to the editPrefs component. However, the DELETE does not seem to be
+    //propagating. Investigate more.
     editPrefs.applier.change(path, false, "DELETE");
 };
 
@@ -243,7 +248,9 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
     },
     model: {
         appId: null,
-        name: null // Human Name of Product
+        name: null, // Human Name of Product,
+        solutions: null,
+        contextNames: null
     },
     invokers: {
         acceptConfirmDialog: {

@@ -158,28 +158,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     bindings: {
     },
     components: {
-        // TESTING
-        baseDialog: {
-            type: "gpii.devpmt.dialogs.baseDialog",
-            createOnEvent: "openBaseDialog",
-            container: "{that}.dom.modalDialogContainer",
-            options: {
-                selectors: {
-                    initial: "#pmt-modal-dialog-render"
-                }
-            }
-        },
-        // TESTING
-        confirmationDialog: {
-            type: "gpii.devpmt.dialogs.confirmDialog",
-            createOnEvent: "openConfirmDialog",
-            container: "{that}.dom.modalDialogContainer",
-            options: {
-                selectors: {
-                    initial: "#pmt-modal-dialog-render"
-                }
-            }
-        },
         confirmAddProductDialog: {
             type: "gpii.devpmt.dialogs.confirmAddProductDialog",
             createOnEvent: "openConfirmAddProductDialog",
@@ -235,7 +213,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 model: {
                     contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId",
                     originalContextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.originalContextId",
-                    contextName: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextName"
+                    contextName: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextName",
+                    flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
         },
@@ -248,7 +227,8 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-modal-dialog-render"
                 },
                 model: {
-                    contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId"
+                    contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId",
+                    flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
         },
