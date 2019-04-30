@@ -649,7 +649,7 @@ gpii.devpmt.initSettingTableWidgets = function (that) {
     });
 };
 
-gpii.devpmt.addEditToUnsavedList = function (that, description) { // that, path, newValue, oldValue) {
+gpii.devpmt.addEditToUnsavedList = function (that, description) {
     var curUnsavedChanges = fluid.copy(that.model.unsavedChanges);
     curUnsavedChanges.push({
         description: description
@@ -823,21 +823,18 @@ gpii.devpmt.editValueEvent = function (that, event) {
     if (!newCurrent.product) {
         // Common Term
         newMetadata.schema = that.options.commonTerms[newCurrent.term];
-        newMetadata.name = newMetadata.schema.title;
-        newMetadata.description = newMetadata.schema.description;
         newCurrent.value = that.lookupGenericPrefValue(newCurrent.context, newCurrent.term);
-        newCurrent.blank = newCurrent.value === undefined;
     }
     else {
         // Application Specific
         // TODO ontology
         newMetadata = gpii.devpmt.findProductSettingMetadata(that.model.allSolutions,
             newCurrent.product.slice(38), newCurrent.term);
-        newMetadata.name = newMetadata.schema.title;
-        newMetadata.description = newMetadata.schema.description;
         newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
-        newCurrent.blank = newCurrent.value === undefined;
     }
+    newMetadata.name = newMetadata.schema.title;
+    newMetadata.description = newMetadata.schema.description;
+    newCurrent.blank = newCurrent.value === undefined;
 
     // If blank to false so that you can immediately start editing
     // the value.
