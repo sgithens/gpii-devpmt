@@ -21,7 +21,6 @@ fluid.registerNamespace("gpii.devpmt");
 
 fluid.defaults("gpii.devpmt.morphic.createSafeViewport", {
     gradeNames: ["gpii.devpmt.viewComponent"],
-    // gradeNames: ["fluid.component"],
     selectors: {
         initial: "#morphic-create-safe-viewport",
         usernameInput: "#morphic-username",
