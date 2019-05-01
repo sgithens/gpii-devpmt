@@ -35,7 +35,7 @@
                 <th class="pmt-settingstable-value">Product Default</th>
                 {{#each model.contextNames}}
                     <th class="pmt-settingstable-value">
-                        {{{messageHelper "gpii_pmt_contextNameLabel" (lookup (lookup ../model/flatPrefs/contexts this) "name") }}}</th>
+                        {{lookup (lookup ../model/flatPrefs/contexts this) "name"}}</th>
                 {{/each}}
                 <th><a class="hollow button small pmt-add-context-button">
                    {{{messageHelper "gpii_pmt_addContextButton"}}}
