@@ -12,3 +12,8 @@
 .pmt-filter-label:hover {
     cursor: pointer;
 }
+
+.pmt-boolean-value {
+    display: inline;
+    color: black;
+}

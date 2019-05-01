@@ -110,7 +110,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         cancelButton: ".pmt-cancel-button",
         valueInput: "#pmt-new-value",
         blankCheckbox: "#pmt-blank-value",
-        booleanValueLabel: "#pmt-boolean-value"
+        booleanValueLabel: ".pmt-boolean-value"
     },
     bindings: { // Binding selectors: modelPaths
         blankCheckbox: {
@@ -162,6 +162,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         updateBlankDisabling: {
             funcName: "gpii.devpmt.prefSettingAdjuster.updateBlankDisabling",
             args: ["{that}"]
+        },
+        updateBooleanValueLabel: {
+            funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
+            args: ["{that}.dom.booleanValueLabel", "{that}.model.current.value"]
         }
     },
     markupEventBindings: {
@@ -187,8 +191,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             func: "{that}.updateBlankDisabling"
         },
         "onMarkupRendered.updateBooleanValueLabel": {
-            funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
-            args: ["{that}"]
+            func: "{that}.updateBooleanValueLabel"
         }
     },
     modelListeners: {
@@ -196,18 +199,15 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             func: "{that}.updateBlankDisabling"
         },
         "current.value": [{
-            funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
-            args: ["{that}"]
+            func: "{that}.updateBooleanValueLabel"
         }]
     }
 });
 
-gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (that) {
-    // if (that.model.metadata.schema.type === "boolean") {
-    var booleanValueLabel = that.dom.locate("booleanValueLabel");
-    booleanValueLabel.css("display","inline");
-    booleanValueLabel.css("color","black");
-    booleanValueLabel.html(that.model.current.value === true ? "true" : "false");
+gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (label, value) {
+    if (label.html) {
+        label.html(value === true ? "true" : "false");
+    }
 };
 
 /**
