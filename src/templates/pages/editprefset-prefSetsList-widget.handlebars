@@ -14,8 +14,8 @@
             <tr>
                 <td>{{this}}</td>
                 <td>{{{lookup (lookup ../flatPrefs/contexts this) "name" }}}</td>
-                <td><button data-contextId="{{this}}" type="button" class="pmt-edit-context button">Edit</button></td>
-                <td><button data-contextId="{{this}}" type="button" class="pmt-delete-context alert button">Delete</button></td>
+                <td><button data-contextId="{{this}}" type="button" class="pmt-edit-context button">{{{messageHelper "gpii_pmt_prefsList_editButton"}}}</button></td>
+                <td><button data-contextId="{{this}}" type="button" class="pmt-delete-context alert button">{{{messageHelper "gpii_pmt_prefsList_deleteButton"}}}</button></td>
             </tr>
         {{/each}}
         </tbody>

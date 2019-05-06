@@ -1,22 +1,22 @@
 <div class="callout">
     {{#if active}}
     <h5>{{metadata.schema.title}}</h5>
-    <input name="pmt-blank-value" id="pmt-blank-value" type="checkbox" /><label for="pmt-blank-value">Blank</label>
+    <input name="pmt-blank-value" id="pmt-blank-value" type="checkbox" /><label for="pmt-blank-value">{{{messageHelper "gpii_pmt_prefSettingAdjuster_blankLabel"}}}</label>
     {{!-- Currently we only handle very very simple JSON Schema, increasing
           the complexity of this may be the target of future work --}}
     <div>
         {{#compare metadata.schema.type "===" "string"}}
-            <label>Value
+            <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
                 <input id="pmt-new-value" type="text" placeholder="value" value="{{current.value}}"/>
             </label>
         {{else}}
             {{#compare metadata.schema.type "===" "number"}}
-                <label>Value
+                <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
                     <input id="pmt-new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
                 </label>
             {{else}}
                 {{#compare metadata.schema.type "===" "integer"}}
-                    <label>Value
+                    <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
                         <input id="pmt-new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
                     </label>
                 {{else}}
@@ -28,29 +28,24 @@
                                 <input class="switch-input" id="pmt-new-value" type="checkbox" name="pmt-new-value" />
                             {{/if}}
                             <label class="switch-paddle" for="pmt-new-value">
-                                <!-- <span class="show-for-sr">Value 1</span> -->
-                                <!-- <span class="switch-active" aria-hidden="true"> -->
-                                    <!-- {{{messageHelper "gpii_pmt_booleanSettingOn"}}}</span> -->
-                                <!-- <span class="switch-inactive" aria-hidden="true"> -->
-                                    <!-- {{{messageHelper "gpii_pmt_booleanSettingOff"}}} -->
-                                <!-- </span> -->
                             </label>
-                            <span class="pmt-boolean-value">false</span>
+                            <span class="pmt-boolean-value">{{{messageHelper "gpii_pmt_booleanSettingOff"}}}</span>
                         </div>
                     {{else}}
                         {{! Assuming there is no schema information, or nothing we know how to handle. }}
-                        <label>Value
+                        <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
                             <input id="pmt-new-value" type="text" placeholder="value" value="{{current.value}}"/>
                         </label>
-                        <p>This setting is either lacking a schema, or using a schema not currently supported,
-                        defaulting to type 'string'</p>
+                        <p>
+                            {{{messageHelper "gpii_pmt_prefSettingAdjuster_missingSchema"}}}
+                        </p>
                     {{/compare}}
                 {{/compare}}
             {{/compare}}
         {{/compare}}
     </div>
-    <button type="button" class="pmt-ok-button button primary hollow">OK</button>
-    <button type="button" class="pmt-cancel-button button secondary hollow">Cancel</button>
+    <button type="button" class="pmt-ok-button button primary hollow">{{{messageHelper "gpii_pmt_prefSettingAdjuster_updateButton"}}}</button>
+    <button type="button" class="pmt-cancel-button button secondary hollow">{{{messageHelper "gpii_pmt_prefSettingAdjuster_cancelButton"}}}</button>
     <p>{{metadata.schema.description}}</p>
     {{#if devModeOn}}
     <p>
@@ -60,9 +55,9 @@
     </p>
     {{/if}}
     {{else}}
-        <h3>Setting Information</h3>
+        <h3>{{{messageHelper "gpii_pmt_prefSettingAdjuster_nonActiveHeader"}}}</h3>
         <p>
-            <em>Click a cell and it's information will appear here.</em>
+            <em>{{{messageHelper "gpii_pmt_prefSettingAdjuster_nonActiveInst"}}}</em>
         </p>
     {{/if}}
 </div>

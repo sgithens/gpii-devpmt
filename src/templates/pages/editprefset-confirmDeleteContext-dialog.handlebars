@@ -3,13 +3,13 @@
         <span aria-hidden="true">&times;</span>
     </button>
 
-    <h2>Delete Context</h2>
-    <p>Are you sure you want to delete this context?</p>
+    <h2>{{{messageHelper "gpii_pmt_deleteContextDialog_header"}}}</h2>
+    <p>{{{messageHelper "gpii_pmt_deleteContextDialog_inst"}}}</p>
     <p>{{contextId}}</p>
 
     <div class="button-group">
-        <button id="" type="button" class="success button pmt-confirm-dialog-button">Delete</button>
-        <button type="button"  class="delete button pmt-cancel-dialog-button">Cancel</button>
+        <button id="" type="button" class="success button pmt-confirm-dialog-button">{{{messageHelper "gpii_pmt_deleteContextDialog_deleteButton"}}}</button>
+        <button type="button"  class="delete button pmt-cancel-dialog-button">{{{messageHelper "gpii_pmt_cancelButton"}}}</button>
     </div>
 </div>
 

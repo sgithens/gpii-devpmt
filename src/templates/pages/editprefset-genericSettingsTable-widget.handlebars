@@ -2,12 +2,10 @@
             <div class="grid-x expanded">
                 <div class="medium-6 cell">
                     <h2 id="title">
-                        Generic Preference Settings <a id="generic-prefs" href="#top"><small>top</small></a>
+                        {{{messageHelper "gpii_pmt_settingsTables_genericPrefsHeader"}}} <a id="generic-prefs" href="#top"><small>{{{messageHelper "gpii_pmt_topLink"}}}</small></a>
                     </h2>
                     <p>
-                    Generic preference settings are universal settings stored in Morphic that are
-                    not particular to specific products. They can potentially be applied to a wide
-                    range of products automatically.
+                        {{{messageHelper "gpii_pmt_settingsTables_genericPrefsInst"}}}
                     </p>
                 </div>
                 <div class="medium-6 cell">
@@ -26,14 +24,14 @@
         <table class="scroll">
             <thead>
                 <tr>
-                    <th class="pmt-settingstable-name">Setting</th>
+                    <th class="pmt-settingstable-name">{{{messageHelper "gpii_pmt_settingsTables_settingColHeader"}}}</th>
                     {{#each contextNames}}
                         <th class="pmt-settingstable-value">
                             {{lookup (lookup ../flatPrefs/contexts this) "name"}}
                         </th>
                     {{/each}}
                     <th><a class="hollow button small pmt-add-context-button">
-                        {{{messageHelper "gpii_pmt_addContextButton"}}}
+                        {{{messageHelper "gpii_pmt_addContextDialog_button"}}}
                     </a></th>
                 </tr>
             </thead>

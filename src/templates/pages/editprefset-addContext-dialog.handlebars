@@ -3,10 +3,10 @@
         <span aria-hidden="true">&times;</span>
     </button>
 
-    <h2>{{{messageHelper "gpii_pmt_addContextDialogHeader"}}}</h2>
-    {{{messageHelper "gpii_pmt_addContextDialogInst"}}}
+    <h2>{{{messageHelper "gpii_pmt_addContextDialog_header"}}}</h2>
+    {{{messageHelper "gpii_pmt_addContextDialog_inst"}}}
     <form>
-    <label>Name
+    <label>{{{messageHelper "gpii_pmt_addContextDialog_name"}}}
         <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
     </label>
     {{#if fieldErrors}}
@@ -15,9 +15,9 @@
     </div>
     {{/if}}
 
-    <label>Copy initial settings from:
+    <label>{{{messageHelper "gpii_pmt_addContextDialog_copyfrom"}}}
         <select id="pmt-context-to-copy-select">
-            <option value=""><em>New Blank Set</em></option>
+            <option value=""><em>{{{messageHelper "gpii_pmt_addContextDialog_newblankset"}}}</em></option>
             {{#each contextNames}}
             <option value="{{this}}">{{{lookup (lookup ../flatPrefs/contexts this) "name"}}}</option>
             {{/each}}
@@ -25,8 +25,8 @@
     </label>
 
     <div class="button-group">
-        <button type="submit" class="success button pmt-confirm-dialog-button">Save</button>
-        <button type="button"  class="delete button pmt-cancel-dialog-button">Cancel</button>
+        <button type="submit" class="success button pmt-confirm-dialog-button">{{{messageHelper "gpii_pmt_saveButton"}}}</button>
+        <button type="button"  class="delete button pmt-cancel-dialog-button">{{{messageHelper "gpii_pmt_cancelButton"}}}</button>
     </div>
     </form>
 </div>

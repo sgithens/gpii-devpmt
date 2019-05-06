@@ -7,10 +7,10 @@
                 {{else}}
                     {{options.appId}}
                 {{/if}}
-                <a id="{{options.appId}}" href="#top"><small>top</small></a>
+                <a id="{{options.appId}}" href="#top"><small>{{{messageHelper "gpii_pmt_topLink"}}}</small></a>
             </h2>
             <ul class="no-bullet">
-                <li>AppID: <code>{{options.appId}}</code></li>
+                <li>{{{messageHelper "gpii_pmt_settingsTables_appID"}}}: <code>{{options.appId}}</code></li>
             </ul>
         </div>
         <div class="medium-6 cell">
@@ -31,14 +31,14 @@
     <table class="scroll">
         <thead>
             <tr>
-                <th class="pmt-settingstable-name">Setting</th>
-                <th class="pmt-settingstable-value">Product Default</th>
+                <th class="pmt-settingstable-name">{{{messageHelper "gpii_pmt_settingsTables_settingColHeader"}}}</th>
+                <th class="pmt-settingstable-value">{{{messageHelper "gpii_pmt_settingsTables_productDefaultColHeader"}}}</th>
                 {{#each model.contextNames}}
                     <th class="pmt-settingstable-value">
                         {{lookup (lookup ../model/flatPrefs/contexts this) "name"}}</th>
                 {{/each}}
                 <th><a class="hollow button small pmt-add-context-button">
-                   {{{messageHelper "gpii_pmt_addContextButton"}}}
+                   {{{messageHelper "gpii_pmt_addContextDialog_button"}}}
                 </a></th>
             </tr>
 
@@ -54,9 +54,9 @@
                                 <input class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../options.appId}}" type="checkbox" name="enabled-{{this}}-{{../options.appId}}" data-context="{{this}}" data-product="{{../options.appUri}}" />
                             {{/if}}
                             <label class="switch-paddle" for="enabled-{{this}}-{{../options.appId}}">
-                                <span class="show-for-sr">Enable/Disable Solution</span>
-                                <span class="switch-active" aria-hidden="true">Yes</span>
-                                <span class="switch-inactive" aria-hidden="true">No</span>
+                                <span class="show-for-sr">{{{messageHelper "gpii_pmt_settingsTables_enableDisableSR"}}}</span>
+                                <span class="switch-active" aria-hidden="true">{{{messageHelper "gpii_pmt_settingsTables_yesSR"}}}</span>
+                                <span class="switch-inactive" aria-hidden="true">{{{messageHelper "gpii_pmt_settingsTables_noSR"}}}</span>
                             </label>
                         </div>
                     </td>

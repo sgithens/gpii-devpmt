@@ -1,6 +1,8 @@
 {
     "gpii_pmt_saveButton": "Save",
     "gpii_pmt_cancelButton": "Cancel",
+    "gpii_pmt_topLink": "top",
+    "gpii_pmt_logout": "Logout",
 
     "gpii_pmt_booleanSettingOn": "true",
     "gpii_pmt_booleanSettingOff": "false",
@@ -8,21 +10,84 @@
     "gpii_pmt_contextsHeader": "Preference Sets",
     "gpii_pmt_contextIDHeader": "Preference Set ID",
     "gpii_pmt_nameHeader": "Name",
-    "gpii_pmt_addContextButton": "Add Preference Set",
-    "gpii_pmt_addContextDialogHeader": "Add Preference Set",
-    "gpii_pmt_addContextDialogInst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p><p>Additionally, you can start with a blank set, or copy the initial settings from another preference set.",
+
+    "gpii_pmt_settingsTables_genericPrefsHeader": "Generic Preference Settings",
+    "gpii_pmt_settingsTables_genericPrefsInst": " Generic preference settings are universal settings stored in Morphic that are not particular to specific products. They can potentially be applied to a wide range of products automatically",
+    "gpii_pmt_settingsTables_settingColHeader": "Setting",
+    "gpii_pmt_settingsTables_productDefaultColHeader": "Product Default",
+    "gpii_pmt_settingsTable_includeApplication": "Include Application Settings",
+    "gpii_pmt_settingsTables_appID": "AppID",
+    "gpii_pmt_settingsTables_enableDisableSR": "Enable/Disable Solution",
+    "gpii_pmt_settingsTables_yesSR": "Yes",
+    "gpii_pmt_settingsTables_noSR": "No",
+
+    "gpii_pmt_mineAllSwitch_mySettings": "My Settings",
+    "gpii_pmt_mineAllSwitch_allSettings": "All Settings",
+
+    "gpii_pmt_saveDialog_header": "View Changes and Confirm Save",
+
+    "gpii_pmt_addContextDialog_button": "Add Preference Set",
+    "gpii_pmt_addContextDialog_header": "Add Preference Set",
+    "gpii_pmt_addContextDialog_name": "Name",
+    "gpii_pmt_addContextDialog_inst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p><p>Additionally, you can start with a blank set, or copy the initial settings from another preference set.",
+    "gpii_pmt_addContextDialog_copyfrom": "Copy initial settings from:",
+    "gpii_pmt_addContextDialog_newblankset": "New Blank Set",
+
+    "gpii_pmt_deleteContextDialog_header": "Delete Context",
+    "gpii_pmt_deleteContextDialog_inst": "Are you sure you want to delete this context?",
+    "gpii_pmt_deleteContextDialog_deleteButton": "Delete",
 
     "gpii_pmt_addProductDialog_addButton": "Add",
+    "gpii_pmt_addProductDialog_inst": "Click below to add this product to the preferences safe.",
 
     "gpii_pmt_removeProductDialog_removeButton": "Remove",
+    "gpii_pmt_removeProductDialog_inst": "Are you sure want to completely remove the settings for this product from the preferences safe? Note: Removing a products settings from all Preference Sets will completely remove it from your safe",
 
     "gpii_pmt_editContextDialog_header": "Edit Preference Set",
     "gpii_pmt_editContextDialog_inst": "Below you can edit the internal id of the Preference Set, and it's human readable name",
     "gpii_pmt_editContextDialog_idLabel": "Preference Set ID",
-    "gpii_pmt_editContextDialog_nameLabel": "Preference Set Name",
+    "gpii_pmt_editContextDialog_nameLabel": "Name",
 
-    "gpii_pmt_settingsTable_includeApplication": "Include Application Settings",
+    "gpii_pmt_prefsList_editButton": "Edit",
+    "gpii_pmt_prefsList_deleteButton": "Delete",
 
-    "wow-dude": "Totally awesome"
+    "gpii_pmt_prefSettingAdjuster_nonActiveHeader": "Setting Information",
+    "gpii_pmt_prefSettingAdjuster_nonActiveInst": "Click a cell and it's information will appear here.",
+    "gpii_pmt_prefSettingAdjuster_updateButton": "OK",
+    "gpii_pmt_prefSettingAdjuster_cancelButton": "Cancel",
+    "gpii_pmt_prefSettingAdjuster_valueLabel": "Value",
+    "gpii_pmt_prefSettingAdjuster_missingSchema": "This setting is either lacking a schema, or using a schema not currently supported, defaulting to type 'string'",
+    "gpii_pmt_prefSettingAdjuster_blankLabel": "Blank",
+
+    "gpii_pmt_prefsSafeInfo_header": "Prefs Safe Info",
+    "gpii_pmt_prefsSafeInfo_itemColHeader": "Item",
+    "gpii_pmt_prefsSafeInfo_valueColHeader": "Value",
+    "gpii_pmt_prefsSafeInfo_id": "ID",
+    "gpii_pmt_prefsSafeInfo_name": "Name",
+    "gpii_pmt_prefsSafeInfo_email": "Email",
+    "gpii_pmt_prefsSafeInfo_created": "Created",
+    "gpii_pmt_prefsSafeInfo_updated": "Updated",
+
+    "gpii_pmt_prefsSafeKeyList_idColHeader": "ID",
+    "gpii_pmt_prefsSafeKeyList_typeColHeader": "type",
+    "gpii_pmt_prefsSafeKeyList_prefSetIdHeader": "PrefsSet ID",
+    "gpii_pmt_prefsSafeKeyList_revokedHeader": "Revoked",
+    "gpii_pmt_prefsSafeKeyList_createdHeader": "Created",
+    "gpii_pmt_prefsSafeKeyList_updatedHeader": "Updated",
+    "gpii_pmt_prefsSafeKeyList_header": "Keys and Credentials",
+
+    "gpii_pmt_toc_overviewInfo": "Overview Info",
+    "gpii_pmt_toc_keysCredentials": "Keys and Credentials",
+    "gpii_pmt_toc_prefsSets": "Preference Sets",
+    "gpii_pmt_toc_genericSettings": "Generic Settings",
+
+    "gpii_pmt_topnavbar_prefsSafe": "Preference Safe",
+
+    "gpii_pmt_errorPage_header": "Unexpected error",
+
+    "gpii_pmt_index_title": "Power Preferences Tool",
+    "gpii_pmt_index_inst": "Hello! This is a demo of the in-progress Power Preferences Tool. Use the box on the right to create a new Preferences Safe, or choose from an existing Preferences Safe below to start with. After editing the preferences, you can download the json file with your changes.",
+    "gpii_pmt_index_tasks": "Tasks",
+    "gpii_pmt_index_lookup": "Look-up Preferences Safe"
 
 }
