@@ -26,7 +26,7 @@ fluid.registerNamespace("gpii.devpmt.ppt");
  */
 gpii.devpmt.ppt.isLoggedIn = function (session) {
     return session.loggedInToPPT ? true : false;
-}
+};
 
 gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
     if (gpii.devpmt.ppt.isLoggedIn(req.session)) {
@@ -269,7 +269,7 @@ gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res 
             res.send({
                 message: "Saved"
             });
-        }, function(err) {
+        }, function (err) {
             fluid.log("Failure saving prefsSafe: ", err);
             res.status(500).send({
                 isError: true,
