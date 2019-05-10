@@ -7,18 +7,18 @@ https://jwoaql.axshare.com/#g=1&p=sign_up_from_nothing
     {{> morphic-mymorphic-banner}}
     <div class="grid-x grid-margin-x">
         <div class="medium-4 large-3 cell">
-            <h2>Sign in</h2>
-            <p>or <a href="/morphic/create/safe">create an account</a>
+            <h2>{{{messageHelper "gpii_morphic_login_title"}}}</h2>
+            <p><a href="/morphic/create/safe">{{{messageHelper "gpii_morphic_login_createAccount"}}}</a>
             <form autocomplete="off" action="/morphic/login" method="POST">
                 <div class="grid-x">
                     <div class="small-12 cell">
-                        <label>Email or account name
+                        <label>{{{messageHelper "gpii_morphic_login_emailAccountName"}}}
                             <input name="username" type="text" placeholder="" />
                         </label>
-                        <label>Password
+                        <label>{{{messageHelper "gpii_morphic_login_password"}}}
                             <input name="password" type="password" placeholder="" />
                         </label>
-                        <button type="submit" class="button">Sign In</button>
+                        <button type="submit" class="button">{{{messageHelper "gpii_morphic_login_signinButton"}}}</button>
                     </div>
                 </div>
             </form>

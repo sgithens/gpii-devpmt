@@ -1,25 +1,24 @@
 <article class="grid-container align-middle">
     <div class="grid-x align-middle">
         <div class="medium-4 medium-offset-4 cell">
-            <h1 class="text-center">PPT Login</h1>
+            <h1 class="text-center">{{{messageHelper "gpii_pmt_login_title"}}}</h1>
             <div class="callout secondary">
                 <form autocomplete="off" method="POST">
                     <div class="grid-x">
                         <div class="small-12 cell">
-                            <label>Username
+                            <label>{{{messageHelper "gpii_pmt_login_username"}}}
                                 <input name="username" type="text" placeholder="" />
                             </label>
-                            <label>Password
+                            <label>{{{messageHelper "gpii_pmt_login_password"}}}
                                 <input name="password" type="password" placeholder="" />
                             </label>
-                            <button type="submit" class="button">Sign In</button>
+                            <button type="submit" class="button">{{{messageHelper "gpii_pmt_login_signin"}}}</button>
                         </div>
                     </div>
                 </form>
 
                 <p>
-                This is a development and demo version of the PPT. To login and try out
-                it's features you can use "morphic" and "gpii" as the username and password.
+                {{{messageHelper "gpii_pmt_login_inst"}}}
                 </p>
             </div>
         </div>

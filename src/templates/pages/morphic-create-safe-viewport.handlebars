@@ -4,18 +4,7 @@
         <div class="cell">
             <div>
                 <img src="/src/images/anon-guy.png" />
-                <p>Morphic does not recommend anonymous accounts.
-                <p>
-                Do NOT forget your Account Name or Password with an anonymous account.
-                </p>
-
-                <p>
-                If you forget either one, you will not be able to make changes to your preferences. You also will not be able to add any extra Keys.
-                </p>
-                <p>
-                If you don't want to worry about forgetting your sign-on information, consider
-                <a href="#">Signing up another way</a>.
-                </p>
+                {{{messageHelper "gpii_morphic_createSafe_inst"}}}
             </div>
 
         </div>
@@ -23,21 +12,21 @@
     <div class="grid-x grid-margin-x">
         <div class="medium-7 large-6 cell">
             <form action="/morphic/create/safe" method="POST" autocomplete="off" >
-                <h2>Sign up for MyMorphic</h2>
-                <p> or <a href="/morphic/login">sign into MyMorphic instead.</a></p>
+                <h2>{{{messageHelper "gpii_morphic_createSafe_title"}}}</h2>
+                <p><a href="/morphic/login">{{{messageHelper "gpii_morphic_createSafe_signinLink"}}}</a></p>
                 <div class="grid-x">
                     <div class="small-12 cell">
-                        <label>Account Name
+                        <label>{{{messageHelper "gpii_morphic_createSafe_accountName"}}}
                             <input id="morphic-username" name="username" type="text" placeholder="" />
                         </label>
-                        <label>Password
+                        <label>{{{messageHelper "gpii_morphic_createSafe_password"}}}
                             <input id="morphic-password" name="password" type="password" placeholder="" />
                         </label>
                         <label id="morphic-password-strength"></label>
                             <input id="morphic-accept-terms" type="checkbox" />
-                            I accept the <a href="#">Terms of use for MyMorphic</a>
+                            {{{messageHelper "gpii_morphic_createSafe_acceptTerms"}}}
                         </label><br/>
-                        <button id="morphic-sign-up-button" type="submit" class="button">Sign Up</button>
+                        <button id="morphic-sign-up-button" type="submit" class="button">{{{messageHelper "gpii_morphic_createSafe_signupButton"}}}</button>
                     </div>
                 </div>
             </form>
@@ -45,21 +34,13 @@
 
         <div class="medium-7 large-6 cell">
             <div class="callout">
-            <p>Your Account Name has to be longer than 6 characters and must be unique.</p>
+                <p>{{{messageHelper "gpii_morphic_createSafe_accountNameReqs"}}}</p>
             </div>
             <div class="callout">
-            <p>
-                Your password protects your account and preferences from being viewed or changed by
-                others. You must use a strong password.
-            </p>
-            <p>
-                If you want to create a stronger password, we recommend using an easy-to-remember phrase or sentence.
-            </p>
+                {{{messageHelper "gpii_morphic_createSafe_passwordReqs"}}}
             </div>
             <div class="callout">
-                In order to sign up for and use a MyMorphic account you need to accept the terms of
-                use. It describes what data Morphic needs to provide auto-personalization and the
-                purposes for which you may use the service.
+                {{{messageHelper "gpii_morphic_createSafe_termsOfUseReqs"}}}
             </div>
         </div>
     </div>

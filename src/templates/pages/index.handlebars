@@ -27,7 +27,7 @@
 <article class="grid-container">
     <div class="grid-x grid-margin-x">
         <div class="medium-7 large-6 cell">
-            <h1>{{{messageHelper "gpii_pmt_index_title"}}</h1>
+            <h1>{{{messageHelper "gpii_pmt_index_title"}}}</h1>
             <p class="subheader">
                 {{{messageHelper "gpii_pmt_index_inst"}}}
             </p>
@@ -48,13 +48,7 @@
     <div class="">
         <hr/>
     </div>
-    <!-- <div class=""> -->
-    <!--     <p class="lead">Snapsets</p> -->
-    <!-- </div> -->
-    <!-- {{> index-snapsets }} -->
 
-
-    <!-- {{> index-demo-personas }} -->
     <h2>{{{messageHelper "gpii_pmt_index_lookup"}}}</h2>
     <div class="grid-x">
         <div class="cell">
@@ -66,17 +60,17 @@
     </div>
     {{#if perms.listSafes}}
     <hr/>
-    <h2>Preference Safes</h2>
+    <h2>{{{messageHelper "gpii_pmt_prefsSafeTable_title"}}}</h2>
     <div class="grid-x">
         <div class="cell">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>PrefsSafe ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Created</th>
-                        <th>Updated</th>
+                        <th>{{{messageHelper "gpii_pmt_prefsSafeTable_idColHeader"}}}</th>
+                        <th>{{{messageHelper "gpii_pmt_prefsSafeTable_nameColHeader"}}}</th>
+                        <th>{{{messageHelper "gpii_pmt_prefsSafeTable_emailColHeader"}}}</th>
+                        <th>{{{messageHelper "gpii_pmt_prefsSafeTable_createdColHeader"}}}</th>
+                        <th>{{{messageHelper "gpii_pmt_prefsSafeTable_updatedColHeader"}}}</th>
                     </tr>
                 </thead>
                 <tbody>

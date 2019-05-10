@@ -1,5 +1,6 @@
 {
     "gpii_pmt_saveButton": "Save",
+    "gpii_pmt_confirmButton": "Confirm",
     "gpii_pmt_cancelButton": "Cancel",
     "gpii_pmt_topLink": "top",
     "gpii_pmt_logout": "Logout",
@@ -23,6 +24,9 @@
 
     "gpii_pmt_mineAllSwitch_mySettings": "My Settings",
     "gpii_pmt_mineAllSwitch_allSettings": "All Settings",
+    "gpii_pmt_mineAllSwitch_enableDisable": "Enable/Disable Solution",
+    "gpii_pmt_mineAllSwitch_mine": "Mine",
+    "gpii_pmt_mineAllSwitch_all": "All",
 
     "gpii_pmt_saveDialog_header": "View Changes and Confirm Save",
 
@@ -88,6 +92,42 @@
     "gpii_pmt_index_title": "Power Preferences Tool",
     "gpii_pmt_index_inst": "Hello! This is a demo of the in-progress Power Preferences Tool. Use the box on the right to create a new Preferences Safe, or choose from an existing Preferences Safe below to start with. After editing the preferences, you can download the json file with your changes.",
     "gpii_pmt_index_tasks": "Tasks",
-    "gpii_pmt_index_lookup": "Look-up Preferences Safe"
+    "gpii_pmt_index_lookup": "Look-up Preferences Safe",
 
+    "gpii_pmt_prefsSafeTable_title": "Preference Safes",
+    "gpii_pmt_prefsSafeTable_idColHeader": "PrefsSafe ID",
+    "gpii_pmt_prefsSafeTable_nameColHeader": "Name",
+    "gpii_pmt_prefsSafeTable_emailColHeader": "Email",
+    "gpii_pmt_prefsSafeTable_createdColHeader": "Created",
+    "gpii_pmt_prefsSafeTable_updatedColHeader": "Updated",
+
+    "gpii_pmt_login_title": "PPT Login",
+    "gpii_pmt_login_inst": "This is a development and demo version of the PPT. To login and try out it's features you can use 'morphic' and 'gpii' as the username and password.",
+    "gpii_pmt_login_username": "Username",
+    "gpii_pmt_login_password": "Password",
+    "gpii_pmt_login_signin": "Sign In",
+
+    "gpii_morphic_myMorphic": "MyMorphic",
+    "gpii_morphic_slogan": "Your Settings. Instantly. Everywhere",
+    "gpii_morphic_logoutSafe": "Log out of safe",
+
+    "gpii_morphic_createSafe_inst": "<p>Morphic does not recommend anonymous accounts. <p>Do NOT forget your Account Name or Password with an anonymous account.</p> <p>If you forget either one, you will not be able to make changes to your preferences. You also will not be able to add any extra Keys.</p> <p>If you don't want to worry about forgetting your sign-on information, consider<a href=\"#\">Signing up another way</a>.</p>",
+    "gpii_morphic_createSafe_title": "Sign up for MyMorphic",
+    "gpii_morphic_createSafe_signinLink": "or sign into MyMorphic instead.",
+    "gpii_morphic_createSafe_accountName": "Account Name",
+    "gpii_morphic_createSafe_password": "Password",
+    "gpii_morphic_createSafe_acceptTerms": "I accept the <a href=\"#\">Terms of use for MyMorphic</a>",
+    "gpii_morphic_createSafe_signupButton": "Sign Up",
+    "gpii_morphic_createSafe_accountNameReqs": "Your Account Name has to be longer than 6 characters and must be unique.",
+    "gpii_morphic_createSafe_passwordReqs": "<p>Your password protects your account and preferences from being viewed or changed by others. You must use a strong password.</p><p>If you want to create a stronger password, we recommend using an easy-to-remember phrase or sentence.</p>",
+    "gpii_morphic_createSafe_termsOfUseReqs": "In order to sign up for and use a MyMorphic account you need to accept the terms of use. It describes what data Morphic needs to provide auto-personalization and the purposes for which you may use the service.",
+
+    "gpii_morphic_login_title": "Sign in",
+    "gpii_morphic_login_createAccount": "or create an account",
+    "gpii_morphic_login_emailAccountName": "Email or account name",
+    "gpii_morphic_login_password": "Password",
+    "gpii_morphic_login_signinButton": "Sign In",
+
+    "gpii_morphic_logout_nowLoggedOut": "You are now logged out",
+    "gpii_morphic_logout_logInAgain": "Log in again"
 }
