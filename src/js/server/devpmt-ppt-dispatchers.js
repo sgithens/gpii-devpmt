@@ -24,7 +24,10 @@ gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
 };
 
 /**
- * Index Handler for /
+ * Index Handler
+ *
+ * This the landing view after logging in to edit and view safes. Shows a
+ * listing of safes, search widget, and button to create new prefsSafes.
  */
 fluid.defaults("gpii.devpmt.dispatchers.index", {
     gradeNames: "gpii.devpmt.baseDispatcher",
@@ -57,7 +60,19 @@ gpii.devpmt.dispatchers.index.contextPromise = function (that, devpmt, req) {
     return promTogo;
 };
 
-// URLPATH /editprefs/:npset
+/**
+ * General Login Handler
+ *
+ * Handler for PPT login pages, can be overridden to change the
+ * permissions that are added. This is currently used for the prototype
+ * views of having 2 different editing logins, one that can see a view
+ * of all the safes, and one that only has a widget to lookup a safe
+ * by a specific ID.
+ *
+ * During our next round of work, we will finish hooking the PPT up to
+ * native gpii-express-user accounts. For current requirements, the demo
+ * login of username `morphic` and password `gpii` suffices.
+ */
 fluid.defaults("gpii.devpmt.ppt.loginHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     defaultTemplate: "ppt-login",
@@ -87,27 +102,16 @@ gpii.devpmt.ppt.loginHandler.checkAuthorization = function (that, userAPI, req, 
         res.redirect("/");
     }
 
-    // During our next round of work, we will finish hooking the PPT up to
-    // native gpii-express-user accounts. For current requirements, the demo
-    // login above suffices.
-
-    // var loginProm = userAPI.utils.unlockUser(req.body.username, req.body.password);
-    // loginProm.then(function (/* data */) {
-    //     if (loginProm.value.isError) {
-    //         // return true;
-    //         res.redirect("/");
-    //     }
-    //     if (loginProm.value.roles.includes("ppt_admin")) {
-    //         req.session.loggedInToPPT = true;
-    //         req.session.perms = that.options.permissions;
-    //         res.redirect("/ppt");
-    //         // return false;
-    //     }
-    // });
-
     return false;
 };
 
+/**
+ * Dev Login Handler
+ *
+ * Login handler for the development and testing version of the PPT.
+ * This adds a `listSafes` permission which can be used to see the list
+ * of all preference safes in order to select which one to debug or edit.
+ */
 fluid.defaults("gpii.devpmt.ppt.devLoginHandler", {
     gradeNames: ["gpii.devpmt.ppt.loginHandler"],
     permissions: {
@@ -115,10 +119,23 @@ fluid.defaults("gpii.devpmt.ppt.devLoginHandler", {
     }
 });
 
+/**
+ * Support Login Handler
+ *
+ * Login handler that adds no new permissions, and is meant to showcase
+ * how a view may look for a support staff person who can look up a users
+ * safe by ID, but is not allowed to arbitrarily view lists of safes.
+ */
 fluid.defaults("gpii.devpmt.ppt.supportLoginHandler", {
     gradeNames: ["gpii.devpmt.ppt.loginHandler"]
 });
 
+/**
+ * Logout Handler
+ *
+ * Handler to log the current user out of the PPT and destroy their
+ * session.
+ */
 fluid.defaults("gpii.devpmt.ppt.logoutHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     defaultTemplate: "ppt-login",
@@ -142,6 +159,8 @@ gpii.devpmt.ppt.logoutHandler.checkAuthorization = function (that, req, res /*, 
 };
 
 /**
+ * Edit PrefsSafe Handler
+ *
  * Dispatcher for the page allowing you to edit a preferences safe.
  */
 fluid.defaults("gpii.devpmt.editPrefSetHandler", {
@@ -213,9 +232,13 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
     return promTogo;
 };
 
-// URLPATH /saveprefset/:npset
 fluid.registerNamespace("gpii.devpmt.savePrefsetHandler");
 
+/**
+ * Save PrefSafe Handler
+ *
+ * A JSON operated endpoint for saving prefsSafe data.
+ */
 fluid.defaults("gpii.devpmt.savePrefsetHandler", {
     gradeNames: ["gpii.express.middleware"],
     path: ["/saveprefset/:npset"],
@@ -234,9 +257,15 @@ gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req /* re
     }
 };
 
-// URLPATH /add-prefset
 fluid.registerNamespace("gpii.devpmt.addPrefsetFormHandler");
 
+/**
+ * Add PrefsSafe Form Handler
+ *
+ * Handles a traditional HTML form submission to create a new prefsSafe.
+ * Currently accepts no further options or metadata, will be a focus of
+ * future work.
+ */
 fluid.defaults("gpii.devpmt.addPrefsetFormHandler", {
     gradeNames: ["gpii.express.middleware"],
     path: ["/add-prefset"],
@@ -259,14 +288,19 @@ gpii.devpmt.addPrefsetFormHandler.handleRequest = function (that, devpmt, req, r
         }
     });
     prefsPromise.then(function (/* data */) {
-        res.redirect("/ppt"); //"/editprefs/" + prefsetName);
+        res.redirect("/ppt");
     });
 
 };
 
-// PPT Preference Safe Search Lookup
 fluid.registerNamespace("gpii.devpmt.lookupFormHandler");
 
+/**
+ * Lookup Form Handler
+ *
+ * Handles a traditional HTML form request to look up a preference safe by
+ * it's full ID.
+ */
 fluid.defaults("gpii.devpmt.lookupFormHandler", {
     gradeNames: ["gpii.express.middleware"],
     path: ["/ppt-lookup"],

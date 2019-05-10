@@ -249,7 +249,7 @@ fluid.defaults("gpii.devpmt", {
             }
         },
         /*
-         * Page Dispatchers, see devpmt-page-dispatchers.js
+         * Page Dispatchers, see devpmt-ppt-dispatchers.js
          */
         pptLogoutHandler: {
             type: "gpii.devpmt.ppt.logoutHandler",
