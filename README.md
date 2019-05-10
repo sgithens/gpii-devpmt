@@ -73,7 +73,7 @@ start /min morphic-app.exe
 ```
 
 Do note that this relaxes SSL restrictions in case your development cluster uses
-self signed certs. Also, this should be used with any "real" or production data.
+self signed certs. Also, this should NOT be used with any "real" or production data.
 
 ## Development
 
