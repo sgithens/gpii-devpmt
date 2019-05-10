@@ -250,10 +250,20 @@ fluid.defaults("gpii.devpmt.savePrefsetHandler", {
     }
 });
 
-gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req /* res , next */) {
-    if (gpii.devpmt.ppt.loginHandler.checkAuthorization) {
+gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
+    if (gpii.devpmt.ppt.checkAuthorization(that, req, res)) {
         var prom = devpmt.prefSetDataSource.set({prefsSafeId: req.params.npset}, req.body);
-        prom.then(req.events.onSuccess.fire, req.events.onError.fire);
+        prom.then(function () {
+            res.send({
+                message: "Saved"
+            });
+        }, function(err) {
+            fluid.log("Failure saving prefsSafe: ", err);
+            res.status(500).send({
+                isError: true,
+                message: "Error saving"
+            });
+        });
     }
 };
 
