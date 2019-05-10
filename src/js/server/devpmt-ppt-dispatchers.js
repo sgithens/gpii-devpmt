@@ -16,8 +16,20 @@ var gpii = fluid.registerNamespace("gpii");
 
 fluid.registerNamespace("gpii.devpmt.ppt");
 
+/**
+ * Determines if the user is currently logged in to the PPT.
+ * Currently this is implemented by checking for the existence of
+ * the `loggedInToPPT` session variable.
+ *
+ * @param {Session} session - Express.js Session
+ * @return {Boolean} Returns `true` if the user is logged in, otherwise false.
+ */
+gpii.devpmt.ppt.isLoggedIn = function (session) {
+    return session.loggedInToPPT ? true : false;
+}
+
 gpii.devpmt.ppt.checkAuthorization = function (that, req, res /*, next */) {
-    if (req.session.loggedInToPPT) {
+    if (gpii.devpmt.ppt.isLoggedIn(req.session)) {
         return true;
     }
     res.status("401").redirect("/");
