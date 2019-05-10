@@ -114,13 +114,13 @@ fluid.defaults("gpii.devpmt", {
     port: gpii.devpmt.LISTEN_PORT,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
+    osList: ["android","darwin","linux","web","win32"],
     events: {
         onFsChange: null,
         onListen: null // Needed for using the kettle unit tests
     },
     model: {
         messages: {},
-        selectedDemoSets: {},
         solutions: {},
         npsetList: []
     },
@@ -508,16 +508,7 @@ fluid.defaults("gpii.devpmt", {
 });
 
 gpii.devpmt.initialize = function (that) {
-    var personaKeys = ["alice", "davey", "david", "elmer", "elod", "livia"];
-    fluid.each(personaKeys, function (i) {
-        var prom = that.prefSetDocsDataSource.get({prefSetId: i});
-        prom.then(function (data) {
-            that.applier.change("selectedDemoSets." + i, {doc: data});
-        });
-    });
-
-    var osList = ["android","darwin","linux","web","win32"];
-    fluid.each(osList, function (osId) {
+    fluid.each(that.options.osList, function (osId) {
         var prom = that.solutionsDataSource.get({osId: osId});
         prom.then(function (data) {
             var solutions = fluid.copy(that.model.solutions);
