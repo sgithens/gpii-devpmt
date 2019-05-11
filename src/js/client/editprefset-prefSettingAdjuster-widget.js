@@ -157,7 +157,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         },
         watchInputKeys: {
             funcName: "gpii.devpmt.prefSettingAdjuster.watchInputKeys",
-            args: ["{that}", "{arguments}.0"]
+            args: ["{that}.dom.okButton", "{that}.saveUpdateValue", "{arguments}.0"]
         },
         /**
          * Updates the UI based on whether Blank is selected.
@@ -220,13 +220,22 @@ gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (label, value
  * watchInputKeys - Watches value input and saves
  * on Enter.
  *
- * @param {Object} that - prefSettingAdjuster
+ * @param {jQuery} okButton - This is the ok/save button, or indeed any other control
+ * in the widget we can focus on before saving. See comments in function for technical
+ * details.
+ * @param {Function} saveUpdateValue - Zero-arg function to save the value.
  * @param {Object} e - jQuery Event
  */
-gpii.devpmt.prefSettingAdjuster.watchInputKeys = function (that, e) {
+gpii.devpmt.prefSettingAdjuster.watchInputKeys = function (okButton, saveUpdateValue, e) {
     // Save the value when the enter key is pressed
     if (e.keyCode === 13) {
-        that.saveUpdateValue();
+        // For some html elements, like the number input, until you finish typing
+        // and move somewhere else, the value won't update in the dom, meaning the gpii.binder
+        // won't apply, and even using the element directly from that.dom.locate won't
+        // pick up the new value. By moving the focus to the Ok button right before saving,
+        // we make sure that the value get's updated in the dom.
+        okButton.focus();
+        saveUpdateValue();
     };
 };
 
@@ -252,7 +261,7 @@ gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that, devpmt) {
                 " in context " + that.model.current.context);
     }
     else {
-        var newValue = that.model.current.value; //that.dom.locate("valueInput").val();
+        var newValue = that.model.current.value;
         devpmt.applier.change(path, newValue);
         devpmt.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context + " to " + newValue);
