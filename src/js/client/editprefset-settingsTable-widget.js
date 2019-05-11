@@ -192,12 +192,12 @@ gpii.devpmt.settingsTable.filterInit = function (that) {
  * switch is necessary so that we could still have an empty object/entry for the product
  * inside the prefset/context, which in some matchmaking situations could make a difference.
  */
-gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event) {
+gpii.devpmt.settingsTable.enableProductListener = function (that, editPrefs, event) {
     var checked = event.currentTarget.checked;
     var context = event.currentTarget.dataset.context;
     var product = event.currentTarget.dataset.product;
 
-    if (gpii.devpmt.prefsetsForApplication(devpmt.model.flatPrefs, product).length === 1 &&
+    if (gpii.devpmt.prefsetsForApplication(editPrefs.model.flatPrefs, product).length === 1 &&
         checked === false) {
         that.removeProduct(context);
         // The reRender call below is so that the toggle button goes back
@@ -211,7 +211,7 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, devpmt, event)
         that.reRender();
         return;
     }
-    devpmt.editProductEnabled(checked, context, product);
+    editPrefs.editProductEnabled(checked, context, product);
 };
 
 gpii.devpmt.settingsTable.updateTermUsage = function (that) {

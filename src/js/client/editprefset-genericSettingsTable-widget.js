@@ -69,7 +69,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
         },
         searchSettings: {
             funcName: "gpii.devpmt.searchSettings",
-            args: ["{that}", "{that}.dom.settingsSearchInput"]
+            args: ["{that}.applier", "{that}.dom.settingsSearchInput"]
         }
     },
     bindings: {
@@ -149,8 +149,8 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
     }
 });
 
-gpii.devpmt.searchSettings = function (that, searchInput) {
-    that.applier.change("settingsSearch", searchInput);
+gpii.devpmt.searchSettings = function (applier, searchInput) {
+    applier.change("settingsSearch", searchInput);
 };
 
 gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, search) {
