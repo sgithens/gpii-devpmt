@@ -159,9 +159,15 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
             funcName: "gpii.devpmt.prefSettingAdjuster.watchInputKeys",
             args: ["{that}", "{arguments}.0"]
         },
+        /**
+         * Updates the UI based on whether Blank is selected.
+         * If blank is selected, then the rest of the editing
+         * apparatus is disabled.
+         */
         updateBlankDisabling: {
-            funcName: "gpii.devpmt.prefSettingAdjuster.updateBlankDisabling",
-            args: ["{that}"]
+            "this": "{that}.dom.valueInput",
+            "method": "prop",
+            "args": ["disabled", "{that}.model.current.blank"]
         },
         updateBooleanValueLabel: {
             funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
@@ -208,16 +214,6 @@ gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (label, value
     if (label.html) {
         label.html(value === true ? "true" : "false");
     }
-};
-
-/**
- * Updates the UI based on whether Blank is selected.
- * If blank is selected, then the rest of the editing
- * apparatus is disabled.
- */
-gpii.devpmt.prefSettingAdjuster.updateBlankDisabling = function (that) {
-    var disable = that.model.current.blank;
-    that.dom.locate("valueInput").prop("disabled", disable);
 };
 
 /**
