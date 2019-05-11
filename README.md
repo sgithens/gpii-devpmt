@@ -3,8 +3,8 @@
 This repository contains a web based tool for editing preferences safes and
 sets as part of the larger eco-system of GPII modules. It contains resuable
 routines and widgets as well that other preference editing user interfaces
-can be based on.  While it's changed during the course of development and
-testing, it's fundamental design is still based on these
+can be based on.  While it has changed during the course of development and
+testing, its fundamental design is still based on these
 [original designs](https://drive.google.com/open?id=0Bxy2B0Y99qCubGVUSlNCRFU3d0U).
 
 ## Requirements
@@ -56,7 +56,7 @@ run `npm start`.
 
 The PPT can be used to test preference safes and onboarding with the Morphic desktop
 application. By pointing your local morphic install to the same cloud that the PPT
-is using for it's data once can make preference safe changes in the PPT and test
+is using for its data once can make preference safe changes in the PPT and test
 the results by keying in and out of Morphic.
 
 To temporarily point a desktop Morphic installation to a PPT development cloud, the
@@ -85,7 +85,7 @@ To run the tests you'll need to install `chromedriver`. After that you can run,
 ### Foundation theme development
 
 This project has a customizations to the Foundation CSS framework.  Out of the box
-foundation uses gulp for it's watch tasks, because of that we install gulp in
+foundation uses gulp for its watch tasks, because of that we install gulp in
 addition to grunt to reduce the number of changes we have to make to the foundation
 tooling. To start the watch task for developing the foundation theme simply run `gulp`.
 The local foundation scss files are located in `src/scss` and their compiled output
