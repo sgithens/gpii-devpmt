@@ -102,6 +102,9 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
                 type: "string"
             }
         },
+        // Model Relayed Preferences that we will make the final changes to.
+        flatPrefs: {},
+        unsavedChanges: [],
         devModeOn: false
     },
     selectors: {
@@ -149,11 +152,11 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
     invokers: {
         saveUpdateValue: {
             funcName: "gpii.devpmt.prefSettingAdjuster.saveUpdateValue",
-            args: ["{that}", "{editPrefs}"]
+            args: ["{that}"]
         },
         cancelEditing: {
             funcName: "gpii.devpmt.prefSettingAdjuster.cancelEditing",
-            args: ["{that}", "{editPrefs}"]
+            args: ["{that}.applier", "{that}.renderInitialMarkup"]
         },
         watchInputKeys: {
             funcName: "gpii.devpmt.prefSettingAdjuster.watchInputKeys",
@@ -172,6 +175,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         updateBooleanValueLabel: {
             funcName: "gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel",
             args: ["{that}.dom.booleanValueLabel", "{that}.model.current.value"]
+        },
+        addEditToUnsavedList: {
+            funcName: "gpii.devpmt.addEditToUnsavedList",
+            args: ["{that}.model.unsavedChanges", "{that}.applier", "{arguments}.0"]
         }
     },
     markupEventBindings: {
@@ -243,7 +250,7 @@ gpii.devpmt.prefSettingAdjuster.watchInputKeys = function (okButton, saveUpdateV
  * Save/Update using the value the user has input. This is
  * typically caused by clicking the Ok button.
  */
-gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that, devpmt) {
+gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that) {
     that.applier.change("active", false);
     var segs = ["contexts", that.model.current.context, "preferences"];
     if (that.model.current.product) {
@@ -256,32 +263,29 @@ gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that, devpmt) {
     // If the `blank` checkbox is ticked than we are actually going
     // to delete this key, rather than update it.
     if (that.model.current.blank) {
-        devpmt.applier.change(path, false, "DELETE");
-        devpmt.addEditToUnsavedList("Removed setting " + that.model.metadata.name +
+        that.applier.change(path, false, "DELETE");
+        that.addEditToUnsavedList("Removed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context);
     }
     else {
         var newValue = that.model.current.value;
-        devpmt.applier.change(path, newValue);
-        devpmt.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
+        that.applier.change(path, newValue);
+        that.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
                 " in context " + that.model.current.context + " to " + newValue);
     }
     // In the event that we didn't actually change any values, the model listener
     // won't rerender the entire page.
     that.renderInitialMarkup();
-    // Remove the active editing highlight
-    devpmt.locate("valueDisplayCell").removeClass("pmt-value-editing");
+    that.applier.change("active", false);
 };
 
 /**
  * Cancel any editing that has been done, and turn the active editing
  * portion of the widget off.
  */
-gpii.devpmt.prefSettingAdjuster.cancelEditing = function (that, devpmt) {
-    that.applier.change("active", false);
+gpii.devpmt.prefSettingAdjuster.cancelEditing = function (applier, renderInitialMarkup) {
+    applier.change("active", false);
     // In the event that we didn't actually change any values, the model listener
     // won't rerender the entire page.
-    that.renderInitialMarkup();
-    // Remove the active editing highlight
-    devpmt.locate("valueDisplayCell").removeClass("pmt-value-editing");
+    renderInitialMarkup();
 };

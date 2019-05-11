@@ -359,7 +359,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     active: "{gpii.devpmt.editPrefs}.model.currentlyEditing.active",
                     current: "{gpii.devpmt.editPrefs}.model.currentlyEditing.current",
                     metadata: "{gpii.devpmt.editPrefs}.model.currentlyEditing.metadata",
-                    devModeOn: "{gpii.devpmt.editPrefs}.model.devModeOn"
+                    devModeOn: "{gpii.devpmt.editPrefs}.model.devModeOn",
+                    flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
+                    unsavedChanges: "{gpii.devpmt.editPrefs}.model.unsavedChanges"
                 }
             }
         },
@@ -455,7 +457,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         addEditToUnsavedList: {
             funcName: "gpii.devpmt.addEditToUnsavedList",
-            args: ["{that}", "{arguments}.0"]
+            args: ["{that}.model.unsavedChanges", "{that}.applier", "{arguments}.0"]
         },
         updateCommonTermUsageCounts: {
             funcName: "gpii.devpmt.updateCommonTermUsageCounts",
@@ -547,9 +549,19 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         "npsetApplications": {
             func: "{that}.reRender",
             excludeSource: ["init"]
+        },
+        "currentlyEditing.active": {
+            funcName: "gpii.devpmt.checkEditingHighlights",
+            args: ["{change}.value", "{that}.dom.valueDisplayCell"]
         }
     }
 });
+
+gpii.devpmt.checkEditingHighlights = function (active, cells) {
+    if (!active) {
+        cells.removeClass("pmt-value-editing");
+    }
+};
 
 /**
  * Common term filter counts
@@ -649,12 +661,12 @@ gpii.devpmt.initSettingTableWidgets = function (that) {
     });
 };
 
-gpii.devpmt.addEditToUnsavedList = function (that, description) {
-    var curUnsavedChanges = fluid.copy(that.model.unsavedChanges);
+gpii.devpmt.addEditToUnsavedList = function (unsavedChanges, applier, description) {
+    var curUnsavedChanges = fluid.copy(unsavedChanges);
     curUnsavedChanges.push({
         description: description
     });
-    that.applier.change("unsavedChanges", curUnsavedChanges);
+    applier.change("unsavedChanges", curUnsavedChanges);
 };
 
 gpii.devpmt.updateFoundationSticky = function (that) {
