@@ -453,10 +453,6 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         editPrefWidget: "editpref-widget"
     },
     invokers: {
-        prefsetExists: {
-            funcName: "gpii.devpmt.prefsetExists",
-            args: ["{that}.model.flatPrefs", "{arguments}.0"]
-        },
         addEditToUnsavedList: {
             funcName: "gpii.devpmt.addEditToUnsavedList",
             args: ["{that}.model.unsavedChanges", "{that}.applier", "{arguments}.0"]
