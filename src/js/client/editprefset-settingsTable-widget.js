@@ -33,8 +33,8 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     model: {
         flatPrefs: null, // Model Relay to EditPrefs
         contextNames: null, // Model Relay to EditPrefs
-        settingsFilter: null, // Bound to the text box for filtering/searching
-        allSettingsEnabled: null, // For some reason this defaults to an array from binder
+        settingsFilter: "", // Bound to the text box for filtering/searching
+        allSettingsEnabled: "mysettings", // For some reason this defaults to an array from binder
 
         termUsage: {
             all: 0,
@@ -98,10 +98,6 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         }
     },
     invokers: {
-        filterInit: {
-            funcName: "gpii.devpmt.settingsTable.filterInit",
-            args: ["{that}"]
-        },
         // Overriding renderInitialMarkup to take `that` as a render context.
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
@@ -155,9 +151,6 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         "onCreate.updateLunrIndex": {
             "func": "{that}.updateLunrIndex"
         },
-        "onCreate.filterInit": {
-            "func": "{that}.filterInit"
-        },
         "onCreate.updateTermUsage": {
             "func": "{that}.updateTermUsage"
         },
@@ -167,24 +160,6 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     },
     lunrIndex: null
 });
-
-/**
- * gpii.devpmt.settingsTable.filterInit - The users current filter options
- * will be stored on the parent component and updated via model relay, such
- * that they are saved if this component is destroyed and recreated.
- * The first time it is created though, we want to set the default values,
- * and trigger them via change applier so they are set on the parent.
- *
- * @param {gpii.devpmt.settingsTableWidget} that - Settings Table Widget
- */
-gpii.devpmt.settingsTable.filterInit = function (that) {
-    if (that.model.settingsFilter === null) {
-        that.applier.change("settingsFilter", "");
-    }
-    if (that.model.allSettingsEnabled === null) {
-        that.applier.change("allSettingsEnabled", "mysettings");
-    }
-};
 
 /*
  * This listener is called when the toggle switch is clicked for a specific prefset/context

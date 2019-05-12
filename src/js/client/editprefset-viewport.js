@@ -399,7 +399,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 appUri: "{arguments}.3",
                 model: {
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    settingsFilter: "",
+                    allSettingsEnabled: "mysettings"
                 },
                 modelRelay: {
                     settingsFilter: {
