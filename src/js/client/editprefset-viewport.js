@@ -843,9 +843,9 @@ gpii.devpmt.editValueEvent = function (that, event) {
     }
     else {
         // Application Specific
-        // TODO ontology
+        var newProductAppId = newCurrent.product.slice("http://registry.gpii.net/applications/".length);
         newMetadata = gpii.devpmt.findProductSettingMetadata(that.model.allSolutions,
-            newCurrent.product.slice(38), newCurrent.term);
+            newProductAppId, newCurrent.term);
         newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
     }
     newMetadata.name = newMetadata.schema.title;
