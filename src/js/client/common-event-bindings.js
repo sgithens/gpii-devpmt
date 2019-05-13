@@ -48,9 +48,13 @@ fluid.defaults("gpii.binder.bindMarkupEvents", {
         onDomUnbind: null
     },
     listeners: {
-        onMarkupRendered: "{that}.events.onDomBind.fire({that}, {that}.container)",
-        onDestroy: "{that}.events.onDomUnbind.fire({that}, {that}.container)",
-        onDomBind: "fluid.decoratorViewComponent.processDecorators({that}, {that}.options.markupEventBindings)"
+        "onMarkupRendered.bindMarkupEvents": "{that}.events.onDomBind.fire({that}, {that}.container)",
+        "onDestroy.unbindMarkupEvents": {
+            func: "{that}.events.onDomUnbind.fire",
+            args: ["{that}", "{that}.container"],
+            priority: "first"
+        },
+        "onDomBind.processDecorators": "fluid.decoratorViewComponent.processDecorators({that}, {that}.options.markupEventBindings)"
     }
 });
 
