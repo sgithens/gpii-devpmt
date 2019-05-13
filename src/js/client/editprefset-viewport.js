@@ -538,19 +538,25 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         "flatPrefs": [
             {
                 func: "{that}.updateMetadataFromPrefs",
-                args: ["{that}"]
+                args: ["{that}"],
+                namespace: "updateMetadataFromPrefs",
+                priority: "first"
             },
             {
-                func: "{that}.updateCommonTermUsageCounts"
+                func: "{that}.updateCommonTermUsageCounts",
+                namespace: "updateCommonTermUsageCounts",
+                priority: "after:updateMetadataFromPrefs"
             }
         ],
         "npsetApplications": {
             func: "{that}.reRender",
+            namespace: "reRender",
             excludeSource: ["init"]
         },
         "currentlyEditing.active": {
             funcName: "gpii.devpmt.checkEditingHighlights",
-            args: ["{change}.value", "{that}.dom.valueDisplayCell"]
+            args: ["{change}.value", "{that}.dom.valueDisplayCell"],
+            namespace: "checkEditingHighlights"
         }
     }
 });
