@@ -38,7 +38,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
 
         termUsage: {
             all: 0,
-            npset: 0
+            prefsSafe: 0
         }
     },
     modelListeners: {
@@ -79,7 +79,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
                 model: {
                     settingsFilter: "{settingsTableWidget}.model.allSettingsEnabled",
                     allSettingsCount: "{settingsTableWidget}.model.termUsage.all",
-                    mySettingsCount: "{settingsTableWidget}.model.termUsage.npset"
+                    mySettingsCount: "{settingsTableWidget}.model.termUsage.prefsSafe"
                 }
             }
         },
@@ -191,10 +191,10 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, editPrefs, eve
 
 gpii.devpmt.settingsTable.updateTermUsage = function (that) {
     var all = 0;
-    var npsetKeys = {};
+    var prefsSafeKeys = {};
     fluid.each(that.model.flatPrefs.contexts, function (context) {
         fluid.each(context.preferences[that.options.appUri], function (setting, settingKey) {
-            npsetKeys[settingKey] = true;
+            prefsSafeKeys[settingKey] = true;
         });
     });
     fluid.each(that.options.solution.settingsHandlers, function (settingsHandler) {
@@ -206,7 +206,7 @@ gpii.devpmt.settingsTable.updateTermUsage = function (that) {
     });
     that.applier.change("termUsage", {
         all: all,
-        npset: Object.keys(npsetKeys).length
+        prefsSafe: Object.keys(prefsSafeKeys).length
     });
 };
 

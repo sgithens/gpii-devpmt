@@ -98,7 +98,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
                 model: {
                     settingsFilter: "{genericSettingsTableWidget}.model.settingsFilter",
                     allSettingsCount: "{genericSettingsTableWidget}.model.commonTermUsageCounts.all",
-                    mySettingsCount: "{genericSettingsTableWidget}.model.commonTermUsageCounts.npset"
+                    mySettingsCount: "{genericSettingsTableWidget}.model.commonTermUsageCounts.prefsSafe"
                 }
             }
         },

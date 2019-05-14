@@ -176,7 +176,7 @@ gpii.devpmt.morphic.mySafeHandler.contextPromise = function (that, devpmt, req) 
         };
         var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
         var prefset = gpii.devpmt.npset({
-            npsetName: req.params.npset,
+            npsetName: req.params.prefsSafe,
             flatPrefs: npset,
             docs: ""
         });

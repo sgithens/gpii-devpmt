@@ -69,16 +69,16 @@ fluid.getValueByGlobalPath = function (path) {
  * a user or snapset. Based on current hardwire, loads it's Preferences Set from
  * the bundled GPII's testData.
  *
- * When creating a new instance, the npsetName is required in the options
+ * When creating a new instance, the prefsSafeName is required in the options
  * block.
  *
- * gpii.devpmt.npset({ npsetName: "alice" , flatPrefs: flatPrefsObject});
+ * gpii.devpmt.npset({ prefsSafeName: "alice" , flatPrefs: flatPrefsObject});
  *
  * This will become a model component for Preferences set editing.
  */
 fluid.defaults("gpii.devpmt.npset", {
     gradeNames: ["fluid.component"],
-    // npsetName: "elod",
+    // prefsSafeName: "elod",
     // flatPrefs: {},
     // docs: {}
     invokers: {
@@ -86,8 +86,8 @@ fluid.defaults("gpii.devpmt.npset", {
             funcName: "gpii.devpmt.contextNames",
             args: ["{that}.options.flatPrefs"]
         },
-        npsetApplications: {
-            funcName: "gpii.devpmt.npsetApplications",
+        prefsSafeApplications: {
+            funcName: "gpii.devpmt.prefsSafeApplications",
             args: ["{that}.options.flatPrefs"]
         }
     }
@@ -122,7 +122,7 @@ fluid.defaults("gpii.devpmt", {
     model: {
         messages: {},
         solutions: {},
-        npsetList: []
+        prefsSafeList: []
     },
     listeners: {
         "onCreate.initialize": {
@@ -276,13 +276,13 @@ fluid.defaults("gpii.devpmt", {
         editPrefSetHandler: {
             type: "gpii.devpmt.editPrefSetHandler",
             options: {
-                path: "/editprefs/:npset"
+                path: "/editprefs/:prefsSafe"
             }
         },
         savePrefsetHandler: {
             type: "gpii.devpmt.savePrefsetHandler",
             options: {
-                path: "/saveprefset/:npset"
+                path: "/saveprefset/:prefsSafe"
             }
         },
         addPrefsetFormHandler: {
@@ -523,6 +523,6 @@ gpii.devpmt.initialize = function (that) {
         fluid.each(data, function (item) {
             togo.push(item.prefsSafeId);
         });
-        that.applier.change("npsetList", togo);
+        that.applier.change("prefsSafeList", togo);
     });
 };

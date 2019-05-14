@@ -91,7 +91,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // ],
 
 
-        npsetName: "{that}.options.npset.options.npsetName",  // ""
+        prefsSafeName: "{that}.options.npset.options.prefsSafeName",  // ""
         flatPrefs: "{that}.options.prefsSafe.preferences.flat",  // {}
         commonTerms: "{that}.options.commonTerms",            // []
         commonTermsSorted: [],
@@ -272,7 +272,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-topNavBar-widget"
                 },
                 model: {
-                    npsetName: "{gpii.devpmt.editPrefs}.model.npsetName",
+                    prefsSafeName: "{gpii.devpmt.editPrefs}.model.prefsSafeName",
                     devModeOn: "{gpii.devpmt.editPrefs}.model.devModeOn",
                     unsavedChangesExist: "{gpii.devpmt.editPrefs}.model.unsavedChangesExist"
                 }
@@ -587,25 +587,25 @@ gpii.devpmt.checkEditingHighlights = function (active, cells) {
  * @param {Array} commonTermsSorted - List of our common terms, currently
  * known as generic preferences.
  * @param {Object} flatPrefs - Users current set of flat preferences.
- * @return {Object} Object with keys `npset` and `all`, such as
+ * @return {Object} Object with keys `prefsSafe` and `all`, such as
  *                  {
- *                      npset: 3,
+ *                      prefsSafe: 3,
  *                      all: 225
  *                  }
  */
 gpii.devpmt.calculateCommonTermUsageCounts = function (commonTermsSorted, flatPrefs) {
     var all = commonTermsSorted.length;
-    var npsetKeys = {};
+    var prefsSafeKeys = {};
     fluid.each(flatPrefs.contexts, function (i) {
         fluid.each(i.preferences, function (j, jKey) {
             if (jKey.startsWith("http://registry.gpii.net/common")) {
-                npsetKeys[jKey] = true;
+                prefsSafeKeys[jKey] = true;
             }
         });
     });
     var counts = {
         all: all,
-        npset: Object.keys(npsetKeys).length
+        prefsSafe: Object.keys(prefsSafeKeys).length
     };
     return counts;
 };
@@ -728,7 +728,7 @@ gpii.devpmt.downloadPrefset = function (that) {
         "flat": that.model.flatPrefs
     }, null, 4);
     var blob = new Blob([togoString], {type: "application/json;charset=utf-8"});
-    saveAs(blob, that.model.npsetName + ".json");
+    saveAs(blob, that.model.prefsSafeName + ".json");
 };
 
 gpii.devpmt.toggleDevModeView = function (that, status) {

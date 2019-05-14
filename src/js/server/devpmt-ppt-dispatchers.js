@@ -178,7 +178,7 @@ gpii.devpmt.ppt.logoutHandler.checkAuthorization = function (that, req, res /*, 
 fluid.defaults("gpii.devpmt.editPrefSetHandler", {
     gradeNames: ["gpii.devpmt.baseDispatcher"],
     handlerGrades: [],
-    path: ["/editprefs/:npset"],
+    path: ["/editprefs/:prefsSafe"],
     defaultTemplate: "editprefset",
     rules: {
         contextToExpose: {
@@ -215,7 +215,7 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
  */
 gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
     var promTogo = fluid.promise();
-    fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.params.npset}), function (data) {
+    fluid.promise.map(devpmt.fullPrefSetDataSource.get({prefsSafeId: req.params.prefsSafe}), function (data) {
         if (!data.prefsSafe) {
             promTogo.reject({
                 isError: true,
@@ -225,7 +225,7 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
         };
         var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
         var prefset = gpii.devpmt.npset({
-            npsetName: req.params.npset,
+            prefsSafeName: req.params.prefsSafeName,
             flatPrefs: npset,
             docs: ""
         });
@@ -253,7 +253,7 @@ fluid.registerNamespace("gpii.devpmt.savePrefsetHandler");
  */
 fluid.defaults("gpii.devpmt.savePrefsetHandler", {
     gradeNames: ["gpii.express.middleware"],
-    path: ["/saveprefset/:npset"],
+    path: ["/saveprefset/:prefsSafe"],
     invokers: {
         middleware: {
             funcName: "gpii.devpmt.savePrefsetHandler.handleRequest",
@@ -264,7 +264,7 @@ fluid.defaults("gpii.devpmt.savePrefsetHandler", {
 
 gpii.devpmt.savePrefsetHandler.handleRequest = function (that, devpmt, req, res /*, next */) {
     if (gpii.devpmt.ppt.checkAuthorization(that, req, res)) {
-        var prom = devpmt.prefSetDataSource.set({prefsSafeId: req.params.npset}, req.body);
+        var prom = devpmt.prefSetDataSource.set({prefsSafeId: req.params.prefsSafe}, req.body);
         prom.then(function () {
             res.send({
                 message: "Saved"

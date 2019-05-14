@@ -26,7 +26,7 @@ fluid.defaults("gpii.devpmt.topNavBar", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         // Typically these will all have model relay linkages to the main editPrefs component
-        npsetName: "",
+        prefsSafeName: "",
         devModeOn: false,
         unsavedChangesExist: false
     },
