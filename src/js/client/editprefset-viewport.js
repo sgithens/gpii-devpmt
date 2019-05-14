@@ -96,7 +96,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         commonTerms: "{that}.options.commonTerms",            // []
         commonTermsSorted: [],
         contextNames: [],
-        npsetApplications: "@expand:gpii.devpmt.npsetApplications({that}.options.prefsSafe.preferences.flat)", // []
+        prefsSafeApplications: "@expand:gpii.devpmt.prefsSafeApplications({that}.options.prefsSafe.preferences.flat)", // []
         allSolutions: "{that}.options.allSolutions", // {}
 
         unsavedChangesExist: false,
@@ -289,7 +289,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 model: {
                     inputData: {
                         allSolutions: "{gpii.devpmt.editPrefs}.model.allSolutions",
-                        npsetApplications: "{gpii.devpmt.editPrefs}.model.npsetApplications"
+                        prefsSafeApplications: "{gpii.devpmt.editPrefs}.model.prefsSafeApplications"
                     }
                 }
             }
@@ -548,7 +548,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 priority: "after:updateMetadataFromPrefs"
             }
         ],
-        "npsetApplications": {
+        "prefsSafeApplications": {
             func: "{that}.reRender",
             namespace: "reRender",
             excludeSource: ["init"]
@@ -657,7 +657,7 @@ gpii.devpmt.initSettingTableWidgets = function (that) {
     fluid.each(existingTables, function (item) {
         item.destroy();
     });
-    fluid.each(that.model.npsetApplications, function (item) {
+    fluid.each(that.model.prefsSafeApplications, function (item) {
         var sel = "#test-comp-" + item.appId;
         sel = sel.replace(/\./g, "\\.");
         var appUri = "http://registry.gpii.net/applications/" + item.appId;
@@ -785,7 +785,7 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
             that.applier.change(path, false, "DELETE");
             that.addEditToUnsavedList("Un-enabled Product for Context: " + product);
         }
-        that.applier.change("npsetApplications", gpii.devpmt.npsetApplications(that.model.flatPrefs));
+        that.applier.change("prefsSafeApplications", gpii.devpmt.prefsSafeApplications(that.model.flatPrefs));
         that.applier.change("unsavedChangesExist", true);
     });
 };

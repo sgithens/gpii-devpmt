@@ -62,12 +62,12 @@
             <div id="pmt-genericSettingsTable-widget">
             </div>
         </div>
-        {{#each npsetApplications}} {{! <-- Is npsetApplications actually dynamic? }}
+        {{#each prefsSafeApplications}} {{! <-- Is prefsSafeApplications actually dynamic? }}
             <div id="test-comp-{{this.appId}}">
                 <div class="pmt-settings-table-div"></div>
             </div>
 
-        {{/each}} {{! end npsetApplications }}
+        {{/each}} {{! end prefsSafeApplications }}
 
         <div id="pmt-flatPrefs-jsonDev-container">
             <div id="pmt-flatPrefs-jsonDev-render">

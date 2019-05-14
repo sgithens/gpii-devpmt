@@ -24,7 +24,7 @@ fluid.defaults("gpii.devpmt.editPrefsTocWidget", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         inputData: {
-            npsetApplications: null,
+            prefsSafeApplications: null,
             allSolutions: null
         },
         renderList: null
@@ -51,7 +51,7 @@ fluid.defaults("gpii.devpmt.editPrefsTocWidget", {
 
 gpii.devpmt.editPrefsTocWidget.generateRenderList = function (input) {
     var output = [];
-    fluid.each(input.npsetApplications, function (app) {
+    fluid.each(input.prefsSafeApplications, function (app) {
         output.push({
             appId: app.appId,
             name: input.allSolutions[app.appId].name

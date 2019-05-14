@@ -92,7 +92,7 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (model, appl
     }
 
     // TODO validation to see if already exists, and determining
-    // the valid set of strings a context ID can take
+    // the valid set of strings a preference set ID can take
     var contextToCopy = model.contextToCopy;
     var path = "flatPrefs.contexts." + model.contextId;
     var newPrefSet = {};

@@ -138,9 +138,9 @@ gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
 };
 
 /**
- * npsetApplications - Goes through all the contexts in a flat prefs set
+ * prefsSafeApplications - Goes through all the preference sets in a preferences safe
  * and pulls out the flat pref URI and app ID. Returns all the apps a
- * user has settings.
+ * user has settings for.
  *
  * @param {Object} prefs - Transformed flat preferences set
  * @return {Array} An array of objects structured as the following: (RWG example)
@@ -149,7 +149,7 @@ gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
  *         appId: "com.texthelp.readWriteGold"
  *     }
  */
-gpii.devpmt.npsetApplications = function (prefs) {
+gpii.devpmt.prefsSafeApplications = function (prefs) {
     var apps = {};
     fluid.each(prefs.contexts, function (context) {
         fluid.each(context.preferences, function (prefBody, prefKey) {

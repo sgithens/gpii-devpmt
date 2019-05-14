@@ -74,12 +74,12 @@ Handlebars.registerHelper("appURIfromID", function (appId) {
  * it's of type appId. It would be nice to wrap some of the infusion
  * find/map functions as helpers rather than use this custom function.
  *
- * @param {Object} npsetApplications - The listing of GPII app solutions.
+ * @param {Object} prefsSafeApplications - The listing of GPII app solutions.
  * @param {String} appId - The ID of the application we're looking for.
  * @return {Object} The solution entry of the IP, otherwise undefined.
  */
-Handlebars.registerHelper("checkForApp", function (npsetApplications, appId) {
-    return fluid.find(npsetApplications, function (i) {
+Handlebars.registerHelper("checkForApp", function (prefsSafeApplications, appId) {
+    return fluid.find(prefsSafeApplications, function (i) {
         if (i.appId === appId) {
             return i;
         }

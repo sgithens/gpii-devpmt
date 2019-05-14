@@ -85,7 +85,7 @@
                 {{/each}}
             {{/with}}
             {{! TODO This area needs to be fixed. Find a component level way to pull out all the settings keys across contexts
-                for a user, similar to gpii.devpmt.npsetApplications, but just on a per product component level. }}
+                for a user, similar to gpii.devpmt.prefsSafeApplications, but just on a per product component level. }}
             {{#each options.solution.settingKeys}}
                 {{#unless (checkForSupportedSetting ../options.solution this)}}
                 <tr>
