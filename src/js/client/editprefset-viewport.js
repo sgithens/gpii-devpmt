@@ -799,7 +799,7 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
  * opens the confirm delete context dialog.
  *
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
- * @param {Event} event - Browser event object
+ * @param {DOMEvent} event - Browser event object
  */
 gpii.devpmt.onDeleteContext = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;
@@ -813,7 +813,7 @@ gpii.devpmt.onDeleteContext = function (that, event) {
  * data-contextid attribute.
  *
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
- * @param {Event} event - Browser event object
+ * @param {DOMEvent} event - Browser event object
  */
 gpii.devpmt.onEditContext = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;

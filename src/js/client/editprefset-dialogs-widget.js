@@ -67,9 +67,9 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * initial settings from.
  *
  * @param {Object} model - Model object
- * @param {changeApplier} applier - Change applier for model
+ * @param {ChangeApplier} applier - Change applier for model
  * @param {Function} closeDialog - Zero-arg function to close dialog
- * @param {event} event - Browser event triggered by the accept button.
+ * @param {DOMEvent} event - Browser event triggered by the accept button.
  */
 gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
     // We don't want the form to actually submit the page, just to enable

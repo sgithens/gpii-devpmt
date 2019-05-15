@@ -18,7 +18,6 @@
 "use strict";
 
 var gpii = fluid.registerNamespace("gpii");
-fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.dialogs");
 
 /**
@@ -84,7 +83,7 @@ gpii.devpmt.dialogs.baseDialog.closeDialog = function (that, dialogContainer) {
  * Suitable dialog for performing actions that require either an
  * 'accept' or 'cancel' type answer.
  *
- * To create confirmation dialogs, inherit this grade. Then the
+ * To create confirmation dialogs, inherit from this grade. Then the
  * following items need to be overriden:
  *
  * - Create a handlebars template in the standard partials area

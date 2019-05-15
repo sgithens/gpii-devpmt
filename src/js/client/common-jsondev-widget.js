@@ -16,8 +16,6 @@
 
 "use strict";
 
-fluid.registerNamespace("gpii");
-fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.devpmt.jsonDev");
 
 /**

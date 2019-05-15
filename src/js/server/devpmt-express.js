@@ -28,22 +28,6 @@ require("gpii-universal");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
 
-
-/**
- * gpii.handlebars.requestFuncTransform
- *  This component is sort of a facsimile of the functions available
- *  in many web frameworks that take a request instance or URL parameter
- *  and return something for the response. In this case what is returned
- *  will be assigned to the variable in the transform.
- */
-fluid.defaults("gpii.handlebars.requestFuncTransform", {
-    gradeNames: ["fluid.component"]
-});
-
-gpii.handlebars.requestFuncTransform = function (value, transformSpec) {
-    return fluid.invokeGlobalFunction(transformSpec.func, [transformSpec.that, value]);
-};
-
 /**
  * Allows fetching a component from the tree using an IoC expression of the
  * type one would normally place in a components defaults block. If there is
