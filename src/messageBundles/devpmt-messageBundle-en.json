@@ -30,16 +30,16 @@
 
     "gpii_pmt_saveDialog_header": "View Changes and Confirm Save",
 
-    "gpii_pmt_addContextDialog_button": "Add Preference Set",
-    "gpii_pmt_addContextDialog_header": "Add Preference Set",
-    "gpii_pmt_addContextDialog_name": "Name",
-    "gpii_pmt_addContextDialog_inst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p><p>Additionally, you can start with a blank set, or copy the initial settings from another preference set.",
-    "gpii_pmt_addContextDialog_copyfrom": "Copy initial settings from:",
-    "gpii_pmt_addContextDialog_newblankset": "New Blank Set",
+    "gpii_pmt_addPrefsSetDialog_button": "Add Preference Set",
+    "gpii_pmt_addPrefsSetDialog_header": "Add Preference Set",
+    "gpii_pmt_addPrefsSetDialog_name": "Name",
+    "gpii_pmt_addPrefsSetDialog_inst": "<p><strong>Give the preference set a different name.</strong></p><p>For example: Tired, Working, Bright, Noisy, School</p><p>Additionally, you can start with a blank set, or copy the initial settings from another preference set.",
+    "gpii_pmt_addPrefsSetDialog_copyfrom": "Copy initial settings from:",
+    "gpii_pmt_addPrefsSetDialog_newblankset": "New Blank Set",
 
-    "gpii_pmt_deleteContextDialog_header": "Delete Context",
-    "gpii_pmt_deleteContextDialog_inst": "Are you sure you want to delete this context?",
-    "gpii_pmt_deleteContextDialog_deleteButton": "Delete",
+    "gpii_pmt_deletePrefsSetDialog_header": "Delete PrefsSet",
+    "gpii_pmt_deletePrefsSetDialog_inst": "Are you sure you want to delete this context?",
+    "gpii_pmt_deletePrefsSetDialog_deleteButton": "Delete",
 
     "gpii_pmt_addProductDialog_addButton": "Add",
     "gpii_pmt_addProductDialog_inst": "Click below to add this product to the preferences safe.",
@@ -47,10 +47,10 @@
     "gpii_pmt_removeProductDialog_removeButton": "Remove",
     "gpii_pmt_removeProductDialog_inst": "Are you sure want to completely remove the settings for this product from the preferences safe? Note: Removing a products settings from all Preference Sets will completely remove it from your safe",
 
-    "gpii_pmt_editContextDialog_header": "Edit Preference Set",
-    "gpii_pmt_editContextDialog_inst": "Below you can edit the internal id of the Preference Set, and it's human readable name",
-    "gpii_pmt_editContextDialog_idLabel": "Preference Set ID",
-    "gpii_pmt_editContextDialog_nameLabel": "Name",
+    "gpii_pmt_editPrefsSetDialog_header": "Edit Preference Set",
+    "gpii_pmt_editPrefsSetDialog_inst": "Below you can edit the internal id of the Preference Set, and it's human readable name",
+    "gpii_pmt_editPrefsSetDialog_idLabel": "Preference Set ID",
+    "gpii_pmt_editPrefsSetDialog_nameLabel": "Name",
 
     "gpii_pmt_prefsList_editButton": "Edit",
     "gpii_pmt_prefsList_deleteButton": "Delete",

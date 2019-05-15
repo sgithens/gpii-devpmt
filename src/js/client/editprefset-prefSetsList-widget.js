@@ -48,17 +48,17 @@ fluid.defaults("gpii.devpmt.prefSetsListWidget", {
         initial: "editprefset-prefSetsList-widget"
     },
     selectors: {
-        deleteContextButtons: ".pmt-delete-context",
-        editContextButtons: ".pmt-edit-context"
+        deletePrefsSetButtons: ".pmt-delete-context",
+        editPrefsSetButtons: ".pmt-edit-context"
     },
     markupEventBindings: {
-        deleteContextButtons: {
+        deletePrefsSetButtons: {
             method: "click",
-            args: "{gpii.devpmt.editPrefs}.onDeleteContext"
+            args: "{gpii.devpmt.editPrefs}.onDeletePrefsSet"
         },
-        editContextButtons: {
+        editPrefsSetButtons: {
             method: "click",
-            args: "{gpii.devpmt.editPrefs}.onEditContext"
+            args: "{gpii.devpmt.editPrefs}.onEditPrefsSet"
         }
     }
 });

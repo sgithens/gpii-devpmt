@@ -99,17 +99,17 @@ gpii.devpmt.prefsetExists = function (flatPrefs, prefsetId) {
  */
 gpii.devpmt.contextNames = function (prefs) {
     var contextNames = [];
-    var hasDefaultContext = false;
+    var hasDefaultPrefsSet = false;
     fluid.each(prefs.contexts, function (value, key) {
         if (key !== "gpii-default" && contextNames.indexOf(key) < 0) {
             contextNames.push(key);
         }
         else if (key === "gpii-default") {
-            hasDefaultContext = true;
+            hasDefaultPrefsSet = true;
         }
     });
     contextNames.sort();
-    if (hasDefaultContext) {
+    if (hasDefaultPrefsSet) {
         contextNames.unshift("gpii-default");
     }
     return contextNames;

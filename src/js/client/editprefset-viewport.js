@@ -146,11 +146,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     events: {
         createSettingsTable: null,
         openBaseDialog: null,
-        openAddContextDialog: null,
-        openEditContextDialog: null,
+        openAddPrefsSetDialog: null,
+        openEditPrefsSetDialog: null,
         openConfirmDialog: null,
         openConfirmAddProductDialog: null,
-        openConfirmDeleteContextDialog: null,
+        openConfirmDeletePrefsSetDialog: null,
         openConfirmSaveDialog: null,
         openConfirmRemoveProductDialog: null,
         startDevWidgets: null
@@ -193,9 +193,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 }
             }
         },
-        addContextDialog: {
-            type: "gpii.devpmt.dialogs.addContextDialog",
-            createOnEvent: "openAddContextDialog",
+        addPrefsSetDialog: {
+            type: "gpii.devpmt.dialogs.addPrefsSetDialog",
+            createOnEvent: "openAddPrefsSetDialog",
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
@@ -207,9 +207,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 }
             }
         },
-        editContextDialog: {
-            type: "gpii.devpmt.dialogs.editContextDialog",
-            createOnEvent: "openEditContextDialog",
+        editPrefsSetDialog: {
+            type: "gpii.devpmt.dialogs.editPrefsSetDialog",
+            createOnEvent: "openEditPrefsSetDialog",
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
@@ -217,15 +217,15 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 },
                 model: {
                     contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId",
-                    originalContextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.originalContextId",
+                    originalPrefsSetId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.originalPrefsSetId",
                     contextName: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextName",
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
         },
-        confirmDeleteContextDialog: {
-            type: "gpii.devpmt.dialogs.confirmDeleteContextDialog",
-            createOnEvent: "openConfirmDeleteContextDialog",
+        confirmDeletePrefsSetDialog: {
+            type: "gpii.devpmt.dialogs.confirmDeletePrefsSetDialog",
+            createOnEvent: "openConfirmDeletePrefsSetDialog",
             container: "{that}.dom.modalDialogContainer",
             options: {
                 selectors: {
@@ -505,12 +505,12 @@ fluid.defaults("gpii.devpmt.editPrefs", {
             funcName: "gpii.devpmt.lookupProductPrefValue",
             args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
         },
-        onEditContext: {
-            funcName: "gpii.devpmt.onEditContext",
+        onEditPrefsSet: {
+            funcName: "gpii.devpmt.onEditPrefsSet",
             args: ["{that}", "{arguments}.0"] // event
         },
-        onDeleteContext: {
-            funcName: "gpii.devpmt.onDeleteContext",
+        onDeletePrefsSet: {
+            funcName: "gpii.devpmt.onDeletePrefsSet",
             args: ["{that}", "{arguments}.0"] // event
         },
         updateFoundationSticky: {
@@ -760,7 +760,7 @@ gpii.devpmt.toggleDevModeView = function (that, status) {
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
  * @param {Boolean} checked - `true` or `false` indicating if this product should be
  * enabled or unabled.
- * @param {String} context - Context (prefset). If this is null, the product will
+ * @param {String} context - PrefsSet (prefset). If this is null, the product will
  * be (un)enabled in all contexts.
  * @param {String} product - The uri of the product.
  */
@@ -779,11 +779,11 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
         if (checked) {
             // Add a check in case it's already enabled
             that.applier.change(path, {});
-            that.addEditToUnsavedList("Enabled Product for Context: " + product);
+            that.addEditToUnsavedList("Enabled Product for PrefsSet: " + product);
         }
         else {
             that.applier.change(path, false, "DELETE");
-            that.addEditToUnsavedList("Un-enabled Product for Context: " + product);
+            that.addEditToUnsavedList("Un-enabled Product for PrefsSet: " + product);
         }
         that.applier.change("prefsSafeApplications", gpii.devpmt.prefsSafeApplications(that.model.flatPrefs));
         that.applier.change("unsavedChangesExist", true);
@@ -801,10 +801,10 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
  * @param {DOMEvent} event - Browser event object
  */
-gpii.devpmt.onDeleteContext = function (that, event) {
+gpii.devpmt.onDeletePrefsSet = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;
     that.applier.change("activeModalDialog.contextId", contextId);
-    that.events.openConfirmDeleteContextDialog.fire();
+    that.events.openConfirmDeletePrefsSetDialog.fire();
 };
 
 /**
@@ -815,14 +815,14 @@ gpii.devpmt.onDeleteContext = function (that, event) {
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
  * @param {DOMEvent} event - Browser event object
  */
-gpii.devpmt.onEditContext = function (that, event) {
+gpii.devpmt.onEditPrefsSet = function (that, event) {
     var contextId = event.currentTarget.dataset.contextid;
     that.applier.change("activeModalDialog", {
         contextId: contextId,
-        originalContextId: contextId,
+        originalPrefsSetId: contextId,
         contextName: that.model.flatPrefs.contexts[contextId].name
     });
-    that.events.openEditContextDialog.fire();
+    that.events.openEditPrefsSetDialog.fire();
 };
 
 gpii.devpmt.editValueEvent = function (that, event) {

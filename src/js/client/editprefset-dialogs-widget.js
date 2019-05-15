@@ -1,9 +1,9 @@
 /**
  * Dialog boxes
  *
- * - addContextDialog Adds a preference set to a preferences safe
- * - editContextDialog Edits metadata for a preference set
- * - confirmDeleteContextDialog Confirms with the user before permanently
+ * - addPrefsSetDialog Adds a preference set to a preferences safe
+ * - editPrefsSetDialog Edits metadata for a preference set
+ * - confirmDeletePrefsSetDialog Confirms with the user before permanently
  *   removing a preference set from a safe
  * - confirmAddProductDialog After clicking a product to add to
  *   preference safe, confirms before actual insertion.
@@ -29,10 +29,10 @@ fluid.registerNamespace("gpii.devpmt.dialogs");
 /**
  * Add Preferences Set Context Dialog
  */
-fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
+fluid.defaults("gpii.devpmt.dialogs.addPrefsSetDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
     templates: {
-        initial: "editprefset-addContext-dialog"
+        initial: "editprefset-addPrefsSet-dialog"
     },
     model: {
         contextId: "",
@@ -50,7 +50,7 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
     },
     invokers: {
         acceptConfirmDialog: {
-            funcName: "gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog",
+            funcName: "gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog",
             args: ["{that}.model", "{that}.applier", "{that}.closeDialog", "{arguments}.0"]
         }
     },
@@ -66,12 +66,12 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * Includes a dropdown that can be used to select a context to copy the
  * initial settings from.
  *
- * @param {Object} model - Model as defined in `gpii.devpmt.dialogs.addContextDialog`.
+ * @param {Object} model - Model as defined in `gpii.devpmt.dialogs.addPrefsSetDialog`.
  * @param {ChangeApplier} applier - Change applier for model
  * @param {Function} closeDialog - Zero-arg function to close dialog
  * @param {DOMEvent} event - Browser event triggered by the accept button.
  */
-gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
+gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
     // We don't want the form to actually submit the page, just to enable
     // activating the submit button on Enter
     event.preventDefault();
@@ -110,14 +110,14 @@ gpii.devpmt.dialogs.addContextDialog.acceptConfirmDialog = function (model, appl
 /**
  * Edit Preferences Set Context Dialog
  */
-fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
+fluid.defaults("gpii.devpmt.dialogs.editPrefsSetDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
     templates: {
-        initial: "editprefset-editContext-dialog"
+        initial: "editprefset-editPrefsSet-dialog"
     },
     model: {
         // Store so that we can fetch the context to copy to a new ID
-        originalContextId: "",
+        originalPrefsSetId: "",
         contextId: "",
         contextIdErrors: "",
         contextName: "",
@@ -134,7 +134,7 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
     },
     invokers: {
         acceptConfirmDialog: {
-            funcName: "gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog",
+            funcName: "gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog",
             args: ["{that}.model", "{that}.applier", "{that}.closeDialog", "{arguments}.0"]
         }
     },
@@ -148,7 +148,7 @@ fluid.defaults("gpii.devpmt.dialogs.editContextDialog", {
     }
 });
 
-gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
+gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
     // We don't want the form to actually submit the page, just to enable
     // activating the submit button on Enter
     event.preventDefault();
@@ -167,7 +167,7 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (model, app
     }
     // If we changed the contextId, make sure that there isn't an existing context with
     // that ID
-    else if (model.contextId !== model.originalContextId &&
+    else if (model.contextId !== model.originalPrefsSetId &&
              gpii.devpmt.prefsetExists(model.flatPrefs, model.contextId)) {
         applier.change("contextIdErrors", "A Preference Set with that ID already exists.");
         return;
@@ -187,9 +187,9 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (model, app
     }
 
     var transaction = applier.initiate();
-    var prefsetToEdit = fluid.copy(model.flatPrefs.contexts[model.originalContextId]);
+    var prefsetToEdit = fluid.copy(model.flatPrefs.contexts[model.originalPrefsSetId]);
     prefsetToEdit.name = model.contextName;
-    var oldPath = "flatPrefs.contexts." + model.originalContextId;
+    var oldPath = "flatPrefs.contexts." + model.originalPrefsSetId;
     var path = "flatPrefs.contexts." + model.contextId;
 
     transaction.fireChangeRequest({
@@ -210,10 +210,10 @@ gpii.devpmt.dialogs.editContextDialog.acceptConfirmDialog = function (model, app
 /**
  * Confirm deletion of Preferences Set Context Dialog
  */
-fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {
+fluid.defaults("gpii.devpmt.dialogs.confirmDeletePrefsSetDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
     templates: {
-        initial: "editprefset-confirmDeleteContext-dialog"
+        initial: "editprefset-confirmDeletePrefsSet-dialog"
     },
     model: {
         contextId: "", // Should be populated/relayed during construction before showing dialog
@@ -221,13 +221,13 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDeleteContextDialog", {
     },
     invokers: {
         acceptConfirmDialog: {
-            funcName: "gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog",
+            funcName: "gpii.devpmt.dialogs.confirmDeletePrefsSetDialog.acceptConfirmDialog",
             args: ["{that}.closeDialog", "{gpii.devpmt.editPrefs}", "{that}.model.contextId"]
         }
     }
 });
 
-gpii.devpmt.dialogs.confirmDeleteContextDialog.acceptConfirmDialog = function (closeDialog, editPrefs, contextId) {
+gpii.devpmt.dialogs.confirmDeletePrefsSetDialog.acceptConfirmDialog = function (closeDialog, editPrefs, contextId) {
     closeDialog();
     // In the rare event that this contextId no longer exists in the preferences,
     // the worse case scenerio here is that the change applier operation will merely

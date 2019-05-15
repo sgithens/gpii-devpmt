@@ -81,7 +81,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
 
         // Generic Prefs Filters
         settingsSearchInput: "#pmt-settings-search-input",
-        addContextButton: ".pmt-add-context-button",
+        addPrefsSetButton: ".pmt-add-context-button",
 
         // mineAllWidget
         mineAllSwitchContainer: "#pmt-mineAllSwitch-container"
@@ -121,9 +121,9 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
             method: "click",
             args: "{gpii.devpmt.editPrefs}.editValueEvent"
         },
-        addContextButton: {
+        addPrefsSetButton: {
             method: "click",
-            args: "{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"
+            args: "{gpii.devpmt.editPrefs}.events.openAddPrefsSetDialog.fire"
         }
     },
     listeners: {

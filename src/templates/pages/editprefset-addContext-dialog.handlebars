@@ -3,10 +3,10 @@
         <span aria-hidden="true">&times;</span>
     </button>
 
-    <h2>{{{messageHelper "gpii_pmt_addContextDialog_header"}}}</h2>
-    {{{messageHelper "gpii_pmt_addContextDialog_inst"}}}
+    <h2>{{{messageHelper "gpii_pmt_addPrefsSetDialog_header"}}}</h2>
+    {{{messageHelper "gpii_pmt_addPrefsSetDialog_inst"}}}
     <form>
-    <label>{{{messageHelper "gpii_pmt_addContextDialog_name"}}}
+    <label>{{{messageHelper "gpii_pmt_addPrefsSetDialog_name"}}}
         <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
     </label>
     {{#if fieldErrors}}
@@ -15,9 +15,9 @@
     </div>
     {{/if}}
 
-    <label>{{{messageHelper "gpii_pmt_addContextDialog_copyfrom"}}}
+    <label>{{{messageHelper "gpii_pmt_addPrefsSetDialog_copyfrom"}}}
         <select id="pmt-context-to-copy-select">
-            <option value=""><em>{{{messageHelper "gpii_pmt_addContextDialog_newblankset"}}}</em></option>
+            <option value=""><em>{{{messageHelper "gpii_pmt_addPrefsSetDialog_newblankset"}}}</em></option>
             {{#each contextNames}}
             <option value="{{this}}">{{{lookup (lookup ../flatPrefs/contexts this) "name"}}}</option>
             {{/each}}

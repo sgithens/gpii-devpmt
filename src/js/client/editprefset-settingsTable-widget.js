@@ -60,7 +60,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         enabledBooleanInputs: ".pmt-enabled-boolean",
         settingsFilter: "#pmt-filter-container",
         settingsRows: ".pmt-settings-table-row",
-        addContextButton: ".pmt-add-context-button",
+        addPrefsSetButton: ".pmt-add-context-button",
         mineAllSwitchContainer: "#pmt-mineAllSwitch-container",
         removeProductButton: ".pmt-remove-product"
     },
@@ -134,9 +134,9 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
             method: "click",
             args: "{that}.enableProductListener"
         },
-        addContextButton: {
+        addPrefsSetButton: {
             method: "click",
-            args: "{gpii.devpmt.editPrefs}.events.openAddContextDialog.fire"
+            args: "{gpii.devpmt.editPrefs}.events.openAddPrefsSetDialog.fire"
         },
         valueDisplayCell: {
             method: "click",
