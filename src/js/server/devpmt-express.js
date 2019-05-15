@@ -56,12 +56,11 @@ fluid.defaults("gpii.devpmt", {
     },
     model: {
         messages: {},
-        solutions: {},
-        prefsSafeList: []
+        solutions: {}
     },
     listeners: {
-        "onCreate.initialize": {
-            funcName: "gpii.devpmt.initialize",
+        "onCreate.loadAllSolutions": {
+            funcName: "gpii.devpmt.loadAllSolutions",
             args: ["{that}"]
         },
         "onFsChange.reloadInlineTemplates": {
@@ -442,7 +441,7 @@ fluid.defaults("gpii.devpmt", {
     }
 });
 
-gpii.devpmt.initialize = function (that) {
+gpii.devpmt.loadAllSolutions = function (that) {
     fluid.each(that.options.osList, function (osId) {
         var prom = that.solutionsDataSource.get({osId: osId});
         prom.then(function (data) {
@@ -450,14 +449,5 @@ gpii.devpmt.initialize = function (that) {
             solutions = fluid.merge({"": ["replace,noexpand"]}, solutions, data);
             that.applier.change("solutions", solutions);
         });
-    });
-
-    var prefsSafesList = that.prefsSafesListingDataSource.get();
-    prefsSafesList.then(function (data) {
-        var togo = [];
-        fluid.each(data, function (item) {
-            togo.push(item.prefsSafeId);
-        });
-        that.applier.change("prefsSafeList", togo);
     });
 };

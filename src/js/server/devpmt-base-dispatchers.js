@@ -33,7 +33,7 @@ var gpii = fluid.registerNamespace("gpii");
 fluid.defaults("gpii.devpmt.baseDispatcher", {
     gradeNames: ["gpii.express.middleware.requestAware", "gpii.handlebars.dispatcherMiddleware"],
     method: "get",
-    templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"],
+    templateDirs: ["%gpii-devpmt/src/templates"],
     defaultLayout: "main",
     invokers: {
         middleware: {
