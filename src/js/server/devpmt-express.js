@@ -28,26 +28,6 @@ require("gpii-universal");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
 
-/**
- * Allows fetching a component from the tree using an IoC expression of the
- * type one would normally place in a components defaults block. If there is
- * more than one instance of this component, will use the first instance in
- * the returned list.
- *
- * An example path might be:
- * "{gpii.devpmt}.options.prefSetDir"
- *
- * but could be any resolvable path on the component.
- *
- * @param {String} path - The IoC path to look up.
- * @return {Any} The value at the path.
- */
-fluid.getValueByGlobalPath = function (path) {
-    var contextRef = fluid.parseContextReference(path);
-    var comp = fluid.queryIoCSelector(fluid.rootComponent, contextRef.context)[0];
-    return fluid.getForComponent(comp, contextRef.path);
-};
-
 gpii.devpmt.redisStore = function () {
     gpii.devpmt.GPII_REDIS_HOST = process.env.GPII_REDIS_HOST || "127.0.0.1";
     gpii.devpmt.GPII_REDIS_PORT = process.env.GPII_REDIS_PORT || 6379;
