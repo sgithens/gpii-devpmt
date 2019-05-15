@@ -66,7 +66,7 @@ fluid.defaults("gpii.devpmt.dialogs.addContextDialog", {
  * Includes a dropdown that can be used to select a context to copy the
  * initial settings from.
  *
- * @param {Object} model - Model object
+ * @param {Object} model - Model as defined in `gpii.devpmt.dialogs.addContextDialog`.
  * @param {ChangeApplier} applier - Change applier for model
  * @param {Function} closeDialog - Zero-arg function to close dialog
  * @param {DOMEvent} event - Browser event triggered by the accept button.
