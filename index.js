@@ -6,12 +6,12 @@ var fluid = require("infusion");
 fluid.require("gpii-express");
 
 
-require(__dirname + "/src/js/server/devpmt-express.js");
-require(__dirname + "/src/js/server/devpmt-datasources.js");
-require(__dirname + "/src/js/server/devpmt-base-dispatchers.js");
-require(__dirname + "/src/js/server/devpmt-ppt-dispatchers.js");
-require(__dirname + "/src/js/server/devpmt-morphic-dispatchers.js");
-require(__dirname + "/src/js/common/util.js");
+require("./src/js/server/devpmt-express.js");
+require("./src/js/server/devpmt-datasources.js");
+require("./src/js/server/devpmt-base-dispatchers.js");
+require("./src/js/server/devpmt-ppt-dispatchers.js");
+require("./src/js/server/devpmt-morphic-dispatchers.js");
+require("./src/js/common/util.js");
 
 fluid.module.register("gpii-devpmt", __dirname, require);
 
