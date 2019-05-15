@@ -64,35 +64,6 @@ fluid.getValueByGlobalPath = function (path) {
     return fluid.getForComponent(comp, contextRef.path);
 };
 
-/**
- * gpii.devpmt.npset - Infusion component representing a single Preferences Set for
- * a user or snapset. Based on current hardwire, loads it's Preferences Set from
- * the bundled GPII's testData.
- *
- * When creating a new instance, the prefsSafeName is required in the options
- * block.
- *
- * gpii.devpmt.npset({ prefsSafeName: "alice" , flatPrefs: flatPrefsObject});
- *
- * This will become a model component for Preferences set editing.
- */
-fluid.defaults("gpii.devpmt.npset", {
-    gradeNames: ["fluid.component"],
-    // prefsSafeName: "elod",
-    // flatPrefs: {},
-    // docs: {}
-    invokers: {
-        contextNames: {
-            funcName: "gpii.devpmt.contextNames",
-            args: ["{that}.options.flatPrefs"]
-        },
-        prefsSafeApplications: {
-            funcName: "gpii.devpmt.prefsSafeApplications",
-            args: ["{that}.options.flatPrefs"]
-        }
-    }
-});
-
 gpii.devpmt.redisStore = function () {
     gpii.devpmt.GPII_REDIS_HOST = process.env.GPII_REDIS_HOST || "127.0.0.1";
     gpii.devpmt.GPII_REDIS_PORT = process.env.GPII_REDIS_PORT || 6379;

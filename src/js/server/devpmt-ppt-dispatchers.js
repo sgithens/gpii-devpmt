@@ -211,7 +211,7 @@ fluid.defaults("gpii.devpmt.editPrefSetHandler", {
 });
 
 /**
- * Adds the `gpii.devpmt.npset` for the request to the handlebars context.
+ * Adds the preference safe data for the request to the handlebars context.
  */
 gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
     var promTogo = fluid.promise();
@@ -223,12 +223,7 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
             });
             return;
         };
-        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
-        var prefset = gpii.devpmt.npset({
-            prefsSafeName: req.params.prefsSafeName,
-            flatPrefs: npset,
-            docs: ""
-        });
+
         // This data is coming from a convenience endpoint that includes
         // the keys, but when we go back to save the prefset they would be in their
         // own documents, so we are removing the keys to a separate data
@@ -236,7 +231,6 @@ gpii.devpmt.editPrefSetHandler.contextPromise = function (that, devpmt, req) {
         var prefsSafe = data.prefsSafe;
         var keys = data.keys;
         promTogo.resolve({
-            npset: prefset,
             prefsSafe: prefsSafe,
             keys: keys
         });

@@ -174,12 +174,7 @@ gpii.devpmt.morphic.mySafeHandler.contextPromise = function (that, devpmt, req) 
             });
             return;
         };
-        var npset = devpmt.ontologyHandler.rawPrefsToOntology(data.prefsSafe.preferences, "flat");
-        var prefset = gpii.devpmt.npset({
-            npsetName: req.params.prefsSafe,
-            flatPrefs: npset,
-            docs: ""
-        });
+
         // This data is coming from a convenience endpoint that includes
         // the keys, but when we go back to save the prefset they would be in their
         // own documents, so we are removing the keys to a separate data
@@ -187,7 +182,6 @@ gpii.devpmt.morphic.mySafeHandler.contextPromise = function (that, devpmt, req) 
         var prefsSafe = data.prefsSafe;
         var keys = data.keys;
         promTogo.resolve({
-            npset: prefset,
             prefsSafe: prefsSafe,
             keys: keys
         });

@@ -91,7 +91,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         // ],
 
 
-        prefsSafeName: "{that}.options.npset.options.prefsSafeName",  // ""
+        prefsSafeName: "{that}.options.prefsSafe.name",  // ""
         flatPrefs: "{that}.options.prefsSafe.preferences.flat",  // {}
         commonTerms: "{that}.options.commonTerms",            // []
         commonTermsSorted: [],
@@ -520,7 +520,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
     },
     listeners: {
         "onCreate.initialize": {
-            funcName: "gpii.devpmt.npsetInit",
+            funcName: "gpii.devpmt.editPrefs.initialize",
             args: ["{that}"]
         },
         "onMarkupRendered.updateFoundationSticky": {
@@ -875,11 +875,9 @@ gpii.devpmt.editValueEvent = function (that, event) {
 
 
 /**
- * Temporary workaround until we set up an ajax feed for these. The server
- * side template is rendering the transformed preferences in another script
- * element at the top of the page.
+ * Setup various bits and pieces of the viewport.
  */
-gpii.devpmt.npsetInit = function (that) {
+gpii.devpmt.editPrefs.initialize = function (that) {
     // Add sorted solutions
     var allSolutionsSorted = [];
     fluid.each(that.model.allSolutions, function (item, key) {
