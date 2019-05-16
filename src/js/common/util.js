@@ -75,7 +75,7 @@ gpii.devpmt.booleanBinderRules = {
 };
 
 /**
- * prefsetExists - Check a flatPrefs set to see if the context/prefset
+ * prefsetExists - Check a flatPrefs set to see if the prefsSet
  * keyed with a particular ID already exists.
  *
  * @param {Object} flatPrefs - A flatPrefs set.
@@ -88,35 +88,35 @@ gpii.devpmt.prefsetExists = function (flatPrefs, prefsetId) {
 };
 
 /**
- * contextNames - Takes a rawPrefs set and returns a list of all the
- * context names. This function ensures that the first item in the list is
- * always the default context, 'gpii-default', and the rest of the contexts
+ * prefsSetNames - Takes a rawPrefs set and returns a list of all the
+ * prefsSet names. This function ensures that the first item in the list is
+ * always the default prefsSet, 'gpii-default', and the rest of the prefsSets
  * in an order that will always be the same. The stability of the order is
  * so that we can build html tables and other structures successfully.
  *
  * @param {Object} prefs - A prefs set.
- * @return {Array} List of context names.
+ * @return {Array} List of prefsSet names.
  */
-gpii.devpmt.contextNames = function (prefs) {
-    var contextNames = [];
+gpii.devpmt.prefsSetNames = function (prefs) {
+    var prefsSetNames = [];
     var hasDefaultPrefsSet = false;
     fluid.each(prefs.contexts, function (value, key) {
-        if (key !== "gpii-default" && contextNames.indexOf(key) < 0) {
-            contextNames.push(key);
+        if (key !== "gpii-default" && prefsSetNames.indexOf(key) < 0) {
+            prefsSetNames.push(key);
         }
         else if (key === "gpii-default") {
             hasDefaultPrefsSet = true;
         }
     });
-    contextNames.sort();
+    prefsSetNames.sort();
     if (hasDefaultPrefsSet) {
-        contextNames.unshift("gpii-default");
+        prefsSetNames.unshift("gpii-default");
     }
-    return contextNames;
+    return prefsSetNames;
 };
 
 /**
- * Returns the prefsets (contexts) an Application is being
+ * Returns the prefsets an Application is being
  * used in, as an array of prefset keys.  An example use of this
  * is for enabling and unabling products in the UI.  When a product
  * is removed from the last prefset, it is essentially completely
@@ -127,10 +127,10 @@ gpii.devpmt.contextNames = function (prefs) {
  */
 gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
     var contexts = [];
-    fluid.each(prefs.contexts, function (context, contextKey) {
-        fluid.each(context.preferences, function (prefBody, prefKey) {
+    fluid.each(prefs.contexts, function (prefsSet, prefsSetKey) {
+        fluid.each(prefsSet.preferences, function (prefBody, prefKey) {
             if (prefKey === appURI) {
-                contexts.push(contextKey);
+                contexts.push(prefsSetKey);
             }
         });
     });
@@ -151,8 +151,8 @@ gpii.devpmt.prefsetsForApplication = function (prefs, appURI) {
  */
 gpii.devpmt.prefsSafeApplications = function (prefs) {
     var apps = {};
-    fluid.each(prefs.contexts, function (context) {
-        fluid.each(context.preferences, function (prefBody, prefKey) {
+    fluid.each(prefs.contexts, function (prefsSet) {
+        fluid.each(prefsSet.preferences, function (prefBody, prefKey) {
             if (prefKey.startsWith("http://registry.gpii.net/applications")) {
                 if (!apps[prefKey]) {
                     apps[prefKey] = {
@@ -161,7 +161,7 @@ gpii.devpmt.prefsSafeApplications = function (prefs) {
                         settingKeys: []
                     };
                 }
-                // Add any keys that may or may not be in one of the contexts
+                // Add any keys that may or may not be in one of the prefsSets
                 fluid.each(prefBody, function (settingBody, settingKey) {
                     if (apps[prefKey].settingKeys.indexOf(settingKey) < 0) {
                         apps[prefKey].settingKeys.push(settingKey);

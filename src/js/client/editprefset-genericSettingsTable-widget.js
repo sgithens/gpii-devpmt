@@ -37,7 +37,7 @@ fluid.registerNamespace("gpii.devpmt.settingsTable");
  * model relays to the page `gpii.devpmt.prefsEditor` component.
  *
  * - flatPrefs
- * - contextNames
+ * - prefsSetNames
  * - commonTerms
  * - commonTermsSorted
  *
@@ -50,7 +50,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
         flatPrefs: null, // Model Relay to EditPrefs
-        contextNames: null, // Model Relay to EditPrefs
+        prefsSetNames: null, // Model Relay to EditPrefs
         commonTerms: null, // Model Relay to EditPrefs
         commonTermsSorted: null, // Model Relay to EditPrefs
 
@@ -81,7 +81,7 @@ fluid.defaults("gpii.devpmt.genericSettingsTableWidget", {
 
         // Generic Prefs Filters
         settingsSearchInput: "#pmt-settings-search-input",
-        addPrefsSetButton: ".pmt-add-context-button",
+        addPrefsSetButton: ".pmt-add-prefsSet-button",
 
         // mineAllWidget
         mineAllSwitchContainer: "#pmt-mineAllSwitch-container"
@@ -161,8 +161,8 @@ gpii.devpmt.updateSettingsFilter = function (that, commonTermRows, filters, sear
         commonTermRows.hide();
         fluid.each(commonTermRows, function (row) {
             var term = row.dataset.term;
-            fluid.each(that.model.flatPrefs.contexts, function (context) {
-                fluid.each(context.preferences, function (pref, key) {
+            fluid.each(that.model.flatPrefs.contexts, function (prefsSet) {
+                fluid.each(prefsSet.preferences, function (pref, key) {
                     if (key === term) {
                         $(row).show();
                     }

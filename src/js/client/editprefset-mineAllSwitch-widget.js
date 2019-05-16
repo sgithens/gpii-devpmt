@@ -34,7 +34,7 @@ fluid.defaults("gpii.devpmt.mineAllSwitch.base", {
         mySettingsCount: 0
     },
     invokers: {
-        // Overriding renderInitialMarkup to use `that` as a render context.
+        // Overriding renderInitialMarkup to use `that` as a render prefsSet.
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}"]

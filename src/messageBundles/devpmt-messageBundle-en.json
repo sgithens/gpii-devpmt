@@ -8,8 +8,8 @@
     "gpii_pmt_booleanSettingOn": "true",
     "gpii_pmt_booleanSettingOff": "false",
 
-    "gpii_pmt_contextsHeader": "Preference Sets",
-    "gpii_pmt_contextIDHeader": "Preference Set ID",
+    "gpii_pmt_prefsSetsHeader": "Preference Sets",
+    "gpii_pmt_prefsSetIDHeader": "Preference Set ID",
     "gpii_pmt_nameHeader": "Name",
 
     "gpii_pmt_settingsTables_genericPrefsHeader": "Generic Preference Settings",
@@ -38,7 +38,7 @@
     "gpii_pmt_addPrefsSetDialog_newblankset": "New Blank Set",
 
     "gpii_pmt_deletePrefsSetDialog_header": "Delete PrefsSet",
-    "gpii_pmt_deletePrefsSetDialog_inst": "Are you sure you want to delete this context?",
+    "gpii_pmt_deletePrefsSetDialog_inst": "Are you sure you want to delete this prefsSet?",
     "gpii_pmt_deletePrefsSetDialog_deleteButton": "Delete",
 
     "gpii_pmt_addProductDialog_addButton": "Add",

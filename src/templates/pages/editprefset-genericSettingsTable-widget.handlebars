@@ -25,12 +25,12 @@
             <thead>
                 <tr>
                     <th class="pmt-settingstable-name">{{{messageHelper "gpii_pmt_settingsTables_settingColHeader"}}}</th>
-                    {{#each contextNames}}
+                    {{#each prefsSetNames}}
                         <th class="pmt-settingstable-value">
                             {{lookup (lookup ../flatPrefs/contexts this) "name"}}
                         </th>
                     {{/each}}
-                    <th><a class="hollow button small pmt-add-context-button">
+                    <th><a class="hollow button small pmt-add-prefsSet-button">
                         {{{messageHelper "gpii_pmt_addPrefsSetDialog_button"}}}
                     </a></th>
                 </tr>
@@ -39,8 +39,8 @@
                 {{#each commonTermsSorted}}
                     <tr class="pmt-commonterm-row" data-term="{{this.id}}">
                         <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.title}}&nbsp;{{this.description}}&nbsp;{{jsonify this}}"><i class="fi-info"></i></span> <span>{{this.title}}</span></td>
-                        {{#each ../contextNames}}
-                        <td class="pmt-value-display" data-name="{{../title}}" data-context="{{this}}" data-term="{{../id}}"
+                        {{#each ../prefsSetNames}}
+                        <td class="pmt-value-display" data-name="{{../title}}" data-prefsSet="{{this}}" data-term="{{../id}}"
                             {{#compare (lookupGenericPrefValue this ../id) "===" undefined}}
                                 data-value=""><span>--</span>
                             {{else}}

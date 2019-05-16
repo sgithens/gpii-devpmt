@@ -35,18 +35,18 @@ fluid.defaults("gpii.devpmt.dialogs.addPrefsSetDialog", {
         initial: "editprefset-addPrefsSet-dialog"
     },
     model: {
-        contextId: "",
-        contextToCopy: "",
-        contextNames: [],
+        prefsSetId: "",
+        prefsSetToCopy: "",
+        prefsSetNames: [],
         fieldErrors: ""
     },
     selectors: {
-        contextIdInput: "#pmt-add-context-name-input",
-        contextToCopySelect: "#pmt-context-to-copy-select"
+        prefsSetIdInput: "#pmt-add-prefsSet-name-input",
+        prefsSetToCopySelect: "#pmt-prefsSet-to-copy-select"
     },
     bindings: {
-        contextIdInput: "contextId",
-        contextToCopySelect: "contextToCopy"
+        prefsSetIdInput: "prefsSetId",
+        prefsSetToCopySelect: "prefsSetToCopy"
     },
     invokers: {
         acceptConfirmDialog: {
@@ -62,8 +62,8 @@ fluid.defaults("gpii.devpmt.dialogs.addPrefsSetDialog", {
 });
 
 /**
- * Dialog for adding a new preference set (context) to a preferences safe (prefset).
- * Includes a dropdown that can be used to select a context to copy the
+ * Dialog for adding a new preference set to a preferences safe.
+ * Includes a dropdown that can be used to select a prefsSet to copy the
  * initial settings from.
  *
  * @param {Object} model - Model as defined in `gpii.devpmt.dialogs.addPrefsSetDialog`.
@@ -76,13 +76,13 @@ gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog = function (model, app
     // activating the submit button on Enter
     event.preventDefault();
 
-    // Validate context name, eventually this will be replaced with
+    // Validate prefsSet name, eventually this will be replaced with
     // our new json schema work.
-    if (model.contextId === "") {
+    if (model.prefsSetId === "") {
         applier.change("fieldErrors", "Please enter a name.");
         return;
     }
-    else if (!/^\w+$/.exec(model.contextId)) {
+    else if (!/^\w+$/.exec(model.prefsSetId)) {
         applier.change("fieldErrors", "Please use only alphanumeric characters.");
         return;
     }
@@ -93,15 +93,15 @@ gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog = function (model, app
 
     // TODO validation to see if already exists, and determining
     // the valid set of strings a preference set ID can take
-    var contextToCopy = model.contextToCopy;
-    var path = "flatPrefs.contexts." + model.contextId;
+    var prefsSetToCopy = model.prefsSetToCopy;
+    var path = "flatPrefs.contexts." + model.prefsSetId;
     var newPrefSet = {};
     // The select contains a blank option to start with a fresh set of values.
-    if (model.contextToCopy !== "" && model.flatPrefs.contexts[contextToCopy]) {
-        newPrefSet = fluid.copy(model.flatPrefs.contexts[contextToCopy].preferences);
+    if (model.prefsSetToCopy !== "" && model.flatPrefs.contexts[prefsSetToCopy]) {
+        newPrefSet = fluid.copy(model.flatPrefs.contexts[prefsSetToCopy].preferences);
     }
     applier.change(path, {
-        "name": model.contextId,
+        "name": model.prefsSetId,
         "preferences": newPrefSet
     }, "ADD");
     closeDialog();
@@ -116,21 +116,21 @@ fluid.defaults("gpii.devpmt.dialogs.editPrefsSetDialog", {
         initial: "editprefset-editPrefsSet-dialog"
     },
     model: {
-        // Store so that we can fetch the context to copy to a new ID
+        // Store so that we can fetch the prefsSet to copy to a new ID
         originalPrefsSetId: "",
-        contextId: "",
-        contextIdErrors: "",
-        contextName: "",
-        contextNameErrors: "",
+        prefsSetId: "",
+        prefsSetIdErrors: "",
+        prefsSetName: "",
+        prefsSetNameErrors: "",
         flatPrefs: {} // For use in prefsetExists
     },
     selectors: {
-        contextIdInput: "#pmt-edit-context-id-input",
-        contextNameInput: "#pmt-edit-context-name-input"
+        prefsSetIdInput: "#pmt-edit-prefsSet-id-input",
+        prefsSetNameInput: "#pmt-edit-prefsSet-name-input"
     },
     bindings: {
-        contextIdInput: "contextId",
-        contextNameInput: "contextName"
+        prefsSetIdInput: "prefsSetId",
+        prefsSetNameInput: "prefsSetName"
     },
     invokers: {
         acceptConfirmDialog: {
@@ -139,10 +139,10 @@ fluid.defaults("gpii.devpmt.dialogs.editPrefsSetDialog", {
         }
     },
     modelListeners: {
-        "contextIdErrors": {
+        "prefsSetIdErrors": {
             func: "{that}.reRender"
         },
-        "contextNameErrors": {
+        "prefsSetNameErrors": {
             func: "{that}.reRender"
         }
     }
@@ -153,44 +153,44 @@ gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog = function (model, ap
     // activating the submit button on Enter
     event.preventDefault();
 
-    // Validate context name, eventually this will be replaced with
+    // Validate prefsSet name, eventually this will be replaced with
     // our new json schema work.
-    if (model.contextId === "") {
-        applier.change("contextIdErrors", "Please enter an ID.");
+    if (model.prefsSetId === "") {
+        applier.change("prefsSetIdErrors", "Please enter an ID.");
         return;
     }
     // TODO standardize the accepted regular expression for prefset ID's
     // and other parts of the schema.
-    else if (!/^[\w-]+$/.exec(model.contextId)) {
-        applier.change("contextIdErrors", "Please use only alphanumeric characters.");
+    else if (!/^[\w-]+$/.exec(model.prefsSetId)) {
+        applier.change("prefsSetIdErrors", "Please use only alphanumeric characters.");
         return;
     }
-    // If we changed the contextId, make sure that there isn't an existing context with
+    // If we changed the prefsSetId, make sure that there isn't an existing prefsSet with
     // that ID
-    else if (model.contextId !== model.originalPrefsSetId &&
-             gpii.devpmt.prefsetExists(model.flatPrefs, model.contextId)) {
-        applier.change("contextIdErrors", "A Preference Set with that ID already exists.");
+    else if (model.prefsSetId !== model.originalPrefsSetId &&
+             gpii.devpmt.prefsetExists(model.flatPrefs, model.prefsSetId)) {
+        applier.change("prefsSetIdErrors", "A Preference Set with that ID already exists.");
         return;
     }
     else {
         // In case we are revalidating on a subsequent attempt
-        applier.change("contextIdErrors", "");
+        applier.change("prefsSetIdErrors", "");
     }
 
-    if (model.contextName === "") {
-        applier.change("contextNameErrors", "Please enter a name.");
+    if (model.prefsSetName === "") {
+        applier.change("prefsSetNameErrors", "Please enter a name.");
         return;
     }
     else {
         // In case we are revalidating on a subsequent attempt
-        applier.change("contextNameErrors", "");
+        applier.change("prefsSetNameErrors", "");
     }
 
     var transaction = applier.initiate();
     var prefsetToEdit = fluid.copy(model.flatPrefs.contexts[model.originalPrefsSetId]);
-    prefsetToEdit.name = model.contextName;
+    prefsetToEdit.name = model.prefsSetName;
     var oldPath = "flatPrefs.contexts." + model.originalPrefsSetId;
-    var path = "flatPrefs.contexts." + model.contextId;
+    var path = "flatPrefs.contexts." + model.prefsSetId;
 
     transaction.fireChangeRequest({
         path: oldPath,
@@ -216,23 +216,23 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDeletePrefsSetDialog", {
         initial: "editprefset-confirmDeletePrefsSet-dialog"
     },
     model: {
-        contextId: "", // Should be populated/relayed during construction before showing dialog
+        prefsSetId: "", // Should be populated/relayed during construction before showing dialog
         flatPrefs: {}
     },
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.confirmDeletePrefsSetDialog.acceptConfirmDialog",
-            args: ["{that}.closeDialog", "{gpii.devpmt.editPrefs}", "{that}.model.contextId"]
+            args: ["{that}.closeDialog", "{gpii.devpmt.editPrefs}", "{that}.model.prefsSetId"]
         }
     }
 });
 
-gpii.devpmt.dialogs.confirmDeletePrefsSetDialog.acceptConfirmDialog = function (closeDialog, editPrefs, contextId) {
+gpii.devpmt.dialogs.confirmDeletePrefsSetDialog.acceptConfirmDialog = function (closeDialog, editPrefs, prefsSetId) {
     closeDialog();
-    // In the rare event that this contextId no longer exists in the preferences,
+    // In the rare event that this prefsSetId no longer exists in the preferences,
     // the worse case scenerio here is that the change applier operation will merely
     // do nothing.
-    var path = "flatPrefs.contexts." + contextId;
+    var path = "flatPrefs.contexts." + prefsSetId;
     //TODO We want to use the local change applier for this operation and have the model Relay
     //push the DELETE back to the editPrefs component. However, the DELETE does not seem to be
     //propagating. Investigate more.
@@ -251,19 +251,19 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
         appId: null,
         name: null, // Human Name of Product,
         allSolutions: null,
-        contextNames: null
+        prefsSetNames: null
     },
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog",
-            args: ["{that}.closeDialog", "{that}.model.appId", "{gpii.devpmt.editPrefs}.model.allSolutions", "{gpii.devpmt.editPrefs}.model.contextNames", "{gpii.devpmt.editPrefs}.editProductEnabled"]
+            args: ["{that}.closeDialog", "{that}.model.appId", "{gpii.devpmt.editPrefs}.model.allSolutions", "{gpii.devpmt.editPrefs}.model.prefsSetNames", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }
     }
 });
 
 /**
  * Clicking Add on the Product Dialog adds this product to the preference set.
- * A preference safe must have at least one context (prefset) in order to add
+ * A preference safe must have at least one prefsSet (prefset) in order to add
  * a product to it.
  *
  * @param {Function} closeDialog - Zero-arg function to close the dialog window.
@@ -271,12 +271,12 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
  * @param {String} appId - String indicating the appId
  *                                     ex. http://registry.gpii.net/applications/com.android.freespeech
  * @param {Object} solutions - Solutions registry entries.
- * @param {Array} contextNames - Array of Strings with the name/id the context is
+ * @param {Array} prefsSetNames - Array of Strings with the name/id the prefsSet is
  * keyed by. The product will be initially added to the first item in this array.
  * @param {Function} editProductEnabled - Invoker from `gpii.devpmt.editPrefs` to add the
  * product to.
  */
-gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (closeDialog, appId, allSolutions, contextNames, editProductEnabled) {
+gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (closeDialog, appId, allSolutions, prefsSetNames, editProductEnabled) {
     // In this case we actually need to close the dialog first... as the page
     // rerenders based on a model listener when the product is enabled, and does
     // wonky things... such as removing the ability to vertical scroll. Should look
@@ -290,8 +290,8 @@ gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (clos
     }
     // TODO Ontology!!!
     var appUrl = "http://registry.gpii.net/applications/" + appId;
-    if (contextNames.length > 0) {
-        editProductEnabled(true, contextNames[0],  appUrl);
+    if (prefsSetNames.length > 0) {
+        editProductEnabled(true, prefsSetNames[0],  appUrl);
     }
 };
 
@@ -332,17 +332,17 @@ fluid.defaults("gpii.devpmt.dialogs.confirmRemoveProductDialog", {
         appId: "",
         name: "",
         product: "",
-        context: ""
+        prefsSet: ""
     },
     invokers: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog",
-            args: ["{that}.closeDialog", "{that}.model.context", "{that}.model.product", "{gpii.devpmt.editPrefs}.editProductEnabled"]
+            args: ["{that}.closeDialog", "{that}.model.prefsSet", "{that}.model.product", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }
     }
 });
 
-gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog = function (closeDialog, context, product, editProductEnabled) {
+gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog = function (closeDialog, prefsSet, product, editProductEnabled) {
     closeDialog();
-    editProductEnabled(false, context, product);
+    editProductEnabled(false, prefsSet, product);
 };

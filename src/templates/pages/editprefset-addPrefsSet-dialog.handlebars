@@ -7,7 +7,7 @@
     {{{messageHelper "gpii_pmt_addPrefsSetDialog_inst"}}}
     <form>
     <label>{{{messageHelper "gpii_pmt_addPrefsSetDialog_name"}}}
-        <input id="pmt-add-context-name-input" type="text" placeholder="preferences01" />
+        <input id="pmt-add-prefsSet-name-input" type="text" placeholder="preferences01" />
     </label>
     {{#if fieldErrors}}
     <div role="alert" class="alert callout" style="display: block;">
@@ -16,9 +16,9 @@
     {{/if}}
 
     <label>{{{messageHelper "gpii_pmt_addPrefsSetDialog_copyfrom"}}}
-        <select id="pmt-context-to-copy-select">
+        <select id="pmt-prefsSet-to-copy-select">
             <option value=""><em>{{{messageHelper "gpii_pmt_addPrefsSetDialog_newblankset"}}}</em></option>
-            {{#each contextNames}}
+            {{#each prefsSetNames}}
             <option value="{{this}}">{{{lookup (lookup ../flatPrefs/contexts this) "name"}}}</option>
             {{/each}}
         </select>

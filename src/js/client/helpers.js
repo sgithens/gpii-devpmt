@@ -20,22 +20,22 @@
 /**
  * Lookup Generic Preference Setting.
  *
- * Using the context and commonTerm lookup the generic preference
+ * Using the prefsSet and commonTerm lookup the generic preference
  * value. If the preference set does not contain the value, we
  * return `undefined` to make this known, as `undefined` is not
  * a valid JSON value. Theoretically, and preference setting maybe
  * set as `null`.
  */
-Handlebars.registerHelper("lookupGenericPrefValue", function (context, commonTerm) {
-    return editPrefs.lookupGenericPrefValue(context, commonTerm);
+Handlebars.registerHelper("lookupGenericPrefValue", function (prefsSet, commonTerm) {
+    return editPrefs.lookupGenericPrefValue(prefsSet, commonTerm);
 });
 
 /**
  * Lookup Application Specific Setting. Similar to `lookupGenericPrefValue` lookups
  * in regard to return values, but takes an extra argument for the product.
  */
-Handlebars.registerHelper("lookupProductPrefValue", function (context, product, settingTerm) {
-    return editPrefs.lookupProductPrefValue(context, product, settingTerm);
+Handlebars.registerHelper("lookupProductPrefValue", function (prefsSet, product, settingTerm) {
+    return editPrefs.lookupProductPrefValue(prefsSet, product, settingTerm);
 });
 
 /**

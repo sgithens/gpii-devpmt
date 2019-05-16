@@ -1,8 +1,8 @@
 /**
  * editprefset-prefSetsList-widget
  *
- * A widget for listing all preferences sets (contexts) in a
- * preference safe (preference set). Includes functionality for
+ * A widget for listing all preferences sets in a
+ * preference safe. Includes functionality for
  * listing information, and performing some operations, such as
  * deleting a preference set.
  *
@@ -20,22 +20,22 @@ fluid.registerNamespace("gpii.devpmt.prefSetsList");
 
 /**
  * Infusion component for a widget rendering a set of
- * prefSets (contexts) from a safe. Rerenders whenever
- * the set of contexts updates in the model. In most
+ * preference sets from a safe. Rerenders whenever
+ * the set of prefsSets updates in the model. In most
  * situations this will be a model relay rule to the
  * central `editPrefs` component on the page.
  *
- * Delete buttons trigger the delete context method
+ * Delete buttons trigger the delete prefsSet method
  * on the central `editPrefs` component.
  */
 fluid.defaults("gpii.devpmt.prefSetsListWidget", {
     gradeNames: ["gpii.devpmt.viewComponent"],
     model: {
-        contextNames: [],
+        prefsSetNames: [],
         flatPrefs: {}
     },
     modelListeners: {
-        contextNames: {
+        prefsSetNames: {
             func: "{that}.reRender",
             excludeSource: ["init"]
         },
@@ -48,8 +48,8 @@ fluid.defaults("gpii.devpmt.prefSetsListWidget", {
         initial: "editprefset-prefSetsList-widget"
     },
     selectors: {
-        deletePrefsSetButtons: ".pmt-delete-context",
-        editPrefsSetButtons: ".pmt-edit-context"
+        deletePrefsSetButtons: ".pmt-delete-prefsSet",
+        editPrefsSetButtons: ".pmt-edit-prefsSet"
     },
     markupEventBindings: {
         deletePrefsSetButtons: {

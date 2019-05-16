@@ -3,7 +3,7 @@
  *
  * When editing a preference set, this widget will render all the settings for
  * either an application or the generic settings. It will have a column for
- * each context. In the upper left hand corner will be a search filter and
+ * each prefsSet. In the upper left hand corner will be a search filter and
  * filter to show only settings the user has, or all available settings.
  * Clicking on a setting will launch a widget to edit the setting.
  *
@@ -32,7 +32,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
     appUri: null, // TODO Use ontology transforms
     model: {
         flatPrefs: null, // Model Relay to EditPrefs
-        contextNames: null, // Model Relay to EditPrefs
+        prefsSetNames: null, // Model Relay to EditPrefs
         settingsFilter: "", // Bound to the text box for filtering/searching
         allSettingsEnabled: "mysettings", // For some reason this defaults to an array from binder
 
@@ -60,7 +60,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         enabledBooleanInputs: ".pmt-enabled-boolean",
         settingsFilter: "#pmt-filter-container",
         settingsRows: ".pmt-settings-table-row",
-        addPrefsSetButton: ".pmt-add-context-button",
+        addPrefsSetButton: ".pmt-add-prefsSet-button",
         mineAllSwitchContainer: "#pmt-mineAllSwitch-container",
         removeProductButton: ".pmt-remove-product"
     },
@@ -98,7 +98,7 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
         }
     },
     invokers: {
-        // Overriding renderInitialMarkup to take `that` as a render context.
+        // Overriding renderInitialMarkup to take `that` as a render prefsSet.
         renderInitialMarkup: {
             func: "{that}.renderMarkup",
             args: ["initial", "{that}.options.templates.initial", "{that}"]
@@ -162,19 +162,19 @@ fluid.defaults("gpii.devpmt.settingsTableWidget", {
 });
 
 /*
- * This listener is called when the toggle switch is clicked for a specific prefset/context
+ * This listener is called when the toggle switch is clicked for a specific prefset
  * in the settings table. These switches are in a top row before the actual settings. This
  * switch is necessary so that we could still have an empty object/entry for the product
- * inside the prefset/context, which in some matchmaking situations could make a difference.
+ * inside the prefset, which in some matchmaking situations could make a difference.
  */
 gpii.devpmt.settingsTable.enableProductListener = function (that, editPrefs, event) {
     var checked = event.currentTarget.checked;
-    var context = event.currentTarget.dataset.context;
+    var prefsSet = event.currentTarget.dataset.prefsset;
     var product = event.currentTarget.dataset.product;
 
     if (gpii.devpmt.prefsetsForApplication(editPrefs.model.flatPrefs, product).length === 1 &&
         checked === false) {
-        that.removeProduct(context);
+        that.removeProduct(prefsSet);
         // The reRender call below is so that the toggle button goes back
         // to it's toggled state. If the user were to click "Cancel", then
         // the product wouldn't be removed, but the toggle would still have
@@ -186,14 +186,14 @@ gpii.devpmt.settingsTable.enableProductListener = function (that, editPrefs, eve
         that.reRender();
         return;
     }
-    editPrefs.editProductEnabled(checked, context, product);
+    editPrefs.editProductEnabled(checked, prefsSet, product);
 };
 
 gpii.devpmt.settingsTable.updateTermUsage = function (that) {
     var all = 0;
     var prefsSafeKeys = {};
-    fluid.each(that.model.flatPrefs.contexts, function (context) {
-        fluid.each(context.preferences[that.options.appUri], function (setting, settingKey) {
+    fluid.each(that.model.flatPrefs.contexts, function (prefsSet) {
+        fluid.each(prefsSet.preferences[that.options.appUri], function (setting, settingKey) {
             prefsSafeKeys[settingKey] = true;
         });
     });
@@ -230,8 +230,8 @@ gpii.devpmt.settingsTable.filterSettings = function (that, settingsRows, lunrInd
             togo = true;
         }
         else {
-            fluid.each(that.model.flatPrefs.contexts, function (context) {
-                fluid.each(context.preferences[that.options.appUri], function (setting, settingKey) {
+            fluid.each(that.model.flatPrefs.contexts, function (prefsSet) {
+                fluid.each(prefsSet.preferences[that.options.appUri], function (setting, settingKey) {
                     if (settingKey === settingId) {
                         togo = true;
                     }
@@ -280,21 +280,21 @@ gpii.devpmt.settingsTable.updateLunrIndex = function (that) {
 };
 
 /**
- * Completely remove this product from all preference sets (contexts).
+ * Completely remove this product from all preference sets (prefsSets).
  * Opens the standard Remove Product Confirmation Dialog from the page devpmt component.
  *
  * @param {gpii.devpmt.settingsTableWidget} that - Settings Table Widget
  * @param {Object} editPrefs Primary page component `gpii.devpmt.editPrefs`
- * @param {String} context Optional argument with the context this product is being
- * removed from. If `null`, this product will be removed from all contexts.
+ * @param {String} prefsSet Optional argument with the prefsSet this product is being
+ * removed from. If `null`, this product will be removed from all prefsSets.
  */
-gpii.devpmt.settingsTable.removeProduct = function (that, editPrefs, context) {
+gpii.devpmt.settingsTable.removeProduct = function (that, editPrefs, prefsSet) {
     var appId = that.options.appId;
     editPrefs.applier.change("activeModalDialog", {
         appId: appId,
         name: editPrefs.model.allSolutions[appId].name,
         product: that.options.appUri,
-        context: context
+        prefsSet: prefsSet
     });
     editPrefs.events.openConfirmRemoveProductDialog.fire();
 };

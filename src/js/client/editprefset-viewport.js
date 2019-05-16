@@ -26,7 +26,7 @@ fluid.registerNamespace("gpii.devpmt");
  *
  * Builds off of `gpii.handlbars.templateAware` and `gpii.binder.bindOnCreate`
  * grades.  Includes a standard renderInitialMarkup invoker that uses
- * the defined initial template and the model as the context for rendering.
+ * the defined initial template and the model as the prefsSet for rendering.
  * Also includes a useful reRender invoker that can be bound to model
  * listeners or invoked programmatically.
  */
@@ -95,7 +95,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         flatPrefs: "{that}.options.prefsSafe.preferences.flat",  // {}
         commonTerms: "{that}.options.commonTerms",            // []
         commonTermsSorted: [],
-        contextNames: [],
+        prefsSetNames: [],
         prefsSafeApplications: "@expand:gpii.devpmt.prefsSafeApplications({that}.options.prefsSafe.preferences.flat)", // []
         allSolutions: "{that}.options.allSolutions", // {}
 
@@ -116,12 +116,12 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         devModeOn: false,
 
         // Information for if we are currently editing a setting,
-        // and if so, which context/term/product it's for and a
+        // and if so, which prefsSet/term/product it's for and a
         // copy of the metadata.
         currentlyEditing: {
             active: false,
             current: {
-                context: "",
+                prefsSet: "",
                 term: "",
                 value: "",
                 product: ""
@@ -173,7 +173,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     // is breaking the toc widget, as it can't perform it's lookups as things
                     // are being rerendered as a byproduct of the creation of this dialog.
                     // allSolutions: "{gpii.devpmt.editPrefs}.model.allSolutions",
-                    // contextNames: "{gpii.devpmt.editPrefs}.model.contextNames"
+                    // prefsSetNames: "{gpii.devpmt.editPrefs}.model.prefsSetNames"
                 }
             }
         },
@@ -189,7 +189,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     appId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.appId",
                     name: "{gpii.devpmt.editPrefs}.model.activeModalDialog.name",
                     product: "{gpii.devpmt.editPrefs}.model.activeModalDialog.product",
-                    context: "{gpii.devpmt.editPrefs}.model.activeModalDialog.context"
+                    prefsSet: "{gpii.devpmt.editPrefs}.model.activeModalDialog.prefsSet"
                 }
             }
         },
@@ -202,7 +202,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-modal-dialog-render"
                 },
                 model: {
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    prefsSetNames: "{gpii.devpmt.editPrefs}.model.prefsSetNames",
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
@@ -216,9 +216,9 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-modal-dialog-render"
                 },
                 model: {
-                    contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId",
+                    prefsSetId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.prefsSetId",
                     originalPrefsSetId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.originalPrefsSetId",
-                    contextName: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextName",
+                    prefsSetName: "{gpii.devpmt.editPrefs}.model.activeModalDialog.prefsSetName",
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
@@ -232,7 +232,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-modal-dialog-render"
                 },
                 model: {
-                    contextId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.contextId",
+                    prefsSetId: "{gpii.devpmt.editPrefs}.model.activeModalDialog.prefsSetId",
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
@@ -342,7 +342,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     initial: "#pmt-prefSetsList-widget"
                 },
                 model: {
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    prefsSetNames: "{gpii.devpmt.editPrefs}.model.prefsSetNames",
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs"
                 }
             }
@@ -375,7 +375,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 },
                 model: {
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    prefsSetNames: "{gpii.devpmt.editPrefs}.model.prefsSetNames",
                     commonTermsSorted: "{gpii.devpmt.editPrefs}.model.commonTermsSorted",
                     commonTerms: "{gpii.devpmt.editPrefs}.model.commonTerms",
                     settingsFilter: "{gpii.devpmt.editPrefs}.model.settingsFilter",
@@ -399,14 +399,14 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                 appUri: "{arguments}.3",
                 model: {
                     flatPrefs: "{gpii.devpmt.editPrefs}.model.flatPrefs",
-                    contextNames: "{gpii.devpmt.editPrefs}.model.contextNames",
+                    prefsSetNames: "{gpii.devpmt.editPrefs}.model.prefsSetNames",
                     settingsFilter: "",
                     allSettingsEnabled: "mysettings"
                 },
                 modelRelay: {
                     settingsFilter: {
                         source: {
-                            context: "gpii.devpmt.editPrefs",
+                            prefsSet: "gpii.devpmt.editPrefs",
                             segs: ["productTableFilters", "{that}.options.appId", "settingsFilter"]
                         },
                         target: "settingsFilter",
@@ -416,7 +416,7 @@ fluid.defaults("gpii.devpmt.editPrefs", {
                     },
                     allSettingsEnabled: {
                         source: {
-                            context: "gpii.devpmt.editPrefs",
+                            prefsSet: "gpii.devpmt.editPrefs",
                             segs: ["productTableFilters", "{that}.options.appId", "allSettingsEnabled"]
                         },
                         target: "allSettingsEnabled",
@@ -499,11 +499,11 @@ fluid.defaults("gpii.devpmt.editPrefs", {
         },
         lookupGenericPrefValue: {
             funcName: "gpii.devpmt.lookupGenericPrefValue",
-            args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1"] // context, commonTerm
+            args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1"] // prefsSet, commonTerm
         },
         lookupProductPrefValue: {
             funcName: "gpii.devpmt.lookupProductPrefValue",
-            args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // context, product, settingTerm
+            args: ["{that}.model.flatPrefs.contexts", "{arguments}.0", "{arguments}.1", "{arguments}.2"] // prefsSet, product, settingTerm
         },
         onEditPrefsSet: {
             funcName: "gpii.devpmt.onEditPrefsSet",
@@ -581,8 +581,8 @@ gpii.devpmt.checkEditingHighlights = function (active, cells) {
  * to perhaps only show the first 10 settings or something, and
  * then expand the rest when the user decides it is appropriate.
  *
- * If the user has multiple contexts, this will return the total
- * number of unique settings keys in the Preferences Set across all contexts.
+ * If the user has multiple prefsSets, this will return the total
+ * number of unique settings keys in the Preferences Set across all prefsSets.
  *
  * @param {Array} commonTermsSorted - List of our common terms, currently
  * known as generic preferences.
@@ -623,15 +623,15 @@ gpii.devpmt.updateCommonTermUsageCounts = function (that, commonTermsSorted, fla
 /**
  * Lookup Generic Preference Setting.
  *
- * Using the context and commonTerm lookup the generic preference
+ * Using the prefsSet and commonTerm lookup the generic preference
  * value. If the preference set does not contain the value, we
  * return `undefined` to make this known, as `undefined` is not
  * a valid JSON value. Theoretically, and preference setting maybe
  * set as `null`.
  */
-gpii.devpmt.lookupGenericPrefValue = function (contexts, context, commonTerm) {
-    if (contexts[context].preferences[commonTerm] !== undefined) {
-        return contexts[context].preferences[commonTerm];
+gpii.devpmt.lookupGenericPrefValue = function (contexts, prefsSet, commonTerm) {
+    if (contexts[prefsSet].preferences[commonTerm] !== undefined) {
+        return contexts[prefsSet].preferences[commonTerm];
     }
     else {
         return undefined;
@@ -642,10 +642,10 @@ gpii.devpmt.lookupGenericPrefValue = function (contexts, context, commonTerm) {
  * Lookup Application Specific Setting. Similar to `lookupGenericPrefValue` lookups
  * in regard to return values, but takes an extra argument for the product.
  */
-gpii.devpmt.lookupProductPrefValue = function (contexts, context, product, settingTerm) {
-    if (contexts[context].preferences[product] &&
-        contexts[context].preferences[product][settingTerm] !== undefined) {
-        return contexts[context].preferences[product][settingTerm];
+gpii.devpmt.lookupProductPrefValue = function (contexts, prefsSet, product, settingTerm) {
+    if (contexts[prefsSet].preferences[product] &&
+        contexts[prefsSet].preferences[product][settingTerm] !== undefined) {
+        return contexts[prefsSet].preferences[product][settingTerm];
     }
     else {
         return undefined;
@@ -686,7 +686,7 @@ gpii.devpmt.updateFoundationSticky = function (that) {
  * This should maybe be a set of model relay rules instead.
  */
 gpii.devpmt.updateMetadataFromPrefs = function (that) {
-    that.applier.change("contextNames", gpii.devpmt.contextNames(that.model.flatPrefs));
+    that.applier.change("prefsSetNames", gpii.devpmt.prefsSetNames(that.model.flatPrefs));
 };
 
 gpii.devpmt.openAddProductDialog = function (that, appId) {
@@ -754,25 +754,25 @@ gpii.devpmt.toggleDevModeView = function (that, status) {
 };
 
 /**
- * Edits whether a product is enabled for a specific context (preference set).
- * Can also be used to enable or unable the product for all contexts.
+ * Edits whether a product is enabled for a specific prefsSet (preference set).
+ * Can also be used to enable or unable the product for all prefsSets.
  *
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
  * @param {Boolean} checked - `true` or `false` indicating if this product should be
  * enabled or unabled.
- * @param {String} context - PrefsSet (prefset). If this is null, the product will
- * be (un)enabled in all contexts.
+ * @param {String} prefsSet - PrefsSet (prefset). If this is null, the product will
+ * be (un)enabled in all prefsSets.
  * @param {String} product - The uri of the product.
  */
-gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
-    var contexts = [context];
-    if (context === null) {
-        contexts = fluid.copy(that.model.contextNames);
+gpii.devpmt.editProductEnabled = function (that, checked, prefsSet, product) {
+    var contexts = [prefsSet];
+    if (prefsSet === null) {
+        contexts = fluid.copy(that.model.prefsSetNames);
     }
 
-    fluid.each(contexts, function (context) {
+    fluid.each(contexts, function (prefsSet) {
         // TODO generalize these 4 lines with copied code in editwidgets.js:saveUpdateValue
-        var segs = ["contexts", context, "preferences", product.replace(/\./g, "\\.")];
+        var segs = ["contexts", prefsSet, "preferences", product.replace(/\./g, "\\.")];
         var path = "flatPrefs";
         fluid.each(segs, function (item) { path += "." + item; });
 
@@ -792,35 +792,35 @@ gpii.devpmt.editProductEnabled = function (that, checked, context, product) {
 
 /**
  * Event Listener for when a button is clicked to delete
- * a context. Fetches the context to delete from the elements
- * data-contextid attribute.
+ * a prefsSet. Fetches the prefsSet to delete from the elements
+ * data-prefsSetid attribute.
  *
- * This listener doesn't actually delete the context, but
- * opens the confirm delete context dialog.
+ * This listener doesn't actually delete the prefsSet, but
+ * opens the confirm delete prefsSet dialog.
  *
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
  * @param {DOMEvent} event - Browser event object
  */
 gpii.devpmt.onDeletePrefsSet = function (that, event) {
-    var contextId = event.currentTarget.dataset.contextid;
-    that.applier.change("activeModalDialog.contextId", contextId);
+    var prefsSetId = event.currentTarget.dataset.prefssetid;
+    that.applier.change("activeModalDialog.prefsSetId", prefsSetId);
     that.events.openConfirmDeletePrefsSetDialog.fire();
 };
 
 /**
  * Event Listener for when a button is clicked to edit
- * a context. Fetches the context to delete from the elements
- * data-contextid attribute.
+ * a prefsSet. Fetches the prefsSet to delete from the elements
+ * data-prefsSetid attribute.
  *
  * @param {gpii.devpmt.editPrefs} that - Main prefs editor component
  * @param {DOMEvent} event - Browser event object
  */
 gpii.devpmt.onEditPrefsSet = function (that, event) {
-    var contextId = event.currentTarget.dataset.contextid;
+    var prefsSetId = event.currentTarget.dataset.prefssetid;
     that.applier.change("activeModalDialog", {
-        contextId: contextId,
-        originalPrefsSetId: contextId,
-        contextName: that.model.flatPrefs.contexts[contextId].name
+        prefsSetId: prefsSetId,
+        originalPrefsSetId: prefsSetId,
+        prefsSetName: that.model.flatPrefs.contexts[prefsSetId].name
     });
     that.events.openEditPrefsSetDialog.fire();
 };
@@ -829,7 +829,7 @@ gpii.devpmt.editValueEvent = function (that, event) {
     that.locate("valueDisplayCell").removeClass("pmt-value-editing");
     $(event.currentTarget).addClass("pmt-value-editing");
     var newCurrent = {
-        context: event.currentTarget.dataset.context,
+        prefsSet: event.currentTarget.dataset.prefsset,
         term: event.currentTarget.dataset.term,
         //value: event.currentTarget.dataset.value,
         product: event.currentTarget.dataset.product
@@ -839,14 +839,14 @@ gpii.devpmt.editValueEvent = function (that, event) {
     if (!newCurrent.product) {
         // Common Term
         newMetadata.schema = that.options.commonTerms[newCurrent.term];
-        newCurrent.value = that.lookupGenericPrefValue(newCurrent.context, newCurrent.term);
+        newCurrent.value = that.lookupGenericPrefValue(newCurrent.prefsSet, newCurrent.term);
     }
     else {
         // Application Specific
         var newProductAppId = newCurrent.product.slice("http://registry.gpii.net/applications/".length);
         newMetadata = gpii.devpmt.findProductSettingMetadata(that.model.allSolutions,
             newProductAppId, newCurrent.term);
-        newCurrent.value = that.lookupProductPrefValue(newCurrent.context, newCurrent.product, newCurrent.term);
+        newCurrent.value = that.lookupProductPrefValue(newCurrent.prefsSet, newCurrent.product, newCurrent.term);
     }
     newMetadata.name = newMetadata.schema.title;
     newMetadata.description = newMetadata.schema.description;

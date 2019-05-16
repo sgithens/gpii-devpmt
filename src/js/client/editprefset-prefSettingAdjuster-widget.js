@@ -89,7 +89,7 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
     model: {
         active: false,
         current: {
-            context: "",
+            prefsSet: "",
             term: "",
             value: "",
             product: "",
@@ -252,7 +252,7 @@ gpii.devpmt.prefSettingAdjuster.watchInputKeys = function (okButton, saveUpdateV
  */
 gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that) {
     that.applier.change("active", false);
-    var segs = ["contexts", that.model.current.context, "preferences"];
+    var segs = ["contexts", that.model.current.prefsSet, "preferences"];
     if (that.model.current.product) {
         segs.push(that.model.current.product.replace(/\./g, "\\."), that.model.current.term.replace(/\./g, "\\."));
     }
@@ -265,13 +265,13 @@ gpii.devpmt.prefSettingAdjuster.saveUpdateValue = function (that) {
     if (that.model.current.blank) {
         that.applier.change(path, false, "DELETE");
         that.addEditToUnsavedList("Removed setting " + that.model.metadata.name +
-                " in context " + that.model.current.context);
+                " in prefsSet " + that.model.current.prefsSet);
     }
     else {
         var newValue = that.model.current.value;
         that.applier.change(path, newValue);
         that.addEditToUnsavedList("Changed setting " + that.model.metadata.name +
-                " in context " + that.model.current.context + " to " + newValue);
+                " in prefsSet " + that.model.current.prefsSet + " to " + newValue);
     }
     // In the event that we didn't actually change any values, the model listener
     // won't rerender the entire page.

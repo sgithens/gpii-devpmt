@@ -7,20 +7,20 @@
     {{{messageHelper "gpii_pmt_editPrefsSetDialog_inst"}}}
     <form>
     <label>{{{messageHelper "gpii_pmt_editPrefsSetDialog_idLabel"}}}
-        <input id="pmt-edit-context-id-input" type="text" placeholder="preferences01" />
+        <input id="pmt-edit-prefsSet-id-input" type="text" placeholder="preferences01" />
     </label>
-    {{#if contextIdErrors}}
+    {{#if prefsSetIdErrors}}
     <div role="alert" class="alert callout" style="display: block;">
-        <p><i class="fi-alert"></i>{{contextIdErrors}}</p>
+        <p><i class="fi-alert"></i>{{prefsSetIdErrors}}</p>
     </div>
     {{/if}}
 
     <label>{{{messageHelper "gpii_pmt_editPrefsSetDialog_nameLabel"}}}
-        <input id="pmt-edit-context-name-input" type="text" placeholder="preferences01" />
+        <input id="pmt-edit-prefsSet-name-input" type="text" placeholder="preferences01" />
     </label>
-    {{#if contextNameErrors}}
+    {{#if prefsSetNameErrors}}
     <div role="alert" class="alert callout" style="display: block;">
-        <p><i class="fi-alert"></i>{{contextNameErrors}}</p>
+        <p><i class="fi-alert"></i>{{prefsSetNameErrors}}</p>
     </div>
     {{/if}}
 
