@@ -28,12 +28,10 @@ require("gpii-universal");
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
 
-gpii.devpmt.redisStore = function () {
-    gpii.devpmt.GPII_REDIS_HOST = process.env.GPII_REDIS_HOST || "127.0.0.1";
-    gpii.devpmt.GPII_REDIS_PORT = process.env.GPII_REDIS_PORT || 6379;
+gpii.devpmt.redisStore = function (options) {
     return new RedisStore({
-        host: gpii.devpmt.GPII_REDIS_HOST,
-        port: gpii.devpmt.GPII_REDIS_PORT
+        host: options.host || "127.0.0.1",
+        port: options.port || 6379
     });
 };
 
