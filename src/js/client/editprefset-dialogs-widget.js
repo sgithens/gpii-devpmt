@@ -48,10 +48,10 @@ fluid.defaults("gpii.devpmt.dialogs.addPrefsSetDialog", {
         prefsSetIdInput: "prefsSetId",
         prefsSetToCopySelect: "prefsSetToCopy"
     },
-    invokers: {
+    listeners: {
         acceptConfirmDialog: {
             funcName: "gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog",
-            args: ["{that}.model", "{that}.applier", "{that}.closeDialog", "{arguments}.0"]
+            args: ["{that}.model", "{that}.applier", "{arguments}.0"]
         }
     },
     modelListeners: {
@@ -68,10 +68,9 @@ fluid.defaults("gpii.devpmt.dialogs.addPrefsSetDialog", {
  *
  * @param {Object} model - Model as defined in `gpii.devpmt.dialogs.addPrefsSetDialog`.
  * @param {ChangeApplier} applier - Change applier for model
- * @param {Function} closeDialog - Zero-arg function to close dialog
  * @param {DOMEvent} event - Browser event triggered by the accept button.
  */
-gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
+gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog = function (model, applier, event) {
     // We don't want the form to actually submit the page, just to enable
     // activating the submit button on Enter
     event.preventDefault();
@@ -104,7 +103,6 @@ gpii.devpmt.dialogs.addPrefsSetDialog.acceptConfirmDialog = function (model, app
         "name": model.prefsSetId,
         "preferences": newPrefSet
     }, "ADD");
-    closeDialog();
 };
 
 /**
@@ -132,10 +130,10 @@ fluid.defaults("gpii.devpmt.dialogs.editPrefsSetDialog", {
         prefsSetIdInput: "prefsSetId",
         prefsSetNameInput: "prefsSetName"
     },
-    invokers: {
-        acceptConfirmDialog: {
+    listeners: {
+        "acceptConfirmDialog.acceptConfirmDialog": {
             funcName: "gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog",
-            args: ["{that}.model", "{that}.applier", "{that}.closeDialog", "{arguments}.0"]
+            args: ["{that}.model", "{that}.applier", "{arguments}.0"]
         }
     },
     modelListeners: {
@@ -148,7 +146,7 @@ fluid.defaults("gpii.devpmt.dialogs.editPrefsSetDialog", {
     }
 });
 
-gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog = function (model, applier, closeDialog, event) {
+gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog = function (model, applier, event) {
     // We don't want the form to actually submit the page, just to enable
     // activating the submit button on Enter
     event.preventDefault();
@@ -203,7 +201,6 @@ gpii.devpmt.dialogs.editPrefsSetDialog.acceptConfirmDialog = function (model, ap
     });
 
     transaction.commit();
-    closeDialog();
 };
 
 
@@ -219,8 +216,8 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDeletePrefsSetDialog", {
         prefsSetId: "", // Should be populated/relayed during construction before showing dialog
         flatPrefs: {}
     },
-    invokers: {
-        acceptConfirmDialog: {
+    listeners: {
+        "acceptConfirmDialog.acceptConfirmDialog": {
             funcName: "gpii.devpmt.dialogs.confirmDeletePrefsSetDialog.acceptConfirmDialog",
             args: ["{that}.closeDialog", "{gpii.devpmt.editPrefs}", "{that}.model.prefsSetId"]
         }
@@ -253,8 +250,8 @@ fluid.defaults("gpii.devpmt.dialogs.confirmAddProductDialog", {
         allSolutions: null,
         prefsSetNames: null
     },
-    invokers: {
-        acceptConfirmDialog: {
+    listeners: {
+        "acceptConfirmDialog.acceptConfirmDialog": {
             funcName: "gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog",
             args: ["{that}.closeDialog", "{that}.model.appId", "{gpii.devpmt.editPrefs}.model.allSolutions", "{gpii.devpmt.editPrefs}.model.prefsSetNames", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }
@@ -296,7 +293,7 @@ gpii.devpmt.dialogs.confirmAddProductDialog.acceptConfirmDialog = function (clos
 };
 
 /**
- * Confirm Preferences Set Save Dialog
+ * Confirm Preferences Safe Save Dialog
  */
 fluid.defaults("gpii.devpmt.dialogs.confirmSaveDialog", {
     gradeNames: ["gpii.devpmt.dialogs.confirmDialog"],
@@ -306,19 +303,12 @@ fluid.defaults("gpii.devpmt.dialogs.confirmSaveDialog", {
     model: {
         unsavedChanges: []
     },
-    invokers: {
-        acceptConfirmDialog: {
-            funcName: "gpii.devpmt.dialogs.confirmSaveDialog.acceptConfirmDialog",
-            args: ["{that}.closeDialog", "{gpii.devpmt.editPrefs}.savePrefset"]
+    listeners: {
+        "acceptConfirmDialog.acceptConfirmDialog": {
+            func: "{gpii.devpmt.editPrefs}.savePrefset"
         }
     }
 });
-
-gpii.devpmt.dialogs.confirmSaveDialog.acceptConfirmDialog = function (closeDialog, saveFunc) {
-    saveFunc();
-    closeDialog();
-};
-
 
 /**
  * Confirm Removing Product Dialog
@@ -336,6 +326,12 @@ fluid.defaults("gpii.devpmt.dialogs.confirmRemoveProductDialog", {
     },
     invokers: {
         acceptConfirmDialog: {
+            funcName: "gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog",
+            args: ["{that}.closeDialog", "{that}.model.prefsSet", "{that}.model.product", "{gpii.devpmt.editPrefs}.editProductEnabled"]
+        }
+    },
+    listeners: {
+        "acceptConfirmDialog.acceptConfirmDialog": {
             funcName: "gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog",
             args: ["{that}.closeDialog", "{that}.model.prefsSet", "{that}.model.product", "{gpii.devpmt.editPrefs}.editProductEnabled"]
         }

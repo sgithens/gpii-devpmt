@@ -39,7 +39,7 @@ fluid.defaults("gpii.devpmt.dialogs.baseDialog", {
         },
         closeDialog: {
             funcName: "gpii.devpmt.dialogs.baseDialog.closeDialog",
-            args: ["{that}", "{that}.dom.dialogContainer"]
+            args: ["{that}.dom.dialogContainer"]
         }
     },
     selectors: {
@@ -73,7 +73,7 @@ gpii.devpmt.dialogs.baseDialog.openDialog = function (that, dialogContainer) {
     that.events.afterOpenDialog.fire();
 };
 
-gpii.devpmt.dialogs.baseDialog.closeDialog = function (that, dialogContainer) {
+gpii.devpmt.dialogs.baseDialog.closeDialog = function (dialogContainer) {
     dialogContainer.foundation("close");
 };
 
@@ -103,20 +103,36 @@ fluid.defaults("gpii.devpmt.dialogs.confirmDialog", {
         acceptButton: ".pmt-confirm-dialog-button",
         cancelButton: ".pmt-cancel-dialog-button"
     },
-    invokers: {
-        acceptConfirmDialog: "fluid.notImplemented",
-        cancelConfirmDialog: "{that}.closeDialog"
+    events: {
+        acceptConfirmDialog: null,
+        cancelConfirmDialog: null
     },
     listeners: {
         "afterOpenDialog.bindAcceptButton": {
             "this": "{that}.dom.acceptButton",
             "method": "click",
-            args: ["{that}.acceptConfirmDialog"]
+            args: ["{that}.events.acceptConfirmDialog.fire"]
         },
         "afterOpenDialog.bindCancelButton": {
             "this": "{that}.dom.cancelButton",
             "method": "click",
-            args: ["{that}.cancelConfirmDialog"]
+            args: ["{that}.events.cancelConfirmDialog.fire"]
+        },
+        // This closes the dialog after any other listeners have acted,
+        // upon and processed the results of the dialog. Because of how
+        // the foundation unbinds the selector, it has the result of also
+        // causing the dialog component to be destroyed. Some dialogs have
+        // the need to actually close the dialog before they finish processing
+        // the results to make the screen render cleanly. In that case, this
+        // listener won't actually be called at all as the the component will
+        // be destroyed. For most cases though, the dialog can perform it's work
+        // in another namespaced listener, and then this will clean it up.
+        "acceptConfirmDialog.closeDialog": {
+            func: "{that}.closeDialog",
+            priority: "last"
+        },
+        "cancelConfirmDialog.closeDialog": {
+            func: "{that}.closeDialog"
         }
     }
 });
