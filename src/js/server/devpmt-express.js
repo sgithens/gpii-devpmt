@@ -41,12 +41,10 @@ gpii.devpmt.redisStore = function () {
  * gpii.devpmt - Main component of the gpii.devpmt server to view and edit
  * Preferences Sets.
  */
-gpii.devpmt.LISTEN_PORT = process.env.GPII_DEVPMT_LISTEN_PORT || 8085;
-gpii.devpmt.PREFERENCESSERVER_URL = process.env.GPII_DEVPMT_TO_PREFERENCESSERVER_URL || "http://localhost:8081";
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
-    prefsServerURL: gpii.devpmt.PREFERENCESSERVER_URL,
-    port: gpii.devpmt.LISTEN_PORT,
+    prefsServerURL: "http://localhost:8081",
+    port: 8085,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
     osList: ["android","darwin","linux","web","win32"],
