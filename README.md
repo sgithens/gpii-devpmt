@@ -1,9 +1,9 @@
 # Development Preferences Test Tool and other Management Tools
 
-This repository contains a web based tool for editing preferences safes and
+This repository contains a web based tool for editing preference safes and
 sets as part of the larger eco-system of GPII modules. It contains resuable
 routines and widgets as well that other preference editing user interfaces
-can be based on.  While it has changed during the course of development and
+can be built from.  While it has changed during the course of development and
 testing, its fundamental design is still based on these
 [original designs](https://drive.google.com/open?id=0Bxy2B0Y99qCubGVUSlNCRFU3d0U).
 
@@ -52,12 +52,36 @@ link in a browser `http://localhost:8085/prefs/alice`.
 To run in electron app (at the time of writing still requires port 8085),
 run `npm start`.
 
+## Setting up dependent servers: PrefsServer, Redis, CouchDB
+
+Information on setting up a cloud based Preferences Server can be found
+[here](https://github.com/gpii/universal#quick-start).
+If you want to test a full workflow using Morphic as well, you will need to run
+the online Flowmanager endpoints as well.
+
+Information on running Redis and CouchDB can be found at their respectives websites
+[here](http://couchdb.apache.org) and [here](https://redis.io).
+
+Additionally, docker can be used to quickly bring up these servers for development,
+though more configuration would be necessary for a secure production environment.
+
+```bash
+# For development only
+
+# Quickly bring up CouchDB using Docker
+docker run -p 5984:5984 -v /directory/path/to/keep/persistent/couch:/opt/couchdb/data -d couchdb
+
+# Quickly bring up Redis using Docker
+docker run -p 6379:6379 -v /directory/path/to/keep/presistent/redis:/data -d redis redis-server --appendonly yes
+```
+
 ### Using with Morphic
 
 The PPT can be used to test preference safes and onboarding with the Morphic desktop
-application. By pointing your local morphic install to the same cloud that the PPT
-is using for its data once can make preference safe changes in the PPT and test
-the results by keying in and out of Morphic.
+application. Settings can be edited in the PPT, tested on Morphic and vice versa.
+If you save something using the Quick Set Strip, these settings can then be verified in
+the PPT.  Morphic's configuration allows changing the GPII cloud server in use. By
+configuring it to point to your PPT server, you can use it for development and debugging.
 
 To temporarily point a desktop Morphic installation to a PPT development cloud, the
 following changes can be made to `C:\Program Files (x86)\Morphic\start.cmd`
@@ -90,3 +114,34 @@ addition to grunt to reduce the number of changes we have to make to the foundat
 tooling. To start the watch task for developing the foundation theme simply run `gulp`.
 The local foundation scss files are located in `src/scss` and their compiled output
 is placed in `src/css/app.css`. This happens automaticaly when you run `gulp`.
+
+## Terminology
+
+This sections contains some high and low level terminology to help understand the workings
+and goals of this project. Some terms have undergone changes and renaming during the
+course of development, and those will be highlighted here as well. This section can and
+will change with updates over time.
+
+- PMT - Preferences Management Tool - This was the original name for this project and is still
+  occasionally used to reference tools for editing preferences.
+- PPT - Power Preferences Tool - Current public facing name for the comprehensive editor in
+  this project for "power" users, allowing detailed development and debugging of preference safes
+  and solutions onboarding.
+- Morphic - In progress set of UI specs and applications geared towards every day users of the system.
+  Much friendlier and simpler user interface.
+- Solutons - Solutions are third party applications that have been onboarded and made available such
+  that the GPII can configure them and help manage their application lifecycle for users.
+- Products - In the context of the PPT, we publicly refer to solutions as "Products". Internally, from
+  a development standpoint, you can treat them the same.
+- Preference Safe - A Preference Safe is a document detailing all the information for a user whose
+  setup is stored in the GPII. It contains Preference Sets, metadata, and links to Keys and Tokens.
+  This information is stored as JSON, usually in CouchDB.
+- Preference Sets - A Preference Set is a listing of Generic Preferences and Solution specific preferences.
+  A Preference Safe can contain multiple Preference Sets that could be used in different situations, such
+  as at Home, or on Campus.
+- Contexts - The historical precursor to Preference Sets. If you see any keys in a Preference Safe document
+  called `contexts`, they are indeed Preference Sets.
+- Generic Preferences - Preferences for a user that are generic enough to be translated to specific settings
+  in a number of 3rd party solutions.
+- Common Terms - The historial precursor to Generic Preferences. If you see anything in the code base referring
+  to these, you can treat them as Generic Preferences.
