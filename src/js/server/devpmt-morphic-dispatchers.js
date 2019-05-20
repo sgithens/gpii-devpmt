@@ -131,7 +131,7 @@ fluid.defaults("gpii.devpmt.morphic.mySafeHandler", {
                 "transform": {
                     type: "fluid.transforms.free",
                     func: "fluid.getForComponent",
-                    args: ["{gpii.devpmt}", "commonTermsDataSource.current.schemas"]
+                    args: ["{gpii.devpmt}", "model.commonTerms.schemas"]
                 }
             },
             allSolutions: {

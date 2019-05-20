@@ -20,10 +20,12 @@ var RedisStore = require("connect-redis")(session);
 
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
+var kettle = fluid.require("kettle");
 fluid.require("gpii-express");
 fluid.require("gpii-express-user");
 fluid.require("gpii-handlebars");
 require("gpii-universal");
+var json5 = require("json5");
 
 fluid.registerNamespace("gpii.devpmt");
 fluid.registerNamespace("gpii.handlebars");
@@ -33,6 +35,10 @@ gpii.devpmt.redisStore = function (options) {
         host: options.host || "127.0.0.1",
         port: options.port || 6379
     });
+};
+
+gpii.devpmt.json5resolver = function (path) {
+    return json5.parse(kettle.resolvers.file(fluid.module.resolvePath(path)));
 };
 
 /**
@@ -52,7 +58,8 @@ fluid.defaults("gpii.devpmt", {
     },
     model: {
         messages: {},
-        solutions: {}
+        solutions: {},
+        commonTerms: "@expand:gpii.devpmt.json5resolver(%gpii-devpmt/node_modules/gpii-universal/testData/ontologies/flat.json5)"
     },
     listeners: {
         "onCreate.loadAllSolutions": {
@@ -281,21 +288,23 @@ fluid.defaults("gpii.devpmt", {
         },
 
         /**
-         * Data Sources: see devpmt.datasources.js
+         * Data Sources
          */
-        commonTermsDataSource: {
-            type: "gpii.devpmt.dataSource.commonTermsMetadata"
-        },
-        prefSetDocsDataSource: {
-            type: "gpii.devpmt.dataSource.prefSetDocs",
-            options: {
-                prefSetDir: "{gpii.devpmt}.options.prefsetDirectory"
-            }
-        },
         solutionsDataSource: {
-            type: "gpii.devpmt.dataSource.solutions",
+            type: "kettle.dataSource.file",
             options: {
-                solutionsDir: "{gpii.devpmt}.options.solutionsDirectory"
+                solutionsDir: "{gpii.devpmt}.options.solutionsDirectory",
+                path: "%solutionsDir/%osId.json5",
+                termMap: {
+                    osId: "%osId",
+                    solutionsDir: "{that}.options.solutionsDir"
+                },
+                writable: false,
+                components: {
+                    encoding: {
+                        type: "kettle.dataSource.encoding.JSON5"
+                    }
+                }
             }
         },
         fullPrefSetDataSource: {
