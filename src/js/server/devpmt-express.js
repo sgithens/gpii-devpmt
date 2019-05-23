@@ -22,7 +22,6 @@ var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
 var kettle = fluid.require("kettle");
 fluid.require("gpii-express");
-fluid.require("gpii-express-user");
 fluid.require("gpii-handlebars");
 require("gpii-universal");
 var json5 = require("json5");
@@ -122,16 +121,6 @@ fluid.defaults("gpii.devpmt", {
             options: {
                 path: "/hbs",
                 templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
-            }
-        },
-        // gpii-express-user accounts and management
-        gpiiExpressUserApi: {
-            type: "gpii.express.user.api",
-            options: {
-                couch: {
-                    userDbName: "gpii",
-                    userDbUrl: "http://localhost:5984/gpii"
-                }
             }
         },
         // For some reason the above don't work if from a sub grade, GPII-3000

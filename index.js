@@ -7,7 +7,6 @@ fluid.require("gpii-express");
 
 
 require("./src/js/server/devpmt-express.js");
-require("./src/js/server/devpmt-datasources.js");
 require("./src/js/server/devpmt-base-dispatchers.js");
 require("./src/js/server/devpmt-ppt-dispatchers.js");
 require("./src/js/server/devpmt-morphic-dispatchers.js");
