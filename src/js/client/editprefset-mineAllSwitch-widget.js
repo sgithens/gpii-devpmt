@@ -130,6 +130,5 @@ gpii.devpmt.mineAllSwitch.buttonSwitch.setSettingsFilter = function (that, editP
 };
 
 fluid.defaults("gpii.devpmt.mineAllSwitch.default", {
-    // gradeNames: ["gpii.devpmt.mineAllSwitch.toggleSwitch"]
     gradeNames: ["gpii.devpmt.mineAllSwitch.buttonSwitch"]
 });
