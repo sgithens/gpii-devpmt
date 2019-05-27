@@ -908,10 +908,6 @@ gpii.devpmt.editPrefs.initialize = function (that) {
 
     that.updateCommonTermUsageCounts();
 
-    // Debugging so this component is available in the console
-    var editPrefs = fluid.queryIoCSelector(fluid.rootComponent, "gpii.devpmt.editPrefs")[0];
-    fluid.setGlobalValue("editPrefs", editPrefs);
-
     setInterval( function () {
         that.updateFoundationSticky();
     }, 250);
