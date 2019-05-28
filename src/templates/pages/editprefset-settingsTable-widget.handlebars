@@ -84,25 +84,6 @@
                     {{/each}}
                 {{/each}}
             {{/with}}
-            {{! TODO This area needs to be fixed. Find a component level way to pull out all the settings keys across prefsSets
-                for a user, similar to gpii.devpmt.prefsSafeApplications, but just on a per product component level. }}
-            {{#each options.solution.settingKeys}}
-                {{#unless (checkForSupportedSetting ../options.solution this)}}
-                <tr>
-                    <td>!! {{this}}</td>
-                    {{#each ../prefsSetNames}}
-                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-prefsSet="{{this}}" data-product="{{../../uri}}" data-term="{{../this}}"
-                            {{#with (lookup (lookup (lookup (lookup ../../flatPrefs.contexts this) "preferences") ../../this.uri) ../this) }}
-                            data-value="{{this}}"><span>{{this}}</span>
-                            {{else}}
-                            data-value=""><span> -- </span>
-                            {{/with}}
-                        </td>
-                    {{/each}}
-                    <td></td>
-                </tr>
-                {{/unless}}
-            {{/each}}
         </tbody>
     </table>
 </div>

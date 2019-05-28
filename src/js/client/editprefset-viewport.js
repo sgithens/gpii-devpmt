@@ -14,7 +14,7 @@
  * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
 
-/* global saveAs, Foundation */
+/* global saveAs, Foundation, Handlebars */
 "use strict";
 
 var gpii = fluid.registerNamespace("gpii");
@@ -878,6 +878,14 @@ gpii.devpmt.editValueEvent = function (that, event) {
  * Setup various bits and pieces of the viewport.
  */
 gpii.devpmt.editPrefs.initialize = function (that) {
+    Handlebars.registerHelper("lookupGenericPrefValue", function (prefsSet, commonTerm) {
+        return that.lookupGenericPrefValue(prefsSet, commonTerm);
+    });
+
+    Handlebars.registerHelper("lookupProductPrefValue", function (prefsSet, product, settingTerm) {
+        return that.lookupProductPrefValue(prefsSet, product, settingTerm);
+    });
+
     // Add sorted solutions
     var allSolutionsSorted = [];
     fluid.each(that.model.allSolutions, function (item, key) {
