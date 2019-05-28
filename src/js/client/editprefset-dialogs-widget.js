@@ -339,6 +339,7 @@ fluid.defaults("gpii.devpmt.dialogs.confirmRemoveProductDialog", {
 });
 
 gpii.devpmt.dialogs.confirmRemoveProductDialog.acceptConfirmDialog = function (closeDialog, prefsSet, product, editProductEnabled) {
+    // See comments in the listeners section of `gpii.devpmt.dialogs.confirmDialog`
     closeDialog();
     editProductEnabled(false, prefsSet, product);
 };
