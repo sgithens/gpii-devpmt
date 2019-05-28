@@ -38,6 +38,9 @@
  *     }
  * }
  * ```
+ *
+ * This work is currently being reviewed for inclusion in gpii-binder or another
+ * dependency here: https://issues.gpii.net/browse/GPII-2933
  */
 fluid.defaults("gpii.binder.bindMarkupEvents", {
     mergePolicy: {
