@@ -1,5 +1,5 @@
 /**
- * General express endpoint tests
+ * Permissions Tests
  *
  * Copyright 2019 Raising the Floor - International
  *
@@ -9,92 +9,128 @@
  * You may obtain a copy of the License at
  * https://github.com/GPII/universal/blob/master/LICENSE.txt
  */
-/* eslint-env node */
+
 "use strict";
-var fluid = require("infusion");
-var gpii = fluid.registerNamespace("gpii");
-var jqUnit = require("node-jqunit");
-var lunr = require("lunr");
+
+var fluid = require("infusion"),
+    kettle = require("kettle"),
+    gpii = fluid.registerNamespace("gpii"),
+    jqUnit = fluid.registerNamespace("jqUnit"),
+    lunr = require("lunr");
+
 require("../../index.js");
+
+kettle.loadTestingSupport();
+
 fluid.registerNamespace("gpii.tests.devpmt.server");
 
-gpii.tests.devpmt.server.loadTestDataNPSetsTest = function () {
-    var npsets = gpii.devpmt.loadTestDataNPSets(fluid.module.resolvePath("%gpii-devpmt/node_modules/gpii-universal/testData/preferences/"));
-    var haveAlice = false;
-    fluid.each(npsets, function (val) {
-        if (val === "alice") {
-            haveAlice = true;
-        }
-    });
-    jqUnit.assertEquals("Make sure we have alice.", haveAlice, true);
+gpii.tests.devpmt.server.testRedirect = function (response, location, statusCode) {
+    jqUnit.assertEquals("Check location:", location, response.headers.location);
+    jqUnit.assertEquals("Check status code: ", statusCode, response.statusCode);
 };
 
-gpii.tests.devpmt.server.loadCommonTermsMetadataTest = function () {
-    var terms = gpii.devpmt.loadCommonTermsMetadata();
-    var fontSize = terms["http://registry.gpii.net/common/fontSize"];
-    jqUnit.assertEquals("Font Size should have a name", "Font Size", fontSize.title);
-};
-
-fluid.defaults("gpii.tests.devpmt.server.caseHolder", {
-    gradeNames: ["fluid.test.testCaseHolder"],
-    modules: [
-        {
-            name: "Devpmt tests...",
-            tests: [
-                {
-                    name: "Devpmt Server Tests",
-                    type: "test",
-                    sequence: [
-                        // { funcName: "gpii.tests.devpmt.server.loadCommonTermsMetadataTest" },
-                        // { funcName: "gpii.tests.devpmt.server.loadTestDataNPSetsTest" },
-                        { funcName: "gpii.tests.devpmt.server.lunrCaseInsesitiveTest" }
-                        // { funcName: "gpii.tests.devpmt.server.npsetLoadTest" },
-                        // { funcName: "gpii.tests.devpmt.server.npsetApplicationsTest" }
-                    ]
-                }
-            ]
-        }
-    ]
-});
-
-fluid.defaults("gpii.tests.devpmt.server.environment", {
-    gradeNames: ["fluid.test.testEnvironment"],
+gpii.tests.devpmt.server.commonComponents = {
+    config: {
+        configName: "gpii.config.devpmt.express.base",
+        configPath: "%gpii-devpmt/configs"
+    },
     components: {
-        testCaseHolder: {
-            type: "gpii.tests.devpmt.server.caseHolder"
+        indexGetRequest: {
+            type: "kettle.test.request.httpCookie",
+            options: {
+                path: "/",
+                method: "GET",
+                port: 8085
+            }
+        },
+        pptLoginPostRequest: {
+            type: "kettle.test.request.httpCookie",
+            options: {
+                path: "/ppt/dev/login",
+                method: "POST",
+                port: 8085
+            }
+        },
+        pptHomeRequest: {
+            type: "kettle.test.request.httpCookie",
+            options: {
+                path: "/ppt",
+                method: "GET",
+                port: 8085
+            }
         }
     }
+};
+
+gpii.tests.devpmt.server.testDefs = [{
+    name: "Basic test for loading the index page.",
+    sequence: [{
+        func: "{indexGetRequest}.send"
+    }, {
+        event: "{indexGetRequest}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: {
+            message: "Checking for part of the html page",
+            string: "{arguments}.0",
+            request: "{indexGetRequest}",
+            plainText: true,
+            expectedSubstring: "<title>Developers Preference Testing Tool</title>"
+        }
+    }]
+},
+{
+    name: "Successfull login to PPT, and checking access to authorized page.",
+    sequence: [{
+        func: "{pptLoginPostRequest}.send",
+        args: {
+            "username": "morphic",
+            "password": "gpii"
+        }
+    }, {
+        event: "{pptLoginPostRequest}.events.onComplete",
+        listener: "gpii.tests.devpmt.server.testRedirect",
+        args: ["{arguments}.1.nativeResponse", "/ppt", 302] //, "{arguments}.1.nativeResponse"]
+    }, {
+        // All the pages below should require authentication. We should be able to view
+        // them as we're logged in.
+        func: "{pptHomeRequest}.send"
+    }, {
+        event: "{pptHomeRequest}.events.onComplete",
+        listener: "kettle.test.assertResponse",
+        args: {
+            message: "Checking for part of the html page",
+            string: "{arguments}.0",
+            request: "{pptHomeRequest}",
+            plainText: true,
+            expectedSubstring: "<h2>Preference Safes</h2>" // This is the header for safe listing
+        }
+    }]
+},
+{
+    name: "Failed login to PPT, and checks to make sure we cannot access pages that require login.",
+    sequence: [{
+        func: "{pptLoginPostRequest}.send",
+        args: {
+            "username": "fakemorphic",
+            "password": "gpii"
+        }
+    }, {
+        event: "{pptLoginPostRequest}.events.onComplete",
+        listener: "gpii.tests.devpmt.server.testRedirect",
+        args: ["{arguments}.1.nativeResponse", "/", 302]
+    }, {
+        func: "{pptHomeRequest}.send"
+    }, {
+        event: "{pptHomeRequest}.events.onComplete",
+        listener: "gpii.tests.devpmt.server.testRedirect",
+        args: ["{arguments}.1.nativeResponse", "/", 302]
+    }]
+}
+];
+
+gpii.tests.devpmt.server.finalTestDefs = fluid.transform(gpii.tests.devpmt.server.testDefs, function (testDef) {
+    return fluid.extend({}, gpii.tests.devpmt.server.commonComponents, testDef);
 });
-
-fluid.test.runTests("gpii.tests.devpmt.server.environment");
-
-/* Tests for NP Sets */
-gpii.tests.devpmt.server.npsetLoadTest = function () {
-    var comp = gpii.devpmt.npset({
-        npsetName: "elod"
-    });
-    jqUnit.assertEquals("Test that we've got Elod", comp.options.npsetName, "elod");
-    jqUnit.assertEquals("There should only be 1 context", comp.contextNames().length, 1);
-    jqUnit.assertEquals("and it should be gpii-default", comp.contextNames()[0], "gpii-default");
-};
-
-gpii.tests.devpmt.server.npsetApplicationsTest = function () {
-    var davey = gpii.devpmt.npset({npsetName: "davey"});
-    var andrei = gpii.devpmt.npset({npsetName: "andrei"});
-
-    var daveyApps = davey.npsetApplications();
-    jqUnit.assertEquals("Davey should have just RWG", 1, daveyApps.length);
-    jqUnit.assertEquals("RWG Full URI ", daveyApps[0].uri, "http://registry.gpii.net/applications/com.texthelp.readWriteGold");
-    jqUnit.assertEquals("RWG ID ", daveyApps[0].appId, "com.texthelp.readWriteGold");
-    jqUnit.assertEquals("RWG Settings", 18, daveyApps[0].settingKeys.length);
-
-    var andreiApps = andrei.npsetApplications();
-    jqUnit.assertEquals("Andrei should have 6 apps right now", 6, andreiApps.length);
-};
-
-/**
- * Tests for Searching, Lunr, etc.
- */
 
 gpii.tests.devpmt.server.makeTestProductIndex = function () {
     var entries = [
@@ -141,5 +177,6 @@ gpii.tests.devpmt.server.lunrCaseInsesitiveTest = function () {
     jqUnit.assertEquals("ucase: The ref should be the JAWS ID", jawsResults[0].ref, "com.freedomscientific.jaws");
 };
 
-gpii.tests.devpmt.server.passwordCreateUnlockTest = function () {
-};
+
+jqUnit.test("Lunr Case Insensitive Tests", gpii.tests.devpmt.server.lunrCaseInsesitiveTest);
+kettle.test.bootstrapServer(gpii.tests.devpmt.server.finalTestDefs);
