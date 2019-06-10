@@ -106,6 +106,11 @@ self signed certs. Also, this should NOT be used with any "real" or production d
 To run the tests you'll need to install `chromedriver`. After that you can run,
 `npm test`.  Linting tasks can be run with `grunt lint`.
 
+As noted above under requirements, currently this repository depends on the GPII-2966
+branch of `universal`, and an instance of this branch must be running and available
+to run the unit tests. This requirement to have a separate universal instance running
+will go away in the next release.
+
 ### Foundation theme development
 
 This project has a customizations to the Foundation CSS framework.  Out of the box
