@@ -1,0 +1,64 @@
+<div class="callout">
+    {{#if active}}
+    <h5>{{metadata.schema.title}}</h5>
+    <input name="pmt-blank-value" id="pmt-blank-value" type="checkbox" /><label for="pmt-blank-value">{{{messageHelper "gpii_pmt_prefSettingAdjuster_blankLabel"}}}</label>
+    {{!-- Currently we only handle very very simple JSON Schema, increasing
+          the complexity of this may be the target of future work --}}
+    <div>
+        {{#compare metadata.schema.type "===" "string"}}
+            <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
+                <input id="pmt-new-value" type="text" placeholder="value" value="{{current.value}}"/>
+            </label>
+        {{else}}
+            {{#compare metadata.schema.type "===" "number"}}
+                <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
+                    <input id="pmt-new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
+                </label>
+            {{else}}
+                {{#compare metadata.schema.type "===" "integer"}}
+                    <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
+                        <input id="pmt-new-value" type="number" placeholder="multiplier" value="{{current.value}}"/>
+                    </label>
+                {{else}}
+                    {{#compare metadata.schema.type "===" "boolean"}}
+                        <div class="switch">
+                            {{#if current.value}}
+                                <input checked="true" class="switch-input" id="pmt-new-value" type="checkbox" name="pmt-new-value" />
+                            {{else}}
+                                <input class="switch-input" id="pmt-new-value" type="checkbox" name="pmt-new-value" />
+                            {{/if}}
+                            <label class="switch-paddle" for="pmt-new-value">
+                            </label>
+                            <span class="pmt-boolean-value">{{{messageHelper "gpii_pmt_booleanSettingOff"}}}</span>
+                        </div>
+                    {{else}}
+                        {{! Assuming there is no schema information, or nothing we know how to handle. }}
+                        <label>{{{messageHelper "gpii_pmt_prefSettingAdjuster_valueLabel"}}}
+                            <input id="pmt-new-value" type="text" placeholder="value" value="{{current.value}}"/>
+                        </label>
+                        <p>
+                            {{{messageHelper "gpii_pmt_prefSettingAdjuster_missingSchema"}}}
+                        </p>
+                    {{/compare}}
+                {{/compare}}
+            {{/compare}}
+        {{/compare}}
+    </div>
+    <button type="button" class="pmt-ok-button button primary hollow">{{{messageHelper "gpii_pmt_prefSettingAdjuster_updateButton"}}}</button>
+    <button type="button" class="pmt-cancel-button button secondary hollow">{{{messageHelper "gpii_pmt_prefSettingAdjuster_cancelButton"}}}</button>
+    <p>{{metadata.schema.description}}</p>
+    {{#if devModeOn}}
+    <p>
+        <pre>
+{{{jsonify metadata.schema}}}
+        </pre>
+    </p>
+    {{/if}}
+    {{else}}
+        <h3>{{{messageHelper "gpii_pmt_prefSettingAdjuster_nonActiveHeader"}}}</h3>
+        <p>
+            <em>{{{messageHelper "gpii_pmt_prefSettingAdjuster_nonActiveInst"}}}</em>
+        </p>
+    {{/if}}
+</div>
+

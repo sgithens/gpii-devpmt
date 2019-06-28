@@ -1,0 +1,18 @@
+{
+    "type": "gpii.config.devpmt.express.redisSessions",
+    "options": {
+        "redisServerConfig": {
+            host: "@expand:kettle.resolvers.env(GPII_REDIS_HOST)",
+            port: "@expand:kettle.resolvers.env(GPII_REDIS_PORT)"
+        },
+        "distributeOptions": {
+            "devpmt.sessionStore.redis": {
+                "record": "@expand:gpii.devpmt.redisStore({that}.options.redisServerConfig)",
+                "target": "{that sessionMiddleware}.options.middlewareOptions.store"
+            }
+        }
+    },
+    "mergeConfigs": [
+        "%gpii-devpmt/configs/gpii.config.devpmt.express.base"
+    ]
+}

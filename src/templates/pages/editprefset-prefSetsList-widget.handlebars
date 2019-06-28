@@ -1,0 +1,23 @@
+<div id="prefsSets-area" class="callout">
+    <h5>{{{messageHelper "gpii_pmt_prefsSetsHeader"}}}</h5>
+    <table class="table-scroll">
+        <thead>
+            <tr>
+                <th>{{{messageHelper "gpii_pmt_prefsSetIDHeader"}}}</th>
+                <th>{{{messageHelper "gpii_pmt_nameHeader"}}}</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each prefsSetNames}}
+            <tr>
+                <td>{{this}}</td>
+                <td>{{{lookup (lookup ../flatPrefs/contexts this) "name" }}}</td>
+                <td><button data-prefsSetId="{{this}}" type="button" class="pmt-edit-prefsSet button">{{{messageHelper "gpii_pmt_prefsList_editButton"}}}</button></td>
+                <td><button data-prefsSetId="{{this}}" type="button" class="pmt-delete-prefsSet alert button">{{{messageHelper "gpii_pmt_prefsList_deleteButton"}}}</button></td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>

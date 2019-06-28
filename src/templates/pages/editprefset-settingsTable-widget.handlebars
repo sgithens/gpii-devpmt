@@ -1,0 +1,89 @@
+<div class="pmt-single-product-area callout" data-appId="{{options.appId}}">
+    <div class="grid-x expanded">
+        <div class="medium-6 cell">
+            <h2 id="a-{{options.appId}}">
+                {{#if options.solution.name}}
+                    {{options.solution.name}}
+                {{else}}
+                    {{options.appId}}
+                {{/if}}
+                <a id="{{options.appId}}" href="#top"><small>{{{messageHelper "gpii_pmt_topLink"}}}</small></a>
+            </h2>
+            <ul class="no-bullet">
+                <li>{{{messageHelper "gpii_pmt_settingsTables_appID"}}}: <code>{{options.appId}}</code></li>
+            </ul>
+        </div>
+        <div class="medium-6 cell">
+            <div>
+                <div class="float-right">
+                    <a class="pmt-remove-product"><i class="fi-trash large"></i></a>
+                </div>
+                <div id="pmt-mineAllSwitch-container">
+                    <div id="pmt-mineAllSwitch-area">
+                </div>
+                <div id="pmt-filter-container">
+                    <div id="pmt-common-filter-area">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="scroll">
+        <thead>
+            <tr>
+                <th class="pmt-settingstable-name">{{{messageHelper "gpii_pmt_settingsTables_settingColHeader"}}}</th>
+                <th class="pmt-settingstable-value">{{{messageHelper "gpii_pmt_settingsTables_productDefaultColHeader"}}}</th>
+                {{#each model.prefsSetNames}}
+                    <th class="pmt-settingstable-value">
+                        {{lookup (lookup ../model/flatPrefs/contexts this) "name"}}</th>
+                {{/each}}
+                <th><a class="hollow button small pmt-add-prefsSet-button">
+                   {{{messageHelper "gpii_pmt_addPrefsSetDialog_button"}}}
+                </a></th>
+            </tr>
+
+            <tr>
+                <td>{{{messageHelper "gpii_pmt_settingsTable_includeApplication" }}}</td>
+                <td><!-- Space for product default column --></td>
+                {{#each model.prefsSetNames}}
+                    <td>
+                        <div class="switch">
+                            {{#if (lookup (lookup (lookup ../model.flatPrefs.contexts this) "preferences") ../options.appUri) }}
+                                <input checked="true" class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../options.appId}}" type="checkbox" name="enabled-{{this}}-{{../options.appId}}" data-prefsSet="{{this}}" data-product="{{../options.appUri}}" />
+                            {{else}}
+                                <input class="pmt-enabled-boolean switch-input" id="enabled-{{this}}-{{../options.appId}}" type="checkbox" name="enabled-{{this}}-{{../options.appId}}" data-prefsSet="{{this}}" data-product="{{../options.appUri}}" />
+                            {{/if}}
+                            <label class="switch-paddle" for="enabled-{{this}}-{{../options.appId}}">
+                                <span class="show-for-sr">{{{messageHelper "gpii_pmt_settingsTables_enableDisableSR"}}}</span>
+                                <span class="switch-active" aria-hidden="true">{{{messageHelper "gpii_pmt_settingsTables_yesSR"}}}</span>
+                                <span class="switch-inactive" aria-hidden="true">{{{messageHelper "gpii_pmt_settingsTables_noSR"}}}</span>
+                            </label>
+                        </div>
+                    </td>
+                {{/each}}
+                <td><!-- Add Pref Set spacer --></td>
+            </tr>
+        </thead>
+        <tbody>
+           {{#with options.solution}}
+                {{#each this.settingsHandlers}}
+                    {{#each this.supportedSettings}}
+                    <tr class="pmt-settings-table-row" data-term="{{@key}}">
+                        <td id="a-{{../../../options.appId}}-{{@key}}">{{this.schema.title}}</td>
+                        <td><!-- Space for product default column --></td>
+                        {{#each ../../../model.prefsSetNames}}
+                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-prefsSet="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
+                            {{#compare (lookupProductPrefValue this ../../../../options.appUri @../key) "===" undefined}}
+                                data-value=""><span> -- </span>
+                            {{else}}
+                                data-value="{{lookupProductPrefValue this ../../../../options.appUri @../key}}"><span>{{lookupProductPrefValue this ../../../../options.appUri @../key}}</span>
+                            {{/compare}}
+                        </td>
+                       {{/each}}
+                    </tr>
+                    {{/each}}
+                {{/each}}
+            {{/with}}
+        </tbody>
+    </table>
+</div>

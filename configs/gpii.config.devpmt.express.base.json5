@@ -1,0 +1,21 @@
+{
+    "type": "gpii.config.devpmt.express.base",
+    "options": {
+        "gradeNames": "fluid.component",
+        "components": {
+            "server": {
+                "type": "gpii.devpmt"
+            }
+        },
+        distributeOptions: {
+            "gpii.devpmt.prefsServerURL": {
+                "record": "@expand:kettle.resolvers.env(GPII_DEVPMT_TO_PREFERENCESSERVER_URL)",
+                "target": "{that gpii.devpmt}.options.prefsServerURL"
+            },
+            "gpii.devpmt.port": {
+                "record": "@expand:kettle.resolvers.env(GPII_DEVPMT_LISTEN_PORT)",
+                "target": "{that gpii.devpmt}.options.port"
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+<div>
+    {{#compare model.settingsFilter "===" "mysettings" }}
+    <input name= "pmt-all-settings-switch-{{id}}"
+        id="pmt-all-settings-switch-{{id}}"
+        checked="true" class="pmt-all-settings-switch switch-input"
+        type="checkbox" value="mysettings" />
+    {{else}}
+    <input name= "pmt-all-settings-switch-{{id}}"
+        id="pmt-all-settings-switch-{{id}}"
+        class="pmt-all-settings-switch switch-input"
+        type="checkbox" value="mysettings" />
+    {{/compare}}
+    <label class="switch-paddle" for="pmt-all-settings-switch-{{id}}">
+        <span class="show-for-sr">{{{messageHelper "gpii_pmt_mineAllSwitch_enableDisable"}}}</span>
+        <span class="switch-active" aria-hidden="true">{{{messageHelper "gpii_pmt_mineAllSwitch_mine"}}}</span>
+        <span class="switch-inactive" aria-hidden="true">{{{messageHelper "gpii_pmt_mineAllSwitch_all"}}}</span>
+    </label>
+    <span>{{{messageHelper "gpii_pmt_mineAllSwitch_mine"}}} ({{model.mySettingsCount}}) {{{messageHelper "gpii_pmt_mineAllSwitch_all"}}} ({{model.allSettingsCount}})</span>
+</div>

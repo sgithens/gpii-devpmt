@@ -1,0 +1,91 @@
+<div id="pmt-topNavBar-container">
+    <div id="pmt-topNavBar-widget">
+    </div>
+</div>
+
+<!--
+    Master Render Location for Modal Dialogs.
+-->
+<div id="modal-dialog-container">
+    <div id="pmt-modal-dialog-render">
+    </div>
+</div>
+
+{{!-- We are not going to render this for now, so there is no confusion that we are collecting and
+      displaying this type of information about clients. May re-enable this in a strict developer
+      mode.
+{{#if docs}}
+<div class="grid-x expanded">
+    <div class="medium-7 cell">
+        <div id="docs">
+            <a href="#docs"></a>{{{md docs}}}
+        </div>
+    </div>
+</div>
+{{/if}}
+--}}
+
+<br/>
+<div class="grid-x expanded" id="all-prefs">
+    <div class="medium-2 cell">
+        <ul id="pmt-sidebar-accordian" class="accordion" data-multi-expand="true" data-allow-all-closed="true" data-accordion>
+            <li class="accordion-item is-active" data-accordion-item>
+                <a href="#" class="accordion-title">Safe Contents</a>
+                <div id="pmt-editPrefsTOC-container" class="accordion-content" data-tab-content>
+                        <div id="pmt-editPrefsTOC-widget"></div>
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Add Product</a>
+                <div id="pmt-productList-container" class="accordion-content" data-tab-content>
+                        <div id="pmt-productList-widget"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div id="settings-divs" class="medium-7 cell">
+        <div id="pmt-prefsSafeInfo-container">
+            <a id="pmt-prefsSafeInfo-anchor"></a>
+            <div id="pmt-prefsSafeInfo-widget"></div>
+        </div>
+        <div id="pmt-prefsSafeKeysList-container">
+            <a id="pmt-prefsSafeKeysList-anchor"></a>
+            <div id="pmt-prefsSafeKeysList-widget"></div>
+        </div>
+        <div id="pmt-prefSetsList-container">
+            <a id="pmt-prefSetsList-anchor"></a>
+            <div id="pmt-prefSetsList-widget"></div>
+        </div>
+        <div id="pmt-genericSettingsTable-container">
+            <a id="pmt-genericSettingsTable-anchor"></a>
+            <div id="pmt-genericSettingsTable-widget">
+            </div>
+        </div>
+        {{#each prefsSafeApplications}} {{! <-- Is prefsSafeApplications actually dynamic? }}
+            <div id="test-comp-{{this.appId}}">
+                <div class="pmt-settings-table-div"></div>
+            </div>
+
+        {{/each}} {{! end prefsSafeApplications }}
+
+        <div id="pmt-flatPrefs-jsonDev-container">
+            <div id="pmt-flatPrefs-jsonDev-render">
+            </div>
+        </div>
+    </div>
+    <div class="medium-3 cell right" data-sticky-container>
+        <div class="sticky" data-sticky data-top-anchor="all-prefs">
+            <div id="pmt-prefs-adjuster-container">
+                <div id="pmt-prefs-adjuster">
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    $(document).foundation();
+</script>

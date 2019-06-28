@@ -1,0 +1,57 @@
+        <div class="pmt-generic-prefs-area callout" data-appId="{{appId}}">
+            <div class="grid-x expanded">
+                <div class="medium-6 cell">
+                    <h2 id="title">
+                        {{{messageHelper "gpii_pmt_settingsTables_genericPrefsHeader"}}} <a id="generic-prefs" href="#top"><small>{{{messageHelper "gpii_pmt_topLink"}}}</small></a>
+                    </h2>
+                    <p>
+                        {{{messageHelper "gpii_pmt_settingsTables_genericPrefsInst"}}}
+                    </p>
+                </div>
+                <div class="medium-6 cell">
+                    <div id="pmt-settings-filters">
+                        <div id="pmt-mineAllSwitch-container">
+                            <div id="pmt-mineAllSwitch-area">
+                        </div>
+                        <div id="pmt-filter-container">
+                            <div id="pmt-common-filter-area">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <table class="scroll">
+            <thead>
+                <tr>
+                    <th class="pmt-settingstable-name">{{{messageHelper "gpii_pmt_settingsTables_settingColHeader"}}}</th>
+                    {{#each prefsSetNames}}
+                        <th class="pmt-settingstable-value">
+                            {{lookup (lookup ../flatPrefs/contexts this) "name"}}
+                        </th>
+                    {{/each}}
+                    <th><a class="hollow button small pmt-add-prefsSet-button">
+                        {{{messageHelper "gpii_pmt_addPrefsSetDialog_button"}}}
+                    </a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each commonTermsSorted}}
+                    <tr class="pmt-commonterm-row" data-term="{{this.id}}">
+                        <td id="a-{{this.id}}"><span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="{{this.title}}&nbsp;{{this.description}}&nbsp;{{jsonify this}}"><i class="fi-info"></i></span> <span>{{this.title}}</span></td>
+                        {{#each ../prefsSetNames}}
+                        <td class="pmt-value-display" data-name="{{../title}}" data-prefsSet="{{this}}" data-term="{{../id}}"
+                            {{#compare (lookupGenericPrefValue this ../id) "===" undefined}}
+                                data-value=""><span>--</span>
+                            {{else}}
+                                data-value="{{lookupGenericPrefValue this ../id}}"><span>{{lookupGenericPrefValue this ../id}}</span>
+                            {{/compare}}
+                        </td>
+                        {{/each}}
+                        <td></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        </div>
+

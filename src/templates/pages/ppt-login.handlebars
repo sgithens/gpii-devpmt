@@ -1,0 +1,26 @@
+<article class="grid-container align-middle">
+    <div class="grid-x align-middle">
+        <div class="medium-4 medium-offset-4 cell">
+            <h1 class="text-center">{{{messageHelper "gpii_pmt_login_title"}}}</h1>
+            <div class="callout secondary">
+                <form autocomplete="off" method="POST">
+                    <div class="grid-x">
+                        <div class="small-12 cell">
+                            <label>{{{messageHelper "gpii_pmt_login_username"}}}
+                                <input name="username" type="text" placeholder="" />
+                            </label>
+                            <label>{{{messageHelper "gpii_pmt_login_password"}}}
+                                <input name="password" type="password" placeholder="" />
+                            </label>
+                            <button type="submit" class="button">{{{messageHelper "gpii_pmt_login_signin"}}}</button>
+                        </div>
+                    </div>
+                </form>
+
+                <p>
+                {{{messageHelper "gpii_pmt_login_inst"}}}
+                </p>
+            </div>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,28 @@
+<div  class="callout">
+    <h5>{{{messageHelper "gpii_pmt_prefsSafeKeyList_header"}}}</h5>
+    <table class="table-scroll">
+        <thead>
+            <tr>
+                <th>{{{messageHelper "gpii_pmt_prefsSafeKeyList_idColHeader"}}}</th>
+                <th>{{{messageHelper "gpii_pmt_prefsSafeKeyList_typeColHeader"}}}</th>
+                <th>{{{messageHelper "gpii_pmt_prefsSafeKeyList_prefSetIdHeader"}}}</th>
+                <th>{{{messageHelper "gpii_pmt_prefsSafeKeyList_revokedHeader"}}}</th>
+                <th>{{{messageHelper "gpii_pmt_prefsSafeKeyList_createdHeader"}}}</th>
+                <th>{{{messageHelper "gpii_pmt_prefsSafeKeyList_updatedHeader"}}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each keys}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{this.prefsSetId}}</td>
+                    <td>{{this.revoked}}</td>
+                    <td>{{this.timestampCreated}}</td>
+                    <td>{{this.timestampUpdated}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+

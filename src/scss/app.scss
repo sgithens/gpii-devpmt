@@ -1,0 +1,46 @@
+@charset 'utf-8';
+
+@import 'settings';
+@import 'foundation';
+
+@include foundation-everything;
+
+.pmt-value-display:hover {
+    outline: medium solid $success-color;
+    background: $medium-gray;
+}
+
+/* Style for the cell/value currently being edited. */
+.pmt-value-editing {
+    outline: medium dashed $success-color;
+    background: $light-gray;
+}
+
+/* Top-nav bar */
+.pmt-topnav-icon {
+    font-size: rem-calc(30);
+    color: black;
+}
+
+/* Some styling for text filters to make it obvious
+ *  they are being used.
+ */
+.pmt-filter-active, .pmt-filter-active:focus {
+    outline: medium solid $primary-color;
+}
+
+/* Used for active icons. Such as changing the save icon,
+   to show there are pending changes to be saved, or
+   turning on debug mode.
+ */
+.pmt-topnav-icon-active {
+    font-size: rem-calc(40);
+}
+
+.pmt-settingstable-name {
+    width: rem-calc(300);
+}
+
+.pmt-settingstable-value {
+    width: rem-calc(90);
+}

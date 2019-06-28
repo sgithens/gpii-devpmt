@@ -1,0 +1,47 @@
+<article class="grid-container">
+    {{> morphic-mymorphic-banner}}
+    <div class="grid-x grid-margin-x">
+        <div class="cell">
+            <div>
+                <img src="/src/images/anon-guy.png" />
+                {{{messageHelper "gpii_morphic_createSafe_inst"}}}
+            </div>
+
+        </div>
+    </div>
+    <div class="grid-x grid-margin-x">
+        <div class="medium-7 large-6 cell">
+            <form action="/morphic/create/safe" method="POST" autocomplete="off" >
+                <h2>{{{messageHelper "gpii_morphic_createSafe_title"}}}</h2>
+                <p><a href="/morphic/login">{{{messageHelper "gpii_morphic_createSafe_signinLink"}}}</a></p>
+                <div class="grid-x">
+                    <div class="small-12 cell">
+                        <label>{{{messageHelper "gpii_morphic_createSafe_accountName"}}}
+                            <input id="morphic-username" name="username" type="text" placeholder="" />
+                        </label>
+                        <label>{{{messageHelper "gpii_morphic_createSafe_password"}}}
+                            <input id="morphic-password" name="password" type="password" placeholder="" />
+                        </label>
+                        <label id="morphic-password-strength"></label>
+                            <input id="morphic-accept-terms" type="checkbox" />
+                            {{{messageHelper "gpii_morphic_createSafe_acceptTerms"}}}
+                        </label><br/>
+                        <button id="morphic-sign-up-button" type="submit" class="button">{{{messageHelper "gpii_morphic_createSafe_signupButton"}}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="medium-7 large-6 cell">
+            <div class="callout">
+                <p>{{{messageHelper "gpii_morphic_createSafe_accountNameReqs"}}}</p>
+            </div>
+            <div class="callout">
+                {{{messageHelper "gpii_morphic_createSafe_passwordReqs"}}}
+            </div>
+            <div class="callout">
+                {{{messageHelper "gpii_morphic_createSafe_termsOfUseReqs"}}}
+            </div>
+        </div>
+    </div>
+</article>

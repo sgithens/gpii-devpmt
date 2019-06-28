@@ -1,0 +1,11 @@
+/node_modules
+*.swp
+.DS_Store
+*.swo
+*.swn
+package-lock.json
+report.tap
+coverage
+.nyc_output
+reports
+instrumented

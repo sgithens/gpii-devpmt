@@ -1,0 +1,27 @@
+<!--
+This page is loosely based on:
+https://jwoaql.axshare.com/#g=1&p=sign_up_from_nothing
+-->
+
+<article class="grid-container">
+    {{> morphic-mymorphic-banner}}
+    <div class="grid-x grid-margin-x">
+        <div class="medium-4 large-3 cell">
+            <h2>{{{messageHelper "gpii_morphic_login_title"}}}</h2>
+            <p><a href="/morphic/create/safe">{{{messageHelper "gpii_morphic_login_createAccount"}}}</a>
+            <form autocomplete="off" action="/morphic/login" method="POST">
+                <div class="grid-x">
+                    <div class="small-12 cell">
+                        <label>{{{messageHelper "gpii_morphic_login_emailAccountName"}}}
+                            <input name="username" type="text" placeholder="" />
+                        </label>
+                        <label>{{{messageHelper "gpii_morphic_login_password"}}}
+                            <input name="password" type="password" placeholder="" />
+                        </label>
+                        <button type="submit" class="button">{{{messageHelper "gpii_morphic_login_signinButton"}}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,28 @@
+<div class="reveal" id="pmt-dialog-container" data-reveal>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+<div>
+
+<h2>{{name}}</h2>
+<p><code>{{appId}}</code></p>
+<p>{{{messageHelper "gpii_pmt_addProductDialog_inst"}}}</p>
+
+<!-- <p>TODO More information about the product should be listed here. -->
+<!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
+<!-- </p> -->
+<input type="hidden" id="pmt-add-product-appId" value="{{appId}}" />
+</div>
+
+
+    <div class="button-group">
+        <button id="" type="button" class="success button pmt-confirm-dialog-button">
+            {{{messageHelper "gpii_pmt_addProductDialog_addButton"}}}
+        </button>
+        <button type="button"  class="delete button pmt-cancel-dialog-button">
+            {{{messageHelper "gpii_pmt_cancelButton"}}}
+        </button>
+    </div>
+</div>
+

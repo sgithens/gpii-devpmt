@@ -1,0 +1,19 @@
+
+#doc  h2 {
+    font-size: 1em;
+}
+
+.pmt-product-list {
+    border-bottom: thin solid #DDDDDD;
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+}
+
+.pmt-filter-label:hover {
+    cursor: pointer;
+}
+
+.pmt-boolean-value {
+    display: inline;
+    color: black;
+}

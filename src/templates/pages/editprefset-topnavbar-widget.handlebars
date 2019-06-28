@@ -1,0 +1,33 @@
+<div class="top-bar">
+    <div class="top-bar-left">
+        <ul class="menu">
+            <li>
+                <a href="/ppt"><i class="pmt-topnav-icon fi-home"></i></a>
+            </li>
+            <li>
+                <h2 id="top">{{{messageHelper "gpii_pmt_topnavbar_prefsSafe"}}}: {{prefsSafeName}}</h2>
+            </li>
+        </ul>
+    </div>
+    <div class="top-bar-right">
+        <ul class="menu">
+            <li>
+                {{#if devModeOn}}
+                    <a class="pmt-topnav-icon-active" id="pmt-topbar-devmode-button"><i class="fi-wrench"></i></a>
+                {{else}}
+                    <a class="pmt-topnav-icon" id="pmt-topbar-devmode-button"><i class="fi-wrench"></i></a>
+                {{/if}}
+            </li>
+            <li>
+                <a class="pmt-topnav-icon" id="pmt-topbar-download-button"><i class="fi-download"></i></a>
+            </li>
+            <li>
+                {{#if unsavedChangesExist }}
+                    <a class="pmt-topnav-icon-active" id="pmt-topbar-save-button"><i class="fi-save large"></i></a>
+                {{else}}
+                    <a class="pmt-topnav-icon" id="pmt-topbar-save-button"><i class="fi-save large"></i></a>
+                {{/if}}
+            </li>
+        </ul>
+    </div>
+</div>
