@@ -111,6 +111,33 @@ branch of `universal`, and an instance of this branch must be running and availa
 to run the unit tests. This requirement to have a separate universal instance running
 will go away in the next release.
 
+The complete steps to setup the necessary branches and code are as follows:
+
+1. CouchDB running on port 8081, with an empty datastore, or at least no `gpii` database, however you like to do that.
+
+2. Universal GPII-2452
+
+```bash
+git clone git@github.com:GPII/universal.git
+cd universal/
+git remote rename origin GPII
+git checkout -b GPII-2966 GPII/GPII-2966
+npm install
+GPII_COUCHDB_URL="http://localhost:5984/gpii" GPII_APP_DIR=$(pwd) bash -c ./scripts/deleteAndLoadSnapsets.sh
+
+export NODE_ENV=gpii.config.preferencesServer.standalone.production
+npm start
+```
+
+3. PPT
+
+```bash
+git clone git@github.com:GPII/gpii-devpmt.git
+cd gpii-devpmt/
+npm install
+npm test
+```
+
 ### Foundation theme development
 
 This project has a customizations to the Foundation CSS framework.  Out of the box
