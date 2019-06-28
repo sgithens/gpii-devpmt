@@ -113,7 +113,7 @@ will go away in the next release.
 
 The complete steps to setup the necessary branches and code are as follows:
 
-1. CouchDB running on port 8081, with an empty datastore, or at least no `gpii` database, however you like to do that.
+1. CouchDB running on port 5984, with an empty datastore, or at least no `gpii` database, however you like to do that.
 
 2. Universal GPII-2452
 
