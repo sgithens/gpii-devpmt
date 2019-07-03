@@ -138,6 +138,20 @@ npm install
 npm test
 ```
 
+### Testing with a VM and Vagrant
+
+Tests can be run using a vagrant provisioned virtual machine. The requirements are the same other GPII projects
+and details can be found [here](https://github.com/GPII/qi-development-environments/#requirements).
+
+The following commands run from the `gpii-devpmt` checkout will create a VM, setup the dependent servers, and
+run the tests.
+
+```bash
+vagrant up
+npm run test:vagrantSetup
+npm run test:vagrant
+```
+
 ### Foundation theme development
 
 This project has a customizations to the Foundation CSS framework.  Out of the box
