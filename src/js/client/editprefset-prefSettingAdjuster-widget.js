@@ -205,6 +205,10 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         },
         "onMarkupRendered.updateBooleanValueLabel": {
             func: "{that}.updateBooleanValueLabel"
+        },
+        "onMarkupRendered.customWidgetCheck": {
+            funcName: "gpii.devpmt.prefSettingAdjuster.customWidgetCheck",
+            args: ["{that}"]
         }
     },
     modelListeners: {
@@ -216,6 +220,33 @@ fluid.defaults("gpii.devpmt.prefSettingAdjuster", {
         }]
     }
 });
+
+gpii.devpmt.prefSettingAdjuster.customWidgetCheck = function (that) {
+    console.log("Custom Widget Check: ", that.model.current);
+    if (that.model.active === true && that.model.current.term === "qss.buttonList") {
+        if (fluid.isArrayable(that.model.current.value)) {
+            console.log("Setting arrayble buttonList");
+            Cookies.set('buttonList', that.model.current.value);
+        }
+        else {
+            console.log("Setting default null buttonList");
+            Cookies.set('buttonList', "[]");
+        }
+        $("#exampleModal8").foundation('_destroy');
+        $("#exampleModal8").foundation("open");
+
+        $("#exampleModal8").on('closed.zf.reveal', function() {
+            var buttonList = JSON.parse(Cookies.get('buttonList'));
+            console.log('Closing the QuickStrip Customizer111 8609', buttonList);
+            that.applier.change("current.value", buttonList);
+            that.applier.change("current.customValue", buttonList);
+            that.saveUpdateValue();
+            $("#exampleModal8").foundation('_destroy');
+            Cookies.set('buttonList', "[]");
+        });
+    }
+
+};
 
 gpii.devpmt.prefSettingAdjuster.updateBooleanValueLabel = function (label, value) {
     if (label.html) {

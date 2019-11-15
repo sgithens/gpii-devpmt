@@ -72,6 +72,16 @@
                         <td id="a-{{../../../options.appId}}-{{@key}}">{{this.schema.title}}</td>
                         <td><!-- Space for product default column --></td>
                         {{#each ../../../model.prefsSetNames}}
+                        {{#compare @../key "===" "qss.buttonList"}}
+                        {{!-- <td><p><button class="button" data-toggle="exampleModal8">Edit Quickstrip</button></p></td> --}}
+                        <td class="pmt-value-display" data-name="{{../schema.title}}" data-prefsSet="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
+                            {{#compare (lookupProductPrefValue this ../../../../options.appUri @../key) "===" undefined}}
+                                data-value=""><button class="button">Edit Quickstrip</button>
+                            {{else}}
+                                data-value="{{lookupProductPrefValue this ../../../../options.appUri @../key}}"><button class="button">Edit Quickstrip</button>
+                            {{/compare}}
+                        </td>
+                        {{else}}
                         <td class="pmt-value-display" data-name="{{../schema.title}}" data-prefsSet="{{this}}" data-product="{{../../../../options.appUri}}" data-term="{{@../key}}"
                             {{#compare (lookupProductPrefValue this ../../../../options.appUri @../key) "===" undefined}}
                                 data-value=""><span> -- </span>
@@ -79,6 +89,7 @@
                                 data-value="{{lookupProductPrefValue this ../../../../options.appUri @../key}}"><span>{{lookupProductPrefValue this ../../../../options.appUri @../key}}</span>
                             {{/compare}}
                         </td>
+                        {{/compare}}
                        {{/each}}
                     </tr>
                     {{/each}}

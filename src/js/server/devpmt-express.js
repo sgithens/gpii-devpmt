@@ -47,7 +47,7 @@ gpii.devpmt.json5resolver = function (path) {
 fluid.defaults("gpii.devpmt", {
     gradeNames: ["gpii.express.withJsonQueryParser", "fluid.modelComponent"],
     prefsServerURL: "http://localhost:8081",
-    port: 8085,
+    port: 5000,
     prefsetDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/preferences/)",
     solutionsDirectory: "@expand:fluid.module.resolvePath(%gpii-devpmt/node_modules/gpii-universal/testData/solutions/)",
     osList: ["android","darwin","linux","web","win32"],
@@ -121,6 +121,13 @@ fluid.defaults("gpii.devpmt", {
             options: {
                 path: "/hbs",
                 templateDirs: ["@expand:fluid.module.resolvePath(%gpii-devpmt/src/templates)"]
+            }
+        },
+        quickstripCustomizationRouter: {
+            type: "gpii.express.router.static",
+            options: {
+                path: "/quickstrip-customization",
+                content:  "@expand:fluid.module.resolvePath(%gpii-devpmt/src/quickstrip-customization/)"
             }
         },
         // For some reason the above don't work if from a sub grade, GPII-3000
