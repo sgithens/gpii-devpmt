@@ -16,7 +16,11 @@
 "use strict";
 
 var session = require("express-session");
+var Expression = require("couchdb-expression")(session);
 var RedisStore = require("connect-redis")(session);
+var PouchSession = require("session-pouchdb-store");
+var pg = require("pg");
+var pgSession = require("connect-pg-simple")(session);
 
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
@@ -34,6 +38,26 @@ gpii.devpmt.redisStore = function (options) {
         host: options.host || "127.0.0.1",
         port: options.port || 6379
     });
+};
+
+gpii.devpmt.couchSessionStore = function (options) {
+    return new Expression({
+        username: "sgithens",
+        password: "sgithens"
+    });
+};
+
+gpii.devpmt.postgreSessionStore = function () {
+    var pool = new pg.Pool({
+        database: "sgithens"
+    });
+    return new pgSession({
+        pool: pool
+    });
+};
+
+gpii.devpmt.sessionPouchStore = function (options) {
+    return new PouchSession("http://localhost:5984/sessions");
 };
 
 gpii.devpmt.json5resolver = function (path) {
@@ -95,10 +119,13 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.express.middleware.session",
             options: {
                 middlewareOptions: {
-                    // store: "@expand:gpii.devpmt.redisStore()",
+                    store: "@expand:gpii.devpmt.postgreSessionStore()",
                     secret: "TODO Override",
-                    saveUninitialized: false,
-                    resave: false
+                    cookie: {
+                        maxAge: 30 * 24 * 60 * 60 * 1000,
+                    },
+                    resave: false,
+                    saveUninitialized: false
                 }
             }
         },
