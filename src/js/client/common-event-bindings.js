@@ -48,7 +48,8 @@ fluid.defaults("gpii.binder.bindMarkupEvents", {
     },
     events: {
         onDomBind: null,
-        onDomUnbind: null
+        onDomUnbind: null,
+        onMarkupRendered: null
     },
     listeners: {
         "onMarkupRendered.bindMarkupEvents": "{that}.events.onDomBind.fire({that}, {that}.container)",
@@ -68,6 +69,7 @@ fluid.registerNamespace("fluid.decoratorViewComponent");
 //
 
 fluid.expandCompoundArg = function (that, arg, name) {
+    console.log("fluid.expandCompoundArg: ", that, arg, name);
     var expanded = arg;
     if (typeof(arg) === "string") {
         if (arg.indexOf("(") !== -1) {
@@ -82,16 +84,18 @@ fluid.expandCompoundArg = function (that, arg, name) {
 };
 
 fluid.processjQueryDecorator = function (dec, node, that, name) {
+    console.log("fluid.processjQueryDecorator: ", dec, node, that, name);
     var args = fluid.makeArray(dec.args);
     var expanded = fluid.transform(args, function (arg, index) {
         return fluid.expandCompoundArg(that, arg, name + " argument " + index);
     });
-    fluid.log("Got expanded value of ", expanded, " for jQuery decorator");
+    console.log("Got expanded value of ", expanded, " for jQuery decorator");
     var func = node[dec.method];
     return func.apply(node, expanded);
 };
 
 fluid.decoratorViewComponent.processDecorators = function (that, decorators) {
+    console.log("fluid.decVC.processDecorators: ", that, decorators);
     fluid.each(decorators, function (val, key) {
         var node = that.locate(key);
         if (node.length > 0) {
