@@ -39,10 +39,12 @@ browser sessions, whereas the second uses Redis to persist sessions.
 | ---- | --------------- | ----- |
 | NODE_ENV | `gpii.config.devpmt.express.base` | Default Config used if not set. In memory session store. |
 |          | `gpii.config.devpmt.express.redisSessions` | Uses the Redis backend to persist sessions. |
+|          | `gpii.config.devpmt.express.couchDbSessions` | Uses the Couch DB backend to persist sessions. |
 | GPII_DEVPMT_LISTEN_PORT | Default is `8085` | Port number that the main web app is served on. |
 | GPII_DEVPMT_TO_PREFERENCESSERVER_URL | Default is `http://localhost:8081` | This is required to call the preference server API's |
 | GPII_REDIS_HOST | Default is `127.0.0.1` | (Optional) If using the Redis session backend |
 | GPII_REDIS_PORT | Default is `6370` | (Optional) If using the Redis session backend |
+| GPII_COUCHDB_SESSIONS_URL | Default is `http://localhost:5984/sessions` | (Optional) If using the CouchDB session backend, this should be the entire Couch DB URL to the database, including any required authentication parameters in the host section |
 
 ## Running
 

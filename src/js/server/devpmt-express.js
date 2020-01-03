@@ -17,6 +17,7 @@
 
 var session = require("express-session");
 var RedisStore = require("connect-redis")(session);
+var PouchSession = require("session-pouchdb-store");
 
 var fluid = require("infusion");
 var gpii = fluid.registerNamespace("gpii");
@@ -34,6 +35,11 @@ gpii.devpmt.redisStore = function (options) {
         host: options.host || "127.0.0.1",
         port: options.port || 6379
     });
+};
+
+gpii.devpmt.pouchSessionStore = function (options) {
+    var couchDbUrl = options.couchDbUrl || "http://localhost:5984/sessions";
+    return new PouchSession(couchDbUrl);
 };
 
 gpii.devpmt.json5resolver = function (path) {
@@ -95,10 +101,13 @@ fluid.defaults("gpii.devpmt", {
             type: "gpii.express.middleware.session",
             options: {
                 middlewareOptions: {
-                    // store: "@expand:gpii.devpmt.redisStore()",
+                    // Examples: Blank `store` will use the default in-memory sessions
+                    // store: "@expand:gpii.devpmt.redisStore({})",
+                    // store: "@expand:gpii.devpmt.pouchSessionStore({})",
                     secret: "TODO Override",
-                    saveUninitialized: false,
-                    resave: false
+                    saveUninitialized: true, // For the pouch/couch connector this must be true
+                    resave: false,
+                    path: "/"
                 }
             }
         },

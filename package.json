@@ -37,7 +37,8 @@
         "handlebars-helpers": "0.8.0",
         "json5": "1.0.1",
         "jsonpointer.js": "0.4.0",
-        "lunr": "2.0.3"
+        "lunr": "2.0.3",
+        "session-pouchdb-store": "sgithens/session-pouchdb-store#couchdb-destroy-fix"
     },
     "devDependencies": {
         "browserify": "16.2.3",
