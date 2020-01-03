@@ -1,0 +1,17 @@
+{
+    "type": "gpii.config.devpmt.express.couchDbSessions",
+    "options": {
+        "couchDbSessionsConfig": {
+            couchDbUrl: "@expand:kettle.resolvers.env(GPII_COUCHDB_SESSIONS_URL)",
+        },
+        "distributeOptions": {
+            "devpmt.sessionStore.couchDb": {
+                "record": "@expand:gpii.devpmt.pouchSessionStore({that}.options.couchDbSessionsConfig)",
+                "target": "{that sessionMiddleware}.options.middlewareOptions.store"
+            }
+        }
+    },
+    "mergeConfigs": [
+        "%gpii-devpmt/configs/gpii.config.devpmt.express.base"
+    ]
+}
