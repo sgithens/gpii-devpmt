@@ -2,7 +2,9 @@
     "type": "gpii.config.devpmt.express.couchDbSessions",
     "options": {
         "couchDbSessionsConfig": {
-            couchDbUrl: "@expand:kettle.resolvers.env(GPII_COUCHDB_SESSIONS_URL)",
+            couchDbHost: "@expand:kettle.resolvers.env(GPII_DATASOURCE_HOSTNAME)",
+            couchDbPort: "@expand:kettle.resolvers.env(GPII_DATASOURCE_PORT)",
+            couchDbName: "@expand:kettle.resolvers.env(GPII_COUCHDB_SESSIONS_DB)"
         },
         "distributeOptions": {
             "devpmt.sessionStore.couchDb": {

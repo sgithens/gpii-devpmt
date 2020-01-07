@@ -38,7 +38,11 @@ gpii.devpmt.redisStore = function (options) {
 };
 
 gpii.devpmt.pouchSessionStore = function (options) {
-    var couchDbUrl = options.couchDbUrl || "http://localhost:5984/sessions";
+    var options = options || {};
+    var couchDbHost = options.couchDbHost || "http://localhost";
+    var couchDbPort = options.couchDbPort || "5984";
+    var couchDbName = options.couchDbName || "sessions";
+    var couchDbUrl = couchDbHost + ":" + couchDbPort + "/" + couchDbName;
     return new PouchSession(couchDbUrl);
 };
 
