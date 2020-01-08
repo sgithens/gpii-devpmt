@@ -111,7 +111,12 @@ fluid.defaults("gpii.devpmt", {
                     secret: "TODO Override",
                     saveUninitialized: true, // For the pouch/couch connector this must be true
                     resave: false,
-                    path: "/"
+                    path: "/",
+                    cookie: {
+                        path: "/"
+                    },
+                    name: "gpii-devpmt",
+                    proxy: true
                 }
             }
         },
